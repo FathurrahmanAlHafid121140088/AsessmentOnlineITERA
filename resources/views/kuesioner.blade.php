@@ -100,6 +100,124 @@
                 </div>
               </div>
             </div>
+            <div class="formbold-mb-5">
+              <label for="qusOne" class="formbold-form-label">
+                All HTML code must be put which symbols?
+              </label>
+      
+              <div class="formbold-radio-flex">
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    Option one
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+      
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    Option Two
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+      
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    Option Three
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+      
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    None of them
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="formbold-mb-5">
+              <label for="qusOne" class="formbold-form-label">
+                All HTML code must be put which symbols?
+              </label>
+      
+              <div class="formbold-radio-flex">
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    Option one
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+      
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    Option Two
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+      
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    Option Three
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+      
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input
+                      class="formbold-input-radio"
+                      type="radio"
+                      name="qusOne"
+                      id="qusOne"
+                    />
+                    None of them
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
       
             <div class="formbold-mb-5">
               <label for="qusTwo" class="formbold-form-label">
