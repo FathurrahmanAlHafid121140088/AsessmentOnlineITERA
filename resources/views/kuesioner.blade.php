@@ -200,50 +200,50 @@
                     @elseif (in_array($question['number'], [3, 12, 15, 16, 20, 21, 24, 27, 32, 35]))
                     <div class="row">
                       <div class="col-md-6">
-                          <label class="custom-radio" for="q2a">
+                        <label class="custom-radio" for="q{{ $question['number'] }}a">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2a" value="1" required>
-                                  <span class="form-check-label">Selalu</span>
+                                <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}a" value="1">
+                                <span class="form-check-label">Selalu</span>
                               </div>
                           </label>
                       </div>
                       <div class="col-md-6">
-                          <label class="custom-radio" for="q2b">
+                        <label class="custom-radio" for="q{{ $question['number'] }}b">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2b" value="2">
-                                  <span class="form-check-label">Sangat Sering</span>
+                                <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}b" value="2">
+                                <span class="form-check-label">Sangat Sering</span>
                               </div>
                           </label>
                       </div>
                       <div class="col-md-6">
-                          <label class="custom-radio" for="q2c">
+                        <label class="custom-radio" for="q{{ $question['number'] }}c">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2c" value="3">
-                                  <span class="form-check-label">Cukup Sering</span>
+                                <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}c" value="3">
+                                <span class="form-check-label">Cukup Sering</span>
                               </div>
                           </label>
                       </div>
                       <div class="col-md-6">
-                          <label class="custom-radio" for="q2d">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2d" value="4">
-                                  <span class="form-check-label">Kadang-Kadang</span>
+                        <label class="custom-radio" for="q{{ $question['number'] }}d">                              
+                            <div class="option-container">
+                          <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}d" value="4">
+                          <span class="form-check-label">Kadang-Kadang</span>
                               </div>
                           </label>
                       </div>
                       <div class="col-md-6">
-                          <label class="custom-radio" for="q2e">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2e" value="5">
-                                  <span class="form-check-label">Hampir Tidak Pernah</span>
+                        <label class="custom-radio" for="q{{ $question['number'] }}e">                              
+                          <div class="option-container">
+                          <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}e" value="5">
+                          <span class="form-check-label">Hampir Tidak Pernah</span>
                               </div>
                           </label>
                       </div>
                       <div class="col-md-6">
-                          <label class="custom-radio" for="q2f">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2f" value="6">
-                                  <span class="form-check-label">Tidak Pernah</span>
+                        <label class="custom-radio" for="q{{ $question['number'] }}f">                              
+                          <div class="option-container">
+                          <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}f" value="6">
+                          <span class="form-check-label">Tidak Pernah</span>
                               </div>
                           </label>
                       </div>
@@ -347,7 +347,7 @@
                       <div class="col-md-6">
                           <label class="custom-radio" for="q2a">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2a" value="6" required>
+                                  <input class="form-check-input" type="radio" name="question14" id="q2a" value="6" required>
                                   <span class="form-check-label">Ya, sangat pasti</span>
                               </div>
                           </label>
@@ -355,7 +355,7 @@
                       <div class="col-md-6">
                           <label class="custom-radio" for="q2b">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2b" value="5">
+                                  <input class="form-check-input" type="radio" name="question14" id="q2b" value="5">
                                   <span class="form-check-label">Ya, untuk sebagian besar.</span>
                               </div>
                           </label>
@@ -363,7 +363,7 @@
                       <div class="col-md-6">
                           <label class="custom-radio" for="q2c">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2c" value="4">
+                                  <input class="form-check-input" type="radio" name="question14" id="q2c" value="4">
                                   <span class="form-check-label">Ya, saya rasa begitu.</span>
                               </div>
                           </label>
@@ -371,7 +371,7 @@
                       <div class="col-md-6">
                           <label class="custom-radio" for="q2d">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2d" value="3">
+                                  <input class="form-check-input" type="radio" name="question14" id="q2d" value="3">
                                   <span class="form-check-label">Tidak, tidak terlalu baik</span>
                               </div>
                           </label>
@@ -379,7 +379,7 @@
                       <div class="col-md-6">
                           <label class="custom-radio" for="q2e">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2e" value="2">
+                                  <input class="form-check-input" type="radio" name="question14" id="q2e" value="2">
                                   <span class="form-check-label">Tidak, dan saya agak terganggu</span>
                               </div>
                           </label>
@@ -387,7 +387,7 @@
                       <div class="col-md-6">
                           <label class="custom-radio" for="q2f">
                               <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question2" id="q2f" value="1">
+                                  <input class="form-check-input" type="radio" name="question14" id="q2f" value="1">
                                   <span class="form-check-label"> Tidak, dan sangat terganggu</span>
                               </div>
                           </label>
@@ -398,7 +398,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2a">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2a" value="a" required>
+                                <input class="form-check-input" type="radio" name="question25" id="q2a" value="a" required>
                                 <span class="form-check-label">Sangat terganggu.</span>
                             </div>
                         </label>
@@ -406,7 +406,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2b">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2b" value="b">
+                                <input class="form-check-input" type="radio" name="question25" id="q2b" value="b">
                                 <span class="form-check-label">Lumayan terganggu.</span>
                             </div>
                         </label>
@@ -414,7 +414,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2c">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2c" value="c">
+                                <input class="form-check-input" type="radio" name="question25" id="q2c" value="c">
                                 <span class="form-check-label">Terganggu.</span>
                             </div>
                         </label>
@@ -422,7 +422,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2d">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2d" value="d">
+                                <input class="form-check-input" type="radio" name="question25" id="q2d" value="d">
                                 <span class="form-check-label">Agak terganggu.</span>
                             </div>
                         </label>
@@ -430,7 +430,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2e">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2e" value="e">
+                                <input class="form-check-input" type="radio" name="question25" id="q2e" value="e">
                                 <span class="form-check-label">Sedikit terganggu.</span>
                             </div>
                         </label>
@@ -438,7 +438,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2f">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2f" value="f">
+                                <input class="form-check-input" type="radio" name="question25" id="q2f" value="f">
                                 <span class="form-check-label">Tidak terganggu sama sekali.</span>
                             </div>
                         </label>
@@ -449,7 +449,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2a">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2a" value="1" required>
+                                <input class="form-check-input" type="radio" name="question28" id="q2a" value="1" required>
                                 <span class="form-check-label">Sangat Sering.</span>
                             </div>
                         </label>
@@ -457,7 +457,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2b">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2b" value="2">
+                                <input class="form-check-input" type="radio" name="question28" id="q2b" value="2">
                                 <span class="form-check-label">Cukup Sering.</span>
                             </div>
                         </label>
@@ -465,7 +465,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2c">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2c" value="3">
+                                <input class="form-check-input" type="radio" name="question28" id="q2c" value="3">
                                 <span class="form-check-label">Beberapa Kali.</span>
                             </div>
                         </label>
@@ -473,7 +473,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2d">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2d" value="4">
+                                <input class="form-check-input" type="radio" name="question28" id="q2d" value="4">
                                 <span class="form-check-label">Satu Kali.</span>
                             </div>
                         </label>
@@ -481,7 +481,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2e">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2e" value="5">
+                                <input class="form-check-input" type="radio" name="question28" id="q2e" value="5">
                                 <span class="form-check-label">Tidak Pernah.</span>
                             </div>
                         </label>
@@ -492,7 +492,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2a">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2a" value="1" required>
+                                <input class="form-check-input" type="radio" name="question33" id="q2a" value="1" required>
                                 <span class="form-check-label">Ya, sangat ekstrem hingga merasa sakit atau hampir sakit.</span>
                             </div>
                         </label>
@@ -500,7 +500,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2b">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2b" value="2">
+                                <input class="form-check-input" type="radio" name="question33" id="q2b" value="2">
                                 <span class="form-check-label">Ya, sangat terganggu.</span>
                             </div>
                         </label>
@@ -508,7 +508,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2c">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2c" value="3">
+                                <input class="form-check-input" type="radio" name="question33" id="q2c" value="3">
                                 <span class="form-check-label">Ya, cukup terganggu.</span>
                             </div>
                         </label>
@@ -516,7 +516,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2d">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2d" value="4">
+                                <input class="form-check-input" type="radio" name="question33" id="q2d" value="4">
                                 <span class="form-check-label">Ya, agak terganggu, cukup mengganggu saya.</span>
                             </div>
                         </label>
@@ -524,7 +524,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2e">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2e" value="5">
+                                <input class="form-check-input" type="radio" name="question33" id="q2e" value="5">
                                 <span class="form-check-label">Ya, sedikit terganggu.</span>
                             </div>
                         </label>
@@ -532,7 +532,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2f">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2f" value="6">
+                                <input class="form-check-input" type="radio" name="question33" id="q2f" value="6">
                                 <span class="form-check-label">Tidak, sama sekali tidak.</span>
                             </div>
                         </label>
@@ -543,7 +543,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2a">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2a" value="6" required>
+                                <input class="form-check-input" type="radio" name="question37" id="q2a" value="6" required>
                                 <span class="form-check-label">Selalu, setiap hari.</span>
                             </div>
                         </label>
@@ -551,7 +551,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2b">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2b" value="5">
+                                <input class="form-check-input" type="radio" name="question37" id="q2b" value="5">
                                 <span class="form-check-label">Hampir setiap hari.</span>
                             </div>
                         </label>
@@ -559,7 +559,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2c">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2c" value="4">
+                                <input class="form-check-input" type="radio" name="question37" id="q2c" value="4">
                                 <span class="form-check-label">Sebagian besar hari.</span>
                             </div>
                         </label>
@@ -567,7 +567,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2d">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2d" value="3">
+                                <input class="form-check-input" type="radio" name="question37" id="q2d" value="3">
                                 <span class="form-check-label">Beberapa hari, tetapi biasanya tidak.</span>
                             </div>
                         </label>
@@ -575,7 +575,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2e">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2e" value="2">
+                                <input class="form-check-input" type="radio" name="question37" id="q2e" value="2">
                                 <span class="form-check-label">Hampir tidak pernah.</span>
                             </div>
                         </label>
@@ -583,7 +583,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2f">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2f" value="1">
+                                <input class="form-check-input" type="radio" name="question37" id="q2f" value="1">
                                 <span class="form-check-label">Tidak pernah bangun dengan perasaan segar.</span>
                             </div>
                         </label>
@@ -594,7 +594,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2a">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2a" value="1" required>
+                                <input class="form-check-input" type="radio" name="question38" id="q2a" value="1" required>
                                 <span class="form-check-label">Ya, hampir lebih dari yang bisa saya tahan.</span>
                             </div>
                         </label>
@@ -602,7 +602,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2b">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2b" value="2">
+                                <input class="form-check-input" type="radio" name="question38" id="q2b" value="2">
                                 <span class="form-check-label">Ya, cukup banyak tekanan.</span>
                             </div>
                         </label>
@@ -610,7 +610,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2c">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2c" value="3">
+                                <input class="form-check-input" type="radio" name="question38" id="q2c" value="3">
                                 <span class="form-check-label">Ya, sedikit lebih dari biasanya.</span>
                             </div>
                         </label>
@@ -618,7 +618,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2d">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2d" value="4">
+                                <input class="form-check-input" type="radio" name="question38" id="q2d" value="4">
                                 <span class="form-check-label">Ya, sedikit, tetapi masih dalam batas normal.</span>
                             </div>
                         </label>
@@ -626,7 +626,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2e">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2e" value="5">
+                                <input class="form-check-input" type="radio" name="question38" id="q2e" value="5">
                                 <span class="form-check-label">Ya, sedikit saja.</span>
                             </div>
                         </label>
@@ -634,7 +634,7 @@
                     <div class="col-md-6">
                         <label class="custom-radio" for="q2f">
                             <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2f" value="6">
+                                <input class="form-check-input" type="radio" name="question38" id="q2f" value="6">
                                 <span class="form-check-label">Tidak, sama sekali tidak.</span>
                             </div>
                         </label>
