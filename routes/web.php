@@ -36,7 +36,7 @@ Route::get('/mental-health/kuesioner', function () {
     return view('kuesioner', ['title' => 'Kuesioner MHI-38']);
 });
 Route::get('/mental-health/hasil', function () {
-    return view('Hasil', ['title' => 'Hasil MHI-38']);
+    return view('hasil', ['title' => 'Hasil MHI-38']);
 });
 
 Route::get('/peminatan-karir', function () {
