@@ -131,7 +131,7 @@
                       <h4 class="my-3">Peminatan Karir</h4>
                       <p>Temukan pekerjaan yang sesuai dengan bakat dan kepribadian Anda.</p>
                       <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-                      <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tes Sekarang!</a>
+                      <a class="btn btn-primary btn-xl text-uppercase" href="/karir-home">Tes Sekarang!</a>
                   </div>
               </div>               
           </div>

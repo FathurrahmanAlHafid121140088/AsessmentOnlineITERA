@@ -39,6 +39,6 @@ Route::get('/mental-health/hasil', function () {
     return view('hasil', ['title' => 'Hasil MHI-38']);
 });
 
-Route::get('/peminatan-karir', function () {
-    return view('peminatan-karir', ['title' => 'Peminatan-Karir']);
+Route::get('/karir-home', function () {
+    return view('karir-home', ['title' => 'Peminatan-Karir']);
 });
