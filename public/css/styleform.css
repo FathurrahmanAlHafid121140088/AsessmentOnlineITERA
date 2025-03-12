@@ -20,8 +20,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px;
-    background-color: #f8f9fa; /* Background warm white */
+    padding-top: 6rem;
+    padding-bottom: 1rem;
 }
 
 .formbold-form-wrapper {
@@ -257,4 +257,9 @@ button svg {
 
 .btn-submit:focus {
     box-shadow: none;
+}
+
+body {
+    background-color: #ffffff;
+    background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
 }

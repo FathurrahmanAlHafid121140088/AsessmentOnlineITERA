@@ -25,8 +25,9 @@
             <link href="{{ asset('css/styleform.css') }}" rel="stylesheet">
             
         </head>
+        <x-navbar></x-navbar>
 <body>
-    <x-navbar></x-navbar>
+    <main>
     <div class="formbold-main-wrapper">
         <div class="formbold-form-wrapper">
             <div class="text-center">
@@ -130,9 +131,9 @@
             </form>
         </div>
     </div>
-    
-    <x-footer></x-footer>
+</main>
 </body>
+<x-footer></x-footer>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->

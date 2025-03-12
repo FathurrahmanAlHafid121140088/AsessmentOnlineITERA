@@ -51,8 +51,8 @@
 # General Styling & Shared Classes
 --------------------------------------------------------------*/
 body {
-    color: var(--default-color);
-    background-color: var(--background-color);
+    background-color: #ffffff;
+    background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
     font-family: var(--default-font);
 }
 main {
