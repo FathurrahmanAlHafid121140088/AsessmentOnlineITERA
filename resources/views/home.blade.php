@@ -7,7 +7,7 @@
         <meta name="author" content="" />
         <title>{{ $title }}</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -15,30 +15,34 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/style.css" rel="stylesheet" />
+        <!-- AOS Library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
     </head>
     <body id="page-top">
         <!-- Navigation-->
         <x-navbar></x-navbar>
         <!-- Masthead-->
         <header class="masthead">
-            <div class="container">
-                <div class="masthead-subheading">Selamat Datang Di </div>
-                <div class="masthead-heading text-uppercase">Asessment Online Psychology</div>
-                <div class="masthead-subheading">Pusat Pengembangan Sumber Daya Manusia </div>
-                <div class="masthead-subheading">Institut Teknologi Sumatera </div>
-                <a class="btn btn-primary btn-xl text-uppercase" href="#services">Ayo Mulai Tes!</a>
-            </div>
+          <div class="container">
+            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="200">Selamat Datang Di</div>
+            <div class="masthead-heading text-uppercase" data-aos="fade-down" data-aos-delay="200">Assessment Online Psychology</div>
+            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="450">Pusat Pengembangan Sumber Daya Manusia</div>
+            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="450">Institut Teknologi Sumatera</div>
+            <a class="btn btn-primary btn-xl text-uppercase" href="#services" data-aos="fade-down" data-aos-delay="600">Ayo Mulai Tes!</a>
+        </div>
+        
         </header>
                 <!-- About-->
                 <section class="page-section"  id="about">
                   <div class="container">
                       <div class="text-center">
-                          <h2 class="section-heading text-uppercase">Langkah-langkah </h2>
-                          <h3 class="section-subheading text-muted">Melakukan Assessment Online Psychology.</h3>
+                          <h2 data-aos="fade-down" data-aos-delay="100" class="section-heading text-uppercase">Langkah-langkah </h2>
+                          <h3 data-aos="fade-down" data-aos-delay="200" class="section-subheading text-muted">Melakukan Assessment Online Psychology.</h3>
                       </div>
                       <ul class="timeline">
-                          <li>
-                              <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/1.jpg" alt="..." /></div>
+                          <li data-aos="fade-right" data-aos-delay="200">
+                              <div  class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/1.jpg" alt="..." /></div>
                               <div class="timeline-panel">
                                   <div class="timeline-heading">
                                       <h4 class="subheading">1️⃣ Registrasi & Login</h4>
@@ -47,8 +51,8 @@
                                     <br>Pastikan data yang diinput aman dan rahasia.</p></div>
                               </div>
                           </li>
-                          <li class="timeline-inverted">
-                              <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt="..." /></div>
+                          <li data-aos="fade-left" data-aos-delay="200" class="timeline-inverted">
+                              <div  class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt="..." /></div>
                               <div class="timeline-panel">
                                   <div class="timeline-heading">
                                       <h4 class="subheading">2️⃣ Pilih Jenis Tes</h4>
@@ -57,7 +61,7 @@
                                     <br> - Tes Peminatan Karir → Identifikasi minat dan potensi karir yang sesuai.</p></div>
                               </div>
                           </li>
-                          <li>
+                          <li data-aos="fade-right" data-aos-delay="200">
                               <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg" alt="..." /></div>
                               <div class="timeline-panel">
                                   <div class="timeline-heading">
@@ -67,7 +71,7 @@
                                     <br>Waktu pengerjaan sekitar 10-20 menit.</p></div>
                               </div>
                           </li>
-                          <li class="timeline-inverted">
+                          <li data-aos="fade-left" data-aos-delay="200" class="timeline-inverted">
                               <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/4.jpg" alt="..." /></div>
                               <div class="timeline-panel">
                                   <div class="timeline-heading">
@@ -77,7 +81,7 @@
                                     <br> Skor dan interpretasi tersedia dalam bentuk diagnosis umum serta saran.</p></div>
                               </div>
                           </li>
-                          <li>
+                          <li data-aos="fade-right" data-aos-delay="200">
                             <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg" alt="..." /></div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -87,7 +91,7 @@
                             </div>
                         </li>
                           <li class="timeline-inverted">
-                              <div class="timeline-image">
+                              <div data-aos="zoom-in" data-aos-delay="200" class="timeline-image">
                                   <h4>
                                       Ayo
                                       <br />
@@ -104,11 +108,11 @@
         <section class="page-section" id="services" style="background-color: #f5efeff9;">
           <div class="container">
               <div class="text-center">
-                  <h2 class="section-heading text-uppercase">Layanan Kami</h2>
-                  <h3 class="section-subheading text-muted">Silahkan Pilih Sesuai Dengan Keadaan Anda Saat Ini</h3>
+                  <h2 data-aos="fade-down" data-aos-delay="100" class="section-heading text-uppercase">Layanan Kami</h2>
+                  <h3 data-aos="fade-down" data-aos-delay="200" class="section-subheading text-muted">Silahkan Pilih Sesuai Dengan Keadaan Anda Saat Ini</h3>
               </div>
-              <div class="row text-center g-4">
-                  <div class="col-md-6 col-12 p-4 py-4 px-4 bg-white shadow-sm rounded-4"> 
+              <div class="row text-center g-4 ">
+                  <div data-aos="flip-right" data-aos-delay="300" class="col-md-6 col-12 p-4 py-4 px-4 bg-white shadow-sm rounded-4"> 
                       <span class="fa-stack fa-4x">
                           <i class="fas fa-circle fa-stack-2x text-primary"></i>
                           <i class="fas fa-brain fa-stack-1x fa-inverse"></i>
@@ -119,7 +123,7 @@
                       <a class="btn btn-primary btn-xl text-uppercase" href="/mental-health">Mulai Tes!</a>
                   </div>
                   
-                  <div class="col-md-6 col-12 p-4 py-4 px-4 bg-white shadow-sm rounded-4"> 
+                  <div data-aos="flip-left" data-aos-delay="300" class="col-md-6 col-12 p-4 py-4 px-4 bg-white shadow-sm rounded-4"> 
                       <span class="fa-stack fa-4x">
                           <i class="fas fa-circle fa-stack-2x text-primary"></i>
                           <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
@@ -134,14 +138,14 @@
       </section>
       
       <section class="vh-50">
-        <div class="text-center">
+        <div data-aos="fade-down" data-aos-delay="200" class="text-center">
           <h2 class="section-heading text-uppercase py-4">Quotes</h2>
       </div>
         <div class="container py-5 h-100">
           <div class="row justify-content-center g-3"> 
             
             <!-- Card 1 -->
-            <div class="col-md-6 col-12" >
+            <div data-aos="zoom-in" data-aos-delay="400" class="col-md-6 col-12" >
               <div class="card rounded-3"style="background-color: #f5efeff9;">
                 <div class="card-body p-4">
                   <div class="d-flex justify-content-center mb-3">
@@ -163,7 +167,7 @@
             </div>
       
             <!-- Card 2 -->
-            <div class="col-md-6 col-12" >
+            <div data-aos="zoom-in" data-aos-delay="400" class="col-md-6 col-12" >
               <div class="card rounded-3"style="background-color: #f5efeff9;">
                 <div class="card-body p-4">
                   <div class="d-flex justify-content-center mb-3">
@@ -189,6 +193,10 @@
       </section>
         <!-- Footer-->
         <x-footer></x-footer>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+          AOS.init();
+        </script>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

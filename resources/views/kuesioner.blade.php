@@ -8,18 +8,18 @@
         <meta name="author" content="" />
         <title>{{ $title }}</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
           <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
@@ -96,552 +96,223 @@
                     </p>
                     
                     @if ($question['number'] == 1)
-                        <div class="row">
+                    <div class="row">
+                        @foreach ([
+                            6 => 'Sangat senang, tidak bisa lebih puas atau senang lagi',
+                            5 => 'Sangat senang hampir sepanjang waktu',
+                            4 => 'Secara umum, puas, senang',
+                            3 => 'Terkadang cukup puas, terkadang tidak puas',
+                            2 => 'Secara umum tidak puas, tidak bahagia',
+                            1 => 'Sangat tidak puas, sering tidak bahagia'
+                        ] as $value => $label)
                             <div class="col-md-6">
-                                <label class="custom-radio" for="q2a">
+                                <label class="custom-radio" for="q1{{ $value }}">
                                     <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question1" id="q2a" value="6" required>
-                                        <span class="form-check-label">Sangat senang, tidak bisa lebih puas atau senang lagi</span>
+                                        <input class="form-check-input" type="radio" name="question1" id="q1{{ $value }}" value="{{ $value }}" required>
+                                        <span class="form-check-label">{{ $label }}</span>
                                     </div>
                                 </label>
                             </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q2b">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question1" id="q2b" value="5">
-                                        <span class="form-check-label">Sangat senang hampir sepanjang waktu</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q2c">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question1" id="q2c" value="4">
-                                        <span class="form-check-label">Secara umum, puas, senang</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q2d">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question1" id="q2d" value="3">
-                                        <span class="form-check-label">Terkadang cukup puas, terkadang tidak puas</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q2e">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question1" id="q2e" value="2">
-                                        <span class="form-check-label">Secara umum tidak puas, tidak bahagia</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q2f">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question2" id="q2f" value="1">
-                                        <span class="form-check-label">Sangat tidak puas, sering tidak bahagia</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                        @endforeach
+                    </div>
                     @elseif (in_array($question['number'], [2, 3, 4, 5, 6, 7, 10, 11, 13, 17, 18, 19, 22, 23, 26, 29, 30, 31, 34, 36]))
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q{{ $question['number'] }}a">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}a" value="6" required>
-                                        <span class="form-check-label">Sepanjang Waktu</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q{{ $question['number'] }}b">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}b" value="5">
-                                        <span class="form-check-label">Hampir Sepanjang Waktu</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q{{ $question['number'] }}c">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}c" value="4">
-                                        <span class="form-check-label">Cukup Sering</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q{{ $question['number'] }}d">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}d" value="3">
-                                        <span class="form-check-label">Kadang-kadang</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q{{ $question['number'] }}e">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}e" value="2">
-                                        <span class="form-check-label">Jarang</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="custom-radio" for="q{{ $question['number'] }}f">
-                                    <div class="option-container">
-                                        <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}f" value="1">
-                                        <span class="form-check-label">Tidak Pernah</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                    <div class="row">
+                      @foreach ([
+                          6 => 'Sepanjang Waktu',
+                          5 => 'Hampir Sepanjang Waktu',
+                          4 => 'Cukup Sering',
+                          3 => 'Kadang-kadang',
+                          2 => 'Jarang',
+                          1 => 'Tidak Pernah'
+                      ] as $value => $label)
+                          <div class="col-md-6">
+                              <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                  <div class="option-container">
+                                      <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                      <span class="form-check-label">{{ $label }}</span>
+                                  </div>
+                              </label>
+                          </div>
+                      @endforeach
+                  </div>
                     @elseif (in_array($question['number'], [3, 12, 15, 16, 20, 21, 24, 27, 32, 35]))
                     <div class="row">
-                      <div class="col-md-6">
-                        <label class="custom-radio" for="q{{ $question['number'] }}a">
-                              <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}a" value="1">
-                                <span class="form-check-label">Selalu</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="custom-radio" for="q{{ $question['number'] }}b">
-                              <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}b" value="2">
-                                <span class="form-check-label">Sangat Sering</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="custom-radio" for="q{{ $question['number'] }}c">
-                              <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}c" value="3">
-                                <span class="form-check-label">Cukup Sering</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="custom-radio" for="q{{ $question['number'] }}d">                              
-                            <div class="option-container">
-                          <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}d" value="4">
-                          <span class="form-check-label">Kadang-Kadang</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="custom-radio" for="q{{ $question['number'] }}e">                              
-                          <div class="option-container">
-                          <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}e" value="5">
-                          <span class="form-check-label">Hampir Tidak Pernah</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="custom-radio" for="q{{ $question['number'] }}f">                              
-                          <div class="option-container">
-                          <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}f" value="6">
-                          <span class="form-check-label">Tidak Pernah</span>
-                              </div>
-                          </label>
-                      </div>
+                      @foreach ([
+                          1 => 'Selalu',
+                          2 => 'Sangat Sering',
+                          3 => 'Cukup Sering',
+                          4 => 'Kadang-kadang',
+                          5 => 'Hampir Tidak Pernah',
+                          6 => 'Tidak Pernah'
+                      ] as $value => $label)
+                          <div class="col-md-6">
+                              <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                  <div class="option-container">
+                                      <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                      <span class="form-check-label">{{ $label }}</span>
+                                  </div>
+                              </label>
+                          </div>
+                      @endforeach
                   </div>
                   @elseif ($question['number'] == 8)
-                    <div class="row">
+                  <div class="row">
+                    @foreach ([
+                        6 => 'Tidak, sama sekali tidak.',
+                        5 => 'Mungkin sedikit.',
+                        4 => 'Ya, tetapi tidak cukup untuk dikhawatirkan.',
+                        3 => 'Ya, dan saya sedikit khawatir.',
+                        2 => 'Ya, dan saya cukup khawatir.',
+                        1 => 'Ya, saya sangat khawatir tentang hal itu.'
+                    ] as $value => $label)
                         <div class="col-md-6">
-                            <label class="custom-radio" for="q8a">
+                            <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
                                 <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question8" id="q8a" value="6" required>
-                                    <span class="form-check-label">Tidak, sama sekali tidak.</span>
+                                    <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                    <span class="form-check-label">{{ $label }}</span>
                                 </div>
                             </label>
                         </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q8b">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question8" id="q8b" value="5">
-                                    <span class="form-check-label">Mungkin sedikit</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q8c">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question8" id="q8c" value="4">
-                                    <span class="form-check-label">Ya, tetapi tidak cukup untuk dikhawatirkan.</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q8d">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question8" id="q8d" value="3">
-                                    <span class="form-check-label">Ya, dan saya sedikit khawatir.</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q8e">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question8" id="q8e" value="2">
-                                    <span class="form-check-label">Ya, dan saya cukup khawatir.</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q8f">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question8" id="q8f" value="1">
-                                    <span class="form-check-label">Ya, saya sangat khawatir tentang hal itu.</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+                    @endforeach
+                  </div>
                     @elseif ($question['number'] == 9)
                     <div class="row">
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q9a">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question9" id="q9a" value="1" required>
-                                    <span class="form-check-label">Ya, sampai pada titik di mana saya tidak peduli terhadap apa pun selama berhari-hari.</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q9b">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question9" id="q9b" value="2">
-                                    <span class="form-check-label">Ya, sangat tertekan hampir setiap hari.</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q9c">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question9" id="q9c" value="3">
-                                    <span class="form-check-label">Ya, cukup tertekan beberapa kali.</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q9d">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question9" id="q9d" value="4">
-                                    <span class="form-check-label">Ya, sedikit tertekan sesekali.</span>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="custom-radio" for="q9e">
-                                <div class="option-container">
-                                    <input class="form-check-input" type="radio" name="question9" id="q9e" value="5">
-                                    <span class="form-check-label">Tidak, tidak pernah merasa tertekan sama sekali.</span>
-                                </div>
-                            </label>
-                        </div>
+                      @foreach ([
+                          1 => 'Ya, sampai pada titik di mana saya tidak peduli terhadap apa pun selama berhari-hari.',
+                          2 => 'Ya, sangat tertekan hampir setiap hari.',
+                          3 => 'Ya, cukup tertekan beberapa kali.',
+                          4 => 'Ya, sedikit tertekan sesekali.',
+                          5 => 'Tidak, tidak pernah merasa tertekan sama sekali.',
+                      ] as $value => $label)
+                          <div class="col-md-6">
+                              <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                  <div class="option-container">
+                                      <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                      <span class="form-check-label">{{ $label }}</span>
+                                  </div>
+                              </label>
+                          </div>
+                      @endforeach
                     </div>
                     @elseif ($question['number'] == 14)
                     <div class="row">
-                      <div class="col-md-6">
-                          <label class="custom-radio" for="q2a">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question14" id="q2a" value="6" required>
-                                  <span class="form-check-label">Ya, sangat pasti</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                          <label class="custom-radio" for="q2b">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question14" id="q2b" value="5">
-                                  <span class="form-check-label">Ya, untuk sebagian besar.</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                          <label class="custom-radio" for="q2c">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question14" id="q2c" value="4">
-                                  <span class="form-check-label">Ya, saya rasa begitu.</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                          <label class="custom-radio" for="q2d">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question14" id="q2d" value="3">
-                                  <span class="form-check-label">Tidak, tidak terlalu baik</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                          <label class="custom-radio" for="q2e">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question14" id="q2e" value="2">
-                                  <span class="form-check-label">Tidak, dan saya agak terganggu</span>
-                              </div>
-                          </label>
-                      </div>
-                      <div class="col-md-6">
-                          <label class="custom-radio" for="q2f">
-                              <div class="option-container">
-                                  <input class="form-check-input" type="radio" name="question14" id="q2f" value="1">
-                                  <span class="form-check-label"> Tidak, dan sangat terganggu</span>
-                              </div>
-                          </label>
-                      </div>
-                  </div>
+                      @foreach ([
+                          6 => 'Ya, sangat yakin.',
+                          5 => 'Ya, untuk sebagian besar.',
+                          4 => 'Ya, saya rasa begitu.',
+                          3 => 'Tidak, kurang baik.',
+                          2 => 'Tidak, dan saya agak terganggu.',
+                          1 => 'Tidak, dan saya sangat terganggu.'
+                      ] as $value => $label)
+                          <div class="col-md-6">
+                              <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                  <div class="option-container">
+                                      <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                      <span class="form-check-label">{{ $label }}</span>
+                                  </div>
+                              </label>
+                          </div>
+                      @endforeach
+                    </div>
                   @elseif ($question['number'] == 25)
                   <div class="row">
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2a">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question25" id="q2a" value="a" required>
-                                <span class="form-check-label">Sangat terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2b">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question25" id="q2b" value="b">
-                                <span class="form-check-label">Lumayan terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2c">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question25" id="q2c" value="c">
-                                <span class="form-check-label">Terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2d">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question25" id="q2d" value="d">
-                                <span class="form-check-label">Agak terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2e">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question25" id="q2e" value="e">
-                                <span class="form-check-label">Sedikit terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2f">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question25" id="q2f" value="f">
-                                <span class="form-check-label">Tidak terganggu sama sekali.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+                    @foreach ([
+                        1 => 'Sangat terganggu, sampai pada titik di mana saya tidak bisa mengurus sesuatu.',
+                        2 => 'Sangat terganggu.',
+                        3 => 'Cukup terganggu oleh rasa gugup.',
+                        4 => 'Agak terganggu, cukup untuk menyadarinya.',
+                        5 => 'Sedikit terganggu oleh rasa gugup.',
+                        6 => 'Tidak terganggu sama sekali oleh hal ini'
+                    ] as $value => $label)
+                        <div class="col-md-6">
+                            <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                <div class="option-container">
+                                    <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                    <span class="form-check-label">{{ $label }}</span>
+                                </div>
+                            </label>
+                        </div>
+                    @endforeach
+                  </div>
                   @elseif ($question['number'] == 28)
                   <div class="row">
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2a">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question28" id="q2a" value="1" required>
-                                <span class="form-check-label">Sangat Sering.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2b">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question28" id="q2b" value="2">
-                                <span class="form-check-label">Cukup Sering.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2c">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question28" id="q2c" value="3">
-                                <span class="form-check-label">Beberapa Kali.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2d">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question28" id="q2d" value="4">
-                                <span class="form-check-label">Satu Kali.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2e">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question28" id="q2e" value="5">
-                                <span class="form-check-label">Tidak Pernah.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+                    @foreach ([
+                        1 => 'Ya, sangat sering.',
+                        2 => 'Ya, cukup sering.',
+                        3 => 'Ya, beberapa kali.',
+                        4 => 'Ya, satu kali.',
+                        5 => 'Tidak, tidak pernah.',
+                    ] as $value => $label)
+                        <div class="col-md-6">
+                            <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                <div class="option-container">
+                                    <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                    <span class="form-check-label">{{ $label }}</span>
+                                </div>
+                            </label>
+                        </div>
+                    @endforeach
+                  </div>
                   @elseif ($question['number'] == 33)
                   <div class="row">
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2a">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question33" id="q2a" value="1" required>
-                                <span class="form-check-label">Ya, sangat ekstrem hingga merasa sakit atau hampir sakit.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2b">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question33" id="q2b" value="2">
-                                <span class="form-check-label">Ya, sangat terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2c">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question33" id="q2c" value="3">
-                                <span class="form-check-label">Ya, cukup terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2d">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question33" id="q2d" value="4">
-                                <span class="form-check-label">Ya, agak terganggu, cukup mengganggu saya.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2e">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question33" id="q2e" value="5">
-                                <span class="form-check-label">Ya, sedikit terganggu.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2f">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question33" id="q2f" value="6">
-                                <span class="form-check-label">Tidak, sama sekali tidak.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+                    @foreach ([
+                        1 => 'Ya, sangat ekstrem hingga merasa sakit atau hampir sakit.',
+                        2 => 'Ya, sangat terganggu.',
+                        3 => 'Ya, cukup terganggu.',
+                        4 => 'Ya, agak terganggu, cukup mengganggu saya.',
+                        5 => 'Ya, sedikit terganggu.',
+                        6 => 'Tidak, sama sekali tidak.',
+                    ] as $value => $label)
+                        <div class="col-md-6">
+                            <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                <div class="option-container">
+                                    <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                    <span class="form-check-label">{{ $label }}</span>
+                                </div>
+                            </label>
+                        </div>
+                    @endforeach
+                  </div>
                   @elseif ($question['number'] == 37)
                   <div class="row">
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2a">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question37" id="q2a" value="6" required>
-                                <span class="form-check-label">Selalu, setiap hari.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2b">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question37" id="q2b" value="5">
-                                <span class="form-check-label">Hampir setiap hari.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2c">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question37" id="q2c" value="4">
-                                <span class="form-check-label">Sebagian besar hari.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2d">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question37" id="q2d" value="3">
-                                <span class="form-check-label">Beberapa hari, tetapi biasanya tidak.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2e">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question37" id="q2e" value="2">
-                                <span class="form-check-label">Hampir tidak pernah.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2f">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question37" id="q2f" value="1">
-                                <span class="form-check-label">Tidak pernah bangun dengan perasaan segar.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+                    @foreach ([
+                        6 => 'Selalu, setiap hari.',
+                        5 => 'Hampir setiap hari.',
+                        4 => 'Sebagian besar hari.',
+                        3 => 'Beberapa hari, tetapi biasanya tidak.',
+                        2 => 'Hampir tidak pernah.',
+                        1 => 'Tidak pernah bangun dengan perasaan segar.'
+                    ] as $value => $label)
+                        <div class="col-md-6">
+                            <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                <div class="option-container">
+                                    <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                    <span class="form-check-label">{{ $label }}</span>
+                                </div>
+                            </label>
+                        </div>
+                    @endforeach
+                  </div>
                   @elseif ($question['number'] == 38)
                   <div class="row">
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2a">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2a" value="1" required>
-                                <span class="form-check-label">Ya, hampir lebih dari yang bisa saya tahan.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2b">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2b" value="2">
-                                <span class="form-check-label">Ya, cukup banyak tekanan.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2c">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2c" value="3">
-                                <span class="form-check-label">Ya, sedikit lebih dari biasanya.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2d">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2d" value="4">
-                                <span class="form-check-label">Ya, sedikit, tetapi masih dalam batas normal.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2e">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2e" value="5">
-                                <span class="form-check-label">Ya, sedikit saja.</span>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="custom-radio" for="q2f">
-                            <div class="option-container">
-                                <input class="form-check-input" type="radio" name="question2" id="q2f" value="6">
-                                <span class="form-check-label">Tidak, sama sekali tidak.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-                    @else
-                        <x-option-{{ $question['option'] }}></x-option-{{ $question['option'] }}>
+                    @foreach ([
+                        1 => 'Ya, hampir lebih dari yang bisa saya tahan.',
+                        2 => 'Ya, cukup banyak tekanan.',
+                        3 => 'Ya, sedikit lebih dari biasanya.',
+                        4 => 'Ya, sedikit, tetapi masih dalam batas normal.',
+                        5 => 'Ya, sedikit saja.',
+                        6 => 'Tidak, sama sekali tidak.',
+                    ] as $value => $label)
+                        <div class="col-md-6">
+                            <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
+                                <div class="option-container">
+                                    <input class="form-check-input" type="radio" name="question{{ $question['number'] }}" id="q{{ $question['number'] }}{{ $value }}" value="{{ $value }}" required>
+                                    <span class="form-check-label">{{ $label }}</span>
+                                </div>
+                            </label>
+                        </div>
+                    @endforeach
+                  </div>
                     @endif
                 </div>
             @endforeach
@@ -649,17 +320,24 @@
                       
                       <!-- Tombol Submit -->
                       <div class="d-grid gap-2 mt-4">
-                          <button type="submit" class="btn btn-primary btn-submit" id="submit-button">
-                              <i class="fas fa-paper-plane me-2"></i>Kirim Jawaban
-                          </button>
-                      </div>
+                        <button type="button" class="btn btn-primary btn-submit" id="submit-button">
+                            <i class="fas fa-paper-plane me-2"></i>Kirim Jawaban
+                        </button>
+                    </div>                                    
                   </form>
               </div>
           </div>
       </div>
   </div>
+  <!-- Tombol Arrow Up -->
+  <button id="scrollToTopBtn" class="scroll-to-top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
   <x-footer></x-footer>
 </body>
+<!-- Link CDN SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->

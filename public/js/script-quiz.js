@@ -225,3 +225,91 @@ function showAnswers() {
         }
     }
 }
+document.addEventListener("DOMContentLoaded", function () {
+    let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+    // Tampilkan tombol saat pengguna scroll ke bawah
+    window.addEventListener("scroll", function () {
+        if (window.scrollY > 300) {
+            scrollToTopBtn.classList.add("show");
+        } else {
+            scrollToTopBtn.classList.remove("show");
+        }
+    });
+
+    // Fungsi klik untuk kembali ke atas
+    scrollToTopBtn.addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    });
+});
+document
+    .getElementById("submit-button")
+    .addEventListener("click", function (event) {
+        let allQuestions = document.querySelectorAll(".question"); // Ambil semua pertanyaan
+        let unansweredQuestions = []; // Array untuk menyimpan pertanyaan yang belum dijawab
+
+        // Loop untuk mencari pertanyaan yang belum dijawab
+        allQuestions.forEach((question) => {
+            let questionNumber = question
+                .getAttribute("id")
+                .replace("question", ""); // Ambil nomor pertanyaan
+            let inputs = document.querySelectorAll(
+                `input[name="question${questionNumber}"]:checked`
+            );
+
+            if (inputs.length === 0) {
+                unansweredQuestions.push(question);
+                question.classList.add("highlight-question"); // Tambahkan highlight
+            } else {
+                question.classList.remove("highlight-question"); // Hapus highlight jika sudah dijawab
+            }
+        });
+
+        if (unansweredQuestions.length > 0) {
+            // Jika ada yang belum dijawab, munculkan SweetAlert dan arahkan ke pertanyaan pertama yang belum dijawab
+            Swal.fire({
+                title: "Oops!",
+                text: "Harap isi semua pertanyaan sebelum mengirim!",
+                icon: "warning",
+                confirmButtonText: "OK",
+                timer: 3000,
+            }).then(() => {
+                setTimeout(() => {
+                    unansweredQuestions[0].scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                    }); // Scroll ke pertanyaan yang belum dijawab berikutnya
+                }, 100); // Tambahkan delay kecil agar SweetAlert selesai dulu
+            });
+        } else {
+            // Jika semua pertanyaan sudah dijawab, konfirmasi pengiriman
+            Swal.fire({
+                title: "Yakin ingin mengirim?",
+                text: "Pastikan semua jawaban sudah benar!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Kirim!",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Berhasil!",
+                        text: "Jawaban Anda telah dikirim.",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                    });
+
+                    // Submit form setelah delay
+                    setTimeout(() => {
+                        document.querySelector("form").submit();
+                    }, 2000);
+                }
+            });
+        }
+    });

@@ -15,14 +15,15 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
           <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/style.css" rel="stylesheet" />
         <link href="css/main.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     </head>
 </head>
     <x-navbar></x-navbar>
@@ -34,9 +35,9 @@
         <div class="container">
           <div class="row gy-4">
             <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
-              <h1>Selamat Datang di Tes Kesehatan Mental MHI-38</h1>
-              <p>"Kenali kondisi kesehatan mental Anda dengan metode ilmiah yang terpercaya."</p>
-              <div class="d-flex">
+              <h1 data-aos="fade-down" data-aos-delay="100">Selamat Datang di Tes Kesehatan Mental MHI-38</h1>
+              <p data-aos="fade-down" data-aos-delay="200">"Kenali kondisi kesehatan mental Anda dengan metode ilmiah yang terpercaya."</p>
+              <div data-aos="zoom-in" data-aos-delay="300" class="d-flex">
                 <a href="/mental-health/isi-data-diri" class="btn-get-started">Mulai Tes Sekarang!</a>
               </div>
             </div>
@@ -89,7 +90,10 @@
 </main><!-- /About Section -->
 <x-footer></x-footer>
 </body>
-
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/script.js"></script>
