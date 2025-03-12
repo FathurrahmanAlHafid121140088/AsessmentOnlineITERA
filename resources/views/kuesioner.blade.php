@@ -98,7 +98,7 @@
                     @if ($question['number'] == 1)
                     <div class="row">
                         @foreach ([
-                            6 => 'Sangat senang, tidak bisa lebih puas atau senang lagi',
+                            6 => 'Sangat senang, tidak bisa lebih puas lagi',
                             5 => 'Sangat senang hampir sepanjang waktu',
                             4 => 'Secara umum, puas, senang',
                             3 => 'Terkadang cukup puas, terkadang tidak puas',
@@ -160,10 +160,10 @@
                     @foreach ([
                         6 => 'Tidak, sama sekali tidak.',
                         5 => 'Mungkin sedikit.',
-                        4 => 'Ya, tetapi tidak cukup untuk dikhawatirkan.',
+                        4 => 'Ya, tetapi tidak terlalu dikhawatirkan.',
                         3 => 'Ya, dan saya sedikit khawatir.',
                         2 => 'Ya, dan saya cukup khawatir.',
-                        1 => 'Ya, saya sangat khawatir tentang hal itu.'
+                        1 => 'Ya, saya sangat khawatir tentang itu.'
                     ] as $value => $label)
                         <div class="col-md-6">
                             <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
@@ -178,11 +178,11 @@
                     @elseif ($question['number'] == 9)
                     <div class="row">
                       @foreach ([
-                          1 => 'Ya, sampai pada titik di mana saya tidak peduli terhadap apa pun selama berhari-hari.',
+                          1 => 'Ya, tertekan setiap hari',
                           2 => 'Ya, sangat tertekan hampir setiap hari.',
                           3 => 'Ya, cukup tertekan beberapa kali.',
                           4 => 'Ya, sedikit tertekan sesekali.',
-                          5 => 'Tidak, tidak pernah merasa tertekan sama sekali.',
+                          5 => 'Tidak, tidak pernah sama sekali.',
                       ] as $value => $label)
                           <div class="col-md-6">
                               <label class="custom-radio" for="q{{ $question['number'] }}{{ $value }}">
@@ -217,7 +217,7 @@
                   @elseif ($question['number'] == 25)
                   <div class="row">
                     @foreach ([
-                        1 => 'Sangat terganggu, sampai pada titik di mana saya tidak bisa mengurus sesuatu.',
+                        1 => 'Benar-benar terganggu.',
                         2 => 'Sangat terganggu.',
                         3 => 'Cukup terganggu oleh rasa gugup.',
                         4 => 'Agak terganggu, cukup untuk menyadarinya.',
@@ -260,7 +260,7 @@
                         2 => 'Ya, sangat terganggu.',
                         3 => 'Ya, cukup terganggu.',
                         4 => 'Ya, agak terganggu, cukup mengganggu saya.',
-                        5 => 'Ya, sedikit terganggu.',
+                        5 => 'Ya, tidak terlalu mengganggu.',
                         6 => 'Tidak, sama sekali tidak.',
                     ] as $value => $label)
                         <div class="col-md-6">
@@ -299,7 +299,7 @@
                         1 => 'Ya, hampir lebih dari yang bisa saya tahan.',
                         2 => 'Ya, cukup banyak tekanan.',
                         3 => 'Ya, sedikit lebih dari biasanya.',
-                        4 => 'Ya, sedikit, tetapi masih dalam batas normal.',
+                        4 => 'Ya, namun masih dalam batas normal.',
                         5 => 'Ya, sedikit saja.',
                         6 => 'Tidak, sama sekali tidak.',
                     ] as $value => $label)

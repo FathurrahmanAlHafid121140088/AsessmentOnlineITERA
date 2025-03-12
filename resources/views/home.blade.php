@@ -19,9 +19,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
     </head>
+    <x-navbar></x-navbar>
     <body id="page-top">
         <!-- Navigation-->
-        <x-navbar></x-navbar>
         <!-- Masthead-->
         <header class="masthead">
           <div class="container">
