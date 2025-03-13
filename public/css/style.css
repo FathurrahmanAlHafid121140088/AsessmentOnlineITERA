@@ -4096,6 +4096,9 @@ fieldset:disabled .btn {
         padding: 0;
         overflow-y: visible;
     }
+    .container {
+        padding: 1rem;
+    }
 }
 @media (min-width: 992px) {
     .navbar-expand-lg {
