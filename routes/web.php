@@ -39,6 +39,19 @@ Route::get('/mental-health/hasil', function () {
     return view('hasil', ['title' => 'Hasil MHI-38']);
 });
 
+Route::get('/karir-kuesioner', function () {
+    return view('karir-kuesioner', ['title' => 'Kuesioner RMIB']);
+});
+
+// routes untuk Karir
 Route::get('/karir-home', function () {
     return view('karir-home', ['title' => 'Peminatan-Karir']);
+});
+
+Route::get('/karir-datadiri', function () {
+    return view('karir-datadiri', ['title' => 'Isi Identitas']);
+});
+
+Route::get('/karir-form', function () {
+    return view('karir-form', ['title' => 'Form Peminatan-Karir']);
 });

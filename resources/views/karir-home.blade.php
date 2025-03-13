@@ -37,7 +37,7 @@
               <h1 style="background-color: white">Selamat Datang di Tes Peminatan Karir Rothwell-Miller Interest Blank (RMIB)</h1>
               <p>"Disini anda akan menemukan jenis karir yang cocok dengan gambaran kepribadian anda."</p>
               <div class="d-flex">
-                <a href="/mental-health/isi-data-diri" class="btn-get-started">Mulai Tes Sekarang!</a>
+                <a href="/karir-datadiri" class="btn-get-started">Mulai Tes Sekarang!</a>
               </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="100">
@@ -48,18 +48,31 @@
   
       </section><!-- /Hero Section -->
 
-          <!-- About Section -->
-    <section id="about" class="about section" style="background-color: transparent;">
+        <!-- About Section -->
+<!-- About Section -->
+<section id="about" class="about section" style="background-color: transparent;">
+    <div class="container">
+        <div class="row gy-4 align-items-center">
+            
+            <!-- Gambar di sebelah kiri -->
+            <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
+                <img src="../assets/img/karir-img2.png" class="img-fluid" style="height: 30rem;" alt="Gambar RMIB">
+            </div>
 
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-          <span>Rothwell-Miller Interest Blank<br></span>
-          <h2>Apa itu RMIB?</h2>
-          <p>Rothwell-Miller Interest Blank (RMIB) merupakan alat tes yang mampu mengungkap minat atau kecenderungan akan suatu pekerjaan maupun kegiatan.
-            Tes ini akan membantu Anda menemukan jenis karir yang sesuai dengan kepribadian dan minat berdasarkan gambaran hasil tes RMIB.</p>
-          </p>
-        </div><!-- End Section Title -->
-  
+            <!-- Teks dalam kotak -->
+            <div class="col-lg-6" data-aos="fade-up">
+                <div class="text-box">
+                    <h2>Apa itu RMIB?</h2>
+                    <p>Rothwell-Miller Interest Blank (RMIB) merupakan alat tes yang mampu mengungkap minat atau kecenderungan akan suatu pekerjaan maupun kegiatan.
+                    Tes ini akan membantu Anda menemukan jenis karir yang sesuai dengan kepribadian dan minat berdasarkan gambaran hasil tes RMIB.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+        <!-- End Section Title -->
+
         <div class="container-card">
           <div class="card">
               <div class="card-inner">
@@ -106,9 +119,7 @@
               </div>
           </div>
       </div>
-
-      </section>
-</main><!-- /About Section -->
+</main>
 <x-footer></x-footer>
 </body>
 

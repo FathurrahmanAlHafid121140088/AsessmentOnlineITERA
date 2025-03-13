@@ -1202,7 +1202,7 @@ section,
     padding: 20px;
 }
 .card-front {
-    background: linear-gradient(135deg, #aefc9c, #b0e0e6);
+    background: linear-gradient(135deg, #bee3f8, #eaf6ff);
     color: white;
 }
 .icon-circle {
@@ -1219,23 +1219,19 @@ section,
     font-size: 40px;
     color: #3498db;
 }
+.text-box {
+    background-color: #f8f9fa; /* Warna latar belakang */
+    padding: 20px;
+    border-radius: 10px; /* Membuat sudut melengkung */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+    border: 1px solid #ddd; /* Garis tepi */
+    max-width: 100%;
+}
+
 .card-back {
     background: #fff;
     color: #333;
     transform: rotateY(180deg);
-}
-.btn {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 15px;
-    background: #3498db;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-.btn:hover {
-    background: #2980b9;
 }
 @media (max-width: 768px) {
     .container {
