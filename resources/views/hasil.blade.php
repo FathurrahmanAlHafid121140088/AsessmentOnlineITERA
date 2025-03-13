@@ -243,7 +243,7 @@
         
         <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
           <a href="/home" class="btn-back">
-              <i class="fas fa-arrow-left"></i>
+            <i class="fa-solid fa-house"></i>
               Kembali ke Halaman Utama
           </a>
       </div>
