@@ -54,3 +54,7 @@ Route::get('/karir-datadiri', function () {
 Route::get('/karir-form', function () {
     return view('karir-form', ['title' => 'Form Peminatan-Karir']);
 });
+
+Route::get('/karir-hitung', function () {
+    return view('karir-hitung', ['title' => 'Hasil Hitung RMIB']);
+});

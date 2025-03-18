@@ -1,0 +1,150 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card {
+    width: 100%;
+    max-width: 1200px;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 1rem auto;
+}
+
+.card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #111827;
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.instruction-box {
+    background-color: #eff6ff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.instruction-text {
+    font-size: 0.875rem;
+    color: #1f2937;
+    line-height: 1.5;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.result-table th,
+.result-table td {
+    border: 1px solid #d1d5db;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.result-table th {
+    background-color: #f3f4f6;
+    font-weight: 600;
+}
+
+.result-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+
+.result-table td.marked {
+    background-color: #e5e7eb;
+    font-weight: bold;
+}
+
+.result-table td.rank-value {
+    font-weight: bold;
+    color: #111827;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.print-button,
+.back-button {
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.25rem;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.print-button {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.print-button:hover {
+    background-color: #2563eb;
+}
+
+.back-button {
+    background-color: #e5e7eb;
+    color: #4b5563;
+}
+
+.back-button:hover {
+    background-color: #d1d5db;
+}
+
+@media print {
+    .button-container {
+        display: none;
+    }
+
+    body,
+    .card {
+        background-color: white;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .result-table {
+        font-size: 0.75rem;
+    }
+
+    .result-table th,
+    .result-table td {
+        padding: 0.25rem;
+    }
+}
