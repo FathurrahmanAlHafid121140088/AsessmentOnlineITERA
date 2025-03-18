@@ -191,6 +191,7 @@
           </div>
         </div>
       </section>
+    </body>
         <!-- Footer-->
         <x-footer></x-footer>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -206,5 +207,4 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-    </body>
 </html>

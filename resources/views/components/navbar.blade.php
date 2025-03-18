@@ -12,23 +12,11 @@
                 <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="/mental-health">Mental Health</a></li>
                 <li class="nav-item"><a class="nav-link" href="/peminatan-karir">Peminatan Karir</a></li>
-
-                @auth
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link text-danger">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                @else
-                    <li class="nav-item">
-                        <a class="nav-link text-success" href="{{ route('login') }}">
-                            <i class="fas fa-sign-in-alt"></i> Login
-                        </a>
-                    </li>
-                @endauth
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="/login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
