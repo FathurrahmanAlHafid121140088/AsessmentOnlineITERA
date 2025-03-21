@@ -345,6 +345,182 @@ function validateAllCategories() {
     return { valid, errorDetails };
 }
 
+// Buat komponen modal error
+function createErrorModal() {
+    // Buat elemen modal jika belum ada
+    if (!document.getElementById("error-modal-overlay")) {
+        // Buat overlay
+        const modalOverlay = document.createElement("div");
+        modalOverlay.id = "error-modal-overlay";
+        modalOverlay.className = "modal-overlay";
+
+        // Buat modal
+        const errorModal = document.createElement("div");
+        errorModal.className = "error-modal";
+
+        // Header modal
+        const modalHeader = document.createElement("div");
+        modalHeader.className = "error-modal-header";
+
+        const errorIcon = document.createElement("span");
+        errorIcon.className = "error-icon";
+        errorIcon.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+            </svg>
+        `;
+
+        const modalTitle = document.createElement("h3");
+        modalTitle.className = "error-modal-title";
+        modalTitle.textContent = "Mohon Periksa Kembali";
+
+        modalHeader.appendChild(errorIcon);
+        modalHeader.appendChild(modalTitle);
+
+        // Body modal
+        const modalBody = document.createElement("div");
+        modalBody.className = "error-modal-body";
+
+        const modalBodyText = document.createElement("p");
+        modalBodyText.textContent =
+            "Terdapat beberapa masalah yang perlu diperbaiki:";
+
+        const errorList = document.createElement("div");
+        errorList.className = "error-list";
+        errorList.id = "error-list";
+
+        modalBody.appendChild(modalBodyText);
+        modalBody.appendChild(errorList);
+
+        // Footer modal
+        const modalFooter = document.createElement("div");
+        modalFooter.className = "error-modal-footer";
+
+        const closeButton = document.createElement("button");
+        closeButton.className = "error-close-button";
+        closeButton.textContent = "Kembali";
+        closeButton.addEventListener("click", closeErrorModal);
+
+        modalFooter.appendChild(closeButton);
+
+        // Susun struktur modal
+        errorModal.appendChild(modalHeader);
+        errorModal.appendChild(modalBody);
+        errorModal.appendChild(modalFooter);
+
+        modalOverlay.appendChild(errorModal);
+        document.body.appendChild(modalOverlay);
+
+        // Tutup modal ketika klik di luar modal
+        modalOverlay.addEventListener("click", function (e) {
+            if (e.target === modalOverlay) {
+                closeErrorModal();
+            }
+        });
+    }
+}
+
+// Tampilkan modal error
+function showErrorModal(errorDetails) {
+    createErrorModal();
+
+    const errorList = document.getElementById("error-list");
+    errorList.innerHTML = "";
+
+    // Tambahkan error unfilled jika ada
+    if (errorDetails.unfilled.length > 0) {
+        const unfilledCategory = document.createElement("div");
+        unfilledCategory.className = "error-category";
+
+        const unfilledTitle = document.createElement("div");
+        unfilledTitle.className = "error-category-title";
+        unfilledTitle.textContent =
+            "Beberapa pekerjaan belum diberi peringkat pada:";
+
+        const unfilledList = document.createElement("ul");
+        unfilledList.className = "error-items";
+
+        errorDetails.unfilled.forEach((kategori) => {
+            const item = document.createElement("li");
+            item.textContent = kategori;
+            item.addEventListener("click", () => {
+                const categoryElement = document.querySelector(
+                    `.category-container[data-category="${kategori}"]`
+                );
+                if (categoryElement) {
+                    closeErrorModal();
+                    setTimeout(() => {
+                        categoryElement.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                        });
+                    }, 300);
+                }
+            });
+            item.style.cursor = "pointer";
+            unfilledList.appendChild(item);
+        });
+
+        unfilledCategory.appendChild(unfilledTitle);
+        unfilledCategory.appendChild(unfilledList);
+        errorList.appendChild(unfilledCategory);
+    }
+
+    // Tambahkan error duplikat jika ada
+    if (errorDetails.duplicates.length > 0) {
+        const duplicateCategory = document.createElement("div");
+        duplicateCategory.className = "error-category";
+
+        const duplicateTitle = document.createElement("div");
+        duplicateTitle.className = "error-category-title";
+        duplicateTitle.textContent = "Terdapat peringkat duplikat pada:";
+
+        const duplicateList = document.createElement("ul");
+        duplicateList.className = "error-items";
+
+        errorDetails.duplicates.forEach((kategori) => {
+            const item = document.createElement("li");
+            item.textContent = kategori;
+            item.addEventListener("click", () => {
+                const categoryElement = document.querySelector(
+                    `.category-container[data-category="${kategori}"]`
+                );
+                if (categoryElement) {
+                    closeErrorModal();
+                    setTimeout(() => {
+                        categoryElement.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                        });
+                    }, 300);
+                }
+            });
+            item.style.cursor = "pointer";
+            duplicateList.appendChild(item);
+        });
+
+        duplicateCategory.appendChild(duplicateTitle);
+        duplicateCategory.appendChild(duplicateList);
+        errorList.appendChild(duplicateCategory);
+    }
+
+    // Tampilkan modal
+    const modalOverlay = document.getElementById("error-modal-overlay");
+    modalOverlay.classList.add("visible");
+
+    // Nonaktifkan scroll pada body
+    document.body.style.overflow = "hidden";
+}
+
+// Tutup modal error
+function closeErrorModal() {
+    const modalOverlay = document.getElementById("error-modal-overlay");
+    modalOverlay.classList.remove("visible");
+
+    // Aktifkan kembali scroll pada body
+    document.body.style.overflow = "";
+}
+
 // Inisialisasi UI
 document.addEventListener("DOMContentLoaded", function () {
     buildUI();
@@ -362,51 +538,8 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Terima kasih! Hasil tes Anda telah diproses.");
             window.location.href = "/karir-hitung";
         } else {
-            let errorMessage = "Mohon periksa kembali input Anda:\n\n";
-
-            if (validation.errorDetails.unfilled.length > 0) {
-                errorMessage +=
-                    "• Beberapa pekerjaan belum diberi peringkat pada:\n";
-                validation.errorDetails.unfilled.forEach((kategori) => {
-                    errorMessage += `  - ${kategori}\n`;
-                });
-                errorMessage += "\n";
-            }
-
-            if (validation.errorDetails.duplicates.length > 0) {
-                errorMessage += "• Terdapat peringkat duplikat pada:\n";
-                validation.errorDetails.duplicates.forEach((kategori) => {
-                    errorMessage += `  - ${kategori}\n`;
-                });
-            }
-
-            // Scroll ke kategori error pertama
-            if (validation.errorDetails.unfilled.length > 0) {
-                const firstErrorCategory = validation.errorDetails.unfilled[0];
-                const errorElement = document.querySelector(
-                    `.category-container[data-category="${firstErrorCategory}"]`
-                );
-                if (errorElement) {
-                    errorElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                    });
-                }
-            } else if (validation.errorDetails.duplicates.length > 0) {
-                const firstErrorCategory =
-                    validation.errorDetails.duplicates[0];
-                const errorElement = document.querySelector(
-                    `.category-container[data-category="${firstErrorCategory}"]`
-                );
-                if (errorElement) {
-                    errorElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                    });
-                }
-            }
-
-            alert(errorMessage);
+            // Tampilkan modal error
+            showErrorModal(validation.errorDetails);
         }
     });
 });

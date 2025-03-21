@@ -19,7 +19,7 @@
       </div>
       
       <div id="categories-container">
-        <!-- Categories will be inserted here by JavaScript -->
+        <!-- Kategori akan diimport dari file js -->
       </div>
       
       <div class="button-container">
