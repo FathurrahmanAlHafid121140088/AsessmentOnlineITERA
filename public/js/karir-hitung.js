@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(
             "Tidak ada data hasil tes yang tersimpan. Silakan lakukan tes terlebih dahulu."
         );
-        window.location.href = "karir-form.html";
+        window.location.href = "/karir-form";
         return;
     }
 
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document
         .getElementById("back-button")
         .addEventListener("click", function () {
-            window.location.href = "karir-form.html";
+            window.location.href = "/karir-home";
         });
 });
 
