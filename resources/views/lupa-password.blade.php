@@ -39,7 +39,7 @@
                 <div id="verificationStep" class="verification-section">
                     <div class="input-group">
                         <label for="verificationCode">Kode Verifikasi</label>
-                        <input type="text" id="verificationCode" class="input-field" placeholder="Masukkan kode 6 digit" required maxlength="6">
+                        <input type="text" id="verificationCode" class="input-field" placeholder=m"Masukkan kode 6 digit" required maxlength="6">
                         <div class="input-icon">🔐</div>
                     </div>
                     <div class="input-group">
