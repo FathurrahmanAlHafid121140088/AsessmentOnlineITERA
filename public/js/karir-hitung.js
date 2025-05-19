@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Simulasi data dari local storage (pada implementasi sebenarnya, ini akan diambil dari hasil form)
     const savedData = localStorage.getItem("rmibResults");
     const peringkat = savedData ? JSON.parse(savedData) : null;
 
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     processRMIBResults(peringkat);
 
-    // Event listener untuk tombol
     document
         .getElementById("print-button")
         .addEventListener("click", function () {
@@ -28,171 +26,172 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function processRMIBResults(peringkat) {
-    // Definisi kategori minat RMIB
+    // Urutan kategori sesuai tabel hasil
     const kategoriMinat = [
-        { id: "OUT", name: "1. OUT", description: "Outdoor" },
-        { id: "ME", name: "2. ME", description: "Mechanical" },
-        { id: "COMP", name: "3. COMP", description: "Computational" },
-        { id: "SCI", name: "4. SCI", description: "Scientific" },
-        { id: "PERS", name: "5. PERS", description: "Personal Contact" },
-        { id: "AESTH", name: "6. AESTH", description: "Aesthetic" },
-        { id: "LIT", name: "7. LIT", description: "Literary" },
-        { id: "MUS", name: "8. MUS", description: "Musical" },
-        { id: "SS", name: "9. S.S", description: "Social Service" },
-        { id: "CLER", name: "10. CLER", description: "Clerical" },
-        { id: "PRAC", name: "11. PRAC", description: "Practical" },
-        { id: "MED", name: "12. MED", description: "Medical" },
+        "OUT",
+        "ME",
+        "COMP",
+        "SCI",
+        "PERS",
+        "AESTH",
+        "LIT",
+        "MUS",
+        "SS",
+        "CLER",
+        "PRAC",
+        "MED",
     ];
 
-    // Mapping kolom grup ke kategori (berdasarkan Excel yang diberikan)
-    const groupMapping = {
-        "Kelompok A": { column: "A", categories: {} },
-        "Kelompok B": { column: "B", categories: {} },
-        "Kelompok C": { column: "C", categories: {} },
-        "Kelompok D": { column: "D", categories: {} },
-        "Kelompok E": { column: "E", categories: {} },
-        "Kelompok F": { column: "F", categories: {} },
-        "Kelompok G": { column: "G", categories: {} },
-        "Kelompok H": { column: "H", categories: {} },
-        "Kelompok I": { column: "I", categories: {} },
+    // Nama kategori untuk ditampilkan
+    const kategoriDisplay = {
+        OUT: "1. OUT",
+        ME: "2. ME",
+        COMP: "3. COMP",
+        SCI: "4. SCI",
+        PERS: "5. PERS",
+        AESTH: "6. AESTH",
+        LIT: "7. LIT",
+        MUS: "8. MUS",
+        SS: "9. S.S",
+        CLER: "10. CLER",
+        PRAC: "11. PRAC",
+        MED: "12. MED",
     };
 
-    // Matriks untuk menyimpan nilai di setiap sel
+    // Definisi kategori awal untuk setiap kolom sesuai dengan tanda "x" pada tabel
+    const kolom_ke_kategoriAwal = {
+        A: "OUT", // Kolom A dimulai dari OUT
+        B: "ME", // Kolom B dimulai dari ME
+        C: "COMP", // Kolom C dimulai dari COMP
+        D: "SCI", // Kolom D dimulai dari SCI
+        E: "PERS", // Kolom E dimulai dari PERS
+        F: "AESTH", // Kolom F dimulai dari AESTH
+        G: "LIT", // Kolom G dimulai dari LIT
+        H: "MUS", // Kolom H dimulai dari MUS
+        I: "SS", // Kolom I dimulai dari SS
+    };
+
+    // Fungsi untuk melakukan rotasi array dari indeks tertentu
+    function rotate(arr, start) {
+        return arr.slice(start).concat(arr.slice(0, start));
+    }
+
+    // Fungsi untuk merotasi kategori sesuai dengan kolom
+    function rotasiSesuaiKolom(kolom) {
+        const indexAwal = kategoriMinat.indexOf(kolom_ke_kategoriAwal[kolom]);
+        return rotate(kategoriMinat, indexAwal);
+    }
+
+    // Buat kategori yang dirotasi untuk setiap kolom
+    const rotatedKategoriPerKolom = {
+        A: rotasiSesuaiKolom("A"),
+        B: rotasiSesuaiKolom("B"),
+        C: rotasiSesuaiKolom("C"),
+        D: rotasiSesuaiKolom("D"),
+        E: rotasiSesuaiKolom("E"),
+        F: rotasiSesuaiKolom("F"),
+        G: rotasiSesuaiKolom("G"),
+        H: rotasiSesuaiKolom("H"),
+        I: rotasiSesuaiKolom("I"),
+    };
+
+    // Pemetaan kelompok ke kolom
+    const groupMapping = {
+        "Kelompok A": "A",
+        "Kelompok B": "B",
+        "Kelompok C": "C",
+        "Kelompok D": "D",
+        "Kelompok E": "E",
+        "Kelompok F": "F",
+        "Kelompok G": "G",
+        "Kelompok H": "H",
+        "Kelompok I": "I",
+    };
+
+    // Inisialisasi matriks hasil
     const resultMatrix = {};
-    kategoriMinat.forEach((category) => {
-        resultMatrix[category.id] = {};
-        Object.keys(groupMapping).forEach((group) => {
-            resultMatrix[category.id][groupMapping[group].column] = null;
-        });
-    });
+    kategoriMinat.forEach(
+        (id) =>
+            (resultMatrix[id] = {
+                A: null,
+                B: null,
+                C: null,
+                D: null,
+                E: null,
+                F: null,
+                G: null,
+                H: null,
+                I: null,
+            })
+    );
 
-    // Proses data peringkat untuk setiap kelompok
+    // Proses data peringkat dari setiap kelompok
     Object.keys(peringkat).forEach((kelompok) => {
-        const columnId = groupMapping[kelompok].column;
-        const jobRankings = peringkat[kelompok];
+        const column = groupMapping[kelompok];
+        const rotatedKategori = rotatedKategoriPerKolom[column];
+        const jobRanks = Object.values(peringkat[kelompok]);
 
-        // Konversi data peringkat ke format yang dibutuhkan
-        // (Mengaitkan jenis pekerjaan dengan kategori minat)
-        // Ini adalah mapping yang perlu disesuaikan dengan data RMIB sebenarnya
-        // Berikut adalah contoh untuk ilustrasi:
-        const jobCategoryMapping = {
-            // Kelompok A
-            Petani: "OUT",
-            "Insinyur Sipil": "ME",
-            Akuntan: "COMP",
-            Ilmuwan: "SCI",
-            "Manager Penjualan": "PERS",
-            Seniman: "AESTH",
-            Wartawan: "LIT",
-            "Pianis Konser": "MUS",
-            "Guru SD": "SS",
-            "Manager Bank": "CLER",
-            "Tukang Kayu": "PRAC",
-            Dokter: "MED",
-
-            // Kelompok B
-            "Ahhli Pembuat Alat": "OUT",
-            "Ahli Statistik": "ME",
-            "Insinyur Kimia Industri": "COMP",
-            "Penyiar Radio": "SCI",
-            "Artis Profesional": "PERS",
-            Pengarang: "AESTH",
-            "Dirigen Orkestra": "LIT",
-            "Psikolog Pendidikan": "MUS",
-            "Sekretaris Perusahaan": "SS",
-            "Ahli Bangunan": "CLER",
-            "Ahli Bedah": "PRAC",
-            "Ahli Kehutanan": "MED",
-
-            // Kelompok C sampai I perlu ditambahkan
-            // ... Tambahkan semua pemetaan pekerjaan ke kategori minat untuk kelompok lainnya
-        };
-
-        // Memasukkan peringkat ke dalam matriks hasil
-        Object.keys(jobRankings).forEach((job) => {
-            const rank = jobRankings[job];
-            if (rank !== null && jobCategoryMapping[job]) {
-                const categoryId = jobCategoryMapping[job];
-                resultMatrix[categoryId][columnId] = rank;
-            }
+        rotatedKategori.forEach((kategori, i) => {
+            resultMatrix[kategori][column] = jobRanks[i] ?? null;
         });
     });
 
-    // Menghitung total skor untuk setiap kategori minat
+    // Hitung skor total untuk setiap kategori
     const categoryScores = {};
-    kategoriMinat.forEach((category) => {
-        const scores = Object.values(resultMatrix[category.id]).filter(
-            (score) => score !== null
+    kategoriMinat.forEach((kategori) => {
+        const values = Object.values(resultMatrix[kategori]).filter(
+            (v) => v !== null
         );
-        const sum = scores.reduce((total, score) => total + score, 0);
-        categoryScores[category.id] = sum;
+        categoryScores[kategori] = values.reduce((a, b) => a + b, 0);
     });
 
-    // Menentukan peringkat kategori (1 = skor terendah = paling diminati)
-    const sortedCategories = [...kategoriMinat].sort((a, b) => {
-        return categoryScores[a.id] - categoryScores[b.id];
-    });
-
+    // Urutkan kategori berdasarkan skor (skor rendah = peringkat tinggi)
+    const sorted = [...kategoriMinat].sort(
+        (a, b) => categoryScores[a] - categoryScores[b]
+    );
     const categoryRanks = {};
-    sortedCategories.forEach((category, index) => {
-        categoryRanks[category.id] = index + 1;
-    });
+    sorted.forEach((kategori, i) => (categoryRanks[kategori] = i + 1));
 
-    // Menghitung persentase (optional)
-    const maxPossibleScore = 9 * 12; // 9 kelompok * peringkat maksimum 12
-    const categoryPercentages = {};
-    kategoriMinat.forEach((category) => {
-        const score = categoryScores[category.id] || 0;
-        const percentage = (
-            ((maxPossibleScore - score) / maxPossibleScore) *
+    // Hitung persentase untuk setiap kategori
+    const maxScore = 9 * 12; // 9 kolom × 12 nilai maksimal per kolom
+    const percentages = {};
+    kategoriMinat.forEach((k) => {
+        percentages[k] = (
+            ((maxScore - categoryScores[k]) / maxScore) *
             100
         ).toFixed(1);
-        categoryPercentages[category.id] = percentage;
     });
 
-    // Populasi tabel hasil
-    const table = document.getElementById("rmib-result-table");
-    const tbody = table.querySelector("tbody");
-
-    // Reset tabel
+    // Tampilkan hasil di tabel
+    const tbody = document
+        .getElementById("rmib-result-table")
+        .querySelector("tbody");
     tbody.innerHTML = "";
 
-    // Populasi baris dalam tabel
-    kategoriMinat.forEach((category) => {
+    kategoriMinat.forEach((kategori) => {
         const row = document.createElement("tr");
+        const tdKategori = document.createElement("td");
+        tdKategori.textContent = kategoriDisplay[kategori];
+        row.appendChild(tdKategori);
 
-        // Sel kategori
-        const categoryCell = document.createElement("td");
-        categoryCell.textContent = category.name;
-        row.appendChild(categoryCell);
-
-        // Sel untuk setiap kolom (A-I)
-        Object.keys(groupMapping).forEach((group) => {
-            const column = groupMapping[group].column;
-            const cell = document.createElement("td");
-
-            const value = resultMatrix[category.id][column];
-            if (value !== null) {
-                cell.textContent = value;
-            }
-            row.appendChild(cell);
+        ["A", "B", "C", "D", "E", "F", "G", "H", "I"].forEach((col) => {
+            const td = document.createElement("td");
+            td.textContent = resultMatrix[kategori][col] ?? "";
+            row.appendChild(td);
         });
 
-        // Sel untuk SUM
-        const sumCell = document.createElement("td");
-        sumCell.textContent = categoryScores[category.id] || "";
-        row.appendChild(sumCell);
+        const tdSum = document.createElement("td");
+        tdSum.textContent = categoryScores[kategori];
+        row.appendChild(tdSum);
 
-        // Sel untuk RANK
-        const rankCell = document.createElement("td");
-        rankCell.textContent = categoryRanks[category.id] || "";
-        rankCell.classList.add("rank-value");
-        row.appendChild(rankCell);
+        const tdRank = document.createElement("td");
+        tdRank.textContent = categoryRanks[kategori];
+        tdRank.classList.add("rank-value");
+        row.appendChild(tdRank);
 
-        // Sel untuk %
-        const percentCell = document.createElement("td");
-        percentCell.textContent = categoryPercentages[category.id] || "";
-        row.appendChild(percentCell);
+        const tdPercent = document.createElement("td");
+        tdPercent.textContent = percentages[kategori];
+        row.appendChild(tdPercent);
 
         tbody.appendChild(row);
     });
