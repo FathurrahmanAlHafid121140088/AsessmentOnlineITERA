@@ -21,6 +21,9 @@ Route::get('/register', function () {
 Route::get('/lupa-password', function () {
     return view('lupa-password', ['title' => 'Lupa Password']);
 });
+Route::get('/admin', function () {
+    return view('admin-home', ['title' => 'Admin']);
+});
 
 Route::get('/mental-health', function () {
     return view('mental-health', ['title' => 'Mental Health']);

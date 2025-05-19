@@ -72,8 +72,8 @@
               </p>
               <ul>
                 <li><i class="bi bi-check2-all"></i> <span>💡 Mengenali kondisi mental lebih awal.</span></li>
-                <li><i class="bi bi-check2-all"></i> <span>📊 Mendapat hasil secara instan & mudah dipahami.</span></li>
-                <li><i class="bi bi-check2-all"></i> <span>🔍 Berdasarkan penelitian ilmiah & validasi psikologis.</span></li>
+                <li><i class="bi bi-check2-all"></i> <span>📊 Mendapat hasil secara cepat & mudah dipahami.</span></li>
+                <li><i class="bi bi-check2-all"></i> <span>🔍 Berdasarkan penelitian ilmiah yang valid dan reliable.</span></li>
                 <li><i class="bi bi-check2-all"></i> <span>🔗 Dapat digunakan sebagai referensi untuk konsultasi ke profesional.</span></li>
               </ul>
               <h3>Cara Kerja Tes</h3>

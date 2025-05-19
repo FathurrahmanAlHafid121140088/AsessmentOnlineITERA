@@ -36,15 +36,6 @@
                       <i class="fas fa-brain me-2"></i>Quiz Mental Health MH-38
                   </h2>
                   
-                  <div class="progress-container">
-                      <div class="progress">
-                          <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <div class="text-end mt-1">
-                          <small id="progress-text">0/38 Pertanyaan Dijawab</small>
-                      </div>
-                  </div>
-                  
                   <form id="quizForm">
                     @php
                       $questions = [
@@ -317,6 +308,14 @@
                 </div>
             @endforeach
                       <div id="results-container" class="feedback"></div>
+                      <div class="progress-container">
+                        <div class="progress">
+                            <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="text-end mt-1">
+                            <small id="progress-text">0/38 Pertanyaan Dijawab</small>
+                        </div>
+                    </div>
                       
                       <!-- Tombol Submit -->
                       <div class="d-grid gap-2 mt-4">
