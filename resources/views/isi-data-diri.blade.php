@@ -41,76 +41,187 @@
     
                 <div class="formbold-input-flex">
                     <div>
-                        <label for="firstname" class="formbold-form-label"> First name </label>
-                        <input type="text" name="firstname" id="firstname" class="formbold-form-input" placeholder="Masukkan nama depan" />
+                        <label for="nama" class="formbold-form-label"> Nama </label>
+                        <input type="text" name="nama" id="nama" class="formbold-form-input" placeholder="Masukkan nama lengkap" />
                     </div>
                     <div>
-                        <label for="lastname" class="formbold-form-label"> Last name </label>
-                        <input type="text" name="lastname" id="lastname" class="formbold-form-input" placeholder="Masukkan nama belakang" />
+                        <label for="nim" class="formbold-form-label"> NIM </label>
+                        <input type="text" name="nim" id="nim" class="formbold-form-input" placeholder="Masukkan NIM" />
                     </div>
                 </div>
-    
-                <div class="formbold-mb-3">
+
+                                <div class="formbold-mb-3">
                     <label class="formbold-form-label">Jenis Kelamin</label>
                     <div>
                         <label class="formbold-radio-label">
-                            <input type="radio" name="gender" value="Laki-laki" class="formbold-input-radio" required> Laki-laki
+                            <input type="radio" name="jenis_kelamin" value="Laki-laki" class="formbold-input-radio" required> Laki-laki
                         </label>
                     </div>
                     <div>
                         <label class="formbold-radio-label">
-                            <input type="radio" name="gender" value="Perempuan" class="formbold-input-radio" required> Perempuan
+                            <input type="radio" name="jenis_kelamin" value="Perempuan" class="formbold-input-radio" required> Perempuan
                         </label>
                     </div>
                 </div>
     
                 <div class="formbold-input-flex">
                     <div>
-                        <label for="email" class="formbold-form-label"> Email </label>
-                        <input type="email" name="email" id="email" class="formbold-form-input" placeholder="Masukkan email" />
+                        <label for="alamat" class="formbold-form-label"> Alamat </label>
+                        <input type="textarea" name="alamat" id="alamat" class="formbold-form-input" placeholder="Masukkan alamat" />                    </div>
+                    <div>
+                        <label for="usia" class="formbold-form-label"> Usia </label>
+                        <input type="text" name="usia" id="usia" class="formbold-form-input" placeholder="Masukkan usia" />
+                    </div>
+                </div>
+
+                <div class="formbold-mb-3">
+                    <label class="formbold-form-label">Fakultas</label>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="fakultas" id="fakultas" value="Fakultas Teknologi Industri" class="formbold-input-radio" required> Fakultas Teknologi Industri
+                        </label>
                     </div>
                     <div>
-                        <label for="phone" class="formbold-form-label"> Phone number </label>
-                        <input type="text" name="phone" id="phone" class="formbold-form-input" placeholder="Masukkan nomor telepon" />
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="fakultas" id="fakultas" value="Fakultas Sains" class="formbold-input-radio" required> Fakultas Sains
+                        </label>
+                    </div>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="fakultas" id="fakultas" value="Fakultas Teknologi Infrastruktur dan Kewilayahan" class="formbold-input-radio" required> Fakultas Teknologi Infrastruktur dan Kewilayahan
+                        </label>
                     </div>
                 </div>
     
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="formbold-mb-3">
-                            <label for="address" class="formbold-form-label"> Street Address </label>
-                            <input type="text" name="address" id="address" class="formbold-form-input" placeholder="Masukkan alamat jalan" />
-                        </div>
+                <div class="col-lg-6">
+                    <div class="formbold-mb-3">
+                        <label for="program_studi" class="formbold-form-label">Program Studi</label>
+                        <select name="program_studi" id="program_studi" class="formbold-form-input">
+                            <option value="" disabled selected>Pilih program studi</option>
+                            <!-- Fakultas Sains -->
+                            <option value="Fisika">Fisika</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="Biologi">Biologi</option>
+                            <option value="Kimia">Kimia</option>
+                            <option value="Farmasi">Farmasi</option>
+                            <option value="Atmosfer dan Keplanetan">Sains Atmosfer dan Keplanetan</option>
+                            <option value="Sains Aktuaria">Sains Aktuaria</option>
+                            <option value="Sains Data">Sains Data</option>
+                            <option value="Sains Lingkungan Kelautan">Sains Lingkungan Kelautan</option>
+                            <option value="Magister Fisika">Magister Fisika</option>
+
+                            <!-- Fakultas Teknologi Infrastruktur dan Kewilayahan -->
+                            <option value="Teknik Geomatika">Teknik Geomatika</option>
+                            <option value="Perencanaan Wilayah dan Kota">Perencanaan Wilayah dan Kota</option>
+                            <option value="Teknik Sipil">Teknik Sipil</option>
+                            <option value="Arsitektur">Arsitektur</option>
+                            <option value="Teknik Lingkungan">Teknik Lingkungan</option>
+                            <option value="Teknik Kelautan">Teknik Kelautan</option>
+                            <option value="Desain Komunikasi Visual">Desain Komunikasi Visual</option>
+                            <option value="Arsitektur Lanskap">Arsitektur Lanskap</option>
+                            <option value="Teknik Perkeretaapian">Teknik Perkeretaapian</option>
+                            <option value="Rekayasa Tata Kelola Air Terpadu">Rekayasa Tata Kelola Air Terpadu</option>
+                            <option value="Pariwisata">Pariwisata</option>
+
+                            <!-- Fakultas Teknologi Produksi dan Industri -->
+                            <option value="Teknik Elektro">Teknik Elektro</option>
+                            <option value="Teknik Fisika">Teknik Fisika</option>
+                            <option value="Teknik Informatika">Teknik Informatika</option>
+                            <option value="Teknik Geologi">Teknik Geologi</option>
+                            <option value="Teknik Geofisika">Teknik Geofisika</option>
+                            <option value="Teknik Mesin">Teknik Mesin</option>
+                            <option value="Teknik Industri">Teknik Industri</option>
+                            <option value="Teknik Kimia">Teknik Kimia</option>
+                            <option value="Teknik Material">Teknik Material</option>
+                            <option value="Teknik Sistem Energi">Teknik Sistem Energi</option>
+                            <option value="Teknik Pertambangan">Teknik Pertambangan</option>
+                            <option value="Teknik Telekomunikasi">Teknik Telekomunikasi</option>
+                            <option value="Teknik Biosistem">Teknik Biosistem</option>
+                            <option value="Teknik Biomedik">Teknik Biomedik</option>
+                            <option value="Teknologi Pangan">Teknologi Pangan</option>
+                            <option value="Teknologi Industri Pertanian">Teknologi Industri Pertanian</option>
+                            <option value="Rekayasa Kehutanan">Rekayasa Kehutanan</option>
+                            <option value="Rekayasa Kosmetik">Rekayasa Kosmetik</option>
+                            <option value="Rekayasa Minyak dan Gas">Rekayasa Minyak dan Gas</option>
+                            <option value="Rekayasa Instrumentasi dan Automasi">Rekayasa Instrumentasi dan Automasi</option>
+                            <option value="Rekayasa Keolahragaan">Rekayasa Keolahragaan</option>
+                        </select>
                     </div>
+                </div>
+                
                     <div class="col-lg-6">
                         <div class="formbold-mb-3">
-                            <label for="address2" class="formbold-form-label"> Street Address Line 2 </label>
-                            <input type="text" name="address2" id="address2" class="formbold-form-input" placeholder="Opsional: Tambahan alamat" />
+                            <label for="email" class="formbold-form-label"> Email </label>
+                            <input type="email" name="email" id="email" class="formbold-form-input" placeholder="Masukkan email" />
                         </div>
                     </div>
                 </div>
     
                 <div class="formbold-input-flex">
                     <div>
-                        <label for="state" class="formbold-form-label"> State/Province </label>
-                        <input type="text" name="state" id="state" class="formbold-form-input" placeholder="Masukkan provinsi" />
+                        <label for="keluhan" class="formbold-form-label"> Keluhan </label>
+                        <textarea name="keluhan" id="keluhan" class="formbold-form-input" rows="4" placeholder="Masukkan keluhan yang dialami saat ini"></textarea>                    
+                    </div>
+
+                <div class="formbold-mb-3">
+                    <label class="formbold-form-label">Lama Keluhan (dalam bulan)</label>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="lama_keluhan" value="1" class="formbold-input-radio"> 1 Bulan
+                        </label>
                     </div>
                     <div>
-                        <label for="country" class="formbold-form-label"> Country </label>
-                        <input type="text" name="country" id="country" class="formbold-form-input" placeholder="Masukkan negara" />
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="lama_keluhan" value="2" class="formbold-input-radio"> 2 Bulan
+                        </label>
+                    </div>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="lama_keluhan" value="3" class="formbold-input-radio"> 3 Bulan
+                        </label>
+                    </div>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="lama_keluhan" value="4" class="formbold-input-radio"> 4 Bulan
+                        </label>
+                    </div>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="lama_keluhan" value="5" class="formbold-input-radio"> 5 Bulan
+                        </label>
                     </div>
                 </div>
+            </div>
     
-                <div class="formbold-input-flex">
+            <div class="formbold-input-flex">
+                <div class="formbold-mb-3">
+                    <label class="formbold-form-label">Sudah Pernah Mengikuti Tes Psikologi?</label>
                     <div>
-                        <label for="post" class="formbold-form-label"> Post/Zip code </label>
-                        <input type="text" name="post" id="post" class="formbold-form-input" placeholder="Masukkan kode pos" />
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="pernah_tes" value="Sudah" class="formbold-input-radio"> Sudah
+                        </label>
                     </div>
                     <div>
-                        <label for="area" class="formbold-form-label"> Area Code </label>
-                        <input type="text" name="area" id="area" class="formbold-form-input" placeholder="Masukkan kode area" />
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="pernah_tes" value="Belum" class="formbold-input-radio"> Belum
+                        </label>
                     </div>
                 </div>
+                <div class="formbold-mb-3">
+                    <label class="formbold-form-label">Sudah Pernah Konsultasi dengan Psikolog?</label>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="pernah_konsul" value="Sudah" class="formbold-input-radio"> Sudah
+                        </label>
+                    </div>
+                    <div>
+                        <label class="formbold-radio-label">
+                            <input type="radio" name="pernah_konsul" value="Belum" class="formbold-input-radio"> Belum
+                        </label>
+                    </div>
+                </div>
+            </div>
     
                 <div class="text-center">
                     <button class="btn-submit" id="submit-button">

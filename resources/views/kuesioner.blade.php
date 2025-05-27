@@ -41,7 +41,7 @@
                       $questions = [
                       ["number" => 1, "text" => "Seberapa bahagia, puas, atau senangkah Anda dengan kehidupan pribadi Anda selama sebulan terakhir?", "option" => "a"],
                       ["number" => 2, "text" => "Seberapa sering Anda merasa kesepian selama sebulan terakhir?", "option" => "c"],
-                      ["number" => 3, "text" => "Seberapa sering Anda merasa gugup atau gelisah?", "option" => "d"],
+                      ["number" => 3, "text" => "Seberapa sering Anda merasa gugup atau gelisah ketika dihadapkan pada situasi yang menyenangkan atau tak terduga selama sebulan terakhir?", "option" => "d"],
                       ["number" => 4, "text" => "Selama sebulan terakhir, seberapa sering Anda merasa bahwa masa depan terlihat penuh harapan dan menjanjikan?", "option" => "c"],
                       ["number" => 5, "text" => "Berapa banyak waktu, selama sebulan terakhir, kehidupan sehari-hari Anda penuh dengan hal-hal yang menarik bagi Anda?", "option" => "c"],
                       ["number" => 6, "text" => "Seberapa sering, selama sebulan terakhir, Anda merasa rileks dan bebas dari ketegangan?", "option" => "c"],
@@ -82,12 +82,13 @@
                 
                 @foreach ($questions as $question)
                 <div class="question" id="question{{ $question['number'] }}">
-                    <p class="question-text">
-                        <span class="question-number">{{ $question['number'] }}</span> {{ $question['text'] }}
-                    </p>
+                    <div class="question-text">
+                        <div class="question-number">{{ $question['number'] }}</div>
+                        <p>{{ $question['text'] }}</p>
+                    </div>
                     
                     @if ($question['number'] == 1)
-                    <div class="row">
+                    <div class="row-soal">
                         @foreach ([
                             6 => 'Sangat senang, tidak bisa lebih puas lagi',
                             5 => 'Sangat senang hampir sepanjang waktu',
@@ -106,8 +107,8 @@
                             </div>
                         @endforeach
                     </div>
-                    @elseif (in_array($question['number'], [2, 3, 4, 5, 6, 7, 10, 11, 13, 17, 18, 19, 22, 23, 26, 29, 30, 31, 34, 36]))
-                    <div class="row">
+                    @elseif (in_array($question['number'], [2, 4, 5, 6, 7, 10, 11, 13, 17, 18, 19, 22, 23, 26, 29, 30, 31, 34, 36]))
+                    <div class="row-soal">
                       @foreach ([
                           6 => 'Sepanjang Waktu',
                           5 => 'Hampir Sepanjang Waktu',
@@ -127,7 +128,7 @@
                       @endforeach
                   </div>
                     @elseif (in_array($question['number'], [3, 12, 15, 16, 20, 21, 24, 27, 32, 35]))
-                    <div class="row">
+                    <div class="row-soal">
                       @foreach ([
                           1 => 'Selalu',
                           2 => 'Sangat Sering',
@@ -147,7 +148,7 @@
                       @endforeach
                   </div>
                   @elseif ($question['number'] == 8)
-                  <div class="row">
+                  <div class="row-soal">
                     @foreach ([
                         6 => 'Tidak, sama sekali tidak.',
                         5 => 'Mungkin sedikit.',
@@ -167,7 +168,7 @@
                     @endforeach
                   </div>
                     @elseif ($question['number'] == 9)
-                    <div class="row">
+                    <div class="row-soal">
                       @foreach ([
                           1 => 'Ya, tertekan setiap hari',
                           2 => 'Ya, sangat tertekan hampir setiap hari.',
@@ -186,7 +187,7 @@
                       @endforeach
                     </div>
                     @elseif ($question['number'] == 14)
-                    <div class="row">
+                    <div class="row-soal">
                       @foreach ([
                           6 => 'Ya, sangat yakin.',
                           5 => 'Ya, untuk sebagian besar.',
@@ -206,7 +207,7 @@
                       @endforeach
                     </div>
                   @elseif ($question['number'] == 25)
-                  <div class="row">
+                  <div class="row-soal">
                     @foreach ([
                         1 => 'Benar-benar terganggu.',
                         2 => 'Sangat terganggu.',
@@ -226,7 +227,7 @@
                     @endforeach
                   </div>
                   @elseif ($question['number'] == 28)
-                  <div class="row">
+                  <div class="row-soal">
                     @foreach ([
                         1 => 'Ya, sangat sering.',
                         2 => 'Ya, cukup sering.',
@@ -245,7 +246,7 @@
                     @endforeach
                   </div>
                   @elseif ($question['number'] == 33)
-                  <div class="row">
+                  <div class="row-soal">
                     @foreach ([
                         1 => 'Ya, sangat ekstrem hingga merasa sakit atau hampir sakit.',
                         2 => 'Ya, sangat terganggu.',
@@ -265,7 +266,7 @@
                     @endforeach
                   </div>
                   @elseif ($question['number'] == 37)
-                  <div class="row">
+                  <div class="row-soal">
                     @foreach ([
                         6 => 'Selalu, setiap hari.',
                         5 => 'Hampir setiap hari.',
@@ -285,7 +286,7 @@
                     @endforeach
                   </div>
                   @elseif ($question['number'] == 38)
-                  <div class="row">
+                  <div class="row-soal">
                     @foreach ([
                         1 => 'Ya, hampir lebih dari yang bisa saya tahan.',
                         2 => 'Ya, cukup banyak tekanan.',

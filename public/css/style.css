@@ -739,6 +739,48 @@ progress {
     margin-top: var(--bs-gutter-y);
 }
 
+.row-soal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+    margin-left: calc(-0.5 * var(--bs-gutter-x));
+}
+
+/* Urutan default flexbox adalah: 1 2 3 4 5 6 */
+/* Kita atur ulang posisi masing-masing item */
+
+.row-soal > :nth-child(1) {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.row-soal > :nth-child(2) {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.row-soal > :nth-child(3) {
+    grid-row: 3;
+    grid-column: 1;
+}
+
+.row-soal > :nth-child(4) {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.row-soal > :nth-child(5) {
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.row-soal > :nth-child(6) {
+    grid-row: 3;
+    grid-column: 2;
+}
+
 .col {
     flex: 1 0 0%;
 }
