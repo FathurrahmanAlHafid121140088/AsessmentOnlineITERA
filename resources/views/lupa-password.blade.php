@@ -24,7 +24,7 @@
                 <p>Jangan khawatir, kami akan membantu Anda memulihkan akun</p>
             </div>
             <div class="info-box">
-                <p>Masukkan email akun Anda. Kami akan mengirimkan link untuk mengatur ulang password Anda.</p>
+                <p>Masukkan email akun Anda. Kami akan mengirimkan kode OTP untuk mengatur ulang password Anda.</p>
             </div>
             <form id="forgotPasswordForm">
                 <div id="emailStep">

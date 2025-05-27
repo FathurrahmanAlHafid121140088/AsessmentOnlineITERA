@@ -1,0 +1,12 @@
+document.getElementById("nama").value = "Budi Santoso";
+document.getElementById("nim").value = "123456789";
+document.querySelector('input[name="jenis_kelamin"][value="Laki-laki"]').checked = true;
+document.getElementById("alamat").value = "Jl. Merdeka No.123, Bandung";
+document.getElementById("usia").value = "21";
+document.querySelector('input[name="fakultas"][value="Fakultas Sains"]').checked = true;
+document.getElementById("program_studi").value = "Matematika";
+document.getElementById("email").value = "budi@example.com";
+document.getElementById("keluhan").value = "Sering merasa cemas dan sulit tidur.";
+document.querySelector('input[name="lama_keluhan"][value="3"]').checked = true;
+document.querySelector('input[name="pernah_tes"][value="Sudah"]').checked = true;
+document.querySelector('input[name="pernah_konsul"][value="Belum"]').checked = true;

@@ -33,7 +33,7 @@
           <div class="col-md-8 col-lg-7 quiz" >
               <div class="quiz-container">
                   <h2 class="quiz-title">
-                      <i class="fas fa-brain me-2"></i>Quiz Mental Health MH-38
+                      <i class="fas fa-brain me-2"></i>Quiz Mental Health MHI-38
                   </h2>
                   
                   <form id="quizForm">

@@ -62,78 +62,7 @@
             <h3>Tentang Kategori "Sedang (Rentan)"</h3>
             <p>Individu dalam kategori ini memiliki tingkat kesehatan mental yang cukup, namun berada dalam kondisi rentan terhadap stres dan tekanan. Mungkin mengalami beberapa gejala gangguan psikologis ringan yang dapat berkembang jika tidak dikelola dengan baik. Diperlukan upaya aktif untuk menjaga dan meningkatkan kesejahteraan mental.</p>
         </div>
-        
-        <div data-aos="fade-right" data-aos-delay="100" class="score-breakdown">
-            <h3>Detail Aspek yang Diukur</h3>
-            
-            <div data-aos="fade-right" data-aos-delay="200" class="aspect-item">
-                <div class="aspect-header">
-                    <span>Kecemasan</span>
-                    <span>22/38</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill progress-moderate" style="width: 58%"></div>
-                </div>
-                <div class="aspect-description">Tingkat kekhawatiran, gugup, tegang, atau panik.</div>
-            </div>
-            
-            <div data-aos="fade-right" data-aos-delay="300" class="aspect-item">
-                <div class="aspect-header">
-                    <span>Depresi</span>
-                    <span>19/38</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill progress-mild" style="width: 50%"></div>
-                </div>
-                <div class="aspect-description">Tingkat perasaan sedih, murung, atau putus asa.</div>
-            </div>
-            
-            <div data-aos="fade-right" data-aos-delay="400" class="aspect-item">
-                <div class="aspect-header">
-                    <span>Hilangnya Kontrol Perilaku/Emosi</span>
-                    <span>25/38</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill progress-moderate" style="width: 66%"></div>
-                </div>
-                <div class="aspect-description">Kemampuan mengendalikan perilaku, pikiran, dan perasaan.</div>
-            </div>
-            
-            <div data-aos="fade-right" data-aos-delay="500" class="aspect-item">
-                <div class="aspect-header">
-                    <span>Pengaruh Positif Umum</span>
-                    <span>28/38</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill progress-good" style="width: 74%"></div>
-                </div>
-                <div class="aspect-description">Perasaan gembira, bahagia, dan menikmati hidup.</div>
-            </div>
-            
-            <div data-aos="fade-right" data-aos-delay="600" class="aspect-item">
-                <div class="aspect-header">
-                    <span>Ikatan Emosional</span>
-                    <span>24/38</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill progress-moderate" style="width: 63%"></div>
-                </div>
-                <div class="aspect-description">Kemampuan membangun dan mempertahankan hubungan dengan orang lain.</div>
-            </div>
-            
-            <div data-aos="fade-right" data-aos-delay="700" class="aspect-item">
-                <div class="aspect-header">
-                    <span>Kepuasan Hidup</span>
-                    <span>27/36</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill progress-good" style="width: 75%"></div>
-                </div>
-                <div class="aspect-description">Perasaan puas terhadap kehidupan secara keseluruhan.</div>
-            </div>
-        </div>
-    </div>
-        
+
         <div data-aos="zoom-in" data-aos-delay="100" class="result-section">
             <h2>Diagnosis Kesehatan Mental</h2>
             
@@ -168,7 +97,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="result-section category-info">
             <h2 data-aos="zoom-in" data-aos-delay="100">Informasi Kategori Kesehatan Mental</h2>
             
@@ -203,53 +131,24 @@
                     <p>Menunjukkan kesejahteraan mental yang optimal dengan tingkat positif yang tinggi. Mampu berkembang dan berfungsi optimal dalam berbagai aspek kehidupan.</p>
                 </div>
             </div>
-        </div>
-
-        <div class="result-section articles-section">
-            <h2 data-aos="zoom-in" data-aos-delay="100">Artikel & Sumber Daya</h2>
-            <p data-aos="zoom-in" data-aos-delay="150">Berikut adalah beberapa artikel dan sumber daya yang mungkin membantu Anda:</p>
-            
-            <div class="article-cards">
-                <div data-aos="flip-left" data-aos-delay="200" class="article-card">
-                    <img src="placeholder-anxiety.jpg" alt="Mengelola Kecemasan" class="article-img">
-                    <div class="article-content">
-                        <span class="article-category">Kecemasan</span>
-                        <h3 class="article-title">7 Teknik Efektif untuk Mengelola Kecemasan Sehari-hari</h3>
-                        <p class="article-desc">Temukan cara praktis untuk mengatasi gejala kecemasan dan mengurangi dampaknya pada kehidupan sehari-hari.</p>
-                        <a href="#" class="article-link">Baca Selengkapnya →</a>
-                    </div>
+                     <div class="tombol">
+                <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
+                    <a href="/home" class="btn-back">
+                    <i class="fa-solid fa-house"></i>
+                    Kembali ke Halaman Utama
+                    </a>
                 </div>
-                
-                <div data-aos="flip-left" data-aos-delay="400" class="article-card">
-                    <img src="placeholder-emotion.jpg" alt="Kontrol Emosi" class="article-img">
-                    <div class="article-content">
-                        <span class="article-category">Kontrol Emosi</span>
-                        <h3 class="article-title">Meningkatkan Regulasi Emosi: Panduan Praktis</h3>
-                        <p class="article-desc">Pelajari teknik-teknik efektif untuk meningkatkan kemampuan mengendalikan emosi dan respons terhadap stres.</p>
-                        <a href="#" class="article-link">Baca Selengkapnya →</a>
-                    </div>
-                </div>
-                
-                <div data-aos="flip-left" data-aos-delay="600" class="article-card">
-                    <img src="placeholder-mindfulness.jpg" alt="Mindfulness" class="article-img">
-                    <div class="article-content">
-                        <span class="article-category">Mindfulness</span>
-                        <h3 class="article-title">Praktik Mindfulness untuk Kesehatan Mental Sehari-hari</h3>
-                        <p class="article-desc">Teknik sederhana mindfulness yang dapat diintegrasikan ke dalam rutinitas harian untuk meningkatkan kesadaran dan kesejahteraan.</p>
-                        <a href="#" class="article-link">Baca Selengkapnya →</a>
-                    </div>
+                <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
+                    <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Hubungi Kami
+                    </a>
                 </div>
             </div>
+         </div>
         </div>
-        
-        
-        <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-          <a href="/home" class="btn-back">
-            <i class="fa-solid fa-house"></i>
-              Kembali ke Halaman Utama
-          </a>
-      </div>
-    </div>
+
+
 
     </body>
     <x-footer></x-footer>
