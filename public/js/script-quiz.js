@@ -249,7 +249,8 @@ document
     .getElementById("submit-button")
     .addEventListener("click", function (event) {
         let allQuestions = document.querySelectorAll(".question"); // Ambil semua pertanyaan
-        let unansweredQuestions = []; // Array untuk menyimpan pertanyaan yang belum dijawab
+        let unansweredQuestions = []; // Array untuk menyimpan elemen pertanyaan yang belum dijawab
+        let unansweredNumbers = []; // Array untuk menyimpan nomor pertanyaan yang belum dijawab
 
         // Loop untuk mencari pertanyaan yang belum dijawab
         allQuestions.forEach((question) => {
@@ -262,6 +263,7 @@ document
 
             if (inputs.length === 0) {
                 unansweredQuestions.push(question);
+                unansweredNumbers.push(questionNumber);
                 question.classList.add("highlight-question"); // Tambahkan highlight
             } else {
                 question.classList.remove("highlight-question"); // Hapus highlight jika sudah dijawab
@@ -269,20 +271,23 @@ document
         });
 
         if (unansweredQuestions.length > 0) {
-            // Jika ada yang belum dijawab, munculkan SweetAlert dan arahkan ke pertanyaan pertama yang belum dijawab
+            // Buat string daftar nomor pertanyaan yang belum dijawab
+            let unansweredList = unansweredNumbers.join(", ");
+
+            // Tampilkan SweetAlert dengan daftar nomor soal yang belum dijawab
             Swal.fire({
                 title: "Oops!",
-                text: "Harap isi semua pertanyaan sebelum mengirim!",
+                html: `Harap isi semua pertanyaan sebelum mengirim!<br><br><strong>Belum dijawab No:</strong> ${unansweredList}`,
                 icon: "warning",
                 confirmButtonText: "OK",
-                timer: 3000,
+                timer: 4000,
             }).then(() => {
                 setTimeout(() => {
                     unansweredQuestions[0].scrollIntoView({
                         behavior: "smooth",
                         block: "center",
-                    }); // Scroll ke pertanyaan yang belum dijawab berikutnya
-                }, 100); // Tambahkan delay kecil agar SweetAlert selesai dulu
+                    });
+                }, 100);
             });
         } else {
             // Jika semua pertanyaan sudah dijawab, konfirmasi pengiriman
@@ -313,3 +318,123 @@ document
             });
         }
     });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const allQuestions = Array.from(document.querySelectorAll(".question"))
+        .map((el) => {
+            const id = el.getAttribute("id");
+            const number = parseInt(id.replace("question", ""));
+            return { el, number };
+        })
+        .sort((a, b) => a.number - b.number); // ✅ Urutkan berdasarkan nomor soal
+
+    const statusContainer = document.getElementById(
+        "question-status-container"
+    );
+
+    const totalQuestions = allQuestions.length;
+    const maxRows = 12;
+    const totalCols = Math.ceil(totalQuestions / maxRows);
+
+    // Buat array kolom
+    const columns = Array.from({ length: totalCols }, () => []);
+
+    // Susun soal secara vertikal per kolom
+    allQuestions.forEach(({ number }, index) => {
+        const colIndex = index % totalCols;
+        columns[colIndex].push(number);
+    });
+
+    // Render: iterasi baris dulu agar hasil vertikal per kolom
+    for (let row = 0; row < maxRows; row++) {
+        for (let col = 0; col < totalCols; col++) {
+            const number = columns[col][row];
+            if (!number) continue;
+
+            const statusItem = document.createElement("div");
+            statusItem.className = "status-item";
+            statusItem.setAttribute("data-question-number", number);
+            statusItem.setAttribute("title", `Soal nomor ${number}`);
+            statusItem.innerHTML = `<span>${number}</span><span class="icon text-red-500">❌</span>`;
+
+            statusItem.addEventListener("click", () => {
+                const targetQuestion = document.getElementById(
+                    `question${number}`
+                );
+                if (targetQuestion) {
+                    targetQuestion.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                    });
+                }
+            });
+
+            statusContainer.appendChild(statusItem);
+        }
+    }
+
+    // Update status soal saat dijawab
+    function updateQuestionStatus() {
+        allQuestions.forEach(({ number }) => {
+            const inputs = document.querySelectorAll(
+                `input[name="question${number}"]:checked`
+            );
+            const icon = document.querySelector(
+                `.status-item[data-question-number="${number}"] .icon`
+            );
+            if (icon) {
+                if (inputs.length > 0) {
+                    icon.textContent = "✔️";
+                    icon.classList.remove("text-red-500");
+                    icon.classList.add("text-green-500");
+                } else {
+                    icon.textContent = "❌";
+                    icon.classList.remove("text-green-500");
+                    icon.classList.add("text-red-500");
+                }
+            }
+        });
+    }
+
+    updateQuestionStatus();
+
+    allQuestions.forEach(({ number }) => {
+        const inputs = document.querySelectorAll(
+            `input[name="question${number}"]`
+        );
+        inputs.forEach((input) => {
+            input.addEventListener("change", updateQuestionStatus);
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleArrow = document.getElementById("toggle-sidebar");
+    const showArrow = document.getElementById("show-sidebar");
+    const statusContainer = document.getElementById(
+        "question-status-container"
+    );
+
+    // Fungsi sembunyikan sidebar
+    toggleArrow.addEventListener("click", () => {
+        statusContainer.classList.add("hidden-sidebar");
+        toggleArrow.style.display = "none";
+        showArrow.style.display = "flex";
+    });
+
+    // Fungsi tampilkan sidebar
+    showArrow.addEventListener("click", () => {
+        statusContainer.classList.remove("hidden-sidebar");
+        toggleArrow.style.display = "flex";
+        showArrow.style.display = "none";
+    });
+
+    // Inisialisasi tombol
+    if (statusContainer.classList.contains("hidden-sidebar")) {
+        toggleArrow.style.display = "none";
+        showArrow.style.display = "flex";
+    } else {
+        toggleArrow.style.display = "flex";
+        showArrow.style.display = "none";
+    }
+});

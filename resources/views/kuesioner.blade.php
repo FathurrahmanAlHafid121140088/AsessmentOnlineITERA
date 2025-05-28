@@ -28,6 +28,20 @@
 </head>
 <x-navbar></x-navbar>
 <body>
+<!-- Tombol untuk memunculkan kembali sidebar -->
+<div id="show-sidebar" class="show-button">
+    <div class="arrow-top"></div>
+    <div class="arrow-bottom"></div>
+</div>
+
+<!-- Sidebar Soal -->
+<div id="question-status-container" class="status-container">
+    <div id="toggle-sidebar" class="toggle-button">
+    <div class="arrow-top"></div>
+    <div class="arrow-bottom"></div>
+    </div>
+    <!-- Status soal di-generate via JS -->
+</div>
     <div class="container">
       <div class="row justify-content-center">
           <div class="col-md-8 col-lg-7 quiz" >
@@ -35,7 +49,6 @@
                   <h2 class="quiz-title">
                       <i class="fas fa-brain me-2"></i>Quiz Mental Health MHI-38
                   </h2>
-                  
                   <form id="quizForm">
                     @php
                       $questions = [
