@@ -327,7 +327,7 @@
                 </div>
             @endforeach
                       <div id="results-container" class="feedback"></div>
-                            <div id="question-indicator" class="question-indicator d-md-none mt-2" data-total-questions="{{ count($questions) }}">
+                            <div id="question-indicator" class="question-indicator mt-2" data-total-questions="{{ count($questions) }}">
                                 <h5 class="indicator-title text-center">Daftar Soal</h5>
                                 @for ($i = 1; $i <= count($questions); $i += 10)
                                     <div class="indicator-group mb-2">

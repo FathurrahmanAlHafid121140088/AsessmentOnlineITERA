@@ -435,8 +435,10 @@ input[type="radio"].form-check-input:checked::before {
 
 .indicator-group {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 3px;
+    column-gap: 3px; /* Jarak horizontal antar soal */
+    row-gap: 0.5rem; /* Jarak vertikal antar baris saat wrap */
 }
 
 .question-box {
@@ -470,7 +472,7 @@ input[type="radio"].form-check-input:checked::before {
     color: white;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
     .question-indicator {
         display: none;
     }
