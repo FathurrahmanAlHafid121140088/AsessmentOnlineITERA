@@ -132,6 +132,34 @@ input[type="radio"].form-check-input:checked::before {
     left: 3px;
 }
 
+.sidebar-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #f8f8f8;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 kolom */
+    gap: 8px;
+}
+
+.status-item {
+    background-color: #e0f2ff;
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Supaya radio & label tersusun horizontal */
 .option-container {
     display: flex;
@@ -173,6 +201,7 @@ input[type="radio"].form-check-input:checked::before {
     letter-spacing: 1px;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+    margin-bottom: 1rem;
 }
 .btn-submit:hover {
     transform: translateY(-3px);
@@ -205,7 +234,6 @@ input[type="radio"].form-check-input:checked::before {
     border-radius: 8px;
     padding: 10px 40px 10px 10px; /* ruang ekstra untuk tombol panah */
     z-index: 1000;
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 50px;
     gap: 5px;
@@ -216,9 +244,10 @@ input[type="radio"].form-check-input:checked::before {
 }
 
 /* Tombol Panah Toggle */
+
 .toggle-button {
-    position: absolute;
-    right: -1px;
+    position: fixed;
+    left: 7.5rem; /* Sesuaikan dengan lebar container daftar soal */
     top: 50%;
     transform: translateY(-50%);
     width: 30px;
@@ -232,6 +261,7 @@ input[type="radio"].form-check-input:checked::before {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .toggle-button:hover {
@@ -388,6 +418,64 @@ input[type="radio"].form-check-input:checked::before {
     }
 }
 
+.question-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center content horizontally */
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.indicator-title {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 16px;
+}
+
+.indicator-group {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+}
+
+.question-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 12px;
+    background-color: #f8f9fa;
+    color: #333;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.question-box .number {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.question-box .status {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.question-box.answered {
+    background-color: #198754;
+    color: white;
+}
+
+@media (min-width: 992px) {
+    .question-indicator {
+        display: none;
+    }
+}
+
 .confetti {
     position: fixed;
     width: 10px;
@@ -436,10 +524,9 @@ input[type="radio"].form-check-input:checked::before {
     border: 2px solid #dc3545;
 }
 
-/* Tombol Scroll ke Atas */
-.scroll-to-top {
+.scroll-to-top,
+.scroll-to-bottom {
     position: fixed;
-    bottom: 20px;
     right: 20px;
     width: 50px;
     height: 50px;
@@ -451,21 +538,43 @@ input[type="radio"].form-check-input:checked::before {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    display: none; /* Sembunyikan awalnya */
+    display: none;
     align-items: center;
     justify-content: center;
     transition: opacity 0.3s ease-in-out, transform 0.2s;
+    z-index: 999;
 }
 
-/* Efek Hover */
-.scroll-to-top:hover {
-    background-color: #4361ee;
-    transform: scale(1.1);
+.scroll-to-top {
+    bottom: 80px; /* atas tombol bawah */
 }
 
-/* Efek saat ditampilkan */
-.scroll-to-top.show {
-    display: flex;
+.scroll-to-bottom {
+    bottom: 20px;
+}
+
+.scroll-to-top:hover,
+.scroll-to-bottom:hover {
+    transform: scale(1.05);
+    background-color: #2f2fa2;
+}
+
+@media (max-width: 480px) {
+    .scroll-to-top,
+    .scroll-to-bottom {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        right: 15px;
+    }
+
+    .scroll-to-top {
+        bottom: 75px;
+    }
+
+    .scroll-to-bottom {
+        bottom: 15px;
+    }
 }
 
 .highlight-question {

@@ -5,47 +5,6 @@ const progressText = document.getElementById("progress-text");
 let questionsAnswered = 0;
 const totalQuestions = 38; // Total pertanyaan
 
-// Set untuk menyimpan pertanyaan yang telah dijawab
-const answeredQuestions = new Set();
-
-radios.forEach((radio) => {
-    radio.addEventListener("change", function () {
-        const name = this.name; // Mendapatkan nama input (misal: question1, question2, dst.)
-
-        // Jika ini adalah pertama kali pertanyaan ini dijawab
-        if (!answeredQuestions.has(name)) {
-            answeredQuestions.add(name);
-            updateProgress();
-        }
-
-        // Reset highlight hanya untuk pertanyaan yang sedang dijawab
-        document.querySelectorAll(`input[name="${name}"]`).forEach((option) => {
-            const optionLabel = option.closest(".custom-radio");
-            if (optionLabel) {
-                optionLabel.style.backgroundColor = "";
-                optionLabel.style.borderColor = "transparent";
-            }
-        });
-
-        // Highlight jawaban yang dipilih
-        const selectedLabel = this.closest(".custom-radio");
-        if (selectedLabel) {
-            selectedLabel.style.backgroundColor = "rgba(67, 97, 238, 0.1)";
-            selectedLabel.style.borderColor = "#4361ee";
-        }
-    });
-});
-
-function updateProgress() {
-    // Hitung jumlah pertanyaan unik yang sudah dijawab
-    questionsAnswered = answeredQuestions.size;
-    const percentage = (questionsAnswered / totalQuestions) * 100;
-
-    progressBar.style.width = percentage + "%";
-    progressBar.setAttribute("aria-valuenow", percentage);
-    progressText.textContent = `${questionsAnswered}/${totalQuestions} Pertanyaan Dijawab`;
-}
-
 // Form submission
 const quizForm = document.getElementById("quizForm");
 const resultsContainer = document.getElementById("results-container");
@@ -226,25 +185,39 @@ function showAnswers() {
     }
 }
 document.addEventListener("DOMContentLoaded", function () {
-    let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    const scrollTopBtn = document.getElementById("scrollToTopBtn");
+    const scrollBottomBtn = document.getElementById("scrollToBottomBtn");
 
-    // Tampilkan tombol saat pengguna scroll ke bawah
-    window.addEventListener("scroll", function () {
+    window.addEventListener("scroll", () => {
         if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add("show");
+            scrollTopBtn.style.display = "flex";
         } else {
-            scrollToTopBtn.classList.remove("show");
+            scrollTopBtn.style.display = "none";
+        }
+
+        // Tampilkan tombol bawah hanya jika belum di dekat bawah
+        if (
+            window.innerHeight + window.scrollY <
+            document.body.offsetHeight - 300
+        ) {
+            scrollBottomBtn.style.display = "flex";
+        } else {
+            scrollBottomBtn.style.display = "none";
         }
     });
 
-    // Fungsi klik untuk kembali ke atas
-    scrollToTopBtn.addEventListener("click", function () {
+    scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    scrollBottomBtn.addEventListener("click", () => {
         window.scrollTo({
-            top: 0,
+            top: document.body.scrollHeight,
             behavior: "smooth",
         });
     });
 });
+
 document
     .getElementById("submit-button")
     .addEventListener("click", function (event) {
@@ -328,9 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .sort((a, b) => a.number - b.number); // ✅ Urutkan berdasarkan nomor soal
 
-    const statusContainer = document.getElementById(
-        "question-status-container"
-    );
+    const statusContainer = document.getElementById("question-grid");
 
     const totalQuestions = allQuestions.length;
     const maxRows = 12;
@@ -436,5 +407,104 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         toggleArrow.style.display = "flex";
         showArrow.style.display = "none";
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleArrow = document.getElementById("toggle-sidebar");
+    const showArrow = document.getElementById("show-sidebar");
+    const statusContainer = document.getElementById(
+        "question-status-container"
+    );
+
+    // Toggle sidebar
+    toggleArrow?.addEventListener("click", () => {
+        statusContainer?.classList.add("hidden-sidebar");
+        toggleArrow.style.display = "none";
+        showArrow.style.display = "flex";
+    });
+
+    showArrow?.addEventListener("click", () => {
+        statusContainer?.classList.remove("hidden-sidebar");
+        toggleArrow.style.display = "flex";
+        showArrow.style.display = "none";
+    });
+
+    if (statusContainer?.classList.contains("hidden-sidebar")) {
+        toggleArrow.style.display = "none";
+        showArrow.style.display = "flex";
+    } else {
+        toggleArrow.style.display = "flex";
+        showArrow.style.display = "none";
+    }
+
+    // =============================
+    // Indikator soal
+    // =============================
+
+    const questionIndicator = document.getElementById("question-indicator");
+    if (!questionIndicator) return;
+
+    const totalQuestions = parseInt(questionIndicator.dataset.totalQuestions);
+
+    for (let i = 1; i <= totalQuestions; i++) {
+        const inputs = document.querySelectorAll(
+            `#question${i} input[type="radio"], 
+       #question${i} input[type="checkbox"], 
+       #question${i} textarea`
+        );
+
+        // Cek status saat load
+        updateStatus(i);
+
+        inputs.forEach((input) => {
+            input.addEventListener("change", () => updateStatus(i));
+        });
+
+        // Klik untuk scroll
+        const box = document.querySelector(
+            `.question-box[data-question="${i}"]`
+        );
+        if (box) {
+            box.addEventListener("click", () => {
+                const target = document.getElementById(`question${i}`);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                }
+            });
+        }
+    }
+
+    function updateStatus(i) {
+        const inputs = document.querySelectorAll(
+            `#question${i} input[type="radio"], 
+       #question${i} input[type="checkbox"], 
+       #question${i} textarea`
+        );
+
+        const answered = Array.from(inputs).some((input) => {
+            if (input.type === "radio" || input.type === "checkbox")
+                return input.checked;
+            if (input.tagName.toLowerCase() === "textarea")
+                return input.value.trim() !== "";
+            return false;
+        });
+
+        const box = document.querySelector(
+            `.question-box[data-question="${i}"]`
+        );
+        if (box) {
+            const statusEl = box.querySelector(".status");
+            if (answered) {
+                box.classList.add("answered");
+                statusEl.textContent = "✅";
+            } else {
+                box.classList.remove("answered");
+                statusEl.textContent = "❌";
+            }
+        }
     }
 });

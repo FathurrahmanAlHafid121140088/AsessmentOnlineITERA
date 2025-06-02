@@ -36,12 +36,17 @@
 
 <!-- Sidebar Soal -->
 <div id="question-status-container" class="status-container">
-    <div id="toggle-sidebar" class="toggle-button">
-    <div class="arrow-top"></div>
-    <div class="arrow-bottom"></div>
+    <div class="sidebar-title">Daftar Soal</div>
+    <div id="question-grid" class="grid-container">
+        <!-- Soal akan dimasukkan ke sini via JS -->
     </div>
-    <!-- Status soal di-generate via JS -->
+
+    <div id="toggle-sidebar" class="toggle-button">
+        <div class="arrow-top"></div>
+        <div class="arrow-bottom"></div>
+    </div>
 </div>
+
     <div class="container">
       <div class="row justify-content-center">
           <div class="col-md-8 col-lg-7 quiz" >
@@ -322,21 +327,26 @@
                 </div>
             @endforeach
                       <div id="results-container" class="feedback"></div>
-                      <div class="progress-container">
-                        <div class="progress">
-                            <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="question-indicator" class="question-indicator d-md-none mt-2" data-total-questions="{{ count($questions) }}">
+                                <h5 class="indicator-title text-center">Daftar Soal</h5>
+                                @for ($i = 1; $i <= count($questions); $i += 10)
+                                    <div class="indicator-group mb-2">
+                                        @for ($j = $i; $j < $i + 10 && $j <= count($questions); $j++)
+                                            <span class="question-box" data-question="{{ $j }}">
+                                                <span class="number">{{ $j }}</span>
+                                                <span class="status">❌</span>
+                                            </span>
+                                        @endfor
+                                    </div>
+                                @endfor
+                            </div>
                         </div>
-                        <div class="text-end mt-1">
-                            <small id="progress-text">0/38 Pertanyaan Dijawab</small>
-                        </div>
-                    </div>
-                      
-                      <!-- Tombol Submit -->
-                      <div class="d-grid gap-2 mt-4">
+                        <div class="d-grid gap-2 mt-4">
                         <button type="button" class="btn btn-primary btn-submit" id="submit-button">
                             <i class="fas fa-paper-plane me-2"></i>Kirim Jawaban
                         </button>
-                    </div>                                    
+                    </div> 
+                    </div>
                   </form>
               </div>
           </div>
@@ -345,6 +355,9 @@
   <!-- Tombol Arrow Up -->
   <button id="scrollToTopBtn" class="scroll-to-top">
     <i class="fas fa-arrow-up"></i>
+</button>
+<button id="scrollToBottomBtn" class="scroll-to-bottom">
+  <i class="fas fa-arrow-down"></i>
 </button>
 
   <x-footer></x-footer>
