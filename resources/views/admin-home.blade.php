@@ -18,47 +18,44 @@
         <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
     </head>
 <body>
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo">
-                <h2>Admin Panel</h2>
-            </div>
-            <ul class="menu">
-                <li class="active">
-                    <a href="#"><i class="fas fa-home"></i> Home</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fas fa-brain"></i> Mental Health</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fas fa-briefcase"></i> Peminatan Karir</a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Header -->
             <header>
+                <div class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
                 <div class="header-title">
                     <h2>Dashboard</h2>
                 </div>
                 <div class="user-wrapper">
-                    <div class="search-box">
-                        <input type="text" placeholder="Search...">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="notification">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">5</span>
+                    <div class="search-box" id="searchBox">
+                        <input type="text" placeholder="Cari Data..." id="searchInput">
+                        <button id="searchIcon" class="fas fa-search" onclick="toggleSearchInput()"></button>
                     </div>
                     <div class="login-button">
-                        <a href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a href="#"><i class="fas fa-sign-in-alt"></i></a>
                     </div>
                 </div>
             </header>
+        <div class="container">
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <div class="logo">
+                    <h2>Dashboard</h2>
+                </div>
+                <ul class="menu">
+                    <li class="active">
+                        <a href="#"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fas fa-brain"></i> Mental Health</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fas fa-briefcase"></i> Peminatan Karir</a>
+                    </li>
+                </ul>
+            </div>
 
+        <!-- Main Content -->
+        <div class="main-content">
             <!-- Dashboard Content -->
             <div class="dashboard-content">
                 <div class="cards">
@@ -159,41 +156,53 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>User</th>
-                                    <th>Activity</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
+                                    <th>NIM</th>
+                                    <th>Nama</th>
+                                    <th>Program Studi</th>
+                                    <th>Jenis Tes</th>
+                                    <th>Kategori</th>
+                                    <th>Tanggal Pengerjaan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Budi Santoso</td>
-                                    <td>Mental Health Assessment</td>
-                                    <td><span class="status completed">Completed</span></td>
+                                    <td>121140026</td>
+                                    <td>Tiara Azkiya</td>
+                                    <td>Teknik Informatika</td>
+                                    <td>Mental Health</td>
+                                    <td><span class="status completed">Baik</span></td>
                                     <td>29 Apr 2025</td>
                                 </tr>
                                 <tr>
-                                    <td>Siti Amalia</td>
-                                    <td>Career Interest Test</td>
-                                    <td><span class="status completed">Completed</span></td>
-                                    <td>28 Apr 2025</td>
+                                    <td>121140058</td>
+                                    <td>Aginda Dufira</td>
+                                    <td>Teknik Informatika</td>
+                                    <td>Mental Health</td>
+                                    <td><span class="status warning">Buruk</span></td>
+                                    <td>29 Apr 2025</td>
                                 </tr>
                                 <tr>
-                                    <td>Ahmad Hidayat</td>
-                                    <td>Counseling Session</td>
-                                    <td><span class="status pending">Pending</span></td>
-                                    <td>28 Apr 2025</td>
+                                    <td>121140058</td>
+                                    <td>Aginda Dufira</td>
+                                    <td>Teknik Informatika</td>
+                                    <td>Mental Health</td>
+                                    <td><span class="status in-progress">Sangat Baik</span></td>
+                                    <td>29 Apr 2025</td>
                                 </tr>
                                 <tr>
-                                    <td>Dewi Lestari</td>
-                                    <td>Mental Health Assessment</td>
-                                    <td><span class="status in-progress">In Progress</span></td>
-                                    <td>27 Apr 2025</td>
+                                    <td>121140026</td>
+                                    <td>Tiara Azkiya</td>
+                                    <td>Teknik Informatika</td>
+                                    <td>Mental Health</td>
+                                    <td><span class="status pending">Sedang</span></td>
+                                    <td>29 Apr 2025</td>
                                 </tr>
                                 <tr>
+                                    <td>121140026</td>
                                     <td>Rudi Hartono</td>
-                                    <td>Career Interest Test</td>
-                                    <td><span class="status cancelled">Cancelled</span></td>
+                                    <td>Teknik Informatika</td>
+                                    <td>Mental Health</td>
+                                    <td><span class="status cancelled">Sangat Buruk</span></td>
                                     <td>27 Apr 2025</td>
                                 </tr>
                             </tbody>
@@ -203,19 +212,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Script sederhana untuk menangani toggle sidebar pada tampilan mobile
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuItems = document.querySelectorAll('.sidebar .menu li');
-            
-            menuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    menuItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        });
-    </script>
+<script src="{{ asset('js/script-admin.js') }}"></script>
 </body>
 </html>

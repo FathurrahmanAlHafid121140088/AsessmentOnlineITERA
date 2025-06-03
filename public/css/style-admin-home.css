@@ -19,6 +19,7 @@
     --red: #ef4444;
     --green: #22c55e;
     --yellow: #f59e0b;
+    --orange: #ea4b16;
     --blue: #3b82f6;
     --purple: #8b5cf6;
     --pink: #ec4899;
@@ -47,22 +48,75 @@ ul {
     list-style: none;
 }
 
+:root {
+    --sidebar-width: 250px;
+    --white: #fff;
+    --gray: #ccc;
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    --transition: 0.3s ease;
+}
+
+/* Layout */
 .container {
     display: flex;
     min-height: 100vh;
 }
 
-/* Sidebar Styling */
+/* Sidebar default */
 .sidebar {
     width: var(--sidebar-width);
-    background-color: var(--white);
+    background: var(--white);
     box-shadow: var(--shadow);
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
-    z-index: 100;
-    transition: var(--transition);
+    z-index: 1000;
+    transition: transform var(--transition);
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+/* Sidebar hidden on mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+
+/* Hamburger button */
+.hamburger {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    background: transparent;
+    box-shadow: none;
+    z-index: 1001; /* agar di atas sidebar */
+    position: relative; /* penting jika sidebar absolute/fixed */
+}
+
+/* Sembunyikan hamburger di desktop (lebar > 768px) */
+@media (min-width: 768px) {
+    .hamburger {
+        display: none; /* sembunyikan hamburger di desktop */
+    }
 }
 
 .logo {
@@ -79,7 +133,7 @@ ul {
 }
 
 .menu {
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .menu li {
@@ -122,7 +176,8 @@ ul {
 
 /* Header Styling */
 header {
-    height: var(--header-height);
+    width: 100%;
+    height: var(--header-height, 60px);
     background-color: var(--white);
     box-shadow: var(--shadow);
     display: flex;
@@ -132,6 +187,13 @@ header {
     position: sticky;
     top: 0;
     z-index: 99;
+    box-sizing: border-box;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .header-title h2 {
@@ -146,31 +208,72 @@ header {
 }
 
 .search-box {
+    display: flex;
     position: relative;
+    width: 100%;
     max-width: 250px;
+    transition: all 0.3s ease;
 }
 
 .search-box input {
     width: 100%;
     padding: 8px 15px;
-    padding-right: 35px;
+    padding-right: 40px; /* beri ruang lebih untuk icon */
     border: 1px solid var(--gray);
     border-radius: 50px;
     outline: none;
     font-size: 0.9rem;
-    transition: var(--transition);
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* penting untuk padding + width */
 }
 
+/* Search icon di dalam input */
 .search-box i {
     position: absolute;
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--gray);
+    cursor: pointer;
+    font-size: 1rem;
+    pointer-events: auto;
 }
 
-.search-box input:focus {
-    border-color: var(--primary-color);
+.search-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Mobile view: hide input by default */
+@media (max-width: 768px) {
+    .search-box {
+        max-width: 40px; /* hanya menampilkan icon */
+        transition: max-width 0.3s ease;
+        overflow: hidden;
+    }
+
+    .search-box input {
+        width: 0;
+        padding: 0;
+        border: none;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+    }
+
+    .search-box.active {
+        max-width: 250px; /* lebar penuh saat aktif */
+    }
+
+    .search-box.active input {
+        width: 100%;
+        padding: 8px 15px;
+        border: 1px solid var(--gray);
+        border-radius: 50px;
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .notification {
@@ -208,10 +311,17 @@ header {
     border-radius: 5px;
     font-weight: 500;
     transition: var(--transition);
+    text-decoration: none;
 }
-
 .login-button a:hover {
     background-color: var(--secondary-color);
+}
+
+/* Mobile view: hide login text only */
+@media (max-width: 768px) {
+    .login-button .login-text {
+        display: none;
+    }
 }
 
 /* Dashboard Content Styling */
@@ -497,6 +607,15 @@ tbody tr:hover {
     background-color: rgba(239, 68, 68, 0.1);
     color: var(--red);
 }
+.status.warning {
+    background-color: rgba(
+        255,
+        165,
+        0,
+        0.1
+    ); /* RGB for orange with transparency */
+    color: var(--orange); /* Ensure you define --orange in your CSS variables */
+}
 
 /* Responsive Styling */
 @media screen and (max-width: 1024px) {
@@ -507,7 +626,7 @@ tbody tr:hover {
 
 @media screen and (max-width: 768px) {
     .sidebar {
-        width: 70px;
+        width: 150px;
     }
 
     .logo h2 {
@@ -523,16 +642,12 @@ tbody tr:hover {
     }
 
     .main-content {
-        margin-left: 70px;
-        width: calc(100% - 70px);
+        margin-left: 0;
+        width: 100%;
     }
 
     .header-title h2 {
         font-size: 1.2rem;
-    }
-
-    .search-box {
-        display: none;
     }
 }
 
@@ -543,9 +658,5 @@ tbody tr:hover {
 
     .user-wrapper {
         gap: 10px;
-    }
-
-    .login-button a span {
-        display: none;
     }
 }
