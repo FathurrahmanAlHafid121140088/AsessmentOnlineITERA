@@ -13,9 +13,9 @@
                 <li class="nav-item"><a class="nav-link" href="/mental-health">Mental Health</a></li>
                 <li class="nav-item"><a class="nav-link" href="/karir-home">Peminatan Karir</a></li>
                 <li class="nav-item">
-                    <a class="nav-link text-success" href="/login">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
+                <a class="nav-link text-success" href="{{ route('login') }}">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
                 </li>
             </ul>
         </div>

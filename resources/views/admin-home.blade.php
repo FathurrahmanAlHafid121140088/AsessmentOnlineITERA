@@ -10,6 +10,8 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
@@ -18,23 +20,39 @@
         <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
     </head>
 <body>
-            <header>
-                <div class="hamburger" id="hamburger">
-                    <i class="fas fa-bars"></i>
-                </div>
-                <div class="header-title">
-                    <h2>Dashboard</h2>
-                </div>
-                <div class="user-wrapper">
-                    <div class="search-box" id="searchBox">
-                        <input type="text" placeholder="Cari Data..." id="searchInput">
-                        <button id="searchIcon" class="fas fa-search" onclick="toggleSearchInput()"></button>
-                    </div>
-                    <div class="login-button">
-                        <a href="#"><i class="fas fa-sign-in-alt"></i></a>
-                    </div>
-                </div>
-            </header>
+<header>
+    <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="header-title">
+        <h2>Dashboard</h2>
+    </div>
+    <div class="user-wrapper">
+        <div class="search-box" id="searchBox">
+            <input type="text" placeholder="Cari Data..." id="searchInput">
+            <button id="searchIcon" class="fas fa-search" onclick="toggleSearchInput()"></button>
+        </div>
+
+        @if(Auth::guard('admin')->check())
+            <div class="user-info">
+                <span>{{ Auth::guard('admin')->user()->username }}</span>
+            </div>
+            <div class="logout-button">
+                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" style="background:none;border:none;cursor:pointer;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
+            </div>
+        @else
+            <div class="login-button">
+                <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        @endif
+    </div>
+</header>
+
         <div class="container">
             <!-- Sidebar -->
             <div class="sidebar" id="sidebar">
@@ -147,68 +165,63 @@
                     </div>
                 </div>
 
-                <div class="tables">
-                    <div class="table">
-                        <div class="table-header">
-                            <h3>Recent Activities</h3>
-                            <button>View All</button>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>NIM</th>
-                                    <th>Nama</th>
-                                    <th>Program Studi</th>
-                                    <th>Jenis Tes</th>
-                                    <th>Kategori</th>
-                                    <th>Tanggal Pengerjaan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>121140026</td>
-                                    <td>Tiara Azkiya</td>
-                                    <td>Teknik Informatika</td>
-                                    <td>Mental Health</td>
-                                    <td><span class="status completed">Baik</span></td>
-                                    <td>29 Apr 2025</td>
-                                </tr>
-                                <tr>
-                                    <td>121140058</td>
-                                    <td>Aginda Dufira</td>
-                                    <td>Teknik Informatika</td>
-                                    <td>Mental Health</td>
-                                    <td><span class="status warning">Buruk</span></td>
-                                    <td>29 Apr 2025</td>
-                                </tr>
-                                <tr>
-                                    <td>121140058</td>
-                                    <td>Aginda Dufira</td>
-                                    <td>Teknik Informatika</td>
-                                    <td>Mental Health</td>
-                                    <td><span class="status in-progress">Sangat Baik</span></td>
-                                    <td>29 Apr 2025</td>
-                                </tr>
-                                <tr>
-                                    <td>121140026</td>
-                                    <td>Tiara Azkiya</td>
-                                    <td>Teknik Informatika</td>
-                                    <td>Mental Health</td>
-                                    <td><span class="status pending">Sedang</span></td>
-                                    <td>29 Apr 2025</td>
-                                </tr>
-                                <tr>
-                                    <td>121140026</td>
-                                    <td>Rudi Hartono</td>
-                                    <td>Teknik Informatika</td>
-                                    <td>Mental Health</td>
-                                    <td><span class="status cancelled">Sangat Buruk</span></td>
-                                    <td>27 Apr 2025</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="tables">
+    <div class="table">
+        <div class="table-header">
+            <h3>Recent Activities</h3>
+            <a href="{{ route('admin.home') }}">
+                <button type="button">View All</button>
+            </a>
+        </div>
+<table id="assessmentTable">
+    <thead>
+        <tr>
+            <th>NIM</th>
+            <th>Nama</th>
+            <th>Program Studi</th>
+            <th>Jenis Tes</th>
+            <th>Kategori</th>
+            <th>Tanggal Pengerjaan</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($hasilKuesioners as $hasil)
+            <tr>
+                <td>{{ $hasil->nim }}</td>
+                <td>{{ $hasil->dataDiri->nama ?? 'Tidak Ada Data' }}</td>
+                <td>{{ $hasil->dataDiri->program_studi ?? 'Tidak Ada Data' }}</td>
+                <td>Mental Health</td>
+                <td>
+                    @php
+                        $kategori = $hasil->kategori ?? 'Belum Dikategorikan';
+                        $statusClass = match($kategori) {
+                            'Baik' => 'completed',
+                            'Buruk' => 'warning',
+                            'Sangat Baik' => 'in-progress',
+                            'Sedang' => 'pending',
+                            'Sangat Buruk' => 'cancelled',
+                            default => 'unknown'
+                        };
+                    @endphp
+                    <span class="status {{ $statusClass }}">{{ $kategori }}</span>
+                </td>
+                <td>{{ \Carbon\Carbon::parse($hasil->created_at)->format('d M Y') }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="6" class="text-center">Belum ada data hasil kuesioner.</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
+
+        <button class="btn-pdf" onclick="generatePDF()">
+            <i class="fas fa-file-pdf"></i> Cetak PDF
+        </button>
+    </div>
+</div>
+
             </div>
         </div>
     </div>

@@ -660,3 +660,18 @@ tbody tr:hover {
         gap: 10px;
     }
 }
+
+.btn-pdf {
+    background-color: #4361ee;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 1rem 1rem 0 1rem;
+}
+
+.btn-pdf i {
+    margin-right: 6px;
+}

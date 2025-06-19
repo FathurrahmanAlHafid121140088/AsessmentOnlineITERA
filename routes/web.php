@@ -1,18 +1,61 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\Auth\AuthController; // Tambahkan ini
+use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\DataDirisController;
+use App\Http\Controllers\RiwayatKeluhansController;
+use App\Http\Controllers\JawabanController;
+use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Middleware\AdminAuth;
+use App\Http\Controllers\HasilKuesionerController;
 
+
+
+// Beranda/Home
 Route::get('/home', function () {
     return view('home', ['title' => 'Home']);
+})->name('home');
+
+// Mental Health: Form Data Diri
+Route::prefix('mental-health')->name('mental-health.')->group(function () {
+    Route::get('/isi-data-diri', [DataDirisController::class, 'create'])->name('isi-data-diri');
+    Route::post('/isi-data-diri', [DataDirisController::class, 'store'])->name('store-data-diri');
 });
 
-// Route untuk logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Resource routes
+Route::resources([
+    'admins' => AdminsController::class,
+    'users' => UsersController::class,
+    'data-diris' => DataDirisController::class,
+    'riwayat-keluhans' => RiwayatKeluhansController::class,
+    'jawabans' => JawabanController::class,
+]);
 
-Route::get('/login', function () {
-    return view('login', ['title' => 'Login']);
+// =====================
+// AUTH ADMIN ROUTE
+// =====================
+
+// Form Login Admin
+Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+
+// Proses Login Admin
+Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
+
+// Logout Admin
+Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+// Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
+
+// Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
+Route::middleware([AdminAuth::class])->group(function () {
+    Route::get('/admin', [HasilKuesionerController::class, 'index'])->name('admin.home');
 });
+;
+
+// =====================
+// ROUTES USER LAIN (Bebas diakses)
+// =====================
 
 Route::get('/register', function () {
     return view('register', ['title' => 'Register']);
@@ -21,28 +64,17 @@ Route::get('/register', function () {
 Route::get('/lupa-password', function () {
     return view('lupa-password', ['title' => 'Lupa Password']);
 });
-Route::get('/admin', function () {
-    return view('admin-home', ['title' => 'Admin']);
-});
 
 Route::get('/mental-health', function () {
     return view('mental-health', ['title' => 'Mental Health']);
 });
 
-Route::get('/mental-health/isi-data-diri', function () {
-    return view('isi-data-diri', ['title' => 'Isi Data Diri']);
-});
-
 Route::get('/mental-health/kuesioner', function () {
     return view('kuesioner', ['title' => 'Kuesioner MHI-38']);
-});
+})->name('mental-health.kuesioner');
 
 Route::get('/mental-health/hasil', function () {
     return view('hasil', ['title' => 'Hasil MHI-38']);
-});
-
-Route::get('/karir-kuesioner', function () {
-    return view('karir-kuesioner', ['title' => 'Kuesioner RMIB']);
 });
 
 // routes untuk Karir
