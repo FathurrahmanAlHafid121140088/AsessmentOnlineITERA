@@ -17,4 +17,16 @@ class HasilKuesionerController extends Controller
             'hasilKuesioners' => $hasilKuesioners
         ]);
     }
+    public function destroy($id)
+{
+    $hasil = HasilKuesioner::find($id);
+
+    if (!$hasil) {
+        return redirect()->route('admin.home')->with('error', 'Data tidak ditemukan.');
+    }
+
+    $hasil->delete();
+
+    return redirect()->route('admin.home')->with('success', 'Data berhasil dihapus.');
+}
 }

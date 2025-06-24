@@ -64,3 +64,58 @@ async function generatePDF() {
 
     doc.save("hasil_assessment.pdf");
 }
+
+function printPDF(button) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Ambil data baris
+    var row = button.closest("tr");
+    var cells = row.querySelectorAll("td");
+
+    // Ambil text dari setiap cell kecuali kolom aksi terakhir
+    var data = [
+        [
+            "NIM",
+            "Nama",
+            "Program Studi",
+            "Jenis Tes",
+            "Kategori",
+            "Tanggal Pengerjaan",
+        ],
+        [
+            cells[0].innerText,
+            cells[1].innerText,
+            cells[2].innerText,
+            cells[3].innerText,
+            cells[4].innerText,
+            cells[5].innerText,
+        ],
+    ];
+
+    // Generate tabel ke PDF
+    doc.autoTable({
+        head: [data[0]],
+        body: [data[1]],
+        theme: "grid",
+        headStyles: { fillColor: [52, 58, 64] }, // dark header
+    });
+
+    doc.save("hasil-kuesioner-" + cells[0].innerText + ".pdf"); // Nama file: hasil-kuesioner-NIM.pdf
+}
+function confirmDelete(id) {
+    Swal.fire({
+        title: "Yakin ingin menghapus data ini?",
+        text: "Data yang dihapus tidak bisa dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Ya, Hapus!",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById("delete-form-" + id).submit();
+        }
+    });
+}

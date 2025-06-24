@@ -18,6 +18,8 @@
         <!-- AOS Library -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
         <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </head>
 <body>
 <header>
@@ -182,7 +184,7 @@
             <th>Jenis Tes</th>
             <th>Kategori</th>
             <th>Tanggal Pengerjaan</th>
-        </tr>
+            <th style="text-align: center;">Aksi</th>         </tr>
     </thead>
     <tbody>
         @forelse($hasilKuesioners as $hasil)
@@ -206,16 +208,39 @@
                     <span class="status {{ $statusClass }}">{{ $kategori }}</span>
                 </td>
                 <td>{{ \Carbon\Carbon::parse($hasil->created_at)->format('d M Y') }}</td>
+
+                <!-- Kolom Aksi -->
+                <td>
+                    <div class="action-buttons" style="display: flex; gap: 10px; align-items: center;">
+                        <!-- Tombol Print PDF -->
+                        <button type="button" class="print-button" onclick="printPDF(this)" dusk="print-button-1">                            <svg class="svgIcon" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+                            </svg>
+                            <span class="icon2"></span>
+                            <span class="tooltip">Print PDF</span>
+                        </button>
+
+                        <!-- Tombol Delete -->
+                        <button type="button" class="delete-button" onclick="confirmDelete({{ $hasil->id }})" title="Hapus">
+                            <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon">
+                                <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Form delete tersembunyi -->
+                        <form action="{{ route('admin.delete', $hasil->id) }}" method="POST" dusk="delete-button-1" onsubmit="return confirm('Yakin ingin menghapus data ini?')" style="display:inline;">                            @csrf
+                            @method('DELETE')
+                        </form>
+                    </div>
+                </td>
             </tr>
         @empty
             <tr>
-                <td colspan="6" class="text-center">Belum ada data hasil kuesioner.</td>
+                <td colspan="7" class="text-center">Belum ada data hasil kuesioner.</td>
             </tr>
         @endforelse
     </tbody>
 </table>
-
-
         <button class="btn-pdf" onclick="generatePDF()">
             <i class="fas fa-file-pdf"></i> Cetak PDF
         </button>

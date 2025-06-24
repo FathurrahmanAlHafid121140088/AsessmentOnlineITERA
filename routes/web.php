@@ -51,7 +51,7 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 Route::middleware([AdminAuth::class])->group(function () {
     Route::get('/admin', [HasilKuesionerController::class, 'index'])->name('admin.home');
 });
-;
+ Route::delete('/admin/{id}', [HasilKuesionerController::class, 'destroy'])->name('admin.delete');
 
 // =====================
 // ROUTES USER LAIN (Bebas diakses)
