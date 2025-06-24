@@ -166,12 +166,12 @@
     <div class="table">
         <div class="table-header">
             <h3>Recent Activities</h3>
-                        <div class="search-box" id="searchBox">
-            <form action="{{ route('search') }}" method="GET" style="display: flex; align-items: center; width: 100%;">
-                <input type="text" name="search" placeholder="Cari Data..." value="{{ request('search') }}">
-            </form>
-            <button type="submit" class="search-box" id="searchIcon"><i class="fas fa-search"></i></button>
-        </div>
+            <div class="search-box" id="searchBox">
+                <form action="{{ route('search') }}" method="GET" style="display: flex; align-items: center; width: 100%;">
+                    <input type="text" name="search" placeholder="Cari Data..." value="{{ request('search') }}">
+                    <button type="submit" class="search-box" id="searchIcon"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
         </div>
 <table id="assessmentTable">
     <thead>
@@ -250,5 +250,18 @@
         </div>
     </div>
 <script src="{{ asset('js/script-admin.js') }}"></script>
+@if(session('searchMessage') || isset($searchMessage))
+    <script>
+        Swal.fire({
+            title: 'Hasil Pencarian',
+            text: '{{ $searchMessage ?? session("searchMessage") }}',
+            icon: '{{ (isset($searchMessage) && $searchMessage === "Data berhasil ditemukan!") ? "success" : "warning" }}',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    </script>
+@endif
 </body>
+
+
 </html>
