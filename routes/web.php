@@ -9,6 +9,8 @@ use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\HasilKuesionerController;
+use App\Http\Controllers\SearchController;
+
 
 
 
@@ -52,6 +54,9 @@ Route::middleware([AdminAuth::class])->group(function () {
     Route::get('/admin', [HasilKuesionerController::class, 'index'])->name('admin.home');
 });
  Route::delete('/admin/{id}', [HasilKuesionerController::class, 'destroy'])->name('admin.delete');
+
+
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 // =====================
 // ROUTES USER LAIN (Bebas diakses)

@@ -209,71 +209,64 @@ header {
 
 .search-box {
     display: flex;
-    position: relative;
+    align-items: center;
     width: 100%;
-    max-width: 250px;
+    max-width: 300px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    gap: 8px;
 }
 
 .search-box input {
-    width: 100%;
-    padding: 8px 15px;
-    padding-right: 40px; /* beri ruang lebih untuk icon */
-    border: 1px solid var(--gray);
-    border-radius: 50px;
+    flex: 1;
+    border: none;
     outline: none;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
-    box-sizing: border-box; /* penting untuk padding + width */
+    padding: 8px 10px;
+    border-radius: 25px;
 }
 
-/* Search icon di dalam input */
-.search-box i {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gray);
+.search-box button {
+    background-color: #4361ee;
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 3rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-box button:hover {
+    background-color: #364fc7;
+    transform: scale(1.1);
+}
+
+.search-box i {
     font-size: 1rem;
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 .search-icon {
-    background: none;
+    background-color: #4361ee;
+    color: white;
     border: none;
+    padding: 12px 16px;
+    border-radius: 100px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
 }
 
-/* Mobile view: hide input by default */
-@media (max-width: 768px) {
-    .search-box {
-        max-width: 40px; /* hanya menampilkan icon */
-        transition: max-width 0.3s ease;
-        overflow: hidden;
-    }
-
-    .search-box input {
-        width: 0;
-        padding: 0;
-        border: none;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.3s ease;
-    }
-
-    .search-box.active {
-        max-width: 250px; /* lebar penuh saat aktif */
-    }
-
-    .search-box.active input {
-        width: 100%;
-        padding: 8px 15px;
-        border: 1px solid var(--gray);
-        border-radius: 50px;
-        opacity: 1;
-        pointer-events: auto;
-    }
+.search-icon:hover {
+    background-color: #364fc7;
+    transform: scale(1.05);
 }
 
 .notification {
@@ -539,24 +532,12 @@ header {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    gap: 1rem;
 }
 
 .table-header h3 {
     font-size: 1.1rem;
     font-weight: 600;
-}
-
-.table-header button {
-    background-color: transparent;
-    border: none;
-    color: var(--primary-color);
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.table-header button:hover {
-    color: var(--secondary-color);
 }
 
 table {
@@ -810,5 +791,34 @@ tbody tr:hover {
     100% {
         transform: translateY(0px);
         opacity: 1;
+    }
+}
+@media (max-width: 768px) {
+    .search-form {
+        width: 40px; /* Awal: hanya ikon search */
+        overflow: hidden;
+        transition: width 0.4s ease;
+    }
+
+    .search-form input {
+        width: 0;
+        opacity: 0;
+        padding: 0;
+        border: none;
+        pointer-events: none;
+        transition: all 0.4s ease;
+    }
+
+    /* Saat aktif: expand */
+    .search-form.active {
+        width: 200px;
+    }
+
+    .search-form.active input {
+        width: 150px;
+        opacity: 1;
+        padding: 8px 15px;
+        border: 1px solid #ccc;
+        pointer-events: auto;
     }
 }

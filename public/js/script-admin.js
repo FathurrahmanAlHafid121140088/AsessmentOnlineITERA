@@ -119,3 +119,29 @@ function confirmDelete(id) {
         }
     });
 }
+function toggleSearchInput() {
+    const input = document.getElementById("searchInput");
+    if (input.value.trim() !== "") {
+        fetch(`/search-data?query=${input.value}`)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Hasil Pencarian:", data);
+                // update table/HTML here based on data
+            });
+    }
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const searchForm = document.querySelector(".search-form");
+    const searchIcon = document.querySelector("#searchIcon");
+
+    searchIcon.addEventListener("click", function (e) {
+        if (
+            window.innerWidth <= 768 &&
+            !searchForm.classList.contains("active")
+        ) {
+            e.preventDefault(); // cegah submit form
+            searchForm.classList.add("active");
+            searchForm.querySelector("input").focus();
+        }
+    });
+});
