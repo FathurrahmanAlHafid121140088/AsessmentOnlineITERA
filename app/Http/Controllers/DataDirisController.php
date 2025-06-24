@@ -69,4 +69,14 @@ public function store(Request $request)
         return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
     }
 }
+public function search(Request $request)
+{
+    $keyword = $request->input('query');
+
+    $results = DataDiris::with('riwayatKeluhan')
+                ->search($keyword)
+                ->get();
+
+    return response()->json($results);
+}
 }

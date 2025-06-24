@@ -36,4 +36,24 @@ class DataDiris extends Model
     {
         return $this->hasOne(HasilKuesioner::class, 'nim', 'nim');
     }
+    // app/Models/DataDiris.php
+
+public function scopeSearch($query, $keyword)
+{
+    return $query->where(function($q) use ($keyword) {
+        $q->where('nim', 'like', "%$keyword%")
+          ->orWhere('nama', 'like', "%$keyword%")
+          ->orWhere('jenis_kelamin', 'like', "%$keyword%")
+          ->orWhere('alamat', 'like', "%$keyword%")
+          ->orWhere('usia', 'like', "%$keyword%")
+          ->orWhere('fakultas', 'like', "%$keyword%")
+          ->orWhere('program_studi', 'like', "%$keyword%")
+          ->orWhere('email', 'like', "%$keyword%");
+    })->orWhereHas('riwayatKeluhan', function($q) use ($keyword) {
+        $q->where('keluhan', 'like', "%$keyword%")
+          ->orWhere('lama_keluhan', 'like', "%$keyword%")
+          ->orWhere('pernah_konsul', 'like', "%$keyword%")
+          ->orWhere('pernah_tes', 'like', "%$keyword%");
+    });
+}
 }
