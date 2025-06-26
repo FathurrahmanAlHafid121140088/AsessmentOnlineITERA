@@ -478,63 +478,47 @@ header {
     color: var(--text-light);
 }
 
-/* Placeholder pie chart styling */
+/* Legend styling */
+.legend-color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
 .placeholder-pie {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     position: relative;
     overflow: hidden;
     margin: 0 auto;
+    transform: rotate(-90deg);
 }
 
 .pie-segment {
     position: absolute;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
+    background-color: var(--color, #999);
+    mask: conic-gradient(var(--color) var(--size), transparent 0deg);
+    -webkit-mask: conic-gradient(var(--color) var(--size), transparent 0deg);
+    transform: rotate(var(--start));
+    transform-origin: center;
 }
-
-.pie-segment.mental-health {
-    background-color: var(--blue);
-    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%, 50% 0);
-    transform: rotate(0deg);
-}
-
-.pie-segment.career {
-    background-color: var(--purple);
-    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%, 50% 0);
-    transform: rotate(144deg);
-}
-
-.pie-legend {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-    justify-content: center;
-    align-items: center;
-}
-
-.pie-legend div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.mental-health-color,
-.career-color {
-    width: 15px;
-    height: 15px;
-    border-radius: 3px;
-    display: inline-block;
-}
-
-.mental-health-color {
-    background-color: var(--blue);
-}
-
-.career-color {
-    background-color: var(--purple);
+.pie-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    white-space: nowrap;
+    color: white;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
 }
 
 /* Tables Styling */

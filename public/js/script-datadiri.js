@@ -30,7 +30,7 @@ document
     });
 
 const prodiOptions = {
-    FS: [
+    "Fakultas Sains": [
         "Fisika",
         "Matematika",
         "Biologi",
@@ -42,7 +42,7 @@ const prodiOptions = {
         "Sains Atmosfer dan Keplanetan",
         "Magister Fisika",
     ],
-    FTIK: [
+    "Fakultas Teknologi Infrastruktur dan Kewilayahan": [
         "Perencanaan Wilayah dan Kota",
         "Teknik Geomatika",
         "Teknik Sipil",
@@ -55,7 +55,7 @@ const prodiOptions = {
         "Rekayasa Tata Kelola Air Terpadu",
         "Pariwisata",
     ],
-    FTI: [
+    "Fakultas Teknologi Industri": [
         "Teknik Elektro",
         "Teknik Fisika",
         "Teknik Informatika",
@@ -90,6 +90,7 @@ function updateProdi() {
     const fakultas = selectedFakultas.value;
     const prodis = prodiOptions[fakultas] || [];
 
+    // Kosongkan opsi dan tambahkan opsi default
     prodiSelect.innerHTML =
         '<option value="" disabled selected>Pilih program studi</option>';
 

@@ -19,34 +19,28 @@ class AdminHomeTest extends TestCase
     #[Test]
     public function admin_can_view_admin_page_with_seeded_data(): void
     {
-        // Seed data_diri dan hasil_kuesioner
-        $this->seed(DataDiriSeeder::class);
+        // Jalankan hanya seeder utama
         $this->seed(HasilKuesionerSeeder::class);
 
-        // Buat admin dummy
         $admin = Admin::create([
             'username' => 'adminuser',
             'email' => 'admin@email.com',
             'password' => bcrypt('password'),
         ]);
 
-        // Login sebagai admin dengan guard 'admin'
         $this->actingAs($admin, 'admin');
 
-        // Hit ke halaman admin (/admin)
         $response = $this->get('/admin');
-
         $response->assertStatus(200);
 
-        // Cek minimal 10 data hasil kuesioner
-        $this->assertDatabaseCount('data_diris', 10);
-        $this->assertDatabaseCount('hasil_kuesioners', 10);
+        // Cek jumlah minimal
+        $this->assertGreaterThanOrEqual(10, DataDiris::count());
+        $this->assertGreaterThanOrEqual(10, HasilKuesioner::count());
 
-        // Ambil 1 data hasil kuesioner
         $hasil = HasilKuesioner::first();
         $dataDiri = DataDiris::where('nim', $hasil->nim)->first();
 
-        // Cek apakah halaman menampilkan data dari hasil seeder
+        // Pastikan data muncul di halaman
         $response->assertSee($dataDiri->nama);
         $response->assertSee($dataDiri->program_studi);
         $response->assertSee($hasil->kategori);

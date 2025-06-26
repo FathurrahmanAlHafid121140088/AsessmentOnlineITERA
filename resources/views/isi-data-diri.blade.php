@@ -85,26 +85,31 @@
 
                     <div class="formbold-mb-3">
                         <label class="formbold-form-label">Fakultas</label>
+
                         <div>
                             <label class="formbold-radio-label">
-                                <input type="radio" name="fakultas" value="FS" class="formbold-input-radio"
-                                    required onchange="updateProdi()"> Fakultas Sains
+                                <input type="radio" name="fakultas" value="Fakultas Sains"
+                                    class="formbold-input-radio" required onchange="updateProdi()"> Fakultas Sains
                             </label>
                         </div>
+
                         <div>
                             <label class="formbold-radio-label">
-                                <input type="radio" name="fakultas" value="FTIK" class="formbold-input-radio"
-                                    required onchange="updateProdi()"> Fakultas Teknologi Infrastruktur dan Kewilayahan
+                                <input type="radio" name="fakultas"
+                                    value="Fakultas Teknologi Infrastruktur dan Kewilayahan"
+                                    class="formbold-input-radio" required onchange="updateProdi()">
+                                Fakultas Teknologi Infrastruktur dan Kewilayahan
                             </label>
                         </div>
+
                         <div>
                             <label class="formbold-radio-label">
-                                <input type="radio" name="fakultas" value="FTI" class="formbold-input-radio"
-                                    required onchange="updateProdi()"> Fakultas Teknologi Industri
+                                <input type="radio" name="fakultas" value="Fakultas Teknologi Industri"
+                                    class="formbold-input-radio" required onchange="updateProdi()"> Fakultas Teknologi
+                                Industri
                             </label>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="formbold-mb-3">
