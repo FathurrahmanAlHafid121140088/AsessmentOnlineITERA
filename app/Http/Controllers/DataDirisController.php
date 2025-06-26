@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\DataDiris;
 use App\Models\RiwayatKeluhans;
-use Illuminate\Support\Facades\DB;
+use App\Models\HasilKuesioner;
 
 class DataDirisController extends Controller
 {
@@ -15,7 +16,8 @@ class DataDirisController extends Controller
             'title' => 'Form Data Diri'
         ]);
     }
-public function store(Request $request)
+
+    public function store(Request $request)
 {
     $validated = $request->validate([
         'nim' => 'required|string',
@@ -35,13 +37,10 @@ public function store(Request $request)
     DB::beginTransaction();
 
     try {
-        // Cek apakah data diri sudah ada
-        $existing = DataDiris::where('nim', $validated['nim'])->first();
-
-        if (!$existing) {
-            // Simpan data diri baru jika belum ada
-            DataDiris::create([
-                'nim' => $validated['nim'],
+        // Buat data diri jika belum ada
+        $dataDiri = DataDiris::firstOrCreate(
+            ['nim' => $validated['nim']],
+            [
                 'nama' => $validated['nama'],
                 'jenis_kelamin' => $validated['jenis_kelamin'],
                 'alamat' => $validated['alamat'],
@@ -49,17 +48,36 @@ public function store(Request $request)
                 'fakultas' => $validated['fakultas'],
                 'program_studi' => $validated['program_studi'],
                 'email' => $validated['email'],
-            ]);
-        }
+            ]
+        );
 
-        // Selalu simpan riwayat keluhan
+        // Simpan riwayat keluhan baru (selalu buat entry baru)
         RiwayatKeluhans::create([
-            'nim' => $validated['nim'],
+            'nim' => $dataDiri->nim,
             'keluhan' => $validated['keluhan'],
             'lama_keluhan' => $validated['lama_keluhan'],
             'pernah_konsul' => $validated['pernah_konsul'],
             'pernah_tes' => $validated['pernah_tes'],
         ]);
+
+        // Buat skor acak dan kategorinya
+        $randomSkor = rand(38, 226);
+        $kategori = match (true) {
+            $randomSkor >= 191 => 'Sangat Baik (Sejahtera Secara Mental)',
+            $randomSkor >= 161 => 'Baik (Sehat Secara Mental)',
+            $randomSkor >= 131 => 'Sedang (Rentan)',
+            $randomSkor >= 91  => 'Buruk (Distres Sedang)',
+            default             => 'Sangat Buruk (Distres Berat)',
+        };
+
+        // Simpan hasil kuesioner baru (selalu buat entry baru)
+        HasilKuesioner::create([
+            'nim' => $dataDiri->nim,
+            'total_skor' => $randomSkor,
+            'kategori' => $kategori,
+        ]);
+
+        session(['nim' => $dataDiri->nim]);
 
         DB::commit();
 
@@ -69,14 +87,34 @@ public function store(Request $request)
         return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
     }
 }
-public function search(Request $request)
+
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('query');
+
+        $results = DataDiris::with('riwayatKeluhan')
+            ->search($keyword)
+            ->get();
+
+        return response()->json($results);
+    }
+    public function scopeSearch($query, $keyword)
 {
-    $keyword = $request->input('query');
-
-    $results = DataDiris::with('riwayatKeluhan')
-                ->search($keyword)
-                ->get();
-
-    return response()->json($results);
+    return $query->where(function($q) use ($keyword) {
+        $q->where('nim', 'like', "%$keyword%")
+          ->orWhere('nama', 'like', "%$keyword%")
+          ->orWhere('jenis_kelamin', 'like', "%$keyword%")
+          ->orWhere('alamat', 'like', "%$keyword%")
+          ->orWhere('usia', 'like', "%$keyword%")
+          ->orWhere('fakultas', 'like', "%$keyword%")
+          ->orWhere('program_studi', 'like', "%$keyword%")
+          ->orWhere('email', 'like', "%$keyword%");
+    })->orWhereHas('riwayatKeluhan', function($q) use ($keyword) {
+        $q->where('keluhan', 'like', "%$keyword%")
+          ->orWhere('lama_keluhan', 'like', "%$keyword%")
+          ->orWhere('pernah_konsul', 'like', "%$keyword%")
+          ->orWhere('pernah_tes', 'like', "%$keyword%");
+    });
 }
 }

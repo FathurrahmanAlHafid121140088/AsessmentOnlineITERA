@@ -10,9 +10,7 @@ use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\HasilKuesionerController;
 use App\Http\Controllers\SearchController;
-
-
-
+use App\Http\Controllers\StatistikController;
 
 // Beranda/Home
 Route::get('/home', function () {
@@ -55,8 +53,13 @@ Route::middleware([AdminAuth::class])->group(function () {
 });
  Route::delete('/admin/{id}', [HasilKuesionerController::class, 'destroy'])->name('admin.delete');
 
+Route::get('/mental-health/data-diri', [DataDirisController::class, 'create'])->name('mental-health.data-diri');
+Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->name('mental-health.store-data-diri');
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+
+Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])->name('statistik.total-users');
 
 // =====================
 // ROUTES USER LAIN (Bebas diakses)
