@@ -23,7 +23,7 @@
       </div>
       
       <div class="button-container">
-        <button class="submit-button" id="submit-button">Kirim Hasil Tes</button>
+        <button class="submit-button" id="submit-button">Lihat Hasil Tes</button>
       </div>
     </div>
   </div>

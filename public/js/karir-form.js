@@ -536,7 +536,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Redirect ke halaman hasil
             alert("Terima kasih! Hasil tes Anda telah diproses.");
-            window.location.href = "/karir-hitung";
+            window.location.href = "/karir-interpretasi";
         } else {
             // Tampilkan modal error
             showErrorModal(validation.errorDetails);
