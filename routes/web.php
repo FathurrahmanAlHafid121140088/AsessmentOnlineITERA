@@ -101,3 +101,11 @@ Route::get('/karir-form', function () {
 Route::get('/karir-hitung', function () {
     return view('karir-hitung', ['title' => 'Hasil Hitung RMIB']);
 });
+
+Route::get('/karir-interpretasi', function () {
+    return view('karir-interpretasi', ['title' => 'Hasil Interpretasi Anda']);
+});
+
+Route::get('/admin-karir', function () {
+    return view('admin-karir', ['title' => 'Tampilan Admin RMIB']);
+});

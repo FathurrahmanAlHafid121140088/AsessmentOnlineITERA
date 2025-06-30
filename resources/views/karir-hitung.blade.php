@@ -225,6 +225,7 @@
       <div class="button-container">
         <button class="print-button" id="print-button">Cetak Hasil</button>
         <button class="back-button" id="back-button">Kembali</button>
+        <a href="/karir-interpretasi" class="cta-button">Lihat Interpretasi</a>
       </div>
     </div>
   </div>
