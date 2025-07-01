@@ -18,77 +18,75 @@ class DataDirisController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'nim' => 'required|string',
-        'nama' => 'required|string',
-        'jenis_kelamin' => 'required|in:L,P',
-        'alamat' => 'required|string',
-        'usia' => 'required|integer|min:1',
-        'fakultas' => 'required|string',
-        'program_studi' => 'required|string',
-        'email' => 'required|email',
-        'keluhan' => 'required|string',
-        'lama_keluhan' => 'required|string',
-        'pernah_konsul' => 'required|in:Ya,Tidak',
-        'pernah_tes' => 'required|in:Ya,Tidak',
-    ]);
-
-    DB::beginTransaction();
-
-    try {
-        // Buat data diri jika belum ada
-        $dataDiri = DataDiris::firstOrCreate(
-            ['nim' => $validated['nim']],
-            [
-                'nama' => $validated['nama'],
-                'jenis_kelamin' => $validated['jenis_kelamin'],
-                'alamat' => $validated['alamat'],
-                'usia' => $validated['usia'],
-                'fakultas' => $validated['fakultas'],
-                'program_studi' => $validated['program_studi'],
-                'email' => $validated['email'],
-            ]
-        );
-
-        // Simpan riwayat keluhan baru (selalu buat entry baru)
-        RiwayatKeluhans::create([
-            'nim' => $dataDiri->nim,
-            'keluhan' => $validated['keluhan'],
-            'lama_keluhan' => $validated['lama_keluhan'],
-            'pernah_konsul' => $validated['pernah_konsul'],
-            'pernah_tes' => $validated['pernah_tes'],
+    {
+        $validated = $request->validate([
+            'nim' => 'required|string',
+            'nama' => 'required|string',
+            'jenis_kelamin' => 'required|in:L,P',
+            'alamat' => 'required|string',
+            'usia' => 'required|integer|min:1',
+            'fakultas' => 'required|string',
+            'program_studi' => 'required|string',
+            'email' => 'required|email',
+            'keluhan' => 'required|string',
+            'lama_keluhan' => 'required|string',
+            'pernah_konsul' => 'required|in:Ya,Tidak',
+            'pernah_tes' => 'required|in:Ya,Tidak',
         ]);
 
-        // Buat skor acak dan kategorinya
-        $randomSkor = rand(38, 226);
-        $kategori = match (true) {
-            $randomSkor >= 191 => 'Sangat Baik (Sejahtera Secara Mental)',
-            $randomSkor >= 161 => 'Baik (Sehat Secara Mental)',
-            $randomSkor >= 131 => 'Sedang (Rentan)',
-            $randomSkor >= 91  => 'Buruk (Distres Sedang)',
-            default             => 'Sangat Buruk (Distres Berat)',
-        };
+        DB::beginTransaction();
 
-        // Simpan hasil kuesioner baru (selalu buat entry baru)
-        HasilKuesioner::create([
-            'nim' => $dataDiri->nim,
-            'total_skor' => $randomSkor,
-            'kategori' => $kategori,
-        ]);
+        try {
+            // Buat data diri jika belum ada
+            $dataDiri = DataDiris::firstOrCreate(
+                ['nim' => $validated['nim']],
+                [
+                    'nama' => $validated['nama'],
+                    'jenis_kelamin' => $validated['jenis_kelamin'],
+                    'alamat' => $validated['alamat'],
+                    'usia' => $validated['usia'],
+                    'fakultas' => $validated['fakultas'],
+                    'program_studi' => $validated['program_studi'],
+                    'email' => $validated['email'],
+                ]
+            );
 
-        session(['nim' => $dataDiri->nim]);
+            // Simpan riwayat keluhan baru (selalu buat entry baru)
+            RiwayatKeluhans::create([
+                'nim' => $dataDiri->nim,
+                'keluhan' => $validated['keluhan'],
+                'lama_keluhan' => $validated['lama_keluhan'],
+                'pernah_konsul' => $validated['pernah_konsul'],
+                'pernah_tes' => $validated['pernah_tes'],
+            ]);
 
-        DB::commit();
+            // Buat skor acak dan kategorinya
+            $randomSkor = rand(38, 226);
+            $kategori = match (true) {
+                $randomSkor >= 191 => 'Sangat Baik (Sejahtera Secara Mental)',
+                $randomSkor >= 161 => 'Baik (Sehat Secara Mental)',
+                $randomSkor >= 131 => 'Sedang (Rentan)',
+                $randomSkor >= 91 => 'Buruk (Distres Sedang)',
+                default => 'Sangat Buruk (Distres Berat)',
+            };
 
-        return redirect()->route('mental-health.kuesioner')->with('success', 'Data berhasil disimpan.');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
+            // Simpan hasil kuesioner baru (selalu buat entry baru)
+            HasilKuesioner::create([
+                'nim' => $dataDiri->nim,
+                'total_skor' => $randomSkor,
+                'kategori' => $kategori,
+            ]);
+
+            session(['nim' => $dataDiri->nim]);
+
+            DB::commit();
+
+            return redirect()->route('mental-health.kuesioner')->with('success', 'Data berhasil disimpan.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
+        }
     }
-}
-
-
     public function search(Request $request)
     {
         $keyword = $request->input('query');
@@ -100,21 +98,21 @@ class DataDirisController extends Controller
         return response()->json($results);
     }
     public function scopeSearch($query, $keyword)
-{
-    return $query->where(function($q) use ($keyword) {
-        $q->where('nim', 'like', "%$keyword%")
-          ->orWhere('nama', 'like', "%$keyword%")
-          ->orWhere('jenis_kelamin', 'like', "%$keyword%")
-          ->orWhere('alamat', 'like', "%$keyword%")
-          ->orWhere('usia', 'like', "%$keyword%")
-          ->orWhere('fakultas', 'like', "%$keyword%")
-          ->orWhere('program_studi', 'like', "%$keyword%")
-          ->orWhere('email', 'like', "%$keyword%");
-    })->orWhereHas('riwayatKeluhan', function($q) use ($keyword) {
-        $q->where('keluhan', 'like', "%$keyword%")
-          ->orWhere('lama_keluhan', 'like', "%$keyword%")
-          ->orWhere('pernah_konsul', 'like', "%$keyword%")
-          ->orWhere('pernah_tes', 'like', "%$keyword%");
-    });
-}
+    {
+        return $query->where(function ($q) use ($keyword) {
+            $q->where('nim', 'like', "%$keyword%")
+                ->orWhere('nama', 'like', "%$keyword%")
+                ->orWhere('jenis_kelamin', 'like', "%$keyword%")
+                ->orWhere('alamat', 'like', "%$keyword%")
+                ->orWhere('usia', 'like', "%$keyword%")
+                ->orWhere('fakultas', 'like', "%$keyword%")
+                ->orWhere('program_studi', 'like', "%$keyword%")
+                ->orWhere('email', 'like', "%$keyword%");
+        })->orWhereHas('riwayatKeluhan', function ($q) use ($keyword) {
+            $q->where('keluhan', 'like', "%$keyword%")
+                ->orWhere('lama_keluhan', 'like', "%$keyword%")
+                ->orWhere('pernah_konsul', 'like', "%$keyword%")
+                ->orWhere('pernah_tes', 'like', "%$keyword%");
+        });
+    }
 }

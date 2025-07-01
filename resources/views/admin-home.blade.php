@@ -81,7 +81,7 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="card-info">
-                            <h3>Total Users</h3>
+                            <h3>Total Pengguna</h3>
                             <h2>{{ $totalUsers ?? '-' }}</h2>
                         </div>
                     </div>
@@ -116,59 +116,66 @@
 
                 <div class="charts">
                     <div class="chart">
-                        <div class="chart-header">
-                            <h3>User Statistics</h3>
-                            <div class="dropdown">
-                                <button>Last 7 Days <i class="fas fa-chevron-down"></i></button>
-                            </div>
+                        <h3>Statistik Mental Health</h3>
+                        <div class="bar-container">
+                            @php
+                                $max = max($kategoriCounts ?: [1]);
+                                $warnaKategori = [
+                                    'Sangat Baik (Sejahtera Secara Mental)' => '#4caf50',
+                                    'Baik (Sehat Secara Mental)' => '#2196f3',
+                                    'Sedang (Rentan)' => '#ffc107',
+                                    'Buruk (Distres Sedang)' => '#ff9800',
+                                    'Sangat Buruk (Distres Berat)' => '#f44336',
+                                ];
+                                $urutanKategori = [
+                                    'Sangat Buruk (Distres Berat)',
+                                    'Buruk (Distres Sedang)',
+                                    'Sedang (Rentan)',
+                                    'Baik (Sehat Secara Mental)',
+                                    'Sangat Baik (Sejahtera Secara Mental)',
+                                ];
+                            @endphp
+
+                            @foreach ($urutanKategori as $kategori)
+                                @php
+                                    $jumlah = $kategoriCounts[$kategori] ?? 0;
+                                    $heightPx = $jumlah > 0 ? round(($jumlah / $max) * 100) : 5; // sedikit lebih pendek
+                                    $color = $warnaKategori[$kategori] ?? '#999';
+                                @endphp
+                                <div class="bar-segment">
+                                    <div class="bar-value">{{ $jumlah }} org</div>
+                                    <div class="bar-fill"
+                                        style="height: {{ $heightPx }}px; background-color: {{ $color }};">
+                                    </div>
+                                    <div class="bar-label">{{ $kategori }}</div>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="chart-canvas">
-                            <!-- Chart will be displayed here -->
-                            <div class="placeholder-chart">
-                                <div class="bar" style="height: 30%;"></div>
-                                <div class="bar" style="height: 50%;"></div>
-                                <div class="bar" style="height: 80%;"></div>
-                                <div class="bar" style="height: 60%;"></div>
-                                <div class="bar" style="height: 40%;"></div>
-                                <div class="bar" style="height: 70%;"></div>
-                                <div class="bar" style="height: 90%;"></div>
-                            </div>
-                            <div class="chart-labels">
-                                <span>Sen</span>
-                                <span>Sel</span>
-                                <span>Rab</span>
-                                <span>Kam</span>
-                                <span>Jum</span>
-                                <span>Sab</span>
-                                <span>Min</span>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="chart">
                         <div class="chart-header">
-                            <h3>Test Distribution</h3>
-                            <div class="dropdown">
-                                <button>This Month <i class="fas fa-chevron-down"></i></button>
-                            </div>
+                            <h3>Fakultas</h3>
                         </div>
                         <div class="chart-canvas">
                             <div class="placeholder-pie">
                                 @php $start = 0; @endphp
-                                @foreach ($fakultasPersen as $fakultas => $persen)
-                                    @php
-                                        $color = $warnaFakultas[$fakultas] ?? '#999';
-                                        $rotate = round(($start / 100) * 360, 2) . 'deg';
-                                        $deg = round(($persen / 100) * 360, 2) . 'deg';
-                                        $start += $persen;
-                                    @endphp
-                                    <div class="pie-segment"
-                                        style="
+                                @if (isset($fakultasPersen))
+                                    @foreach ($fakultasPersen as $fakultas => $persen)
+                                        @php
+                                            $color = $warnaFakultas[$fakultas] ?? '#999';
+                                            $rotate = round(($start / 100) * 360, 2) . 'deg';
+                                            $deg = round(($persen / 100) * 360, 2) . 'deg';
+                                            $start += $persen;
+                                        @endphp
+                                        <div class="pie-segment"
+                                            style="
                     --start: {{ $rotate }};
                     --size: {{ $deg }};
                     --color: {{ $color }};
                 ">
-                                    </div>
-                                @endforeach
+                                        </div>
+                                    @endforeach
                             </div>
 
                             <div class="pie-legend">
@@ -190,6 +197,7 @@
                                         {{ $singkatan }} ({{ $count }} orang, {{ $persen }}%)
                                     </div>
                                 @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -199,20 +207,36 @@
             <div class="tables">
                 <div class="table">
                     <div class="table-header">
-                        <h3>Recent Activities</h3>
-                        <div class="search-box" id="searchBox">
-                            <form action="{{ route('search') }}" method="GET"
-                                style="display: flex; align-items: center; width: 100%;">
+                        <h3>Aktivitas Terbaru</h3>
+
+                        <div class="table-controls">
+                            <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
+                                <label for="limit">Tampilkan:</label>
+                                <select name="limit" id="limit" onchange="this.form.submit()">
+                                    @foreach ([10, 25, 50, 100, 200] as $l)
+                                        <option value="{{ $l }}"
+                                            {{ request('limit') == $l ? 'selected' : '' }}>
+                                            {{ $l }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+                            </form>
+                            {{-- Search Box --}}
+                            <form action="{{ route('admin.home') }}" method="GET" class="search-form">
                                 <input type="text" name="search" placeholder="Cari Data..."
                                     value="{{ request('search') }}">
-                                <button type="submit" class="search-box" id="searchIcon"><i
-                                        class="fas fa-search"></i></button>
+                                <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
+                                <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
                             </form>
                         </div>
                     </div>
+
+
                     <table id="assessmentTable">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>NIM</th>
                                 <th>Nama</th>
                                 <th>Program Studi</th>
@@ -226,6 +250,7 @@
                         <tbody>
                             @forelse($hasilKuesioners as $hasil)
                                 <tr>
+                                    <td>{{ $loop->iteration + ($hasilKuesioners->firstItem() - 1) }}</td>
                                     <td>{{ $hasil->nim }}</td>
                                     <td>{{ $hasil->dataDiri->nama ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->dataDiri->program_studi ?? 'Tidak Ada Data' }}</td>
@@ -320,7 +345,7 @@
                                                     @elseif ($entry['type'] === 'keluhan')
                                                         <strong>Keluhan:</strong> {{ $entry['data']->keluhan }}<br>
                                                         <strong>Lama Keluhan:</strong>
-                                                        {{ $entry['data']->lama_keluhan }} bulan<br>
+                                                        {{ $entry['data']->lama_keluhan }}<br>
                                                         <strong>Pernah Tes:</strong>
                                                         {{ $entry['data']->pernah_tes }}<br>
                                                         <strong>Pernah Konsul:</strong>
@@ -348,7 +373,8 @@
                             @endforelse
                         </tbody>
                     </table>
-
+                    <div class="pagination">
+                        {{ $hasilKuesioners->links('vendor.pagination.default') }} </div>
                     <button class="btn-pdf" onclick="generatePDF()">
                         <i class="fas fa-file-pdf"></i> Cetak PDF
                     </button>
@@ -370,6 +396,7 @@
             });
         </script>
     @endif
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 

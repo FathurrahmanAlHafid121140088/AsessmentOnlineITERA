@@ -8,7 +8,7 @@ use App\Http\Controllers\RiwayatKeluhansController;
 use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Middleware\AdminAuth;
-use App\Http\Controllers\HasilKuesionerController;
+use App\Http\Controllers\HasilKuesionerCombinedController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatistikController;
 
@@ -49,9 +49,19 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 // Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
 Route::middleware([AdminAuth::class])->group(function () {
-    Route::get('/admin', [HasilKuesionerController::class, 'index'])->name('admin.home');
+    // Dashboard + hasil kuesioner + search + pagination
+    Route::get('/admin', [HasilKuesionerCombinedController::class, 'index'])
+        ->name('admin.home');
+
+    // Statistik total users
+    Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])
+        ->name('statistik.total-users');
+
+    // Hapus hasil
+    Route::delete('/admin/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
+        ->name('admin.delete');
 });
- Route::delete('/admin/{id}', [HasilKuesionerController::class, 'destroy'])->name('admin.delete');
+
 
 Route::get('/mental-health/data-diri', [DataDirisController::class, 'create'])->name('mental-health.data-diri');
 Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->name('mental-health.store-data-diri');
@@ -59,7 +69,7 @@ Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
-Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])->name('statistik.total-users');
+
 
 // =====================
 // ROUTES USER LAIN (Bebas diakses)

@@ -9,49 +9,17 @@ use App\Models\DataDiris;
 
 class HasilKuesionerController extends Controller
 {
-    public function index(Request $request)
+    private function getStatistikFakultas()
     {
-        $query = $request->input('search');
-
-        // Ambil semua hasil kuesioner dengan relasi
-        $allHasil = HasilKuesioner::with(['dataDiri', 'riwayatKeluhans'])
-            ->when($query, function ($q) use ($query) {
-                $q->where('nim', 'like', "%{$query}%")
-                    ->orWhereHas('dataDiri', function ($q2) use ($query) {
-                        $q2->where('nama', 'like', "%{$query}%")
-                            ->orWhere('program_studi', 'like', "%{$query}%")
-                            ->orWhere('email', 'like', "%{$query}%")
-                            ->orWhere('alamat', 'like', "%{$query}%")
-                            ->orWhere('jenis_kelamin', 'like', "%{$query}%")
-                            ->orWhere('fakultas', 'like', "%{$query}%");
-                    });
-            })
-            ->get();
-
-        // Ambil hasil terbaru per NIM
-        $hasilKuesioners = $allHasil
-            ->groupBy('nim')
-            ->map(fn($group) => $group->sortByDesc('created_at')->first())
-            ->values();
-
-        // Hitung total user unik (berdasarkan semua data, tanpa filter pencarian)
-        $totalUsers = HasilKuesioner::pluck('nim')->unique()->count();
-
-        // Hitung total tes (dengan skor yang tidak null)
-        $totalTes = HasilKuesioner::whereNotNull('total_skor')->count();
-
-        // Hitung distribusi fakultas (untuk bar/pie chart)
         $fakultasCount = DataDiris::select('fakultas', DB::raw('COUNT(*) as total'))
-            ->whereNotNull('fakultas') // hanya abaikan yang kosong/null
+            ->whereNotNull('fakultas')
             ->groupBy('fakultas')
             ->pluck('total', 'fakultas');
 
-        // Hitung total seluruh fakultas terdaftar (yang termasuk 3 fakultas itu)
         $totalFakultas = $fakultasCount->sum();
 
-        // Hitung persentase untuk setiap fakultas
-        $fakultasPersen = $fakultasCount->map(function ($value) use ($totalFakultas) {
-            return $totalFakultas > 0 ? round(($value / $totalFakultas) * 100, 1) : 0;
+        $fakultasPersen = $fakultasCount->map(function ($count) use ($totalFakultas) {
+            return $totalFakultas > 0 ? round(($count / $totalFakultas) * 100, 1) : 0;
         });
 
         $warnaFakultas = [
@@ -60,17 +28,30 @@ class HasilKuesionerController extends Controller
             'Fakultas Teknologi Infrastruktur dan Kewilayahan' => '#e15759',
         ];
 
-        return view('admin-home', [
-            'title' => 'Admin',
-            'hasilKuesioners' => $hasilKuesioners,
-            'totalUsers' => $totalUsers,
-            'totalTes' => $totalTes,
+        return [
             'fakultasCount' => $fakultasCount,
             'fakultasPersen' => $fakultasPersen,
-            'warnaFakultas' => $warnaFakultas, // ⬅️ tambahkan ini
-        ]);
+            'warnaFakultas' => $warnaFakultas,
+        ];
+    }
 
+    public function dashboard()
+    {
+        $kategoriCounts = HasilKuesioner::selectRaw('kategori, COUNT(*) as jumlah')
+            ->groupBy('kategori')
+            ->pluck('jumlah', 'kategori')
+            ->toArray();
 
+        $title = "Dashboard Mental Health";
+
+        // tambahkan hasilKuesioners kosong
+        $hasilKuesioners = collect();  // supaya tidak undefined
+
+        return view('admin-home', [
+            'title' => $title,
+            'kategoriCounts' => $kategoriCounts,
+            'hasilKuesioners' => $hasilKuesioners,
+        ] + $this->getStatistikFakultas());
     }
 
     public function storeKuesioner(Request $request)
