@@ -16,7 +16,6 @@ class DataDirisController extends Controller
             'title' => 'Form Data Diri'
         ]);
     }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -37,7 +36,6 @@ class DataDirisController extends Controller
         DB::beginTransaction();
 
         try {
-            // Buat data diri jika belum ada
             $dataDiri = DataDiris::firstOrCreate(
                 ['nim' => $validated['nim']],
                 [
@@ -51,7 +49,6 @@ class DataDirisController extends Controller
                 ]
             );
 
-            // Simpan riwayat keluhan baru (selalu buat entry baru)
             RiwayatKeluhans::create([
                 'nim' => $dataDiri->nim,
                 'keluhan' => $validated['keluhan'],
@@ -60,33 +57,25 @@ class DataDirisController extends Controller
                 'pernah_tes' => $validated['pernah_tes'],
             ]);
 
-            // Buat skor acak dan kategorinya
-            $randomSkor = rand(38, 226);
-            $kategori = match (true) {
-                $randomSkor >= 191 => 'Sangat Baik (Sejahtera Secara Mental)',
-                $randomSkor >= 161 => 'Baik (Sehat Secara Mental)',
-                $randomSkor >= 131 => 'Sedang (Rentan)',
-                $randomSkor >= 91 => 'Buruk (Distres Sedang)',
-                default => 'Sangat Buruk (Distres Berat)',
-            };
-
-            // Simpan hasil kuesioner baru (selalu buat entry baru)
-            HasilKuesioner::create([
+            // simpan nim ke session
+            session([
                 'nim' => $dataDiri->nim,
-                'total_skor' => $randomSkor,
-                'kategori' => $kategori,
+                'nama' => $dataDiri->nama,
+                'program_studi' => $dataDiri->program_studi
             ]);
-
-            session(['nim' => $dataDiri->nim]);
-
             DB::commit();
 
-            return redirect()->route('mental-health.kuesioner')->with('success', 'Data berhasil disimpan.');
+            return redirect()
+                ->route('mental-health.kuesioner')
+                ->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
+            return back()
+                ->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])
+                ->withInput();
         }
     }
+
     public function search(Request $request)
     {
         $keyword = $request->input('query');

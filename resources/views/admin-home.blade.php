@@ -59,11 +59,11 @@
                 <h2>Dashboard</h2>
             </div>
             <ul class="menu">
-                <li class="active">
-                    <a href="/admin"><i class="fas fa-home"></i> Home</a>
-                </li>
                 <li>
-                    <a href="#"><i class="fas fa-brain"></i> Mental Health</a>
+                    <a href="#"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="active">
+                    <a href="/admin"><i class="fas fa-brain"></i> Mental Health</a>
                 </li>
                 <li>
                     <a href="/admin-karir"><i class="fas fa-briefcase"></i> Peminatan Karir</a>
@@ -95,28 +95,29 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-icon bg-warning">
-                            <i class="fas fa-briefcase"></i>
+                        <div class="card-icon bg-primary">
+                            <i class="fas fa-mars"></i>
                         </div>
                         <div class="card-info">
-                            <h3>Career Tests</h3>
-                            <h2>498</h2>
+                            <h3>Total Laki-laki</h3>
+                            <h2>{{ $totalLaki }}</h2>
                         </div>
                     </div>
+
                     <div class="card">
-                        <div class="card-icon bg-danger">
-                            <i class="fas fa-calendar-check"></i>
+                        <div class="card-icon bg-pink">
+                            <i class="fas fa-venus"></i>
                         </div>
                         <div class="card-info">
-                            <h3>Appointments</h3>
-                            <h2>87</h2>
+                            <h3>Total Perempuan</h3>
+                            <h2>{{ $totalPerempuan }}</h2>
                         </div>
                     </div>
                 </div>
 
                 <div class="charts">
                     <div class="chart">
-                        <h3>Statistik Mental Health</h3>
+                        <h3>Kategori Mental Health</h3>
                         <div class="bar-container">
                             @php
                                 $max = max($kategoriCounts ?: [1]);

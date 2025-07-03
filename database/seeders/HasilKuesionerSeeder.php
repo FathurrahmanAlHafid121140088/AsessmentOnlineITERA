@@ -31,7 +31,7 @@ class HasilKuesionerSeeder extends Seeder
             'Fakultas Teknologi Infrastruktur dan Kewilayahan' => ['Teknik Sipil', 'Arsitektur', 'Perencanaan Wilayah'],
         ];
 
-        for ($i = 1; $i <= 30; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             $nim = '121140' . str_pad($i, 3, '0', STR_PAD_LEFT);
 
             // Random fakultas dan prodi

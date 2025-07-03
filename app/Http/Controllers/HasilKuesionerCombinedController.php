@@ -50,6 +50,9 @@ class HasilKuesionerCombinedController extends Controller
 
         $totalUsers = HasilKuesioner::distinct('nim')->count('nim');
         $totalTes = HasilKuesioner::count();
+        // hitung total laki-laki dan perempuan
+        $totalLaki = \App\Models\DataDiris::where('jenis_kelamin', 'L')->count();
+        $totalPerempuan = \App\Models\DataDiris::where('jenis_kelamin', 'P')->count();
 
         return view('admin-home', [
             'title' => 'Dashboard Mental Health',
@@ -58,7 +61,10 @@ class HasilKuesionerCombinedController extends Controller
             'limit' => $limit,
             'totalUsers' => $totalUsers,
             'totalTes' => $totalTes,
+            'totalLaki' => $totalLaki,
+            'totalPerempuan' => $totalPerempuan,
         ] + $this->getStatistikFakultas());
+
     }
 
     /**
