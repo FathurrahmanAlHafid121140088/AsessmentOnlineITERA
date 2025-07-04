@@ -13,7 +13,11 @@ class HasilKuesioner extends Model
     protected $table = 'hasil_kuesioners';
 
     protected $fillable = [
-        'nim', 'total_skor', 'kategori', 'created_at', 'updated_at'
+        'nim',
+        'total_skor',
+        'kategori',
+        'created_at',
+        'updated_at'
     ];
 
     // Relasi ke DataDiris

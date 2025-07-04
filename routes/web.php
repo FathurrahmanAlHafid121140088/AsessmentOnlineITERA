@@ -8,6 +8,7 @@ use App\Http\Controllers\RiwayatKeluhansController;
 use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Middleware\AdminAuth;
+use App\Http\Controllers\HasilKuesionerCombinedController;
 use App\Http\Controllers\HasilKuesionerController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatistikController;
@@ -24,13 +25,7 @@ Route::prefix('mental-health')->name('mental-health.')->group(function () {
 });
 
 // Resource routes
-Route::resources([
-    'admins' => AdminsController::class,
-    'users' => UsersController::class,
-    'data-diris' => DataDirisController::class,
-    'riwayat-keluhans' => RiwayatKeluhansController::class,
-    'jawabans' => JawabanController::class,
-]);
+
 
 // =====================
 // AUTH ADMIN ROUTE
@@ -49,17 +44,43 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 // Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
 Route::middleware([AdminAuth::class])->group(function () {
-    Route::get('/admin', [HasilKuesionerController::class, 'index'])->name('admin.home');
+    // Dashboard + hasil kuesioner + search + pagination
+    Route::get('/admin', [HasilKuesionerCombinedController::class, 'index'])
+        ->name('admin.home');
+
+    // Statistik total users
+    Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])
+        ->name('statistik.total-users');
+
+    // Hapus hasil
+    Route::delete('/admin/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
+        ->name('admin.delete');
 });
- Route::delete('/admin/{id}', [HasilKuesionerController::class, 'destroy'])->name('admin.delete');
+
+
 
 Route::get('/mental-health/data-diri', [DataDirisController::class, 'create'])->name('mental-health.data-diri');
 Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->name('mental-health.store-data-diri');
 
+Route::get('/mental-health/kuesioner', function () {
+    return view('kuesioner', [
+        'nim' => session('nim')
+    ]);
+})->name('mental-health.kuesioner');
+
+// submit
+Route::post('/mental-health/kuesioner', [HasilKuesionerController::class, 'store'])
+    ->name('mental-health.kuesioner.submit');
+
+// hasil
+Route::get('/mental-health/hasil', [HasilKuesionerController::class, 'showLatest'])
+    ->name('mental-health.hasil');
+
+
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
-Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])->name('statistik.total-users');
+
 
 // =====================
 // ROUTES USER LAIN (Bebas diakses)
@@ -81,9 +102,6 @@ Route::get('/mental-health/kuesioner', function () {
     return view('kuesioner', ['title' => 'Kuesioner MHI-38']);
 })->name('mental-health.kuesioner');
 
-Route::get('/mental-health/hasil', function () {
-    return view('hasil', ['title' => 'Hasil MHI-38']);
-});
 
 // routes untuk Karir
 Route::get('/karir-home', function () {
