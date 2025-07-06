@@ -18,60 +18,23 @@
         <link href="{{ asset('css/karir-admin.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h2>RMIB Admin</h2>
-            <i class="fas fa-bars"></i>
-        </div>
-        <div class="sidebar-menu">
-            <div class="menu-item">
-                <i class="fas fa-home"></i>
-                <span>Dashboard</span>
-            </div>
-            <div class="menu-item active">
-                <i class="fas fa-chart-bar"></i>
-                <span>Hasil Tes</span>
-            </div>
-            <div class="menu-item">
-                <i class="fas fa-users"></i>
-                <span>Peserta</span>
-            </div>
-            <div class="menu-item">
-                <i class="fas fa-clipboard-list"></i>
-                <span>Master Soal</span>
-            </div>
-            <div class="menu-item">
-                <i class="fas fa-cog"></i>
-                <span>Pengaturan</span>
-            </div>
-            <div class="menu-item">
-                <i class="fas fa-file-export"></i>
-                <span>Laporan</span>
-            </div>
-        </div>
-    </div>
 
     <div class="main-content">
         <div class="header">
             <h1>Hasil Tes RMIB</h1>
-            <div class="user-info">
-                <img src="/api/placeholder/40/40" alt="Admin Avatar">
-                <span>Admin</span>
-            </div>
         </div>
 
         <div class="content-area">
             <div class="tabs">
                 <div class="tab active">Detail Hasil</div>
                 <div class="tab">Interpretasi</div>
-                <div class="tab">Riwayat</div>
             </div>
 
             <div class="peserta-info">
                 <h3>Informasi Peserta</h3>
                 <div class="peserta-info-grid">
                     <div class="info-item">
-                        <span class="info-label">Nama Peserta</span>
+                        <span class="info-label">Nama </span>
                         <span class="info-value">Ahmad Fauzi</span>
                     </div>
                     <div class="info-item">
@@ -87,18 +50,14 @@
                         <span class="info-value">25 Tahun</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Pendidikan</span>
+                        <span class="info-label">Program Studi</span>
                         <span class="info-value">S1 Psikologi</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Durasi Tes</span>
-                        <span class="info-value">28 Menit</span>
                     </div>
                 </div>
             </div>
 
             <div class="result-section">
-                <h2><i class="fas fa-calculator"></i> Perhitungan Hasil Tes RMIB</h2>
+                <h2><i class="fas fa-calculator" style="margin-right: 10px"></i> Perhitungan Hasil Tes RMIB</h2>
                 
                 <div class="result-info">
                     Berikut adalah hasil tes minat karir berdasarkan metode Rothwell-Miller Interest Blank (RMIB) untuk <strong>Ahmad Fauzi</strong>. Kategori dengan nilai persentase tertinggi menunjukkan bidang minat yang paling dominan.
@@ -309,7 +268,7 @@
                 </table>
 
                 <div class="result-section">
-                    <h2><i class="fas fa-trophy"></i> Minat Tertinggi</h2>
+                    <h2><i class="fas fa-trophy" style="margin-right: 10px"></i> Minat Tertinggi</h2>
                     <div class="top-results">
                         <div>
                             <p><strong>1. Social Service (S.S)</strong> - 57.4%</p>
