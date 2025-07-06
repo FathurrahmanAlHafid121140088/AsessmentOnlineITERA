@@ -152,3 +152,62 @@ function openModal(id) {
 function closeModal(id) {
     document.getElementById(id).classList.remove("show");
 }
+
+window.addEventListener("load", function () {
+    const counters = document.querySelectorAll(".score-value");
+
+    counters.forEach((counter) => {
+        const finalValue = parseInt(counter.textContent) || 0;
+        let currentValue = 0;
+        const increment = finalValue / 100;
+
+        const timer = setInterval(() => {
+            currentValue += increment;
+            if (currentValue >= finalValue) {
+                currentValue = finalValue;
+                clearInterval(timer);
+            }
+            counter.textContent = Math.floor(currentValue);
+
+            // tambahkan efek animasi
+            counter.classList.add("animated");
+            setTimeout(() => {
+                counter.classList.remove("animated");
+            }, 300); // match durasi .3s
+        }, 20);
+    });
+});
+
+window.addEventListener("load", function () {
+    const bars = document.querySelectorAll(".bar-fill");
+    const barValues = document.querySelectorAll(".bar-value");
+
+    bars.forEach((bar, idx) => {
+        const targetHeight = bar.style.height;
+        bar.style.height = "0px";
+
+        setTimeout(() => {
+            bar.style.height = targetHeight;
+            if (barValues[idx]) {
+                barValues[idx].style.opacity = 1;
+            }
+        }, 700); // lebih lambat muncul
+    });
+});
+
+window.addEventListener("load", function () {
+    const segments = document.querySelectorAll(".pie-segment");
+    segments.forEach((seg, idx) => {
+        // reset transform dulu
+        seg.style.transform = "rotate(0deg)";
+        // reset opacity
+        seg.style.opacity = 0;
+
+        setTimeout(() => {
+            seg.style.transform = `rotate(${seg.style.getPropertyValue(
+                "--start"
+            )})`;
+            seg.style.opacity = 1;
+        }, 500 + idx * 300); // muncul satu per satu
+    });
+});

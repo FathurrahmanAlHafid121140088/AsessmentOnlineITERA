@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>{{ $title }}</title>
@@ -143,9 +143,9 @@
             </div>
             <div class="row text-center g-4 ">
                 <div data-aos="flip-right" data-aos-delay="300"
-                    class="col-md-6 col-12 p-4 py-4 px-4 bg-white shadow-sm rounded-4">
+                    class="col-md-6 col-12 p-4 bg-white shadow-sm rounded-4">
                     <span class="fa-stack fa-4x">
-                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fas fa-circle fa-stack-2x" style="color: #4361ee;"></i>
                         <i class="fas fa-brain fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="my-3">Mental Health</h4>
@@ -159,9 +159,9 @@
                 </div>
 
                 <div data-aos="flip-left" data-aos-delay="300"
-                    class="col-md-6 col-12 p-4 py-4 px-4 bg-white shadow-sm rounded-4">
-                    <span class="fa-stack fa-4x">
-                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                    class="col-md-6 col-12 p-4 bg-white shadow-sm rounded-4">
+                    <span class="fa-stack fa-4x" style="color: #4361ee;">
+                        <i class="fas fa-circle fa-stack-2x text-primary" style="color: #4361ee;"></i>
                         <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="my-3">Peminatan Karir</h4>

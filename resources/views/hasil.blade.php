@@ -19,7 +19,7 @@
     <link href="{{ asset('css/style-hasil-mh.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styleform.css') }}" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <x-navbar></x-navbar>
 
@@ -28,7 +28,7 @@
         <div data-aos="fade-down" data-aos-delay="100" class="header-icon-circle">
             <i class="fa-solid fa-laptop-medical header-icon"></i>
         </div>
-        <h1 data-aos="fade-down" data-aos-delay="200">Hasil Diagnosis Kesehatan Mental MHI-38</h1>
+        <h1 data-aos="fade-down" data-aos-delay="200">Hasil Penilaian Kesehatan Mental MHI-38</h1>
         <p data-aos="fade-down" data-aos-delay="300">Berdasarkan jawaban Anda pada kuesioner Mental Health</p>
     </header>
 
@@ -112,7 +112,7 @@
         </div>
 
         <div data-aos="zoom-in" data-aos-delay="100" class="result-section">
-            <h2>Diagnosis Kesehatan Mental</h2>
+            <h2>Penilaian Kesehatan Mental</h2>
 
             <div data-aos="fade-right" data-aos-delay="200" class="diagnosis-box diagnosis-moderate">
                 <div class="diagnosis-title">
@@ -211,37 +211,14 @@
             </div>
         </div>
     </div>
-
-
-
 </body>
 <x-footer></x-footer>
-<script>
-    // Script untuk menyesuaikan kategori skor dan tampilan
-    document.addEventListener('DOMContentLoaded', function() {
-        // Contoh implementasi jika halaman menerima data dari backend
-        // const scoreData = { 
-        //     total: 145,
-        //     anxiety: 22,
-        //     depression: 19,
-        //     behavioralControl: 25,
-        //     positiveAffect: 28,
-        //     emotionalTies: 24,
-        //     lifeSatisfaction: 27
-        // };
-        // updateScoreDisplay(scoreData);
-    });
-
-    function updateScoreDisplay(data) {
-        // Fungsi untuk memperbarui tampilan berdasarkan data skor
-        // Implementasi akan bergantung pada struktur data yang diterima
-    }
-</script>
-
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();
 </script>
+<script src="{{ asset('js/script-hasil-mh.js') }}"></script>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->

@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs@1.5.0/dist/purecounter_vanilla.js"></script>
 </head>
 
 <body>
@@ -34,6 +34,7 @@
         <div class="user-wrapper">
             @if (Auth::guard('admin')->check())
                 <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
                     <span>{{ Auth::guard('admin')->user()->username }}</span>
                 </div>
                 <div class="logout-button">
@@ -76,45 +77,46 @@
             <!-- Dashboard Content -->
             <div class="dashboard-content">
                 <div class="cards">
-                    <div class="card">
-                        <div class="card-icon bg-primary">
-                            <i class="fas fa-users"></i>
+                    <div class="card bg-danger text-white">
+                        <div class="card-icon bg-white text-primary">
+                            <i class="fas fa-users" style="color: #ef4444"></i>
                         </div>
                         <div class="card-info">
                             <h3>Total Pengguna</h3>
-                            <h2>{{ $totalUsers ?? '-' }}</h2>
+                            <h2 class="score-value">{{ $totalUsers ?? 0 }}</h2>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-icon bg-success">
-                            <i class="fas fa-brain"></i>
+
+                    <div class="card bg-success text-white">
+                        <div class="card-icon bg-white text-success">
+                            <i class="fas fa-brain" style="color: #22c55e"></i>
                         </div>
                         <div class="card-info">
                             <h3>Mental Health Tests</h3>
-                            <h2>{{ $totalTes ?? '-' }}</h2>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon bg-primary">
-                            <i class="fas fa-mars"></i>
-                        </div>
-                        <div class="card-info">
-                            <h3>Total Laki-laki</h3>
-                            <h2>{{ $totalLaki }}</h2>
+                            <h2 class="score-value">{{ $totalTes ?? 0 }}</h2>
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-icon bg-pink">
-                            <i class="fas fa-venus"></i>
+                    <div class="card bg-primary text-white">
+                        <div class="card-icon bg-white text-primary">
+                            <i class="fas fa-mars" style="color: #4361ee"></i>
                         </div>
                         <div class="card-info">
-                            <h3>Total Perempuan</h3>
-                            <h2>{{ $totalPerempuan }}</h2>
+                            <h3>Laki-laki</h3>
+                            <h2 class="score-value">{{ $totalLaki ?? 0 }}</h2>
+                        </div>
+                    </div>
+
+                    <div class="card bg-pink text-white">
+                        <div class="card-icon bg-white text-danger">
+                            <i class="fas fa-venus" style="color: #e83e8c"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Perempuan</h3>
+                            <h2 class="score-value">{{ $totalPerempuan ?? 0 }}</h2>
                         </div>
                     </div>
                 </div>
-
                 <div class="charts">
                     <div class="chart">
                         <h3>Kategori Mental Health</h3>
@@ -140,7 +142,7 @@
                             @foreach ($urutanKategori as $kategori)
                                 @php
                                     $jumlah = $kategoriCounts[$kategori] ?? 0;
-                                    $heightPx = $jumlah > 0 ? round(($jumlah / $max) * 100) : 5; // sedikit lebih pendek
+                                    $heightPx = $jumlah > 0 ? round(($jumlah / $max) * 160) : 5; // sedikit lebih pendek
                                     $color = $warnaKategori[$kategori] ?? '#999';
                                 @endphp
                                 <div class="bar-segment">
@@ -178,7 +180,6 @@
                                         </div>
                                     @endforeach
                             </div>
-
                             <div class="pie-legend">
                                 @foreach ($fakultasPersen as $fakultas => $persen)
                                     @php
@@ -209,7 +210,6 @@
                 <div class="table">
                     <div class="table-header">
                         <h3>Aktivitas Terbaru</h3>
-
                         <div class="table-controls">
                             <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
                                 <label for="limit">Tampilkan:</label>
@@ -232,8 +232,6 @@
                             </form>
                         </div>
                     </div>
-
-
                     <table id="assessmentTable">
                         <thead>
                             <tr>
@@ -296,7 +294,6 @@
                                         </div>
                                     </td>
                                 </tr>
-
                                 <!-- Modal Riwayat -->
                                 <div id="modal-riwayat-{{ $hasil->id }}" class="custom-modal">
                                     <div class="custom-modal-content">
@@ -304,7 +301,6 @@
                                             onclick="closeModal('modal-riwayat-{{ $hasil->id }}')">&times;</span>
                                         <h4 style="text-align: center; font-size: large; padding: 1rem;">Riwayat
                                             Keluhan & Hasil - {{ $hasil->dataDiri->nama ?? $hasil->nim }}</h4>
-
                                         @php
                                             $merged = collect();
                                             foreach ($hasil->dataDiri->hasilKuesioners as $kuesioner) {
@@ -318,7 +314,6 @@
                                                     'data' => $kuesioner,
                                                 ]);
                                             }
-
                                             foreach ($hasil->dataDiri->riwayatKeluhans as $keluhan) {
                                                 $key = \Carbon\Carbon::parse($keluhan->created_at)->format('Y-m-d H:i');
                                                 $merged->push([
@@ -381,7 +376,6 @@
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
     </div>
@@ -399,6 +393,5 @@
     @endif
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
-
 
 </html>

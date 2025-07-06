@@ -3,10 +3,6 @@ body {
     min-height: 100vh;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-
-.quiz {
-    padding-top: 7rem;
-}
 .quiz-container {
     background-color: #fff;
     border-radius: 15px;
@@ -410,6 +406,30 @@ input[type="radio"].form-check-input:checked::before {
     transform: rotate(225deg); /* panah kiri bagian bawah */
 }
 
+@media (max-width: 480px) {
+    .scroll-to-top,
+    .scroll-to-bottom {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        right: 15px;
+    }
+
+    .scroll-to-top {
+        bottom: 75px;
+    }
+
+    .scroll-to-bottom {
+        bottom: 15px;
+    }
+    .quiz {
+        padding-top: 0;
+    }
+    header {
+        padding-top: 3rem;
+    }
+}
+
 @media (max-width: 1024px) {
     .status-container,
     .toggle-button,
@@ -559,24 +579,6 @@ input[type="radio"].form-check-input:checked::before {
 .scroll-to-bottom:hover {
     transform: scale(1.05);
     background-color: #2f2fa2;
-}
-
-@media (max-width: 480px) {
-    .scroll-to-top,
-    .scroll-to-bottom {
-        width: 44px;
-        height: 44px;
-        font-size: 20px;
-        right: 15px;
-    }
-
-    .scroll-to-top {
-        bottom: 75px;
-    }
-
-    .scroll-to-bottom {
-        bottom: 15px;
-    }
 }
 
 .highlight-question {
