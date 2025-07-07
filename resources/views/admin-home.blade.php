@@ -67,7 +67,7 @@
                     <a href="/admin"><i class="fas fa-brain"></i> Mental Health</a>
                 </li>
                 <li>
-                    <a href="/admin-karir"><i class="fas fa-briefcase"></i> Peminatan Karir</a>
+                    <a href="/admin-home-karir"><i class="fas fa-briefcase"></i> Peminatan Karir</a>
                 </li>
             </ul>
         </div>
