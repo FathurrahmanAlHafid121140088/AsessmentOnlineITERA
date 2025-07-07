@@ -592,3 +592,10 @@ body {
     background-color: #ffffff;
     background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
 }
+#question-status-container {
+    transition: transform 0.3s ease;
+}
+
+#question-status-container.collapsed {
+    transform: translateX(-90%); /* geser saja, bukan hilang */
+}

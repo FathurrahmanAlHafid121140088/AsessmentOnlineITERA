@@ -19,6 +19,7 @@
     <!-- AOS Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs@1.5.0/dist/purecounter_vanilla.js"></script>
 </head>
@@ -61,10 +62,10 @@
             </div>
             <ul class="menu">
                 <li>
-                    <a href="#"><i class="fas fa-home"></i> Home</a>
+                    <a href="/admin"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <li class="active">
-                    <a href="/admin"><i class="fas fa-brain"></i> Mental Health</a>
+                    <a href="/admin/mental-health"><i class="fas fa-brain"></i> Mental Health</a>
                 </li>
                 <li>
                     <a href="/admin-karir"><i class="fas fa-briefcase"></i> Peminatan Karir</a>
@@ -147,14 +148,13 @@
                                 @endphp
                                 <div class="bar-segment">
                                     <div class="bar-value">{{ $jumlah }} org</div>
-                                    <div class="bar-fill"
+                                    <div class="bar-fill" data-height="{{ $heightPx }}"
                                         style="height: {{ $heightPx }}px; background-color: {{ $color }};">
                                     </div>
                                     <div class="bar-label">{{ $kategori }}</div>
                                 </div>
                             @endforeach
                         </div>
-
                     </div>
                     <div class="chart">
                         <div class="chart-header">
@@ -236,16 +236,50 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>NIM</th>
-                                <th>Nama</th>
+                                <th>
+                                    <a href="{{ route('admin.home', ['sort' => 'nim', 'order' => request('order') === 'asc' && request('sort') === 'nim' ? 'desc' : 'asc'] + request()->except(['page'])) }}"
+                                        class="sortable-header">
+                                        NIM
+                                        @if (request('sort') === 'nim')
+                                            <i
+                                                class="fas fa-sort-{{ request('order') === 'asc' ? 'up' : 'down' }}"></i>
+                                        @else
+                                            <i class="fas fa-sort"></i>
+                                        @endif
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="{{ route('admin.home', ['sort' => 'nama', 'order' => request('order') === 'asc' && request('sort') === 'nama' ? 'desc' : 'asc'] + request()->except(['page'])) }}"
+                                        class="sortable-header">
+                                        Nama
+                                        @if (request('sort') === 'nama')
+                                            <i
+                                                class="fas fa-sort-{{ request('order') === 'asc' ? 'up' : 'down' }}"></i>
+                                        @else
+                                            <i class="fas fa-sort"></i>
+                                        @endif
+                                    </a>
+                                </th>
                                 <th>Program Studi</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Usia</th>
                                 <th>Jenis Tes</th>
-                                <th>Tanggal Submit</th>
+                                <th>
+                                    <a href="{{ route('admin.home', ['sort' => 'created_at', 'order' => request('order') === 'asc' && request('sort') === 'created_at' ? 'desc' : 'asc'] + request()->except(['page'])) }}"
+                                        class="sortable-header">
+                                        Tanggal Submit
+                                        @if (request('sort') === 'created_at')
+                                            <i
+                                                class="fas fa-sort-{{ request('order') === 'asc' ? 'up' : 'down' }}"></i>
+                                        @else
+                                            <i class="fas fa-sort"></i>
+                                        @endif
+                                    </a>
+                                </th>
                                 <th style="text-align: center;">Aksi</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             @forelse($hasilKuesioners as $hasil)
                                 <tr>
@@ -378,8 +412,7 @@
             </div>
         </div>
     </div>
-    </div>
-    <script src="{{ asset('js/script-admin.js') }}"></script>
+    <script src="{{ asset('js/script-admin-mh.js') }}"></script>
     @if (session('searchMessage') || isset($searchMessage))
         <script>
             Swal.fire({
@@ -393,5 +426,6 @@
     @endif
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
+
 
 </html>

@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Optional indikator status soal
+    // indikator status soal
     const questionGrid = document.getElementById("question-grid");
 
     for (let i = 1; i <= totalQuestions; i++) {
@@ -108,5 +108,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const radios = document.querySelectorAll("input[type='radio']");
     radios.forEach((radio) => {
         radio.addEventListener("change", updateStatus);
+    });
+
+    // 👇 TOMBOL TOGGLE DAFTAR SOAL
+    const toggleButton = document.getElementById("toggle-sidebar");
+    const questionStatusContainer = document.getElementById(
+        "question-status-container"
+    );
+
+    toggleButton.addEventListener("click", function () {
+        questionStatusContainer.classList.toggle("collapsed");
     });
 });

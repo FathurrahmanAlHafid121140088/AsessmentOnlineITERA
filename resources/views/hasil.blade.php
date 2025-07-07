@@ -18,7 +18,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link href="{{ asset('css/style-hasil-mh.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/styleform.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/styleform.css') }}" rel="stylesheet">Z
+    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <x-navbar></x-navbar>
@@ -103,11 +105,13 @@
             </div>
         </div>
 
+
         <div data-aos="fade-right" data-aos-delay="200" class="category-description">
             <h3>Tentang Kategori "Sedang (Rentan)"</h3>
             <p>Individu dalam kategori ini memiliki tingkat kesehatan mental yang cukup, namun berada dalam kondisi
                 rentan terhadap stres dan tekanan. Mungkin mengalami beberapa gejala gangguan psikologis ringan yang
-                dapat berkembang jika tidak dikelola dengan baik. Diperlukan upaya aktif untuk menjaga dan meningkatkan
+                dapat berkembang jika tidak dikelola dengan baik. Diperlukan upaya aktif untuk menjaga dan
+                meningkatkan
                 kesejahteraan mental.</p>
         </div>
 
@@ -120,8 +124,10 @@
                     <h3>Kesehatan Mental Sedang (Rentan)</h3>
                 </div>
                 <div class="diagnosis-content">
-                    <p>Berdasarkan hasil kuesioner, Anda berada dalam kategori kesehatan mental "Sedang (Rentan)" dengan
-                        skor 145 dari rentang 131-160. Hal ini menunjukkan bahwa Anda memiliki beberapa kekuatan mental
+                    <p>Berdasarkan hasil kuesioner, Anda berada dalam kategori kesehatan mental "Sedang (Rentan)"
+                        dengan
+                        skor 145 dari rentang 131-160. Hal ini menunjukkan bahwa Anda memiliki beberapa kekuatan
+                        mental
                         namun juga area yang perlu perhatian.</p>
 
                     <h4>Kekuatan:</h4>
@@ -138,12 +144,15 @@
 
                     <div class="recommendations">
                         <h4>Rekomendasi:</h4>
-                        <div class="recommendation-item">• Terapkan teknik pernapasan dan relaksasi secara teratur untuk
+                        <div class="recommendation-item">• Terapkan teknik pernapasan dan relaksasi secara teratur
+                            untuk
                             mengelola kecemasan</div>
                         <div class="recommendation-item">• Tingkatkan kemampuan regulasi emosi melalui praktik
                             mindfulness</div>
-                        <div class="recommendation-item">• Pertahankan aktivitas yang memberikan kepuasan hidup</div>
-                        <div class="recommendation-item">• Lakukan aktivitas fisik rutin minimal 30 menit per hari</div>
+                        <div class="recommendation-item">• Pertahankan aktivitas yang memberikan kepuasan hidup
+                        </div>
+                        <div class="recommendation-item">• Lakukan aktivitas fisik rutin minimal 30 menit per hari
+                        </div>
                         <div class="recommendation-item">• Jaga hubungan sosial yang sehat dan positif</div>
                     </div>
                 </div>
@@ -151,7 +160,6 @@
         </div>
         <div class="result-section category-info">
             <h2 data-aos="zoom-in" data-aos-delay="100">Informasi Kategori Kesehatan Mental</h2>
-
             <div class="category-list">
                 <div data-aos="flip-left" data-aos-delay="200"
                     class="category-item category-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 90 ? 'active' : '' }}">
@@ -161,12 +169,12 @@
                         mungkin mengalami gangguan fungsi sehari-hari. Disarankan untuk segera mencari bantuan
                         profesional kesehatan mental.</p>
                 </div>
-
                 <div data-aos="flip-left" data-aos-delay="400"
                     class="category-item category-poor {{ $hasil->total_skor >= 91 && $hasil->total_skor <= 130 ? 'active' : '' }}">
                     <h3>Buruk (Distres Sedang)</h3>
                     <div class="category-range">91 - 130</div>
-                    <p>Menunjukkan adanya distres psikologis tingkat sedang dengan beberapa gangguan fungsi. Intervensi
+                    <p>Menunjukkan adanya distres psikologis tingkat sedang dengan beberapa gangguan fungsi.
+                        Intervensi
                         profesional mungkin diperlukan untuk mencegah perburukan kondisi.</p>
                 </div>
 
@@ -182,7 +190,8 @@
                     class="category-item category-good {{ $hasil->total_skor >= 161 && $hasil->total_skor <= 190 ? 'active' : '' }}">
                     <h3>Baik (Sehat Secara Mental)</h3>
                     <div class="category-range">161 - 190</div>
-                    <p>Menunjukkan kesehatan mental yang baik dengan kemampuan mengatasi tekanan hidup secara efektif.
+                    <p>Menunjukkan kesehatan mental yang baik dengan kemampuan mengatasi tekanan hidup secara
+                        efektif.
                         Memiliki fungsi psikologis dan sosial yang positif.</p>
                 </div>
 
