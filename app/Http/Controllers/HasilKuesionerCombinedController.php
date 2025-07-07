@@ -17,6 +17,9 @@ class HasilKuesionerCombinedController extends Controller
         $limit = $request->input('limit', 10);
         $search = $request->input('search');
 
+        $sort = $request->input('sort', 'created_at');
+        $order = $request->input('order', 'desc');
+
         // ambil id terakhir per NIM
         $latestPerNim = HasilKuesioner::select(DB::raw('MAX(id) as id'))->groupBy('nim');
 
@@ -38,9 +41,26 @@ class HasilKuesionerCombinedController extends Controller
                         });
                 });
             })
-            ->latest()
+            ->orderBy($sort == 'nama' ? 'created_at' : $sort, $order)
             ->paginate($limit)
             ->withQueryString();
+
+        // sorting manual kalau berdasarkan nama (relasi)
+        if ($sort == 'nama') {
+            $hasilKuesioners = $hasilKuesioners->getCollection()
+                ->sortBy(function ($item) {
+                    return $item->dataDiri->nama ?? '';
+                }, SORT_REGULAR, $order === 'desc')
+                ->values();
+
+            $hasilKuesioners = new \Illuminate\Pagination\LengthAwarePaginator(
+                $hasilKuesioners,
+                $hasilKuesioners->count(),
+                $limit,
+                $request->input('page', 1),
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
+        }
 
         // data chart
         $kategoriCounts = HasilKuesioner::selectRaw('kategori, COUNT(*) as jumlah')
@@ -50,8 +70,8 @@ class HasilKuesionerCombinedController extends Controller
 
         $totalUsers = HasilKuesioner::distinct('nim')->count('nim');
         $totalTes = HasilKuesioner::count();
-        // hitung total laki-laki dan perempuan
-// ambil NIM yang sudah pernah tes
+
+        // ambil NIM yang sudah pernah tes
         $nimDenganHasil = \App\Models\HasilKuesioner::distinct('nim')->pluck('nim');
 
         // hitung total laki-laki yang sudah pernah tes
@@ -63,6 +83,7 @@ class HasilKuesionerCombinedController extends Controller
         $totalPerempuan = \App\Models\DataDiris::whereIn('nim', $nimDenganHasil)
             ->where('jenis_kelamin', 'P')
             ->count();
+
         return view('admin-home', [
             'title' => 'Dashboard Mental Health',
             'hasilKuesioners' => $hasilKuesioners,
@@ -73,9 +94,7 @@ class HasilKuesionerCombinedController extends Controller
             'totalLaki' => $totalLaki,
             'totalPerempuan' => $totalPerempuan,
         ] + $this->getStatistikFakultas());
-
     }
-
     /**
      * Statistik fakultas
      */

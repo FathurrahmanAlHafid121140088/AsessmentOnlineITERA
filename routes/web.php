@@ -45,7 +45,7 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 // Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
 Route::middleware([AdminAuth::class])->group(function () {
     // Dashboard + hasil kuesioner + search + pagination
-    Route::get('/admin', [HasilKuesionerCombinedController::class, 'index'])
+    Route::get('/admin/mental-health', [HasilKuesionerCombinedController::class, 'index'])
         ->name('admin.home');
 
     // Statistik total users
@@ -53,8 +53,18 @@ Route::middleware([AdminAuth::class])->group(function () {
         ->name('statistik.total-users');
 
     // Hapus hasil
-    Route::delete('/admin/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
+    Route::delete('/admin/mental-health/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
         ->name('admin.delete');
+    Route::get('/admin', function () {
+        $totalUsers = \App\Models\HasilKuesioner::distinct('nim')->count('nim');
+        $totalTes = \App\Models\HasilKuesioner::count();
+        return view('Admin', [
+            'title' => 'Admin',
+            'totalUsers' => $totalUsers,
+            'totalTes' => $totalTes,
+        ]);
+    });
+
 });
 
 
@@ -97,6 +107,7 @@ Route::get('/lupa-password', function () {
 Route::get('/mental-health', function () {
     return view('mental-health', ['title' => 'Mental Health']);
 });
+
 
 Route::get('/mental-health/kuesioner', function () {
     return view('kuesioner', ['title' => 'Kuesioner MHI-38']);

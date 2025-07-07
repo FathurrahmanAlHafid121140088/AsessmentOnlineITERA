@@ -36,7 +36,8 @@ body {
     background-color: #ffffff;
     background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
     line-height: 1.6;
-    overflow-x: hidden;
+    overflow-x: hidden; /* jika mau */
+    overflow-y: auto;
 }
 
 a {
@@ -130,6 +131,7 @@ ul {
     box-shadow: none;
     z-index: 1001; /* agar di atas sidebar */
     position: relative; /* penting jika sidebar absolute/fixed */
+    color: white;
 }
 
 /* Sembunyikan hamburger di desktop (lebar > 768px) */
@@ -1127,4 +1129,47 @@ tbody tr:hover {
 .bg-pink {
     background-color: #e83e8c; /* pink bootstrap style */
     color: #fff;
+}
+@media (max-width: 768px) {
+    .bar-fill {
+        max-height: 110px !important;
+    }
+    .header-title {
+        display: none;
+    }
+}
+th a {
+    color: inherit;
+    text-decoration: none;
+}
+th a:hover {
+    color: var(--primary-color);
+}
+th i {
+    margin-left: 5px;
+}
+.sortable-header {
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sortable-header i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sortable-header:hover i {
+    color: #007bff;
+    transform: scale(1.2);
+}
+.footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3000; /* pastikan lebih tinggi dari sidebar */
+    background: linear-gradient(135deg, var(--dark), #1a1a1a);
+    color: var(--light);
 }

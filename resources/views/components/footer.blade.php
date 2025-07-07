@@ -1,21 +1,159 @@
-<footer class="footer py-4" style="background-color: #212529;">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-4 text-lg-start" style="color: white">Copyright &copy; PPSDM ITERA 2025</div>
-            <div class="col-lg-4 my-3 my-lg-0">
-                <a class="btn btn-light btn-social mx-2" href="#!" aria-label="Twitter"><i
-                        class="fab fa-twitter"></i></a>
-                <a class="btn btn-light btn-social mx-2" href="#!" aria-label="Facebook"><i
-                        class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-light btn-social mx-2" href="#!" aria-label="LinkedIn"><i
-                        class="fab fa-linkedin-in"></i></a>
+<footer class="footer">
+    <div class="container" style="max-width: 1200px; margin: auto; min-height: auto; padding: 0 1rem;">
+        <div class="footer-grid"
+            style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        justify-items: start;
+        text-align: left;
+     ">
+            <div class="mb-8">
+                <h3>PPSDM ITERA</h3>
+                <p>Innovating education for a better tomorrow through technology and research.</p>
+                <div class="social-icons" style="display: flex; margin: 1rem 0;">
+                    <a href="#" aria-label="Twitter"
+                        style="color: #ffffff; text-decoration: none; position: relative; overflow: hidden; margin-left: 0; margin-right: 8px;">
+                        <span
+                            style="position: absolute; inset: 0; background: linear-gradient(45deg, #4361ee, #4cc9f0); opacity: 0; transition: opacity 0.3s ease; z-index: 1;"></span>
+                        <i class="fab fa-twitter" style="position: relative; z-index: 2;"></i>
+                    </a>
+                    <a href="#" aria-label="Facebook"
+                        style="color: #ffffff; text-decoration: none; position: relative; overflow: hidden; margin: 0 8px;">
+                        <span
+                            style="position: absolute; inset: 0; background: linear-gradient(45deg, #4361ee, #4cc9f0); opacity: 0; transition: opacity 0.3s ease; z-index: 1;"></span>
+                        <i class="fab fa-facebook-f" style="position: relative; z-index: 2;"></i>
+                    </a>
+                    <a href="#" aria-label="Instagram"
+                        style="color: #ffffff; text-decoration: none; position: relative; overflow: hidden; margin: 0 8px;">
+                        <span
+                            style="position: absolute; inset: 0; background: linear-gradient(45deg, #4361ee, #4cc9f0); opacity: 0; transition: opacity 0.3s ease; z-index: 1;"></span>
+                        <i class="fab fa-instagram" style="position: relative; z-index: 2;"></i>
+                    </a>
+                    <a href="#" aria-label="LinkedIn"
+                        style="color: #ffffff; text-decoration: none; position: relative; overflow: hidden; margin: 0 8px;">
+                        <span
+                            style="position: absolute; inset: 0; background: linear-gradient(45deg, #4361ee, #4cc9f0); opacity: 0; transition: opacity 0.3s ease; z-index: 1;"></span>
+                        <i class="fab fa-linkedin-in" style="position: relative; z-index: 2;"></i>
+                    </a>
+                    <a href="#" aria-label="Youtube"
+                        style="color: #ffffff; text-decoration: none; position: relative; overflow: hidden; margin: 0 8px;">
+                        <span
+                            style="position: absolute; inset: 0; background: linear-gradient(45deg, #4361ee, #4cc9f0); opacity: 0; transition: opacity 0.3s ease; z-index: 1;"></span>
+                        <i class="fab fa-youtube" style="position: relative; z-index: 2;"></i>
+                    </a>
+                </div>
+
             </div>
-            <div class="col-lg-4 text-lg-center">
-                <a class="link-light text-decoration-none " href="#!">Developed By</a><br>
-                <a class="link-light text-decoration-none " href="#!" style="color: #4361ee">Fathurrahman Al Hafid
-                    | </a>
-                <a class="link-light text-decoration-none" href="#!" style="color: #4361ee">Riksan Cahyowadi</a>
+            <div class="mb-8">
+                <h4>Quick Links</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li>
+                        <a href="/home" class="animated-link">Home</a>
+                    </li>
+                    <li>
+                        <a href="/mental-health" class="animated-link">Mental Health</a>
+                    </li>
+                    <li>
+                        <a href="/karir-home" class="animated-link">Peminatan Karir</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="mb-8">
+                <h4>Contact Info</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li class="flex" style="align-items: center;">
+                        <i class="fas fa-map-marker-alt" style="margin-right: 8px; color: #4cc9f0;"></i>
+                        <span>Jl. Terusan Ryacudu, Sukarame, Bandar Lampung</span>
+                    </li>
+                    <li class="flex" style="align-items: center;">
+                        <i class="fas fa-phone-alt" style="margin-right: 8px; color: #4cc9f0;"></i>
+                        <span>(0721) 123456</span>
+                    </li>
+                    <li class="flex" style="align-items: center;">
+                        <i class="fas fa-envelope" style="margin-right: 8px; color: #4cc9f0;"></i>
+                        <span>info@ppsdm.itera.ac.id</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            style="border-top: 1px solid #4b4b4b; margin-top: 2rem; padding-top: 1rem; display: flex; flex-direction: column; align-items: center;">
+            <p style="margin: 0; opacity: 0.7;">&copy; 2025 PPSDM ITERA. All rights reserved.</p>
+            <div style="display: flex; align-items: center; margin-top: 0.5rem;">
+                <span style="opacity: 0.7;">Developed By:</span>
+                <a href="#" class="developer-badge"
+                    style="background: rgba(67, 97, 238, 0.2); padding: 8px 16px; border-radius: 30px; margin-left: 8px; text-decoration: none; color: #fff;">Fathurrahman
+                    Al Hafid</a>
+                <a href="#" class="developer-badge"
+                    style="background: rgba(67, 97, 238, 0.2); padding: 8px 16px; border-radius: 30px; margin-left: 8px; text-decoration: none; color: #fff;">Riksan
+                    Cahyowadi</a>
             </div>
         </div>
     </div>
 </footer>
+
+<script>
+    // Simple animation on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const socialIcons = document.querySelectorAll('.social-icons a');
+
+        socialIcons.forEach((icon, index) => {
+            // Initial animation
+            setTimeout(() => {
+                icon.style.transform = 'translateY(10px)';
+                icon.style.opacity = '0';
+                icon.animate(
+                    [{
+                            transform: 'translateY(10px)',
+                            opacity: 0
+                        },
+                        {
+                            transform: 'translateY(0)',
+                            opacity: 1
+                        }
+                    ], {
+                        duration: 500,
+                        delay: index * 100,
+                        fill: 'forwards',
+                        easing: 'ease-out'
+                    }
+                );
+            }, 300);
+
+            // Hover effect enhancement
+            icon.addEventListener('mouseenter', function() {
+                this.animate(
+                    [{
+                            transform: 'translateY(0)'
+                        },
+                        {
+                            transform: 'translateY(-5px)'
+                        }
+                    ], {
+                        duration: 200,
+                        fill: 'forwards'
+                    }
+                );
+            });
+
+            icon.addEventListener('mouseleave', function() {
+                this.animate(
+                    [{
+                            transform: 'translateY(-5px)'
+                        },
+                        {
+                            transform: 'translateY(0)'
+                        }
+                    ], {
+                        duration: 200,
+                        fill: 'forwards'
+                    }
+                );
+            });
+        });
+    });
+</script>
