@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link href="{{ asset('css/style-hasil-mh.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/styleform.css') }}" rel="stylesheet">Z
+    <link href="{{ asset('css/styleform.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">

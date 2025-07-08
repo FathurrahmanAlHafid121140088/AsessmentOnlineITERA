@@ -11,8 +11,6 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
@@ -21,7 +19,6 @@
     <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs@1.5.0/dist/purecounter_vanilla.js"></script>
 </head>
 
 <body>
@@ -375,7 +372,7 @@
                                                     @elseif ($entry['type'] === 'keluhan')
                                                         <strong>Keluhan:</strong> {{ $entry['data']->keluhan }}<br>
                                                         <strong>Lama Keluhan:</strong>
-                                                        {{ $entry['data']->lama_keluhan }}<br>
+                                                        {{ $entry['data']->lama_keluhan }} Bulan<br>
                                                         <strong>Pernah Tes:</strong>
                                                         {{ $entry['data']->pernah_tes }}<br>
                                                         <strong>Pernah Konsul:</strong>
@@ -412,20 +409,19 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/script-admin-mh.js') }}"></script>
-    @if (session('searchMessage') || isset($searchMessage))
-        <script>
-            Swal.fire({
-                title: 'Hasil Pencarian',
-                text: '{{ $searchMessage ?? session('searchMessage') }}',
-                icon: '{{ isset($searchMessage) && $searchMessage === 'Data berhasil ditemukan!' ? 'success' : 'warning' }}',
-                timer: 3000,
-                showConfirmButton: false
-            });
-        </script>
-    @endif
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
-
+<script src="{{ asset('js/script-admin-mh.js') }}"></script>
+@if (session('searchMessage') || isset($searchMessage))
+    <script>
+        Swal.fire({
+            title: 'Hasil Pencarian',
+            text: '{{ $searchMessage ?? session('searchMessage') }}',
+            icon: '{{ isset($searchMessage) && $searchMessage === 'Data berhasil ditemukan!' ? 'success' : 'warning' }}',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    </script>
+@endif
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </html>

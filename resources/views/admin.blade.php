@@ -71,7 +71,7 @@
                     <div class="stat-item">
                         <span class="stat-number" id="mental-assessments"
                             data-target="{{ $totalTes }}">{{ $totalTes }}</span>
-                        <span class="stat-label">Total Assessment</span>
+                        <span class="stat-label">Assessment Aktif</span>
                     </div>
                 </div>
             </div>
