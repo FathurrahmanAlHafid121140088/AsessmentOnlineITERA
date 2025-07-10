@@ -410,6 +410,7 @@
         </div>
     </div>
 </body>
+<x-footer></x-footer>
 <script src="{{ asset('js/script-admin-mh.js') }}"></script>
 @if (session('searchMessage') || isset($searchMessage))
     <script>

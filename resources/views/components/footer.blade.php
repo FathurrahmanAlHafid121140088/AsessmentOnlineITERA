@@ -1,5 +1,5 @@
 <footer class="footer">
-    <div class="container" style="max-width: 1200px; margin: auto; min-height: auto; padding: 0 1rem;">
+    <div class="container-footer" style="max-width: 1200px; margin: auto; min-height: auto; padding: 0 1rem;">
         <div class="footer-grid"
             style="
         display: grid;
@@ -10,7 +10,7 @@
      ">
             <div class="mb-8">
                 <h3>PPSDM ITERA</h3>
-                <p>Innovating education for a better tomorrow through technology and research.</p>
+                <p>“Smart, Friendly, and Forest Campus”.</p>
                 <div class="social-icons" style="display: flex; margin: 1rem 0;">
                     <a href="#" aria-label="Twitter"
                         style="color: #ffffff; text-decoration: none; position: relative; overflow: hidden; margin-left: 0; margin-right: 8px;">
@@ -46,7 +46,7 @@
 
             </div>
             <div class="mb-8">
-                <h4>Quick Links</h4>
+                <h4>Navigasi</h4>
                 <ul style="list-style: none; padding: 0;">
                     <li>
                         <a href="/home" class="animated-link">Home</a>
@@ -66,7 +66,8 @@
                 <ul style="list-style: none; padding: 0;">
                     <li class="flex" style="align-items: center;">
                         <i class="fas fa-map-marker-alt" style="margin-right: 8px; color: #4cc9f0;"></i>
-                        <span>Jl. Terusan Ryacudu, Sukarame, Bandar Lampung</span>
+                        <span>Jl. Terusan Ryacudu, Jati Agung, Lampung Selatan.</span>
+                        <span>Gedung GKU-1, Ruang 205 B</span>
                     </li>
                     <li class="flex" style="align-items: center;">
                         <i class="fas fa-phone-alt" style="margin-right: 8px; color: #4cc9f0;"></i>
@@ -74,7 +75,7 @@
                     </li>
                     <li class="flex" style="align-items: center;">
                         <i class="fas fa-envelope" style="margin-right: 8px; color: #4cc9f0;"></i>
-                        <span>info@ppsdm.itera.ac.id</span>
+                        <span>ppsdm@itera.ac.id</span>
                     </li>
                 </ul>
             </div>
@@ -85,7 +86,7 @@
             <p style="margin: 0; opacity: 0.7;">&copy; 2025 PPSDM ITERA. All rights reserved.</p>
             <div style="display: flex; align-items: center; margin-top: 0.5rem;">
                 <span style="opacity: 0.7;">Developed By:</span>
-                <a href="#" class="developer-badge"
+                <a href="https://www.linkedin.com/in/fathurrahman-al-hafid-a21a7a246/" class="developer-badge"
                     style="background: rgba(67, 97, 238, 0.2); padding: 8px 16px; border-radius: 30px; margin-left: 8px; text-decoration: none; color: #fff;">Fathurrahman
                     Al Hafid</a>
                 <a href="#" class="developer-badge"
@@ -156,4 +157,16 @@
             });
         });
     });
+    window.addEventListener("load", updateSidebarHeight);
+    window.addEventListener("resize", updateSidebarHeight);
+
+    function updateSidebarHeight() {
+        const footer = document.getElementById("main-footer");
+        const sidebar = document.querySelector(".sidebar");
+
+        if (footer && sidebar) {
+            const footerHeight = footer.offsetHeight;
+            sidebar.style.height = `calc(100vh - ${footerHeight}px)`;
+        }
+    }
 </script>

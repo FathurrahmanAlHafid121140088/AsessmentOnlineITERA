@@ -68,12 +68,12 @@ ul {
     width: var(--sidebar-width);
     background: #3a3a3a;
     box-shadow: var(--shadow);
-    position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    z-index: 1000;
-    transition: transform var(--transition);
+    position: relative; /* atau bisa dihapus jika tidak diperlukan */
+    height: auto; /* akan menyesuaikan tinggi kontennya */
+    z-index: 1;
+    overflow-y: auto;
 }
 
 .sidebar.open {
@@ -100,7 +100,13 @@ ul {
 /* Sidebar hidden on mobile */
 @media (max-width: 768px) {
     .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1500; /* di bawah hamburger */
         transform: translateX(-100%);
+        transition: transform 0.3s ease;
     }
 
     .sidebar.active {
@@ -132,6 +138,7 @@ ul {
     z-index: 1001; /* agar di atas sidebar */
     position: relative; /* penting jika sidebar absolute/fixed */
     color: white;
+    z-index: 2000;
 }
 
 /* Sembunyikan hamburger di desktop (lebar > 768px) */
@@ -191,7 +198,6 @@ ul {
 
 /* Main Content Styling */
 .main-content {
-    margin-left: var(--sidebar-width);
     width: calc(100% - var(--sidebar-width));
     transition: var(--transition);
 }

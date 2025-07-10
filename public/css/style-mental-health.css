@@ -1,0 +1,263 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.col-lg-6 {
+    width: 50%;
+    padding: 0 15px;
+}
+
+.gy-4 {
+    row-gap: 1.5rem;
+}
+
+/* Mental Health Section Styles */
+.mh-features-section {
+    padding: 60px 0;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.mh-features-section:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    transform: translateY(-5px);
+}
+
+.mh-image-container {
+    position: relative;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 123, 0.1);
+}
+
+.mh-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.mh-image-container:hover img {
+    transform: scale(1.02);
+}
+
+.mh-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mh-title {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    position: relative;
+    font-weight: 700;
+}
+
+.mh-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+    margin-top: 10px;
+    border-radius: 2px;
+}
+
+.mh-subtitle {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.mh-benefits-list {
+    list-style: none;
+    margin-bottom: 2.5rem;
+    padding: 0;
+}
+
+.mh-benefit-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.mh-benefit-item:hover {
+    background-color: #f0f5ff;
+    transform: translateX(5px);
+}
+
+.mh-benefit-item i {
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    margin-right: 15px;
+    color: #3498db;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e3f2fd;
+    border-radius: 50%;
+}
+
+.mh-benefit-item span {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #34495e;
+}
+
+.mh-steps {
+    background-color: #f1f8ff;
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 4px solid #3498db;
+    margin-top: 20px;
+}
+
+.mh-steps p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #2c3e50;
+}
+
+/* Steps Cards Styles */
+.mh-steps-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.mh-step-card {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #3498db;
+    transition: all 0.3s ease;
+}
+
+.mh-step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-right: 15px;
+    font-size: 1.1rem;
+}
+
+.step-content {
+    font-size: 1.05rem;
+    color: #2c3e50;
+    line-height: 1.5;
+    padding-top: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .col-lg-6 {
+        width: 100%;
+    }
+
+    .mh-image-container {
+        min-height: 300px;
+        margin-bottom: 30px;
+    }
+
+    .mh-content {
+        padding: 20px 10px;
+    }
+
+    .mh-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mh-features-section {
+        padding: 40px 0;
+    }
+
+    .mh-title {
+        font-size: 1.6rem;
+    }
+
+    .mh-benefit-item {
+        padding: 12px;
+    }
+
+    .mh-benefit-item i {
+        font-size: 1.2rem;
+        width: 35px;
+        height: 35px;
+    }
+
+    .mh-benefit-item span {
+        font-size: 1rem;
+    }
+
+    .mh-step-card {
+        padding: 15px;
+    }
+
+    .step-number {
+        min-width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .step-content {
+        font-size: 0.95rem;
+    }
+}
+
+/* Animation */
+[data-aos] {
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+    opacity: 0;
+}
+
+[data-aos].aos-animate {
+    transform: translateY(0);
+    opacity: 1;
+}

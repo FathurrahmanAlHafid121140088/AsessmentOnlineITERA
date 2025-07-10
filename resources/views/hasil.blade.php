@@ -159,66 +159,321 @@
             </div>
         </div>
         <div class="result-section category-info">
-            <h2 data-aos="zoom-in" data-aos-delay="100">Informasi Kategori Kesehatan Mental</h2>
-            <div class="category-list">
-                <div data-aos="flip-left" data-aos-delay="200"
-                    class="category-item category-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 90 ? 'active' : '' }}">
-                    <h3>Sangat Buruk (Distres Berat)</h3>
-                    <div class="category-range">38 - 90</div>
-                    <p>Individu dalam kategori ini menunjukkan tanda-tanda distres psikologis yang signifikan dan
-                        mungkin mengalami gangguan fungsi sehari-hari. Disarankan untuk segera mencari bantuan
-                        profesional kesehatan mental.</p>
-                </div>
-                <div data-aos="flip-left" data-aos-delay="400"
-                    class="category-item category-poor {{ $hasil->total_skor >= 91 && $hasil->total_skor <= 130 ? 'active' : '' }}">
-                    <h3>Buruk (Distres Sedang)</h3>
-                    <div class="category-range">91 - 130</div>
-                    <p>Menunjukkan adanya distres psikologis tingkat sedang dengan beberapa gangguan fungsi.
-                        Intervensi
-                        profesional mungkin diperlukan untuk mencegah perburukan kondisi.</p>
-                </div>
-
-                <div data-aos="flip-left" data-aos-delay="600"
-                    class="category-item category-moderate {{ $hasil->total_skor >= 131 && $hasil->total_skor <= 160 ? 'active' : '' }}">
-                    <h3>Sedang (Rentan)</h3>
-                    <div class="category-range">131 - 160</div>
-                    <p>Kesehatan mental cukup stabil namun rentan terhadap stres. Beberapa gejala psikologis ringan
-                        mungkin muncul. Perlu aktif menjaga kesehatan mental.</p>
-                </div>
-
-                <div data-aos="flip-left" data-aos-delay="800"
-                    class="category-item category-good {{ $hasil->total_skor >= 161 && $hasil->total_skor <= 190 ? 'active' : '' }}">
-                    <h3>Baik (Sehat Secara Mental)</h3>
-                    <div class="category-range">161 - 190</div>
-                    <p>Menunjukkan kesehatan mental yang baik dengan kemampuan mengatasi tekanan hidup secara
-                        efektif.
-                        Memiliki fungsi psikologis dan sosial yang positif.</p>
-                </div>
-
-                <div data-aos="flip-left" data-aos-delay="1000"
-                    class="category-item category-excellent {{ $hasil->total_skor >= 191 && $hasil->total_skor <= 226 ? 'active' : '' }}">
-                    <h3>Sangat Baik (Sejahtera Secara Mental)</h3>
-                    <div class="category-range">191 - 226</div>
-                    <p>Menunjukkan kesejahteraan mental yang optimal dengan tingkat positif yang tinggi. Mampu
-                        berkembang dan berfungsi optimal dalam berbagai aspek kehidupan.</p>
-                </div>
+            <div class="header">
+                <h1 class="title">Kategori Mental Health</h1>
+                <p class="subtitle">Evaluasi Kondisi Mental Health Berdasarkan Metode MHI-38</p>
             </div>
+            <div class="category-list">
+                <div class="category-item category-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 90 ? 'active' : '' }}"
+                    data-aos="flip-right" data-aos-delay="50">
+                    <div class="floating-particles">
+                        <div class="particle" style="left: 20%; animation-delay: 0s;"></div>
+                        <div class="particle" style="left: 50%; animation-delay: 1s;"></div>
+                        <div class="particle" style="left: 80%; animation-delay: 2s;"></div>
+                    </div>
 
-            <div class="tombol">
-                <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-                    <a href="/home" class="btn-back">
-                        <i class="fa-solid fa-house"></i>
-                        Kembali ke Halaman Utama
-                    </a>
+                    <div class="active-badge">
+                        <i class="fas fa-check-circle"></i> Status Aktif
+                    </div>
+
+                    <div class="card-header">
+                        <div class="icon-container">
+                            <div class="icon-bg"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-frown"></i>
+                            </div>
+                        </div>
+                        <h3 class="category-title">Sangat Buruk</h3>
+                        <p class="category-subtitle">Distres Berat</p>
+                        <div class="category-range">Skor: 38 - 90</div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="category-description">
+                            Menunjukkan tanda-tanda distres psikologis yang signifikan dengan gangguan fungsi
+                            sehari-hari.
+                            Kondisi ini memerlukan intervensi medis segera untuk mencegah komplikasi lebih lanjut.
+                        </p>
+
+                        <div class="health-metrics">
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-brain"></i></div>
+                                <div class="metric-label">Kognitif</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-heart"></i></div>
+                                <div class="metric-label">Emosional</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                <div class="metric-label">Sosial</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation">
+                            <i class="fas fa-user-md"></i> Konsultasi segera dengan psikiater atau psikolog klinis
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>Kategori Aktif</span>
+                        </div>
+                        <div class="severity-level">Kritis</div>
+                    </div>
                 </div>
-                <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-                    <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        Hubungi Kami
-                    </a>
+
+                <div class="category-item category-poor {{ $hasil->total_skor >= 91 && $hasil->total_skor <= 130 ? 'active' : '' }}"
+                    data-aos="flip-right" data-aos-delay="100">
+                    <div class="floating-particles">
+                        <div class="particle" style="left: 30%; animation-delay: 0.5s;"></div>
+                        <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
+                    </div>
+
+                    <div class="active-badge">
+                        <i class="fas fa-check-circle"></i> Status Aktif
+                    </div>
+
+                    <div class="card-header">
+                        <div class="icon-container">
+                            <div class="icon-bg"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-meh"></i>
+                            </div>
+                        </div>
+                        <h3 class="category-title">Buruk</h3>
+                        <p class="category-subtitle">Distres Sedang</p>
+                        <div class="category-range">Skor: 91 - 130</div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="category-description">
+                            Mengalami distres psikologis tingkat sedang dengan beberapa gangguan fungsi.
+                            Memerlukan perhatian khusus dan monitoring berkelanjutan dari tenaga kesehatan.
+                        </p>
+
+                        <div class="health-metrics">
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-brain"></i></div>
+                                <div class="metric-label">Kognitif</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-heart"></i></div>
+                                <div class="metric-label">Emosional</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                <div class="metric-label">Sosial</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation">
+                            <i class="fas fa-heart"></i> Pertimbangkan terapi psikologis dan konseling
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>Kategori Aktif</span>
+                        </div>
+                        <div class="severity-level">Sedang</div>
+                    </div>
+                </div>
+
+                <div class="category-item category-moderate {{ $hasil->total_skor >= 131 && $hasil->total_skor <= 160 ? 'active' : '' }}"
+                    data-aos="flip-right" data-aos-delay="150">
+                    <div class="floating-particles">
+                        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+                        <div class="particle" style="left: 60%; animation-delay: 2s;"></div>
+                    </div>
+
+                    <div class="active-badge">
+                        <i class="fas fa-check-circle"></i> Status Aktif
+                    </div>
+
+                    <div class="card-header">
+                        <div class="icon-container">
+                            <div class="icon-bg"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-smile"></i>
+                            </div>
+                        </div>
+                        <h3 class="category-title">Sedang</h3>
+                        <p class="category-subtitle">Rentan</p>
+                        <div class="category-range">Skor: 131 - 160</div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="category-description">
+                            Kondisi mental cukup stabil namun rentan terhadap stres. Gejala ringan mungkin muncul
+                            dalam situasi tertentu. Diperlukan strategi preventif yang tepat.
+                        </p>
+
+                        <div class="health-metrics">
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-brain"></i></div>
+                                <div class="metric-label">Kognitif</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-heart"></i></div>
+                                <div class="metric-label">Emosional</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                <div class="metric-label">Sosial</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation">
+                            <i class="fas fa-shield-alt"></i> Terapkan teknik manajemen stres dan self-care
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>Kategori Aktif</span>
+                        </div>
+                        <div class="severity-level">Hati-hati</div>
+                    </div>
+                </div>
+
+                <div class="category-item category-good {{ $hasil->total_skor >= 161 && $hasil->total_skor <= 190 ? 'active' : '' }}"
+                    data-aos="flip-right" data-aos-delay="200">
+                    <div class="floating-particles">
+                        <div class="particle" style="left: 25%; animation-delay: 0.3s;"></div>
+                        <div class="particle" style="left: 75%; animation-delay: 1.3s;"></div>
+                    </div>
+
+                    <div class="active-badge">
+                        <i class="fas fa-check-circle"></i> Status Aktif
+                    </div>
+
+                    <div class="card-header">
+                        <div class="icon-container">
+                            <div class="icon-bg"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-thumbs-up"></i>
+                            </div>
+                        </div>
+                        <h3 class="category-title">Baik</h3>
+                        <p class="category-subtitle">Sehat Mental</p>
+                        <div class="category-range">Skor: 161 - 190</div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="category-description">
+                            Menunjukkan kesehatan mental yang baik dengan kemampuan adaptasi yang efektif.
+                            Fungsi psikososial optimal dan resiliensi yang memadai terhadap tekanan.
+                        </p>
+
+                        <div class="health-metrics">
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-brain"></i></div>
+                                <div class="metric-label">Kognitif</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-heart"></i></div>
+                                <div class="metric-label">Emosional</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                <div class="metric-label">Sosial</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation">
+                            <i class="fas fa-thumbs-up"></i> Pertahankan gaya hidup sehat dan rutinitas positif
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>Kategori Aktif</span>
+                        </div>
+                        <div class="severity-level">Stabil</div>
+                    </div>
+                </div>
+
+                <div class="category-item category-excellent {{ $hasil->total_skor >= 191 && $hasil->total_skor <= 226 ? 'active' : '' }}"
+                    data-aos="flip-right" data-aos-delay="250">
+                    <div class="floating-particles">
+                        <div class="particle" style="left: 15%; animation-delay: 0.8s;"></div>
+                        <div class="particle" style="left: 45%; animation-delay: 1.8s;"></div>
+                        <div class="particle" style="left: 85%; animation-delay: 2.8s;"></div>
+                    </div>
+
+                    <div class="active-badge">
+                        <i class="fas fa-check-circle"></i> Status Aktif
+                    </div>
+
+                    <div class="card-header">
+                        <div class="icon-container">
+                            <div class="icon-bg"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <h3 class="category-title">Sangat Baik</h3>
+                        <p class="category-subtitle">Sejahtera Mental</p>
+                        <div class="category-range">Skor: 191 - 226</div>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="category-description">
+                            Menunjukkan kesejahteraan mental yang optimal dengan tingkat flourishing yang tinggi.
+                            Mampu berkembang dan berfungsi secara maksimal dalam semua aspek kehidupan.
+                        </p>
+
+                        <div class="health-metrics">
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-brain"></i></div>
+                                <div class="metric-label">Kognitif</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-heart"></i></div>
+                                <div class="metric-label">Emosional</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                <div class="metric-label">Sosial</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation">
+                            <i class="fas fa-trophy"></i> Jaga kondisi optimal dan berperan sebagai support system
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>Kategori Aktif</span>
+                        </div>
+                        <div class="severity-level">Optimal</div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="tombol">
+            <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
+                <a href="/home" class="btn-back">
+                    <i class="fa-solid fa-house"></i>
+                    Kembali ke Halaman Utama
+                </a>
+            </div>
+            <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
+                <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Hubungi Kami
+                </a>
+            </div>
+        </div>
+    </div>
     </div>
 </body>
 <x-footer></x-footer>
