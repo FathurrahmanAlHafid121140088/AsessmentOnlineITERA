@@ -525,21 +525,24 @@ function closeErrorModal() {
 document.addEventListener("DOMContentLoaded", function () {
     buildUI();
 
-    // Event listener untuk tombol submit
-    document.getElementById("submit-button").addEventListener("click", () => {
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (e) {
         // Validasi semua kategori
         const validation = validateAllCategories();
-
-        if (validation.valid) {
-            // Simpan data ke localStorage
-            localStorage.setItem("rmibResults", JSON.stringify(peringkat));
-
-            // Redirect ke halaman hasil
-            alert("Terima kasih! Hasil tes Anda telah diproses.");
-            window.location.href = "/karir-interpretasi";
-        } else {
-            // Tampilkan modal error
+        if (!validation.valid) {
+            e.preventDefault(); // Hentikan form jika error
             showErrorModal(validation.errorDetails);
+            return;
         }
+
+        // Siapkan data peringkat untuk dikirim
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "peringkat";
+        hiddenInput.value = JSON.stringify(peringkat);
+        form.appendChild(hiddenInput);
+
+        // Form akan dikirim setelah input hidden dimasukkan
     });
 });

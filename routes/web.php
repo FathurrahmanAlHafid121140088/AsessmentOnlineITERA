@@ -12,6 +12,7 @@ use App\Http\Controllers\HasilKuesionerCombinedController;
 use App\Http\Controllers\HasilKuesionerController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\KarirController;
 
 // Beranda/Home
 Route::get('/home', function () {
@@ -135,6 +136,16 @@ Route::get('/karir-interpretasi', function () {
     return view('karir-interpretasi', ['title' => 'Hasil Interpretasi Anda']);
 });
 
-Route::get('/admin-karir', function () {
-    return view('admin-karir', ['title' => 'Tampilan Admin RMIB']);
+Route::get('/karir-detail-hasil', function () {
+    return view('karir-detail-hasil', ['title' => 'Hasil Interpretasi Mahasiswa']);
 });
+
+Route::get('/admin-karir', function () {
+    return view('admin-karir', ['title' => 'Database Tes Karir']);
+});
+
+//Controller untuk Karir
+Route::post('/karir-form/simpan', [KarirController::class, 'simpanHasil'])->name('karir.simpan');
+
+Route::get('/karir-form', [KarirController::class, 'showKarirForm'])->name('karir.form');
+
