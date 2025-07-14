@@ -239,262 +239,229 @@ input[type="radio"].form-check-input:checked::before {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Tombol Panah Toggle */
-
-.toggle-button {
+/* Tombol Show Sidebar */
+#show-sidebar {
     position: fixed;
-    left: 7.5rem; /* Sesuaikan dengan lebar container daftar soal */
     top: 50%;
     transform: translateY(-50%);
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 50%;
+    background-color: #4f46e5;
+    padding: 12px 14px;
+    border-radius: 0 8px 8px 0; /* ✅ sudut kiri bulat */
     color: white;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 1rem;
     z-index: 1000;
-}
-
-.toggle-button:hover {
-    background-color: rgb(205, 205, 205);
-}
-
-/* Status Item */
-.status-item {
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: none; /* default hidden */
     cursor: pointer;
-    transition: background-color 0.2s;
-}
-.status-item:hover {
-    background-color: #eee;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2); /* bayangan arah kanan */
+    transition: background 0.3s;
 }
 
-.status-item .icon {
-    font-size: 14px;
+#show-sidebar:hover {
+    background-color: #4338ca;
 }
 
-.text-green-500 {
-    color: green;
-}
-
-.text-red-500 {
-    color: red;
-}
-
-.show-button {
-    position: fixed;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    z-index: 1001;
-    width: 36px;
-    height: 36px;
+#show-sidebar i {
     color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
 }
 
-/* Saat disembunyikan */
-.status-container.hidden-sidebar {
-    transform: translateX(-110%);
-    opacity: 0;
-    pointer-events: none;
+#show-sidebar:hover i {
+    transform: translateX(3px);
 }
 
-/* From Uiverse.io by Nawsome */
-.arrow {
-    cursor: pointer;
-    height: 60px;
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    transition: transform 0.1s;
-    width: 50px;
-}
-
-.arrow-top,
-.arrow-bottom {
-    background-color: #666;
-    height: 4px;
-    left: -5px;
-    position: absolute;
-    top: 50%;
-    width: 100%;
-}
-
-.arrow-top:after,
-.arrow-bottom:after {
-    background-color: #fff;
-    content: "";
-    height: 100%;
-    position: absolute;
-    top: 0;
-    transition: all 0.15s;
-}
-
-.arrow-top {
-    transform: rotate(45deg);
-    transform-origin: bottom right;
-}
-
-.arrow-top:after {
-    left: 100%;
+#question-status-container {
+    position: fixed;
+    top: 9rem;
     right: 0;
-    transition-delay: 0s;
-}
-
-.arrow-bottom {
-    transform: rotate(-45deg);
-    transform-origin: top right;
-}
-
-.arrow-bottom:after {
-    left: 0;
-    right: 100%;
-    transition-delay: 0.15s;
-}
-
-.arrow:hover .arrow-top:after {
-    left: 0;
-    transition-delay: 0.15s;
-}
-
-.arrow:hover .arrow-bottom:after {
-    right: 0;
-    transition-delay: 0s;
-}
-
-.arrow:active {
-    transform: translateX(-50%) translateY(-50%) scale(0.9);
-}
-
-.toggle-button .arrow-top,
-.toggle-button .arrow-bottom {
-    width: 12px;
-    height: 3px;
-    border-radius: 2px;
-    transition: transform 0.3s ease;
-}
-
-.toggle-button .arrow-top {
-    transform-origin: right center;
-    transform: rotate(135deg); /* panah kiri bagian atas */
-    margin-bottom: 3px;
-}
-
-.toggle-button .arrow-bottom {
-    transform-origin: right center;
-    transform: rotate(225deg); /* panah kiri bagian bawah */
-}
-
-@media (max-width: 480px) {
-    .scroll-to-top,
-    .scroll-to-bottom {
-        width: 44px;
-        height: 44px;
-        font-size: 20px;
-        right: 15px;
-    }
-
-    .scroll-to-top {
-        bottom: 75px;
-    }
-
-    .scroll-to-bottom {
-        bottom: 15px;
-    }
-    .quiz {
-        padding-top: 0;
-    }
-    header {
-        padding-top: 3rem;
-    }
-}
-
-@media (max-width: 1024px) {
-    .status-container,
-    .toggle-button,
-    .show-button {
-        display: none !important;
-    }
-}
-
-.question-indicator {
+    width: 260px;
+    height: 100vh;
+    background: #ffffff;
     display: flex;
     flex-direction: column;
-    align-items: center; /* center content horizontally */
-    gap: 0.5rem;
-    padding: 0.5rem 0;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(0); /* default tampil */
 }
 
-.indicator-title {
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 0.5rem;
-    font-size: 16px;
+#question-status-container.sidebar-visible {
+    left: 0;
 }
 
-.indicator-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    column-gap: 3px; /* Jarak horizontal antar soal */
-    row-gap: 0.5rem; /* Jarak vertikal antar baris saat wrap */
+#question-status-container.collapsed {
+    transform: translateX(-110%); /* keluar dari viewport */
 }
 
-.question-box {
+/* Nonaktifkan transisi saat awal load */
+#question-status-container.no-transition {
+    transition: none !important;
+}
+
+/* Sidebar Title */
+.sidebar-title {
+    padding: 18px 24px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #4361ee;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+/* Default style setiap tombol soal */
+.question-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    padding: 5px;
+    margin: 4px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 12px;
-    background-color: #f8f9fa;
-    color: #333;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.question-box .number {
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.question-box .status {
     font-size: 14px;
-    line-height: 1;
+    background-color: #f8f9fa;
+    color: #4361ee; /* Warna angka default */
+    transition: all 0.3s ease;
 }
 
-.question-box.answered {
-    background-color: #198754;
+/* Saat soal sudah dijawab */
+.question-btn.answered {
+    background-color: #4361ee !important;
+    color: white !important;
+}
+
+/* Status (✅ / ❌) tetap tampil rapi */
+.question-btn .status {
+    font-size: 12px;
+}
+
+.question-btn:hover {
+    background: #475569;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.question-btn.active {
+    background: #4f46e5;
+    color: white;
+    box-shadow: 0 0 0 2px #818cf8;
+}
+
+.question-btn i {
+    font-size: 14px;
+    color: #818cf8;
+}
+
+.question-btn.active i {
     color: white;
 }
 
-@media (min-width: 1024px) {
-    .question-indicator {
+/* Question Grid */
+#question-grid {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    overflow-y: auto;
+    flex-grow: 1;
+    align-content: start;
+    scrollbar-width: thin;
+    scrollbar-color: #4361ee #f8fafc;
+}
+
+#question-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+#question-grid::-webkit-scrollbar-thumb {
+    background-color: #4f46e5;
+    height: 50px;
+    border-radius: 3px;
+}
+
+/* Toggle Sidebar Button */
+#toggle-sidebar {
+    width: 100%;
+    padding: 16px 0;
+    background: #4f46e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    margin-top: auto;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+#toggle-sidebar:hover {
+    background: #4338ca;
+}
+
+#toggle-sidebar i {
+    color: white;
+    font-size: 1rem;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+}
+
+#toggle-sidebar span {
+    color: white;
+    font-size: 0.9rem;
+}
+
+#toggle-sidebar:hover i {
+    transform: translateX(-3px);
+}
+
+/* ========================
+   📱 RESPONSIVE SIDEBAR MOBILE
+   ======================== */
+@media (max-width: 768px) {
+    .status-container {
+        padding: 10px 10px 10px 10px; /* ruang ekstra untuk tombol panah */
+    }
+    #question-status-container {
+        width: 180px !important;
+        height: calc(100vh - 100px);
+    }
+
+    .sidebar-title {
+        font-size: 18px !important;
+        padding: 12px 16px !important;
+    }
+
+    #question-grid {
+        padding: 12px !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    .question-btn {
+        font-size: 13px !important;
+        padding: 6px !important;
+    }
+
+    .question-btn .status {
+        font-size: 11px;
+    }
+
+    #toggle-sidebar span {
         display: none;
+    }
+
+    #toggle-sidebar i {
+        font-size: 1.1rem !important;
+    }
+
+    /* Tombol show di kanan layar, lebih kecil */
+    #show-sidebar {
+        padding: 10px 12px !important;
+        font-size: 0.9rem;
+        border-radius: 6px 0 0 6px;
     }
 }
 
@@ -592,10 +559,58 @@ body {
     background-color: #ffffff;
     background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
 }
-#question-status-container {
-    transition: transform 0.3s ease;
+#scroll-arrows {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
 }
 
-#question-status-container.collapsed {
-    transform: translateX(-90%); /* geser saja, bukan hilang */
+#scroll-arrows button {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background-color: #4f46e5;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    display: none; /* default hidden */
+}
+
+#scroll-arrows button.visible {
+    display: block;
+}
+
+#scroll-arrows button:hover {
+    background-color: #4338ca;
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #scroll-arrows {
+        bottom: 15px;
+        right: 15px;
+        gap: 8px;
+    }
+
+    #scroll-arrows button {
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    #scroll-arrows button {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
 }

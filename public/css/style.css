@@ -4417,12 +4417,6 @@ fieldset:disabled .btn {
     border-top: 0;
 }
 
-.card-body {
-    flex: 1 1 auto;
-    padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
-    color: var(--bs-card-color);
-}
-
 .card-title {
     margin-bottom: var(--bs-card-title-spacer-y);
 }
@@ -4452,16 +4446,7 @@ fieldset:disabled .btn {
         var(--bs-card-inner-border-radius) 0 0;
 }
 
-.card-footer {
-    padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
-    color: var(--bs-card-cap-color);
-    background-color: var(--bs-card-cap-bg);
-    border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
-}
-.card-footer:last-child {
-    border-radius: 0 0 var(--bs-card-inner-border-radius)
-        var(--bs-card-inner-border-radius);
-}
+
 
 .card-header-tabs {
     margin-right: calc(-0.5 * var(--bs-card-cap-padding-x));

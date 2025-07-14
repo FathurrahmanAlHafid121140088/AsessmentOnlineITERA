@@ -20,7 +20,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 6rem;
     padding-bottom: 1rem;
 }
 
@@ -262,4 +261,19 @@ button svg {
 body {
     background-color: #ffffff;
     background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
+}
+.quiz-title .intro-user {
+    background-color: #f1f5ff;
+    padding: 12px 16px;
+    border-left: 4px solid #4361ee;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #374151;
+    line-height: 1.6;
+}
+
+.quiz-title .intro-user i {
+    color: #4f46e5;
+    margin-right: 6px;
 }

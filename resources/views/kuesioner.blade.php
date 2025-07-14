@@ -2,42 +2,38 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>{{ $title }}</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/stylekuesioner.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>{{ $title }}</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet"
-            type="text/css" />
-        <!-- Vendor CSS Files -->
-        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/stylekuesioner.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
-
-    </head>
 </head>
-<x-navbar></x-navbar>
 
 <body>
+    <x-navbar></x-navbar>
+
     <!-- Tombol untuk memunculkan kembali sidebar -->
     <div id="show-sidebar" class="show-button">
-        <div class="arrow-top"></div>
-        <div class="arrow-bottom"></div>
+        <i class="fas fa-chevron-right"></i>
     </div>
 
     <!-- Sidebar Soal -->
@@ -46,10 +42,9 @@
         <div id="question-grid" class="grid-container">
             <!-- Soal akan dimasukkan ke sini via JS -->
         </div>
-
         <div id="toggle-sidebar" class="toggle-button">
-            <div class="arrow-top"></div>
-            <div class="arrow-bottom"></div>
+            <i class="fas fa-chevron-left"></i>
+            <span>Sembunyikan</span>
         </div>
     </div>
 
@@ -58,7 +53,12 @@
             <div class="col-md-8 col-lg-7 quiz">
                 <div class="quiz-container">
                     <h2 class="quiz-title">
-                        <p>Halo, {{ session('nama') }} dari {{ session('program_studi') }}</p>
+                        <p class="intro-user">
+                            <i class="fas fa-user-circle me-2 text-primary"></i>Halo,
+                            <strong>{{ session('nama') }}</strong><br>
+                            <i class="fas fa-graduation-cap me-2 text-secondary"></i>Dari
+                            <strong>{{ session('program_studi') }}</strong>
+                        </p>
                         <i class="fas fa-brain me-2"></i>Quiz Mental Health MHI-38
                     </h2>
                     <form id="quizForm" action="{{ route('mental-health.kuesioner.submit') }}" method="POST">
@@ -418,6 +418,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        <!-- Grid Soal Mobile -->
                         <div class="d-grid gap-2 mt-4">
                             <button type="submit" class="btn btn-primary btn-submit" id="submit-button">
                                 <i class="fas fa-paper-plane me-2"></i> Kirim Jawaban
@@ -429,12 +430,15 @@
         </div>
     </div>
     <!-- Tombol Arrow Up -->
-    <button id="scrollToTopBtn" class="scroll-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-    <button id="scrollToBottomBtn" class="scroll-to-bottom">
-        <i class="fas fa-arrow-down"></i>
-    </button>
+    <!-- Arrow Scroll Button -->
+    <div id="scroll-arrows">
+        <button id="scroll-up" title="Scroll ke Atas">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button id="scroll-down" title="Scroll ke Bawah">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+    </div>
 
     <x-footer></x-footer>
 </body>

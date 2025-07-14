@@ -24,6 +24,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styleform.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
 
 </head>
 <x-navbar></x-navbar>
