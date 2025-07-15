@@ -4446,8 +4446,6 @@ fieldset:disabled .btn {
         var(--bs-card-inner-border-radius) 0 0;
 }
 
-
-
 .card-header-tabs {
     margin-right: calc(-0.5 * var(--bs-card-cap-padding-x));
     margin-bottom: calc(-1 * var(--bs-card-cap-padding-y));
@@ -11258,13 +11256,21 @@ p {
 }
 
 .page-section {
-    padding: 6rem 0;
+    padding: 3rem 1rem;
 }
 .page-section h2.section-heading,
 .page-section .section-heading.h2 {
     font-size: 2.5rem;
     margin-top: 0;
     margin-bottom: 1rem;
+}
+@media (max-width: 767px) {
+    .page-section h2.section-heading,
+    .page-section .section-heading.h2 {
+        font-size: 1.75rem; /* Ukuran lebih kecil untuk mobile */
+        line-height: 2.2rem;
+        text-align: center;
+    }
 }
 .page-section h3.section-subheading,
 .page-section .section-subheading.h3 {
@@ -11279,7 +11285,7 @@ p {
 
 @media (min-width: 768px) {
     section {
-        padding: 9rem 0;
+        padding: 3rem 0;
     }
 }
 .btn-xl {
@@ -11425,6 +11431,20 @@ header.masthead .masthead-heading {
         margin-bottom: 4rem;
     }
 }
+/* Tambahkan media query untuk perangkat mobile */
+@media (max-width: 767px) {
+    header.masthead .masthead-subheading {
+        font-size: 1.1rem;
+        line-height: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    header.masthead .masthead-heading {
+        font-size: 2rem;
+        line-height: 2.2rem;
+        margin-bottom: 2rem;
+    }
+}
+
 #portfolio .portfolio-item {
     max-width: 26rem;
     margin-left: auto;

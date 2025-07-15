@@ -222,3 +222,9 @@ window.addEventListener("resize", function () {
         }
     });
 });
+function backdropClose(e, modalId) {
+    // close hanya bila yang diklik persis backdrop, BUKAN kontennya
+    if (e.target.classList.contains("custom-modal")) {
+        closeModal(modalId);
+    }
+}

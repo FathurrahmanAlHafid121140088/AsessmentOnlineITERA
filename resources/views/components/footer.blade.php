@@ -46,7 +46,7 @@
 
             </div>
             <div class="mb-8">
-                <h4>Navigasi</h4>
+                <h4>Menu Utama</h4>
                 <ul style="list-style: none; padding: 0;">
                     <li>
                         <a href="/home" class="animated-link">Home</a>

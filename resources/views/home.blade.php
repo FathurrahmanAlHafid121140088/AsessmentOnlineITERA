@@ -178,9 +178,9 @@
 
     <section class="vh-50">
         <div data-aos="fade-down" data-aos-delay="200" class="text-center">
-            <h2 class="section-heading text-uppercase py-4">Quotes</h2>
+            <h2 class="section-heading text-uppercase pt-4">Quotes</h2>
         </div>
-        <div class="container py-5 h-100">
+        <div class="container py-4 h-100">
             <div class="row justify-content-center g-3">
 
                 <!-- Card 1 -->

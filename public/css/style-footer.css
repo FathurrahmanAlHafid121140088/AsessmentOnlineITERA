@@ -7,7 +7,7 @@
 }
 
 .footer {
-    background: linear-gradient(135deg, var(--dark), #1a1a1a);
+    background: #212529;
     color: var(--light);
     padding: 3rem 0;
     position: relative;
@@ -144,4 +144,20 @@
 
 .animated-link:hover::after {
     width: 100%;
+}
+@media (max-width: 767px) {
+    .footer-grid > div:first-child {
+        justify-self: center;
+        text-align: center;
+    }
+}
+
+h3,
+.h3 {
+    font-size: 1.75rem;
+}
+
+h4,
+.h4 {
+    font-size: calc(1.275rem + 0.3vw);
 }

@@ -26,29 +26,31 @@
         <div class="hamburger" id="hamburger">
             <i class="fas fa-bars"></i>
         </div>
-        <div class="header-title">
+        <div class="header-title" style="color: white">
             <h2>Dashboard</h2>
         </div>
         <div class="user-wrapper">
-            @if (Auth::guard('admin')->check())
-                <div class="user-info">
+            <div class="account-group"> {{-- pembungkus untuk :focus-within --}}
+                <button class="account-toggle">
                     <i class="fas fa-user-circle"></i>
                     <span>{{ Auth::guard('admin')->user()->username }}</span>
-                </div>
-                <div class="logout-button">
-                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    <i class="fas fa-caret-down caret"></i>
+                </button>
+
+                <div class="account-dropdown">
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-id-badge"></i> Profil
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="logout-btn">
+                        <button type="submit" class="dropdown-item logout">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
                     </form>
                 </div>
-            @else
-                <div class="login-button">
-                    <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
-                </div>
-            @endif
+            </div>
         </div>
+
     </header>
 
     <div class="container">
@@ -59,14 +61,16 @@
             </div>
             <ul class="menu">
                 <li>
-                    <a href="/admin"><i class="fas fa-home"></i> Home</a>
+                    <a href="/admin"><i class="fas fa-home" style="margin-right: 1rem;"></i> Home</a>
                 </li>
                 <li class="active">
-                    <a href="/admin/mental-health"><i class="fas fa-brain"></i> Mental Health</a>
+                    <a href="/admin/mental-health"><i class="fas fa-brain " style="margin-right: 1rem;"></i> Mental
+                        Health</a>
                 </li>
                 <li>
-                    <a href="/admin-home-karir"><i class="fas fa-briefcase"></i> Peminatan Karir</a>
-                </li>
+                    <a href="/admin-home-karir">
+                        <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
+                    </a>
             </ul>
         </div>
 
@@ -117,17 +121,23 @@
                 </div>
                 <div class="charts">
                     <div class="chart">
-                        <h3>Kategori Mental Health</h3>
+                        <div class="chart-header">
+                            <h4>Kategori Mental Health</h4>
+                        </div>
                         <div class="bar-container">
                             @php
                                 $max = max($kategoriCounts ?: [1]);
+
+                                /* warna setiap kategori */
                                 $warnaKategori = [
-                                    'Sangat Baik (Sejahtera Secara Mental)' => '#4caf50',
-                                    'Baik (Sehat Secara Mental)' => '#2196f3',
-                                    'Sedang (Rentan)' => '#ffc107',
-                                    'Buruk (Distres Sedang)' => '#ff9800',
                                     'Sangat Buruk (Distres Berat)' => '#f44336',
+                                    'Buruk (Distres Sedang)' => '#ff9800',
+                                    'Sedang (Rentan)' => '#ffc107',
+                                    'Baik (Sehat Secara Mental)' => '#2196f3',
+                                    'Sangat Baik (Sejahtera Secara Mental)' => '#4caf50',
                                 ];
+
+                                /* urutan tampilan */
                                 $urutanKategori = [
                                     'Sangat Buruk (Distres Berat)',
                                     'Buruk (Distres Sedang)',
@@ -135,27 +145,39 @@
                                     'Baik (Sehat Secara Mental)',
                                     'Sangat Baik (Sejahtera Secara Mental)',
                                 ];
+
+                                /* label ringkas */
+                                $mapLabelPendek = [
+                                    'Sangat Buruk (Distres Berat)' => 'Berat',
+                                    'Buruk (Distres Sedang)' => ' Sedang',
+                                    'Sedang (Rentan)' => 'Rentan',
+                                    'Baik (Sehat Secara Mental)' => 'Sehat',
+                                    'Sangat Baik (Sejahtera Secara Mental)' => 'Sejahtera',
+                                ];
                             @endphp
 
                             @foreach ($urutanKategori as $kategori)
                                 @php
                                     $jumlah = $kategoriCounts[$kategori] ?? 0;
-                                    $heightPx = $jumlah > 0 ? round(($jumlah / $max) * 160) : 5; // sedikit lebih pendek
+                                    $heightPx = $jumlah > 0 ? round(($jumlah / $max) * 210) : 5;
                                     $color = $warnaKategori[$kategori] ?? '#999';
+                                    $labelPendek = $mapLabelPendek[$kategori] ?? $kategori;
                                 @endphp
+
                                 <div class="bar-segment">
                                     <div class="bar-value">{{ $jumlah }} org</div>
-                                    <div class="bar-fill" data-height="{{ $heightPx }}"
+                                    <div class="bar-fill"
                                         style="height: {{ $heightPx }}px; background-color: {{ $color }};">
                                     </div>
-                                    <div class="bar-label">{{ $kategori }}</div>
+                                    <div class="bar-label">{{ $labelPendek }}</div>
                                 </div>
                             @endforeach
                         </div>
+
                     </div>
                     <div class="chart">
                         <div class="chart-header">
-                            <h3>Fakultas</h3>
+                            <h4>Fakultas</h4>
                         </div>
                         <div class="chart-canvas">
                             <div class="placeholder-pie">
@@ -193,7 +215,7 @@
                                     <div>
                                         <span class="legend-color"
                                             style="background-color: {{ $color }};"></span>
-                                        {{ $singkatan }} ({{ $count }} orang, {{ $persen }}%)
+                                        {{ $singkatan }} ({{ $count }} Mahasiswa, {{ $persen }}%)
                                     </div>
                                 @endforeach
                                 @endif
@@ -294,18 +316,19 @@
                                             style="display: flex; gap: 10px; align-items: center; justify-content: center;">
                                             <button type="button"
                                                 onclick="openModal('modal-riwayat-{{ $hasil->id }}')"
-                                                class="print-button">
+                                                class="history-button tooltip-action" {{-- kelas baru + tooltip-action --}}
+                                                style="background-color:#1d4ed8; color:white">
                                                 <i class="fas fa-history"></i>
                                             </button>
-                                            <button type="button" class="print-button"
-                                                style="background-color: green" onclick="printPDF(this)"
+
+                                            <button type="button" class="print-button tooltip-action"
+                                                style="background-color: green; color:white" onclick="printPDF(this)"
                                                 dusk="print-button-{{ $hasil->id }}">
                                                 <svg class="svgIcon" viewBox="0 0 384 512" height="1em"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path
-                                                        d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32v306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
+                                                        d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
                                                 </svg>
-                                                <span class="tooltip">Print PDF</span>
                                             </button>
                                             <button type="button" style="background-color: red"
                                                 class="delete-button" onclick="confirmDelete({{ $hasil->id }})"
@@ -326,7 +349,8 @@
                                     </td>
                                 </tr>
                                 <!-- Modal Riwayat -->
-                                <div id="modal-riwayat-{{ $hasil->id }}" class="custom-modal">
+                                <div id="modal-riwayat-{{ $hasil->id }}"
+                                    class="custom-modal"onclick="backdropClose(event, 'modal-riwayat-{{ $hasil->id }}')">
                                     <div class="custom-modal-content">
                                         <span class="custom-modal-close"
                                             onclick="closeModal('modal-riwayat-{{ $hasil->id }}')">&times;</span>
@@ -334,52 +358,76 @@
                                             Keluhan & Hasil - {{ $hasil->dataDiri->nama ?? $hasil->nim }}</h4>
                                         @php
                                             $merged = collect();
-                                            foreach ($hasil->dataDiri->hasilKuesioners as $kuesioner) {
-                                                $key = \Carbon\Carbon::parse($kuesioner->created_at)->format(
-                                                    'Y-m-d H:i',
-                                                );
+
+                                            /* Gabungkan kedua koleksi menjadi satu array */
+                                            $semuaData = [
+                                                ...$hasil->dataDiri->hasilKuesioners->map(
+                                                    fn($k) => ['type' => 'kuesioner', 'record' => $k],
+                                                ),
+                                                ...$hasil->dataDiri->riwayatKeluhans->map(
+                                                    fn($r) => ['type' => 'keluhan', 'record' => $r],
+                                                ),
+                                            ];
+
+                                            /* Iterasi satu kali saja */
+                                            foreach ($semuaData as $item) {
+                                                $created = $item['record']->created_at;
+                                                $key = \Carbon\Carbon::parse($created)->format('Y-m-d H:i');
+
                                                 $merged->push([
                                                     'group_key' => $key,
-                                                    'type' => 'kuesioner',
-                                                    'created_at' => $kuesioner->created_at,
-                                                    'data' => $kuesioner,
-                                                ]);
-                                            }
-                                            foreach ($hasil->dataDiri->riwayatKeluhans as $keluhan) {
-                                                $key = \Carbon\Carbon::parse($keluhan->created_at)->format('Y-m-d H:i');
-                                                $merged->push([
-                                                    'group_key' => $key,
-                                                    'type' => 'keluhan',
-                                                    'created_at' => $keluhan->created_at,
-                                                    'data' => $keluhan,
+                                                    'type' => $item['type'],
+                                                    'created_at' => $created,
+                                                    'data' => $item['record'],
                                                 ]);
                                             }
 
                                             $grouped = $merged->sortByDesc('created_at')->groupBy('group_key');
                                         @endphp
-
                                         @forelse ($grouped as $timestamp => $entries)
-                                            <div style="margin-bottom: 10px;">
-                                                <strong>Tanggal:</strong>
-                                                {{ \Carbon\Carbon::parse($entries->first()['created_at'])->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') }}
-                                                <br>
-                                                @foreach ($entries as $entry)
-                                                    @if ($entry['type'] === 'kuesioner')
-                                                        <strong>Skor Total:</strong>
-                                                        {{ $entry['data']->total_skor }}<br>
-                                                        <strong>Kategori:</strong>
-                                                        {{ $entry['data']->kategori }}<br>
-                                                    @elseif ($entry['type'] === 'keluhan')
-                                                        <strong>Keluhan:</strong> {{ $entry['data']->keluhan }}<br>
-                                                        <strong>Lama Keluhan:</strong>
-                                                        {{ $entry['data']->lama_keluhan }} Bulan<br>
-                                                        <strong>Pernah Tes:</strong>
-                                                        {{ $entry['data']->pernah_tes }}<br>
-                                                        <strong>Pernah Konsul:</strong>
-                                                        {{ $entry['data']->pernah_konsul }}<br>
-                                                    @endif
-                                                @endforeach
+                                            @php
+                                                $tgl = \Carbon\Carbon::parse($entries->first()['created_at'])
+                                                    ->setTimezone('Asia/Jakarta')
+                                                    ->translatedFormat('l, d M Y - H:i');
+
+                                                $kuesioner = $entries->firstWhere('type', 'kuesioner')['data'] ?? null;
+                                                $keluhan = $entries->firstWhere('type', 'keluhan')['data'] ?? null;
+                                            @endphp
+
+                                            <div style="margin-bottom:18px;">
+                                                <strong>
+                                                    <i class="fas fa-calendar-alt"></i> Tanggal:
+                                                </strong> {{ $tgl }}<br>
+
+                                                @if ($kuesioner)
+                                                    <strong>
+                                                        <i class="fas fa-chart-line"></i> Skor Total:
+                                                    </strong> {{ $kuesioner->total_skor }}<br>
+
+                                                    <strong>
+                                                        <i class="fas fa-tag"></i> Kategori:
+                                                    </strong> {{ $kuesioner->kategori }}<br>
+                                                @endif
+
+                                                @if ($keluhan)
+                                                    <strong>
+                                                        <i class="fas fa-comment-medical"></i> Keluhan:
+                                                    </strong> {{ $keluhan->keluhan }}<br>
+
+                                                    <strong>
+                                                        <i class="fas fa-hourglass-half"></i> Lama Keluhan:
+                                                    </strong> {{ $keluhan->lama_keluhan }} Bulan<br>
+
+                                                    <strong>
+                                                        <i class="fas fa-vials"></i> Pernah Tes:
+                                                    </strong> {{ $keluhan->pernah_tes }}<br>
+
+                                                    <strong>
+                                                        <i class="fas fa-user-md"></i> Pernah Konsul:
+                                                    </strong> {{ $keluhan->pernah_konsul }}<br>
+                                                @endif
                                             </div>
+
                                             <hr>
                                         @empty
                                             <p class="text-center">Tidak ada data keluhan atau kuesioner.</p>

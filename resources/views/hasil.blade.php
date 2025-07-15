@@ -106,8 +106,8 @@
         </div>
 
 
-        <div data-aos="fade-right" data-aos-delay="200" class="category-description">
-            <h3>Tentang Kategori "Sedang (Rentan)"</h3>
+        <div data-aos="fade-right" data-aos-delay="200" class="category-description-active" <h3>Tentang Kategori "Sedang
+            (Rentan)"</h3>
             <p>Individu dalam kategori ini memiliki tingkat kesehatan mental yang cukup, namun berada dalam kondisi
                 rentan terhadap stres dan tekanan. Mungkin mengalami beberapa gejala gangguan psikologis ringan yang
                 dapat berkembang jika tidak dikelola dengan baik. Diperlukan upaya aktif untuk menjaga dan
@@ -189,11 +189,11 @@
                     </div>
 
                     <div class="card-body">
-                        <p class="category-description">
-                            Menunjukkan tanda-tanda distres psikologis yang signifikan dengan gangguan fungsi
-                            sehari-hari.
-                            Kondisi ini memerlukan intervensi medis segera untuk mencegah komplikasi lebih lanjut.
-                        </p>
+                        <div
+                            class="category-description {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 90 ? 'active' : 'hidden' }}">
+                            Tanda-tanda distres psikologis signifikan,
+                            disarankan segera konsultasi profesional.
+                        </div>
 
                         <div class="health-metrics">
                             <div class="metric">
@@ -248,10 +248,11 @@
                     </div>
 
                     <div class="card-body">
-                        <p class="category-description">
-                            Mengalami distres psikologis tingkat sedang dengan beberapa gangguan fungsi.
-                            Memerlukan perhatian khusus dan monitoring berkelanjutan dari tenaga kesehatan.
-                        </p>
+                        <div
+                            class="category-description {{ $hasil->total_skor >= 91 && $hasil->total_skor <= 130 ? 'active' : 'hidden' }}">
+                            Distres psikologis tingkat sedang, perlu intervensi
+                            profesional.
+                        </div>
 
                         <div class="health-metrics">
                             <div class="metric">
@@ -306,10 +307,11 @@
                     </div>
 
                     <div class="card-body">
-                        <p class="category-description">
-                            Kondisi mental cukup stabil namun rentan terhadap stres. Gejala ringan mungkin muncul
-                            dalam situasi tertentu. Diperlukan strategi preventif yang tepat.
-                        </p>
+                        <div
+                            class="category-description {{ $hasil->total_skor >= 131 && $hasil->total_skor <= 160 ? 'active' : 'hidden' }}">
+                            Stabil namun rentan terhadap stres, perlu menjaga
+                            kesehatan mental.
+                        </div>
 
                         <div class="health-metrics">
                             <div class="metric">
@@ -364,10 +366,10 @@
                     </div>
 
                     <div class="card-body">
-                        <p class="category-description">
-                            Menunjukkan kesehatan mental yang baik dengan kemampuan adaptasi yang efektif.
-                            Fungsi psikososial optimal dan resiliensi yang memadai terhadap tekanan.
-                        </p>
+                        <div
+                            class="category-description {{ $hasil->total_skor >= 161 && $hasil->total_skor <= 190 ? 'active' : 'hidden' }}">
+                            Dapat mengatasi tekanan hidup secara efektif.
+                        </div>
 
                         <div class="health-metrics">
                             <div class="metric">
@@ -423,10 +425,11 @@
                     </div>
 
                     <div class="card-body">
-                        <p class="category-description">
-                            Menunjukkan kesejahteraan mental yang optimal dengan tingkat flourishing yang tinggi.
-                            Mampu berkembang dan berfungsi secara maksimal dalam semua aspek kehidupan.
-                        </p>
+                        <div
+                            class="category-description {{ $hasil->total_skor >= 191 && $hasil->total_skor <= 226 ? 'active' : 'hidden' }}">
+                            Menunjukkan kesejahteraan mental optimal, mampu
+                            berkembang dan berfungsi baik.
+                        </div>
 
                         <div class="health-metrics">
                             <div class="metric">
@@ -469,7 +472,7 @@
             <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
                 <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
                     <i class="fa-brands fa-whatsapp"></i>
-                    Hubungi Kami
+                    Konsultasi Lebih Lanjut
                 </a>
             </div>
         </div>

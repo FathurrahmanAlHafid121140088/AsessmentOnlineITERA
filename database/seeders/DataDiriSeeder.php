@@ -28,7 +28,7 @@ class DataDiriSeeder extends Seeder
             'Fakultas Teknologi Infrastruktur dan Kewilayahan' => ['Teknik Sipil', 'Arsitektur', 'Perencanaan Wilayah'],
         ];
 
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 500; $i++) {
             $nim = '121140' . str_pad($i, 3, '0', STR_PAD_LEFT);
             $fakultas = $fakultasList[array_rand($fakultasList)];
             $prodi = $prodiByFakultas[$fakultas][array_rand($prodiByFakultas[$fakultas])];

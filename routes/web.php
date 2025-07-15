@@ -2,10 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminsController;
-use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DataDirisController;
+use App\Http\Middleware\CheckNimSession;
 use App\Http\Controllers\RiwayatKeluhansController;
-use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\HasilKuesionerCombinedController;
@@ -42,8 +41,6 @@ Route::post('/login', [AdminAuthController::class, 'login'])->name('login.proces
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 // Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
-
-// Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
 Route::middleware([AdminAuth::class])->group(function () {
     // Dashboard + hasil kuesioner + search + pagination
     Route::get('/admin/mental-health', [HasilKuesionerCombinedController::class, 'index'])
@@ -68,8 +65,6 @@ Route::middleware([AdminAuth::class])->group(function () {
 
 });
 
-
-
 Route::get('/mental-health/data-diri', [DataDirisController::class, 'create'])->name('mental-health.data-diri');
 Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->name('mental-health.store-data-diri');
 
@@ -77,7 +72,7 @@ Route::get('/mental-health/kuesioner', function () {
     return view('kuesioner', [
         'nim' => session('nim')
     ]);
-})->name('mental-health.kuesioner');
+})->middleware(CheckNimSession::class)->name('mental-health.kuesioner');
 
 // submit
 Route::post('/mental-health/kuesioner', [HasilKuesionerController::class, 'store'])
@@ -89,8 +84,6 @@ Route::get('/mental-health/hasil', [HasilKuesionerController::class, 'showLatest
 
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
-
-
 
 
 // =====================
@@ -108,11 +101,6 @@ Route::get('/lupa-password', function () {
 Route::get('/mental-health', function () {
     return view('mental-health', ['title' => 'Mental Health']);
 });
-
-
-Route::get('/mental-health/kuesioner', function () {
-    return view('kuesioner', ['title' => 'Kuesioner MHI-38']);
-})->name('mental-health.kuesioner');
 
 
 // routes untuk Karir
