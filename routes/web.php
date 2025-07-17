@@ -64,15 +64,15 @@ Route::middleware([AdminAuth::class])->group(function () {
     });
 
 });
-
-Route::get('/mental-health/data-diri', [DataDirisController::class, 'create'])->name('mental-health.data-diri');
-Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->name('mental-health.store-data-diri');
-
 Route::get('/mental-health/kuesioner', function () {
     return view('kuesioner', [
+        'title' => 'Kuesioner Mental Health',
         'nim' => session('nim')
     ]);
 })->middleware(CheckNimSession::class)->name('mental-health.kuesioner');
+
+Route::get('/mental-health/data-diri', [DataDirisController::class, 'create'])->name('mental-health.data-diri');
+Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->name('mental-health.store-data-diri');
 
 // submit
 Route::post('/mental-health/kuesioner', [HasilKuesionerController::class, 'store'])

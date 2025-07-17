@@ -22,11 +22,11 @@
 body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         sans-serif;
-    background: #ffffff;
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
-    color: var(--text-dark);
+    background-color: #ffffff;
+    background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
+    line-height: 1.6;
+    overflow-x: hidden; /* jika mau */
+    overflow-y: auto;
 }
 
 /* Floating particles */

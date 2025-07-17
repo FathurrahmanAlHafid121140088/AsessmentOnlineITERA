@@ -74,7 +74,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     cancelButtonText: "Batal",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        quizForm.submit();
+                        Swal.fire({
+                            title: "Terima kasih!",
+                            text: "Selamat telah mengerjakan tes dengan baik.",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+
+                        setTimeout(() => {
+                            quizForm.submit();
+                        }, 2000); // ⏳ Tunggu agar ucapan muncul sebelum reload
                     }
                 });
             }

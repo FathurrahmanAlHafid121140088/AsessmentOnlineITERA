@@ -84,14 +84,17 @@
         <div
             style="border-top: 1px solid #4b4b4b; margin-top: 2rem; padding-top: 1rem; display: flex; flex-direction: column; align-items: center;">
             <p style="margin: 0; opacity: 0.7;">&copy; 2025 PPSDM ITERA. All rights reserved.</p>
-            <div style="display: flex; align-items: center; margin-top: 0.5rem;">
-                <span style="opacity: 0.7;">Developed By:</span>
-                <a href="https://www.linkedin.com/in/fathurrahman-al-hafid-a21a7a246/" class="developer-badge"
-                    style="background: rgba(67, 97, 238, 0.2); padding: 8px 16px; border-radius: 30px; margin-left: 8px; text-decoration: none; color: #fff;">Fathurrahman
-                    Al Hafid</a>
-                <a href="#" class="developer-badge"
-                    style="background: rgba(67, 97, 238, 0.2); padding: 8px 16px; border-radius: 30px; margin-left: 8px; text-decoration: none; color: #fff;">Riksan
-                    Cahyowadi</a>
+            <div class="developer-container">
+                <span class="developed-by">Developed By:</span>
+                <div style="display: flex"> <a href="https://www.linkedin.com/in/fathurrahman-al-hafid-a21a7a246/"
+                        class="developer-badge">
+                        Fathurrahman Al Hafid
+                    </a>
+                    <a href="#" class="developer-badge">
+                        Riksan Cahyowadi
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

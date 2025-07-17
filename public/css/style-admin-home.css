@@ -691,7 +691,11 @@ header {
 
 /* Tables Styling */
 .tables {
-    padding: 0px 20px 20px 20px;
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin: 1rem;
 }
 
 .table {
@@ -1391,10 +1395,10 @@ tbody tr:nth-child(even) {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
     padding: 0;
     margin: 0;
     justify-content: center;
+    gap: 8px;
 }
 
 .pagination li a,
@@ -1441,7 +1445,8 @@ tbody tr:nth-child(even) {
     }
 
     .pagination {
-        gap: 4px;
+        column-gap: 8px; /* jarak kiri–kanan antar <li> */
+        row-gap: 16px;
     }
 
     .pagination li a,

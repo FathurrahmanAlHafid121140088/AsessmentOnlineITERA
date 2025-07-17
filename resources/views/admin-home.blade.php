@@ -224,33 +224,33 @@
                     </div>
                 </div>
             </div>
-
             <div class="tables">
-                <div class="table">
-                    <div class="table-header">
-                        <h3>Aktivitas Terbaru</h3>
-                        <div class="table-controls">
-                            <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
-                                <label for="limit">Tampilkan:</label>
-                                <select name="limit" id="limit" onchange="this.form.submit()">
-                                    @foreach ([10, 25, 50, 100, 200] as $l)
-                                        <option value="{{ $l }}"
-                                            {{ request('limit') == $l ? 'selected' : '' }}>
-                                            {{ $l }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <input type="hidden" name="search" value="{{ request('search') }}">
-                            </form>
-                            {{-- Search Box --}}
-                            <form action="{{ route('admin.home') }}" method="GET" class="search-form">
-                                <input type="text" name="search" placeholder="Cari Data..."
-                                    value="{{ request('search') }}">
-                                <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
-                                <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
-                            </form>
-                        </div>
+                <div class="table-header">
+                    <h3>Aktivitas Terbaru</h3>
+                    <div class="table-controls">
+                        <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
+                            <label for="limit">Tampilkan:</label>
+                            <select name="limit" id="limit" onchange="this.form.submit()">
+                                @foreach ([10, 25, 50, 100, 200] as $l)
+                                    <option value="{{ $l }}"
+                                        {{ request('limit') == $l ? 'selected' : '' }}>
+                                        {{ $l }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                        </form>
+                        {{-- Search Box --}}
+                        <form action="{{ route('admin.home') }}" method="GET" class="search-form">
+                            <input type="text" name="search" placeholder="Cari Data..."
+                                value="{{ request('search') }}">
+                            <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
+                            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+                        </form>
                     </div>
+
+                </div>
+                <div class="table">
                     <table id="assessmentTable">
                         <thead>
                             <tr>
@@ -448,12 +448,12 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        {{ $hasilKuesioners->links('vendor.pagination.default') }} </div>
-                    <button class="btn-pdf" onclick="generatePDF()">
-                        <i class="fas fa-file-pdf"></i> Cetak PDF
-                    </button>
                 </div>
+                <div class="pagination">
+                    {{ $hasilKuesioners->links('vendor.pagination.default') }} </div>
+                <button class="btn-pdf" onclick="generatePDF()">
+                    <i class="fas fa-file-pdf"></i> Cetak PDF
+                </button>
             </div>
         </div>
     </div>
