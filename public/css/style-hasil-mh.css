@@ -98,7 +98,6 @@ h3 {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    max-width: 600px;
     width: 100%;
 }
 
@@ -520,6 +519,9 @@ h3 {
 .whatsapp-btn:hover {
     background-color: #064c45;
 }
+.mobile-only {
+    display: none !important;
+}
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -543,6 +545,15 @@ h3 {
     .btn {
         width: 100%;
         text-align: center;
+    }
+    .mobile-only {
+        display: block !important;
+        color: #2c3e50;
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative;
     }
 }
 
@@ -588,10 +599,12 @@ h3 {
     justify-content: center;
     gap: 12px;
 }
+.score-range-title i {
+    color: #3498db;
+    margin-right: 6px;
+}
 
 .score-range-title::before {
-    content: "\f080";
-    font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 28px;
     background: linear-gradient(135deg, #4361ee, #5f78ff);
@@ -601,14 +614,13 @@ h3 {
 }
 
 .score-range-scale {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 kolom, sesuai dengan 5 range */
     gap: 4px;
-    margin-bottom: 24px;
-    border-radius: 16px;
-    overflow: hidden;
     background: rgba(241, 245, 249, 0.5);
     padding: 8px;
-    position: relative;
+    border-radius: 16px;
+    margin-bottom: 12px;
 }
 
 .range-item {
@@ -639,26 +651,36 @@ h3 {
 
 .range-very-poor::before {
     content: "\f119"; /* fa-frown */
+    font-family: "Font Awesome 6 Free";
+
     color: #ef4444;
 }
 
 .range-poor::before {
     content: "\f11a"; /* fa-meh */
+    font-family: "Font Awesome 6 Free";
+
     color: #f97316;
 }
 
 .range-moderate::before {
     content: "\f118"; /* fa-smile */
+    font-family: "Font Awesome 6 Free";
+
     color: #eab308;
 }
 
 .range-good::before {
     content: "\f164"; /* fa-thumbs-up */
+    font-family: "Font Awesome 6 Free";
+
     color: #3498db;
 }
 
 .range-excellent::before {
     content: "\f005"; /* fa-star */
+    font-family: "Font Awesome 6 Free";
+
     color: #10b981;
 }
 
@@ -801,10 +823,10 @@ h3 {
 }
 
 .score-range-labels {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Sejajarkan dengan .range-item */
+    gap: 4px;
+    text-align: center;
     font-size: 14px;
     font-weight: 600;
     color: #64748b;
@@ -813,25 +835,12 @@ h3 {
 .score-range-labels span {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 8px 16px;
+    padding: 8px 0;
     border-radius: 20px;
     background: rgba(241, 245, 249, 0.5);
     transition: all 0.3s ease;
-}
-
-.score-range-labels span:first-child::before {
-    content: "\f119"; /* fa-frown */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    color: #ef4444;
-}
-
-.score-range-labels span:last-child::before {
-    content: "\f005"; /* fa-star */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    color: #10b981;
 }
 
 .score-range-labels span:hover {
@@ -881,22 +890,26 @@ h3 {
     }
 }
 
-@media (max-width: 480px) {
-    .score-range-scale {
-        flex-direction: column;
-        gap: 8px;
-    }
-
+@media (max-width: 767px) {
     .range-item {
         flex-direction: row;
         justify-content: center;
         padding: 16px;
     }
 
+    .score-range-scale,
     .score-range-labels {
-        flex-direction: column;
-        gap: 12px;
-        text-align: center;
+        grid-template-columns: 1fr;
+    }
+
+    .score-range-labels span {
+        justify-content: center; /* icon dan teks sejajar kiri di tablet/HP */
+        padding: 10px 16px;
+    }
+
+    .score-range-scale > div {
+        text-align: left;
+        padding-left: 12px;
     }
     .score-category {
         text-align: center;
@@ -1579,6 +1592,30 @@ h3 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.recommendation {
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+    color: white;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.8; /* memberikan jarak antar baris */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.recommendation i {
+    margin-right: 6px;
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
 .category-item.active .recommendation {
     opacity: 1;
     transform: translateY(0);
@@ -1714,42 +1751,6 @@ h3 {
     }
 }
 
-@media (max-width: 768px) {
-    .category-list {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .title {
-        font-size: 2.2rem;
-    }
-
-    .card-header {
-        padding: 1.5rem;
-    }
-
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .health-metrics {
-        grid-template-columns: 1fr;
-    }
-
-    .category-icon {
-        font-size: 3rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .title {
-        font-size: 1.8rem;
-    }
-
-    .header {
-        margin-bottom: 2rem;
-    }
-}
 .header {
     text-align: center;
     margin-bottom: 3rem;
@@ -1782,4 +1783,48 @@ h3 {
     font-size: 1.1rem;
     font-weight: 400;
     margin-top: 1rem;
+}
+@media (max-width: 767px) {
+    .category-list {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .card-header {
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .health-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .category-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .header {
+        margin-bottom: 2rem;
+    }
+}
+/* Default: sembunyikan */
+.section-heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    margin-top: 1.2rem;
+    color: var(--primary-color);
 }

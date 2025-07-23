@@ -21,11 +21,11 @@ class HasilKuesionerController extends Controller
 
         // kategori berdasarkan total skor
         $kategori = match (true) {
-            $totalSkor >= 191 && $totalSkor <= 226 => 'Sangat Baik (Sejahtera Secara Mental)',
-            $totalSkor >= 161 && $totalSkor <= 190 => 'Baik (Sehat Secara Mental)',
-            $totalSkor >= 131 && $totalSkor <= 160 => 'Sedang (Rentan)',
-            $totalSkor >= 91 && $totalSkor <= 130 => 'Buruk (Distres Sedang)',
-            $totalSkor >= 38 && $totalSkor <= 90 => 'Sangat Buruk (Distres Berat)',
+            $totalSkor >= 190 && $totalSkor <= 226 => 'Sangat Baik (Sejahtera Secara Mental)',
+            $totalSkor >= 152 && $totalSkor <= 189 => 'Baik (Sehat Secara Mental)',
+            $totalSkor >= 114 && $totalSkor <= 151 => 'Sedang (Rentan)',
+            $totalSkor >= 76 && $totalSkor <= 113 => 'Buruk (Distres Sedang)',
+            $totalSkor >= 38 && $totalSkor <= 75 => 'Sangat Buruk (Distres Berat)',
             default => 'Tidak Terdefinisi',
         };
         try {

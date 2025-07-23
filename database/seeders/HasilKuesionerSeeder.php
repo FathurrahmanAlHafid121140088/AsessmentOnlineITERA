@@ -26,12 +26,57 @@ class HasilKuesionerSeeder extends Seeder
 
         // ✅ Daftar fakultas dan prodi
         $fakultasList = [
-            'Fakultas Sains' => ['Matematika', 'Fisika', 'Biologi'],
-            'Fakultas Teknologi Industri' => ['Teknik Elektro', 'Teknik Kimia', 'Teknik Mesin'],
-            'Fakultas Teknologi Infrastruktur dan Kewilayahan' => ['Teknik Sipil', 'Arsitektur', 'Perencanaan Wilayah'],
+            'Fakultas Sains' => [
+                'Fisika',
+                'Matematika',
+                'Biologi',
+                'Kimia',
+                'Farmasi',
+                'Sains Data',
+                'Sains Aktuaria',
+                'Sains Lingkungan Kelautan',
+                'Sains Atmosfer dan Keplanetan',
+                'Magister Fisika',
+            ],
+            'Fakultas Teknologi Infrastruktur dan Kewilayahan' => [
+                'Perencanaan Wilayah dan Kota',
+                'Teknik Geomatika',
+                'Teknik Sipil',
+                'Arsitektur',
+                'Teknik Lingkungan',
+                'Teknik Kelautan',
+                'Desain Komunikasi Visual',
+                'Arsitektur Lanskap',
+                'Teknik Perkeretaapian',
+                'Rekayasa Tata Kelola Air Terpadu',
+                'Pariwisata',
+            ],
+            'Fakultas Teknologi Industri' => [
+                'Teknik Elektro',
+                'Teknik Fisika',
+                'Teknik Informatika',
+                'Teknik Geologi',
+                'Teknik Geofisika',
+                'Teknik Mesin',
+                'Teknik Kimia',
+                'Teknik Material',
+                'Teknik Sistem Energi',
+                'Teknik Industri',
+                'Teknik Telekomunikasi',
+                'Teknik Biomedis',
+                'Teknik Biosistem',
+                'Teknologi Industri Pertanian',
+                'Teknologi Pangan',
+                'Rekayasa Kehutanan',
+                'Rekayasa Kosmetik',
+                'Rekayasa Minyak dan Gas',
+                'Rekayasa Instrumentasi dan Automasi',
+                'Rekayasa Keolahragaan',
+            ],
         ];
 
-        for ($i = 1; $i <= 500; $i++) {
+
+        for ($i = 1; $i <= 100; $i++) {
             $nim = '121140' . str_pad($i, 3, '0', STR_PAD_LEFT);
 
             // Random fakultas dan prodi
@@ -82,10 +127,10 @@ class HasilKuesionerSeeder extends Seeder
     private function getKategori($skor)
     {
         return match (true) {
-            $skor >= 191 => 'Sangat Baik (Sejahtera Secara Mental)',
-            $skor >= 161 => 'Baik (Sehat Secara Mental)',
-            $skor >= 131 => 'Sedang (Rentan)',
-            $skor >= 91 => 'Buruk (Distres Sedang)',
+            $skor >= 190 => 'Sangat Baik (Sejahtera Secara Mental)',
+            $skor >= 152 => 'Baik (Sehat Secara Mental)',
+            $skor >= 114 => 'Sedang (Rentan)',
+            $skor >= 76 => 'Buruk (Distres Sedang)',
             $skor >= 38 => 'Sangat Buruk (Distres Berat)',
             default => 'Tidak Diketahui',
         };
