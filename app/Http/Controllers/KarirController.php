@@ -22,7 +22,7 @@ class KarirController extends Controller
             "Sekretaris Perusahaan", "Ahli Bangunan", "Ahli Bedah", "Ahli Kehutanan"
         ],
         "Kelompok C" => [
-            "Auditor", "Ahli Meteorologi", "Sales Man", "Arsitek", "Penulis Drama", "Komponis",
+            "Auditor", "Ahli Meteorologi", "Salesman", "Arsitek", "Penulis Drama", "Komponis",
             "Kepala Sekolah", "Pegawai Kecamatan", "Ahli Meubel/ Furniture", "Dokter Hewan",
             "Juru Ukur Tanah", "Tukang Bubut/ Lemer"
         ],
@@ -33,8 +33,7 @@ class KarirController extends Controller
         ],
         "Kelompok E" => [
             "Petugas Wawancara", "Perancang Perhiasan", "Ahli Perpustakaan", "Guru Musik",
-            "Pembina Rohani", "Petugas Arsip", "Tukang Batu", "Dokter Gigi", "Prospektor 
-            (Melakukan analisis bisnis/ SDA bagi perusahaan)",
+            "Pembina Rohani", "Petugas Arsip", "Tukang Batu", "Dokter Gigi", "Prospektor",
             "Montir", "Guru Ilmu Pasti", "Ahli Pertanian"
         ],
         "Kelompok F" => [
@@ -63,6 +62,22 @@ class KarirController extends Controller
     $pekerjaan = collect($kategoriRMIB)->flatten()->unique()->sort()->values()->toArray();
 
     return view('karir-form', compact('pekerjaan'));
+}
+
+public function simpanDataDiri(Request $request)
+{
+    $request->validate([
+        'nama' => 'required',
+        'jenis_kelamin' => 'required|in:L,P',
+    ]);
+
+    session(['gender' => $request->jenis_kelamin]);
+    return redirect()->route('karir.form');
+}
+
+public function form()
+{
+    return view('karir-form'); // file resources/views/karir-form.blade.php
 }
 
 public function simpanHasil(Request $request)
@@ -100,8 +115,28 @@ public function simpanHasil(Request $request)
             ]);
         }
     }
+    session(['gender' => $request->jenis_kelamin]); // 'L' atau 'P'
 
-    return redirect()->route('karir.interpretasi');
+    return redirect()->route('kariri.interpretasi');
 }
+
+public function simpanJawaban(Request $request)
+{
+    // Validasi jika perlu
+    $request->validate([
+        'top_1' => 'required|string',
+        'top_2' => 'required|string',
+        'top_3' => 'required|string',
+        'jawaban' => 'required|array',
+    ]);
+
+    // Proses simpan ke database atau session...
+    // contoh:
+    // RmibJawabanPeserta::create([...]);
+
+    return redirect()->route('karir.hasil'); // atau ke mana pun setelah submit
+}
+
+
 }
 

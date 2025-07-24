@@ -35,7 +35,7 @@
                 <div class="text-center">
                     <img src="../assets/img/img-form.png" style="width: 250px">
                 </div>
-                <form action="{{ route('mental-health.store-data-diri') }}" method="POST"> @csrf
+                <form action="{{ route('karir.datadiri') }}" method="POST"> @csrf
                     <div class="formbold-form-title">
                         <h2 class="">Form Data Diri</h2>
                         <p>Isi data diri dibawah ini dengan benar.</p>

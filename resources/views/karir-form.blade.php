@@ -27,7 +27,7 @@
             <form method="POST" action="{{ route('karir.simpan') }}">
                 @csrf
                 <!-- Tempat form isian pekerjaan -->
-                <div id="categories-container"></div>
+                <div id="categories-container" class="categories-grid"></div>
 
                 <!-- Select Top 1/2/3 -->
                 <div class="top-choice-section">
@@ -68,6 +68,9 @@
             </form>
         </div>
     </div>
+    <script>
+        window.gender = "{{ session('gender', 'L') }}"; // Default ke 'L' jika tidak ada
+    </script>
     <script src="{{ asset('js/karir-form.js') }}"></script>
 </body>
 

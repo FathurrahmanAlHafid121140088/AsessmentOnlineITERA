@@ -1,0 +1,155 @@
+[
+    {
+        "name": "Kelompok A",
+        "jobs": [
+            "Petani",
+            "Insinyur Sipil",
+            "Akuntan",
+            "Ilmuwan",
+            "Manager Penjualan",
+            "Seniman",
+            "Wartawan",
+            "Pianis Konser",
+            "Guru SD",
+            "Manager Bank",
+            "Tukang Kayu",
+            "Dokter"
+        ]
+    },
+    {
+        "name": "Kelompok B",
+        "jobs": [
+            "Ahli Pembuat Alat",
+            "Ahli Statistik",
+            "Insinyur Kimia Industri",
+            "Penyiar Radio",
+            "Artis Profesional",
+            "Pengarang",
+            "Dirigen Orkestra",
+            "Psikolog Pendidikan",
+            "Sekretaris Perusahaan",
+            "Ahli Bangunan",
+            "Ahli Bedah",
+            "Ahli Kehutanan"
+        ]
+    },
+    {
+        "name": "Kelompok C",
+        "jobs": [
+            "Auditor",
+            "Ahli Meteorologi",
+            "Salesman",
+            "Arsitek",
+            "Penulis Drama",
+            "Komponis",
+            "Kepala Sekolah",
+            "Pegawai Kecamatan",
+            "Ahli Meubel/ Furniture",
+            "Dokter Hewan",
+            "Juru Ukur Tanah",
+            "Tukang Bubut/ Lemer"
+        ]
+    },
+    {
+        "name": "Kelompok D",
+        "jobs": [
+            "Ahli Biologi",
+            "Agen Biro Periklanan",
+            "Dekorator Interior",
+            "Ahli Sejarah",
+            "Kritikus Musik",
+            "Pekerja Sosial",
+            "Pegawai Asuransi",
+            "Tukang Cat",
+            "Apoteker",
+            "Penjelajah",
+            "Tukang Listrik",
+            "Penilai Pajak Pendapatan"
+        ]
+    },
+    {
+        "name": "Kelompok E",
+        "jobs": [
+            "Petugas Wawancara",
+            "Perancang Perhiasan",
+            "Ahli Perpustakaan",
+            "Guru Musik",
+            "Pembina Rohani",
+            "Petugas Arsip",
+            "Tukang Batu",
+            "Dokter Gigi",
+            "Prospektor",
+            "Montir",
+            "Guru Ilmu Pasti",
+            "Ahli Pertanian"
+        ]
+    },
+    {
+        "name": "Kelompok F",
+        "jobs": [
+            "Fotografer",
+            "Penulis Majalah",
+            "Pemain Orgen Tunggal",
+            "Organisator Kepramukaan",
+            "Petugas Pengirim Barang",
+            "Operator Mesin Perkayuan",
+            "Ahli Kacamata",
+            "Ahli Sortir Kulit",
+            "Instalator",
+            "Asisten Kasir Bank",
+            "Ahli Botani",
+            "Pedagang Keliling"
+        ]
+    },
+    {
+        "name": "Kelompok G",
+        "jobs": [
+            "Kritikus Buku",
+            "Ahli Pustaka Musik",
+            "Pengurus Karang Taruna",
+            "Pegawai Kantor",
+            "Tukang Plester Tembok",
+            "Ahli Rontgent",
+            "Nelayan",
+            "Pembuat Arloji",
+            "Kasir",
+            "Ahli Astronomi",
+            "Juru Lelang",
+            "Penata Panggung"
+        ]
+    },
+    {
+        "name": "Kelompok H",
+        "jobs": [
+            "Pemain Musik Band",
+            "Ahli Penyuluh Jabatan",
+            "Pegawai Kantor Pos",
+            "Tukang Ledeng/ Pipa Air",
+            "Ahli Fisioterapi",
+            "Sopir Angkutan Umum",
+            "Montir Radio",
+            "Juru Bayar",
+            "Ahli Geologi",
+            "Petugas Hubungan Masyarakat",
+            "Penata Etalase",
+            "Penulis Sandiwara Radio"
+        ]
+    },
+    {
+        "name": "Kelompok I",
+        "jobs": [
+            "Petugas Kesejahteraan Sosial",
+            "Petugas Ekspedisi Surat",
+            "Tukang Sepatu",
+            "Paramedik/Mantri Kesehatan",
+            "Petani Tanaman Hias",
+            "Tukang Las",
+            "Petugas Pajak",
+            "Asisten Laboratorium",
+            "Salesman Asuransi",
+            "Perancang Motif Tekstil",
+            "Penyair",
+            "Pramuniaga Toko Musik"
+        ]
+    }
+]

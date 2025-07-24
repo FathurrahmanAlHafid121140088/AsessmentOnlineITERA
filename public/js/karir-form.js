@@ -1,5 +1,5 @@
-// Data kategori dan pekerjaan
-const kategoriRMIB = [
+// Data kategori dan pekerjaan untuk Pria
+const kategoriPria = [
     {
         name: "Kelompok A",
         jobs: [
@@ -20,7 +20,7 @@ const kategoriRMIB = [
     {
         name: "Kelompok B",
         jobs: [
-            "Ahhli Pembuat Alat",
+            "Ahli Pembuat Alat",
             "Ahli Statistik",
             "Insinyur Kimia Industri",
             "Penyiar Radio",
@@ -44,7 +44,7 @@ const kategoriRMIB = [
             "Penulis Drama",
             "Komponis",
             "Kepala Sekolah",
-            "Pegawai Kotapraja (PNS)",
+            "Pegawai Kecamatan",
             "Ahli Meubel/ Furniture",
             "Dokter Hewan",
             "Juru Ukur Tanah",
@@ -79,7 +79,7 @@ const kategoriRMIB = [
             "Petugas Arsip",
             "Tukang Batu",
             "Dokter Gigi",
-            "Prospektor (🔍)",
+            "Prospektor",
             "Montir",
             "Guru Ilmu Pasti",
             "Ahli Pertanian",
@@ -90,10 +90,10 @@ const kategoriRMIB = [
         jobs: [
             "Fotografer",
             "Penulis Majalah",
-            "Pemain Orgen Tunggal (🔍)",
-            "Organisasi Pramuka",
-            "Petugas Pengiriman Barang",
-            "Petugas Mesin Perkayuan",
+            "Pemain Orgen Tunggal",
+            "Organisator Kepramukaan",
+            "Petugas Pengirim Barang",
+            "Operator Mesin Perkayuan",
             "Ahli Kacamata",
             "Ahli Sortir Kulit",
             "Instalator",
@@ -107,14 +107,14 @@ const kategoriRMIB = [
         jobs: [
             "Kritikus Buku",
             "Ahli Pustaka Musik",
-            "Pengurus Karang Taruna (🔍)",
+            "Pengurus Karang Taruna",
             "Pegawai Kantor",
             "Tukang Plester Tembok",
             "Ahli Rontgent",
             "Nelayan",
             "Pembuat Arloji",
             "Kasir",
-            "Astronomi",
+            "Ahli Astronomi",
             "Juru Lelang",
             "Penata Panggung",
         ],
@@ -124,7 +124,7 @@ const kategoriRMIB = [
         jobs: [
             "Pemain Musik Band",
             "Ahli Penyuluh Jabatan",
-            "Pegawai Pos",
+            "Pegawai Kantor Pos",
             "Tukang Ledeng/ Pipa Air",
             "Ahli Fisioterapi",
             "Sopir Angkutan Umum",
@@ -133,7 +133,7 @@ const kategoriRMIB = [
             "Ahli Geologi",
             "Petugas Hubungan Masyarakat",
             "Penata Etalase",
-            "Penulis Sandiawara Radio",
+            "Penulis Sandiwara Radio",
         ],
     },
     {
@@ -154,6 +154,166 @@ const kategoriRMIB = [
         ],
     },
 ];
+
+// Data pekerjaan wanita
+const kategoriWanita = [
+    {
+        name: "Kelompok A",
+        jobs: [
+            "Pekerjaan Pertanian",
+            "Pengemudi Kendaraan Militer",
+            "Akuntan",
+            "Ilmuwan",
+            "Penjual produk fashion",
+            "Seniman",
+            "Wartawati",
+            "Pianis Konser",
+            "Guru SD",
+            "Sekretaris Pribadi",
+            "Penjahit",
+            "Dokter",
+        ],
+    },
+    {
+        name: "Kelompok B",
+        jobs: [
+            "Petugas Assembling",
+            "Pegawai urusan gaji",
+            "Insinyur Kimia Industri",
+            "Penyiar Radio",
+            "Artis Profesional",
+            "Pengarang",
+            "Pemain Musik Orkestra",
+            "Psikolog Pendidikan",
+            "Juru TIK",
+            "Pembuat Pot Keramik",
+            "Ahli Bedah",
+            "Guru Pendidikan Jasmani",
+        ],
+    },
+    {
+        name: "Kelompok C",
+        jobs: [
+            "Auditor",
+            "Ahli Meteorologi",
+            "Salesgirl",
+            "Guru Kesenian",
+            "Penulis Naskah Drama",
+            "Komponis",
+            "Kepala Yayasan Sosial",
+            "Resepsionis",
+            "Penata Rambut",
+            "Dokter Hewan",
+            "Pramugari",
+            "Operator Mesin Rajut",
+        ],
+    },
+    {
+        name: "Kelompok D",
+        jobs: [
+            "Ahli Biologi",
+            "Agen Biro Periklanan",
+            "Dekorator Interior",
+            "Ahli Sejarah",
+            "Kritikus Musik",
+            "Pekerja Sosial",
+            "Penulis Steno",
+            "Penjilid Buku",
+            "Apoteker",
+            "Ahli Pertamanan",
+            "Petugas Pompa Bensin",
+            "Petugas Mesin Hitung",
+        ],
+    },
+    {
+        name: "Kelompok E",
+        jobs: [
+            "Petugas Wawancara",
+            "Perancang Pakaian",
+            "Ahli Perpustakaan",
+            "Guru Musik",
+            "Pembina Agama",
+            "Petugas Arsip",
+            "Tukang Bungkus Cokelat",
+            "Pelatih Rehabilitasi Pasien",
+            "Pembina Keolahragaan",
+            "Ahli Reparasi Jam",
+            "Guru Ilmu Pasti",
+            "Ahli Pertanian",
+        ],
+    },
+    {
+        name: "Kelompok F",
+        jobs: [
+            "Fotografer",
+            "Penulis Majalah",
+            "Pemain Orgen Tunggal",
+            "Petugas Palang Merah",
+            "Pegawai Bank",
+            "Pengurus Kerumahtanggan",
+            "Perawat",
+            "Peternak",
+            "Ahli Gosok Lensa",
+            "Kasir",
+            "Ahli Botani",
+            "Pedagang Keliling",
+        ],
+    },
+    {
+        name: "Kelompok G",
+        jobs: [
+            "Kritikus Buku",
+            "Ahli Pustaka Musik",
+            "Pejabat Klub Remaja",
+            "Pegawai Kantor",
+            "Tukang Binatu",
+            "Ahli Rontgen",
+            "Petani Bunga",
+            "Operator Mesin Sulam",
+            "Ahli Tata Buku",
+            "Ahli Astronomi",
+            "Peraga Alat Kosmetika",
+            "Penata Panggung",
+        ],
+    },
+    {
+        name: "Kelompok H",
+        jobs: [
+            "Pemain Musik Band",
+            "Ahli Penyuluh Jabatan",
+            "Pegawai Kantor Pos",
+            "Penjahit",
+            "Ahli Fisioterapi",
+            "Peternak Ayam",
+            "Ahli Reparasi Permata",
+            "Juru Bayar",
+            "Ahli Geologi",
+            "Petugas Hubungan Masyarakat",
+            "Penata Etalase",
+            "Penulis Sandiwara Radio",
+        ],
+    },
+    {
+        name: "Kelompok I",
+        jobs: [
+            "Petugas Kesejahteraan Sosial",
+            "Penyusun Arsip",
+            "Juru Masak",
+            "Perawat Orang Tua",
+            "Tukang Kebun",
+            "Petugas Mesin Kaos",
+            "Pegawai Pajak",
+            "Asisten Laboratorium",
+            "Peraga Barang-barang",
+            "Perancang Motif Tekstil",
+            "Penyair",
+            "Pramuniaga Toko Musik",
+        ],
+    },
+];
+
+// Pilih berdasarkan gender
+const kategoriRMIB = window.gender === "P" ? kategoriWanita : kategoriPria;
 
 // Objek untuk menyimpan peringkat
 const peringkat = {};

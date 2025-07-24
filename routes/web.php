@@ -131,9 +131,11 @@ Route::get('/karir-detail-hasil', function () {
 Route::get('/admin-karir', function () {
     return view('admin-karir', ['title' => 'Database Tes Karir']);
 });
-
-//Controller untuk Karir
-Route::post('/karir-form/simpan', [KarirController::class, 'simpanHasil'])->name('karir.simpan');
+Route::post('/karir/datadiri', [KarirController::class, 'simpanDataDiri'])->name('karir.datadiri');
+// Route::post('/karir-form', [KarirController::class, 'store'])->name('karir-form.store-data-diri');
+Route::get('/karir/form', [KarirController::class, 'form'])->name('karir.form');
 
 Route::get('/karir-form', [KarirController::class, 'showKarirForm'])->name('karir.form');
+Route::post('/karir/form/simpan', [KarirController::class, 'simpanJawaban'])->name('karir.simpan');
+
 
