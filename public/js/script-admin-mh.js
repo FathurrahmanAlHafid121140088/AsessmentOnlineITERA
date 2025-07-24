@@ -228,3 +228,65 @@ function backdropClose(e, modalId) {
         closeModal(modalId);
     }
 }
+
+(function chartProdiModule() {
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.getElementById("fakultasDropdown");
+        dropdown.addEventListener("change", function () {
+            tampilkanChart(this.value);
+        });
+
+        const initialFakultas = dropdown.value;
+        tampilkanChart(initialFakultas);
+    });
+
+    function animateBarsSequentially(bars, scaleFactor) {
+        bars.forEach((bar, idx) => {
+            const rawValue = parseInt(bar.dataset.raw) || 0;
+            const targetWidth = rawValue * scaleFactor;
+            bar.style.width = "0px";
+            bar.style.opacity = 0;
+            setTimeout(() => {
+                bar.style.transition = "width 0.6s ease, opacity 0.6s ease";
+                bar.style.width = targetWidth + "px";
+                bar.style.opacity = 1;
+            }, idx * 100);
+        });
+    }
+
+    function tampilkanChart(fakultas) {
+        const allCharts = document.querySelectorAll(".horizontal-bar-chart");
+        const container = document.getElementById("chartProdiContainer");
+
+        allCharts.forEach((chart) => (chart.style.display = "none"));
+
+        const targetChart = document.querySelector(".fakultas-" + fakultas);
+        if (targetChart) {
+            targetChart.style.display = "block";
+
+            const jumlahProdi = parseInt(targetChart.dataset.jumlah) || 0;
+
+            // Min-height: 500px for mobile, dynamic for desktop
+            if (window.innerWidth <= 768) {
+                container.style.minHeight = "300px";
+            } else {
+                const chartHeight = jumlahProdi * 46 + 60;
+                container.style.minHeight = chartHeight + "px";
+            }
+
+            const bars = targetChart.querySelectorAll(".bar-fill-prodi");
+            let maxValue = 1;
+            bars.forEach((bar) => {
+                const val = parseInt(bar.dataset.raw) || 0;
+                if (val > maxValue) maxValue = val;
+            });
+
+            let maxBarWidth = 780;
+            if (window.innerWidth <= 480) maxBarWidth = 280;
+            else if (window.innerWidth <= 768) maxBarWidth = 340;
+
+            const scaleFactor = maxBarWidth / maxValue;
+            animateBarsSequentially(bars, scaleFactor);
+        }
+    }
+})();

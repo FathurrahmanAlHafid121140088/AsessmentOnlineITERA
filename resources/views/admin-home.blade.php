@@ -223,6 +223,143 @@
                         </div>
                     </div>
                 </div>
+                <div class="chart chart-prodi" id="chartProdiContainer">
+                    <div class="chart-header-prodi">
+                        <h4>Program Studi</h4>
+                        <select id="fakultasDropdown">
+                            <option value="FS">FS</option>
+                            <option value="FTIK">FTIK</option>
+                            <option value="FTI">FTI</option>
+                        </select>
+                    </div>
+                    <div class="chart-canvas-prodi" id="chartCanvas">
+                        @php
+                            $prodiPerFakultas = [
+                                'FS' => [
+                                    'Fisika',
+                                    'Matematika',
+                                    'Biologi',
+                                    'Kimia',
+                                    'Farmasi',
+                                    'Sains Data',
+                                    'Sains Aktuaria',
+                                    'Sains Lingkungan Kelautan',
+                                    'Sains Atmosfer dan Keplanetan',
+                                    'Magister Fisika',
+                                ],
+                                'FTIK' => [
+                                    'Perencanaan Wilayah dan Kota',
+                                    'Teknik Geomatika',
+                                    'Teknik Sipil',
+                                    'Arsitektur',
+                                    'Teknik Lingkungan',
+                                    'Teknik Kelautan',
+                                    'Desain Komunikasi Visual',
+                                    'Arsitektur Lanskap',
+                                    'Teknik Perkeretaapian',
+                                    'Rekayasa Tata Kelola Air Terpadu',
+                                    'Pariwisata',
+                                ],
+                                'FTI' => [
+                                    'Teknik Elektro',
+                                    'Teknik Fisika',
+                                    'Teknik Informatika',
+                                    'Teknik Geologi',
+                                    'Teknik Geofisika',
+                                    'Teknik Mesin',
+                                    'Teknik Kimia',
+                                    'Teknik Material',
+                                    'Teknik Sistem Energi',
+                                    'Teknik Industri',
+                                    'Teknik Telekomunikasi',
+                                    'Teknik Biomedis',
+                                    'Teknik Biosistem',
+                                    'Teknologi Industri Pertanian',
+                                    'Teknologi Pangan',
+                                    'Rekayasa Kehutanan',
+                                    'Rekayasa Kosmetik',
+                                    'Rekayasa Minyak dan Gas',
+                                    'Rekayasa Instrumentasi dan Automasi',
+                                    'Rekayasa Keolahragaan',
+                                ],
+                            ];
+                            $warnaProdi = [];
+                            foreach (array_merge(...array_values($prodiPerFakultas)) as $index => $prodi) {
+                                $warnaProdi[$prodi] = 'hsl(' . ($index * 33) % 360 . ', 70%, 60%)';
+                            }
+                        @endphp
+
+                        {{-- Blade chart prodi per fakultas --}}
+                        @foreach ($prodiPerFakultas as $kodeFakultas => $prodis)
+                            @php
+                                $chartHeight = count($prodis) * 38 + 60;
+                            @endphp
+                            <div class="horizontal-bar-chart fakultas-{{ $kodeFakultas }}"
+                                data-jumlah="{{ count($prodis) }}"
+                                style="display: {{ $loop->first ? 'block' : 'none' }}; min-height: {{ $chartHeight }}px">
+                                @foreach ($prodis as $prodi)
+                                    @php
+                                        $jumlah = \App\Models\DataDiris::where('program_studi', $prodi)->count();
+                                        $iconMap = [
+                                            'Fisika' => 'fa-solid fa-atom',
+                                            'Matematika' => 'fa-solid fa-square-root-variable',
+                                            'Biologi' => 'fa-solid fa-dna',
+                                            'Kimia' => 'fa-solid fa-vial',
+                                            'Farmasi' => 'fa-solid fa-pills',
+                                            'Sains Data' => 'fa-solid fa-database',
+                                            'Sains Aktuaria' => 'fa-solid fa-percent',
+                                            'Sains Lingkungan Kelautan' => 'fa-solid fa-water',
+                                            'Sains Atmosfer dan Keplanetan' => 'fa-solid fa-earth-asia',
+                                            'Magister Fisika' => 'fa-solid fa-atom',
+                                            'Perencanaan Wilayah dan Kota' => 'fa-solid fa-city',
+                                            'Teknik Geomatika' => 'fa-solid fa-map-location-dot',
+                                            'Teknik Sipil' => 'fa-solid fa-building',
+                                            'Arsitektur' => 'fa-solid fa-drafting-compass',
+                                            'Teknik Lingkungan' => 'fa-solid fa-recycle',
+                                            'Teknik Kelautan' => 'fa-solid fa-ship',
+                                            'Desain Komunikasi Visual' => 'fa-solid fa-palette',
+                                            'Arsitektur Lanskap' => 'fa-solid fa-tree',
+                                            'Teknik Perkeretaapian' => 'fa-solid fa-train-tram',
+                                            'Rekayasa Tata Kelola Air Terpadu' => 'fa-solid fa-faucet',
+                                            'Pariwisata' => 'fa-solid fa-umbrella-beach',
+                                            'Teknik Elektro' => 'fa-solid fa-bolt',
+                                            'Teknik Fisika' => 'fa-solid fa-wave-square',
+                                            'Teknik Informatika' => 'fa-solid fa-laptop-code',
+                                            'Teknik Geologi' => 'fa-solid fa-mountain',
+                                            'Teknik Geofisika' => 'fa-solid fa-compass-drafting',
+                                            'Teknik Mesin' => 'fa-solid fa-cogs',
+                                            'Teknik Kimia' => 'fa-solid fa-flask',
+                                            'Teknik Material' => 'fa-solid fa-cube',
+                                            'Teknik Sistem Energi' => 'fa-solid fa-solar-panel',
+                                            'Teknik Industri' => 'fa-solid fa-industry',
+                                            'Teknik Telekomunikasi' => 'fa-solid fa-tower-cell',
+                                            'Teknik Biomedis' => 'fa-solid fa-heart-pulse',
+                                            'Teknik Biosistem' => 'fa-solid fa-seedling',
+                                            'Teknologi Industri Pertanian' => 'fa-solid fa-tractor',
+                                            'Teknologi Pangan' => 'fa-solid fa-carrot',
+                                            'Rekayasa Kehutanan' => 'fa-solid fa-tree',
+                                            'Rekayasa Kosmetik' => 'fa-solid fa-spa',
+                                            'Rekayasa Minyak dan Gas' => 'fa-solid fa-oil-well',
+                                            'Rekayasa Instrumentasi dan Automasi' => 'fa-solid fa-robot',
+                                            'Rekayasa Keolahragaan' => 'fa-solid fa-dumbbell',
+                                        ];
+                                        $icon = $iconMap[$prodi] ?? 'fa-solid fa-graduation-cap';
+                                    @endphp
+                                    <div class="bar-line">
+                                        <span class="bar-text">
+                                            <i class="color-dot {{ $icon }}"></i>
+                                            {{ $prodi }}
+                                        </span>
+                                        <div class="bar-track">
+                                            <div class="bar-fill-prodi" data-raw="{{ $jumlah }}"></div>
+                                            <span class="bar-count">{{ $jumlah }} org</span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
             <div class="tables">
                 <div class="table-header">

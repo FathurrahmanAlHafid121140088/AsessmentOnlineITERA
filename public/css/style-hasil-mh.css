@@ -805,8 +805,8 @@ h3 {
 .range-good.active {
     background: linear-gradient(
         135deg,
-        rgba(34, 197, 94, 0.2),
-        rgba(34, 197, 94, 0.1)
+        rgba(52, 152, 219, 0.15),
+        rgba(52, 152, 219, 0.08)
     );
     border: 2px solid #3498db;
     color: #2673a6;

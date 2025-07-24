@@ -73,7 +73,7 @@ class DataDiriSeeder extends Seeder
         ];
 
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             $nim = '121140' . str_pad($i, 3, '0', STR_PAD_LEFT);
             $fakultas = $fakultasList[array_rand($fakultasList)];
             $prodi = $prodiByFakultas[$fakultas][array_rand($prodiByFakultas[$fakultas])];

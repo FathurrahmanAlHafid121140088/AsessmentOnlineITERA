@@ -76,7 +76,7 @@ class HasilKuesionerSeeder extends Seeder
         ];
 
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             $nim = '121140' . str_pad($i, 3, '0', STR_PAD_LEFT);
 
             // Random fakultas dan prodi

@@ -7,6 +7,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+    border-color: red;
+    border-width: 2px;
 }
 
 :root {
@@ -38,6 +40,8 @@ body {
     line-height: 1.6;
     overflow-x: hidden; /* jika mau */
     overflow-y: auto;
+    border-color: red;
+    border-width: 2px;
 }
 
 a {
@@ -559,7 +563,6 @@ header {
     padding: 20px 20px 50px 50px; /* kiri & bawah ekstra utk label */
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    overflow-x: auto; /* jaga grafik lebar */
 }
 
 /* ========= TABLET (576 – 991 px) ========= */
@@ -582,7 +585,7 @@ header {
 /* ========= MOBILE SMALL (≤ 424 px) ========= */
 @media (max-width: 424.98px) {
     .chart {
-        padding: 12px 12px 50px 24px;
+        padding: 12px 12px 55px 24px;
         border-radius: calc(var(--border-radius) - 6px);
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
     }
@@ -848,6 +851,10 @@ tbody tr:nth-child(even) {
 @media screen and (max-width: 1024px) {
     .charts {
         grid-template-columns: 1fr;
+        overflow-x: auto;
+        max-width: 100vw;
+        box-sizing: border-box;
+        padding-right: 16px;
     }
 }
 
@@ -1764,4 +1771,144 @@ th i {
 .history-button::after {
     content: "riwayat"; /* teks tooltip */
     background: #1d4ed8; /* selaras dgn warna tombol */
+}
+
+.bar-fill-prodi {
+    display: block;
+    height: 100%;
+    width: 0;
+    opacity: 0;
+    background-color: #5259e0 !important;
+    transition: width 0.6s ease, opacity 0.6s ease;
+}
+
+.chart-prodi {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: height 0.3s ease;
+    overflow: hidden;
+    padding-bottom: 20px;
+    min-height: auto;
+}
+
+.chart-header-prodi {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.chart-header h4 {
+    margin-bottom: 10px;
+}
+
+#fakultasDropdown {
+    margin-bottom: 20px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s;
+}
+
+#fakultasDropdown:focus {
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.bar-line {
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    align-items: center;
+}
+
+.bar-text {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #444;
+    word-break: break-word;
+}
+
+.color-dot {
+    display: inline-block;
+    flex-shrink: 0;
+    color: #5259e0;
+    font-size: 1rem;
+}
+
+.bar-track {
+    position: relative;
+    background: #e0e0e0;
+    height: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.bar-track:hover .bar-fill-prodi {
+    filter: brightness(1.1);
+}
+
+.bar-count {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    font-size: 13px;
+    line-height: 24px;
+    color: #222;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chart-header-prodi h4 {
+        margin-block: 1rem;
+    }
+    .bar-line {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .bar-text {
+        font-size: 14px;
+        gap: 8px;
+    }
+    .bar-track {
+        height: 20px;
+    }
+    .bar-count {
+        font-size: 12px;
+        line-height: 20px;
+    }
+    #fakultasDropdown {
+        width: 100%;
+    }
+    .chart-header-prodi {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .bar-text {
+        font-size: 13px;
+    }
+    .chart-header-prodi h4 {
+        margin-block: 1rem;
+    }
+    .bar-track {
+        height: 18px;
+    }
+    .bar-count {
+        font-size: 11px;
+    }
+    .chart-header-prodi {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 }

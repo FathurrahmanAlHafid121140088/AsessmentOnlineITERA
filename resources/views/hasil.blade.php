@@ -166,9 +166,12 @@
                         <div class="card-body">
                             <div
                                 class="category-description {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 75 ? 'active' : 'hidden' }}">
-                                Mengalami tekanan mental sangat tinggi, seperti perasaan tidak berdaya, sedih
-                                berkepanjangan, mudah marah, atau tidak mampu menjalani aktivitas sehari-hari. Kondisi
-                                ini bisa menjadi gejala awal gangguan mental serius jika tidak segera ditangani.
+                                Saat ini, kamu mungkin sedang berada dalam fase yang terasa sangat berat. Perasaan
+                                seperti cemas berlebih, kehilangan semangat, sulit tidur, atau merasa tidak berdaya bisa
+                                saja muncul dan mengganggu aktivitas harian. Tidak apa-apa jika semuanya terasa berat
+                                sekarang — yang penting, kamu tidak harus menghadapinya sendirian. Mencari dukungan dari
+                                tenaga profesional seperti psikolog atau psikiater bisa menjadi langkah awal yang bijak
+                                dan penuh keberanian untuk mulai merasa lebih baik.
                             </div>
                             <div class="health-metrics">
                                 <div class="metric">
@@ -229,9 +232,12 @@
                     <div class="card-body">
                         <div
                             class="category-description {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : 'hidden' }}">
-                            Menunjukkan gejala tekanan psikologis sedang seperti kelelahan emosional, kecemasan, dan
-                            sulit tidur. Walau belum mengganggu secara ekstrem, perlu penanganan agar tidak
-                            memburuk.
+                            Kamu mungkin sedang menghadapi tekanan yang cukup terasa, seperti kelelahan emosional,
+                            kesulitan tidur, atau perasaan tidak nyaman yang muncul berulang. Ini adalah sinyal bahwa
+                            tubuh dan pikiranmu butuh perhatian lebih. Tidak ada yang salah dengan merasa lelah — semua
+                            orang bisa mengalaminya. Mengambil waktu untuk mengenali perasaanmu, mencari ruang untuk
+                            bercerita, atau mencoba teknik relaksasi bisa sangat membantu untuk mulai menata ulang
+                            ketenanganmu.
                         </div>
 
                         <div class="health-metrics">
@@ -292,9 +298,11 @@
                     <div class="card-body">
                         <div
                             class="category-description {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : 'hidden' }}">
-                            Kondisi psikologis relatif stabil, namun ada potensi rentan terhadap stres. Tanda-tanda
-                            ringan dapat muncul saat menghadapi tekanan, sehingga penting untuk menjaga
-                            keseimbangan.
+                            Secara umum, kamu dalam kondisi yang cukup baik, namun mungkin sesekali merasa tertekan atau
+                            kurang bersemangat saat menghadapi situasi tertentu. Ini wajar dan bisa dialami siapa pun.
+                            Tetap penting untuk menjaga keseimbangan hidup — istirahat yang cukup, waktu untuk diri
+                            sendiri, serta tetap terhubung dengan orang-orang yang kamu percayai bisa membuat perbedaan
+                            besar dalam menjaga ketahanan emosimu.
                         </div>
 
                         <div class="health-metrics">
@@ -355,8 +363,11 @@
                     <div class="card-body">
                         <div
                             class="category-description {{ $hasil->total_skor >= 152 && $hasil->total_skor <= 189 ? 'active' : 'hidden' }}">
-                            Menunjukkan kemampuan adaptasi yang baik terhadap tekanan. Emosi stabil, relasi sosial
-                            positif, dan mampu menjaga keseimbangan kehidupan sehari-hari.
+                            Hasil ini menunjukkan bahwa kamu memiliki kemampuan yang baik dalam menghadapi tekanan dan
+                            menjaga keseimbangan emosional. Kamu cenderung mampu berpikir jernih, berelasi secara
+                            positif, dan menjalani hari-hari dengan cukup stabil. Tetaplah jaga rutinitas sehat ini dan
+                            beri ruang untuk tetap tumbuh — baik secara pribadi maupun sosial. Perjalanan menjaga
+                            kesehatan mental adalah proses yang terus berkembang.
                         </div>
 
                         <div class="health-metrics">
@@ -418,8 +429,11 @@
                     <div class="card-body">
                         <div
                             class="category-description {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : 'hidden' }}">
-                            Menunjukkan kesejahteraan mental optimal. Mampu menjalani hidup dengan tujuan yang
-                            jelas, berpikir positif, dan menjadi pendukung bagi lingkungan sekitar.
+                            Kamu berada pada kondisi mental yang sangat baik. Kemampuanmu dalam mengelola emosi,
+                            berpikir positif, dan menjaga relasi sosial patut diapresiasi. Kamu tidak hanya mampu
+                            menghadapi tekanan, tetapi juga menjadi sosok yang memberi dampak positif bagi orang lain.
+                            Terus jaga dan rawat kondisi ini dengan kebiasaan baik, refleksi diri, serta terlibat dalam
+                            hal-hal yang memberi makna bagi hidupmu.
                         </div>
 
                         <div class="health-metrics">
