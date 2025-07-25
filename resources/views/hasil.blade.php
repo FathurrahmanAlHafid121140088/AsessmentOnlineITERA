@@ -63,7 +63,6 @@
             </div>
         </div>
 
-
         <div class="result-section">
             <h2>Ringkasan Hasil</h2>
             <!--
@@ -175,20 +174,23 @@
                             </div>
                             <div class="health-metrics">
                                 <div class="metric">
-                                    <div class="metric-icon"><i class="fas fa-brain"></i></div>
-                                    <div class="metric-label">Sulit konsentrasi atau berpikir jernih</div>
+                                    <div class="metric-icon"><i class="fas fa-head-side-virus"></i></div>
+                                    <div class="metric-label">Luangkan waktu untuk beristirahat total, hindari beban
+                                        mental yang berat</div>
                                 </div>
                                 <div class="metric">
-                                    <div class="metric-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                                    <div class="metric-label">Perasaan cemas dan putus asa secara intens</div>
+                                    <div class="metric-icon"><i class="fas fa-user-md"></i></div>
+                                    <div class="metric-label">Jangan ragu untuk berkonsultasi dengan tenaga profesional
+                                        seperti psikolog atau konselor</div>
                                 </div>
                                 <div class="metric">
-                                    <div class="metric-icon"><i class="fas fa-user-slash"></i></div>
-                                    <div class="metric-label">Menarik diri dari lingkungan sekitar</div>
+                                    <div class="metric-icon"><i class="fas fa-phone-alt"></i></div>
+                                    <div class="metric-label">Ceritakan kondisi Anda pada orang terpercaya sebagai
+                                        langkah awal pemulihan</div>
                                 </div>
                             </div>
 
-                            <div class="recommendation-item">
+                            <div class="recommendation">
                                 <i class="fas fa-exclamation-triangle"></i>
                                 <span>Anda mengalami tekanan psikologis yang serius. Segera temui profesional kesehatan
                                     mental seperti psikolog atau psikiater untuk mendapatkan penanganan intensif.
@@ -242,20 +244,23 @@
 
                         <div class="health-metrics">
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-brain"></i></div>
-                                <div class="metric-label">Muncul pikiran negatif berulang</div>
+                                <div class="metric-icon"><i class="fas fa-journal-whills"></i></div>
+                                <div class="metric-label">Catat perasaan Anda secara rutin untuk memahami pola emosi
+                                    yang muncul</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-tired"></i></div>
-                                <div class="metric-label">Sering merasa lelah atau mudah marah</div>
+                                <div class="metric-icon"><i class="fas fa-walking"></i></div>
+                                <div class="metric-label">Lakukan aktivitas fisik ringan seperti berjalan kaki atau
+                                    peregangan untuk meredakan ketegangan</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-user-friends"></i></div>
-                                <div class="metric-label">Hubungan sosial mulai terhambat</div>
+                                <div class="metric-icon"><i class="fas fa-headset"></i></div>
+                                <div class="metric-label">Dengarkan musik menenangkan atau meditasi singkat untuk
+                                    menstabilkan suasana hati</div>
                             </div>
                         </div>
 
-                        <div class="recommendation-item">
+                        <div class="recommendation">
                             <i class="fas fa-user-md"></i>
                             <span>Tingkat stres Anda cukup mengganggu dan perlu direspons dengan cepat. Konsultasi
                                 dengan tenaga profesional dan mulai lakukan kegiatan pemulihan seperti konseling,
@@ -300,23 +305,26 @@
                             class="category-description {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : 'hidden' }}">
                             Secara umum, kamu dalam kondisi yang cukup baik, namun mungkin sesekali merasa tertekan atau
                             kurang bersemangat saat menghadapi situasi tertentu. Ini wajar dan bisa dialami siapa pun.
-                            Tetap penting untuk menjaga keseimbangan hidup — istirahat yang cukup, waktu untuk diri
+                            Tetap penting untuk menjaga keseimbangan hidup, istirahat yang cukup, waktu untuk diri
                             sendiri, serta tetap terhubung dengan orang-orang yang kamu percayai bisa membuat perbedaan
                             besar dalam menjaga ketahanan emosimu.
                         </div>
 
                         <div class="health-metrics">
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-search"></i></div>
-                                <div class="metric-label">Mudah kehilangan fokus saat bekerja</div>
+                                <div class="metric-icon"><i class="fas fa-calendar-check"></i></div>
+                                <div class="metric-label">Tentukan jadwal harian yang seimbang antara pekerjaan,
+                                    istirahat, dan hiburan</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-random"></i></div>
-                                <div class="metric-label">Mood cenderung cepat berubah</div>
+                                <div class="metric-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                                <div class="metric-label">Berikan penghargaan kecil untuk diri sendiri atas hal-hal
+                                    yang berhasil dilakukan</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-hand-paper"></i></div>
-                                <div class="metric-label">Cenderung pasif dalam pergaulan</div>
+                                <div class="metric-icon"><i class="fas fa-user-friends"></i></div>
+                                <div class="metric-label">Jaga komunikasi dengan teman dan keluarga meski hanya melalui
+                                    pesan singkat</div>
                             </div>
                         </div>
 
@@ -372,16 +380,19 @@
 
                         <div class="health-metrics">
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-lightbulb"></i></div>
-                                <div class="metric-label">Berpikir logis dan jernih saat stres</div>
+                                <div class="metric-icon"><i class="fas fa-seedling"></i></div>
+                                <div class="metric-label">Lanjutkan rutinitas yang mendukung kesehatan mental seperti
+                                    tidur cukup dan makan teratur</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-smile-beam"></i></div>
-                                <div class="metric-label">Emosi terkendali dan positif</div>
+                                <div class="metric-icon"><i class="fas fa-smile"></i></div>
+                                <div class="metric-label">Fokus pada hal-hal positif dan kelola stres dengan cara yang
+                                    sehat</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-handshake"></i></div>
-                                <div class="metric-label">Aktif dan sehat dalam relasi sosial</div>
+                                <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                <div class="metric-label">Terlibat dalam kegiatan sosial atau komunitas yang membangun
+                                    koneksi sehat</div>
                             </div>
                         </div>
 
@@ -438,16 +449,19 @@
 
                         <div class="health-metrics">
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-rocket"></i></div>
-                                <div class="metric-label">Kreatif dan visioner dalam berpikir</div>
+                                <div class="metric-icon"><i class="fas fa-lightbulb"></i></div>
+                                <div class="metric-label">Terus eksplorasi minat dan ide baru sebagai bentuk
+                                    pengembangan diri</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-laugh-beam"></i></div>
-                                <div class="metric-label">Emosi positif mendominasi hari-hari</div>
+                                <div class="metric-icon"><i class="fas fa-sun"></i></div>
+                                <div class="metric-label">Syukuri hal-hal kecil dan jalani hari dengan niat yang
+                                    positif</div>
                             </div>
                             <div class="metric">
                                 <div class="metric-icon"><i class="fas fa-hands-helping"></i></div>
-                                <div class="metric-label">Aktif mendukung kesejahteraan orang lain</div>
+                                <div class="metric-label">Bantu orang lain di sekitar sebagai bentuk empati dan
+                                    memperkuat makna hidup</div>
                             </div>
                         </div>
 

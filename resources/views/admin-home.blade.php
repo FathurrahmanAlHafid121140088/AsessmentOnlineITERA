@@ -215,7 +215,8 @@
                                     <div>
                                         <span class="legend-color"
                                             style="background-color: {{ $color }};"></span>
-                                        {{ $singkatan }} ({{ $count }} Mahasiswa, {{ $persen }}%)
+                                        {{ $singkatan }} ({{ $count }} Mahasiswa,
+                                        <strong>{{ $persen }}%</strong>)
                                     </div>
                                 @endforeach
                                 @endif
@@ -352,7 +353,12 @@
                                         </span>
                                         <div class="bar-track">
                                             <div class="bar-fill-prodi" data-raw="{{ $jumlah }}"></div>
-                                            <span class="bar-count">{{ $jumlah }} org</span>
+                                            <span class="bar-count">
+                                                {{ $jumlah }} org
+                                                @if ($totalUsers > 0)
+                                                    (<strong>{{ round(($jumlah / $totalUsers) * 100, 1) }}%</strong>)
+                                                @endif
+                                            </span>
                                         </div>
                                     </div>
                                 @endforeach
@@ -420,6 +426,7 @@
                                 <th>Jenis Kelamin</th>
                                 <th>Usia</th>
                                 <th>Jenis Tes</th>
+                                <th>Email</th>
                                 <th>
                                     <a href="{{ route('admin.home', ['sort' => 'created_at', 'order' => request('order') === 'asc' && request('sort') === 'created_at' ? 'desc' : 'asc'] + request()->except(['page'])) }}"
                                         class="sortable-header">
@@ -446,6 +453,7 @@
                                     <td>{{ $hasil->dataDiri->jenis_kelamin ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->usia ?? '-' }}</td>
                                     <td>Mental Health</td>
+                                    <td>{{ $hasil->dataDiri->email ?? '-' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($hasil->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') }}
                                     </td>
                                     <td>

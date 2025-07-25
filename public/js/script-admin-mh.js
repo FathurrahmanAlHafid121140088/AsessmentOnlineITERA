@@ -212,7 +212,7 @@ window.addEventListener("load", function () {
     });
 });
 window.addEventListener("resize", function () {
-    const bars = document.querySelectorAll(".bar-fill");
+    const bars = document.querySelectorAll(".bar-fill-prodi");
     bars.forEach((bar) => {
         const origHeight = bar.dataset.height;
         if (window.innerWidth <= 768) {
@@ -281,9 +281,13 @@ function backdropClose(e, modalId) {
                 if (val > maxValue) maxValue = val;
             });
 
-            let maxBarWidth = 780;
-            if (window.innerWidth <= 480) maxBarWidth = 280;
-            else if (window.innerWidth <= 768) maxBarWidth = 340;
+            let maxBarWidth = 750;
+            if (window.innerWidth <= 400) maxBarWidth = 190;
+            else if (window.innerWidth <= 480) maxBarWidth = 240;
+            else if (window.innerWidth <= 768) maxBarWidth = 280;
+            else if (window.innerWidth <= 992) maxBarWidth = 345;
+            else if (window.innerWidth <= 1024) maxBarWidth = 245;
+            else if (window.innerWidth <= 1280) maxBarWidth = 500;
 
             const scaleFactor = maxBarWidth / maxValue;
             animateBarsSequentially(bars, scaleFactor);
