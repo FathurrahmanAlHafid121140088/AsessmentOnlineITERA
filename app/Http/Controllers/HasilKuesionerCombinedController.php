@@ -16,18 +16,22 @@ class HasilKuesionerCombinedController extends Controller
     {
         $limit = $request->input('limit', 10);
         $search = $request->input('search');
-
         $sort = $request->input('sort', 'created_at');
         $order = $request->input('order', 'desc');
 
-        // ambil id terakhir per NIM
-        $latestPerNim = HasilKuesioner::select(DB::raw('MAX(id) as id'))->groupBy('nim');
+        // Subquery: ambil ID hasil terakhir tiap NIM
+        $latestIds = DB::table('hasil_kuesioners')
+            ->select(DB::raw('MAX(id) as id'))
+            ->groupBy('nim');
 
-        $hasilKuesioners = HasilKuesioner::with([
-            'dataDiri',
-            'riwayatKeluhans' => fn($q) => $q->latest()
-        ])
-            ->whereIn('id', $latestPerNim)
+        $hasilKuesioners = HasilKuesioner::select('hasil_kuesioners.*')
+            ->joinSub($latestIds, 'latest', function ($join) {
+                $join->on('hasil_kuesioners.id', '=', 'latest.id');
+            })
+            ->with([
+                'dataDiri',
+                // Hindari eager loading riwayat jika tidak perlu
+            ])
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($q2) use ($search) {
                     $q2->where('nim', 'like', "%$search%")
@@ -45,7 +49,7 @@ class HasilKuesionerCombinedController extends Controller
             ->paginate($limit)
             ->withQueryString();
 
-        // sorting manual kalau berdasarkan nama (relasi)
+        // Manual sorting by relasi nama
         if ($sort == 'nama') {
             $hasilKuesioners = $hasilKuesioners->getCollection()
                 ->sortBy(function ($item) {
@@ -62,7 +66,7 @@ class HasilKuesionerCombinedController extends Controller
             );
         }
 
-        // data chart
+        // Data chart dan statistik
         $kategoriCounts = HasilKuesioner::selectRaw('kategori, COUNT(*) as jumlah')
             ->groupBy('kategori')
             ->pluck('jumlah', 'kategori')
@@ -71,15 +75,12 @@ class HasilKuesionerCombinedController extends Controller
         $totalUsers = HasilKuesioner::distinct('nim')->count('nim');
         $totalTes = HasilKuesioner::count();
 
-        // ambil NIM yang sudah pernah tes
-        $nimDenganHasil = \App\Models\HasilKuesioner::distinct('nim')->pluck('nim');
+        $nimDenganHasil = HasilKuesioner::distinct('nim')->pluck('nim');
 
-        // hitung total laki-laki yang sudah pernah tes
         $totalLaki = \App\Models\DataDiris::whereIn('nim', $nimDenganHasil)
             ->where('jenis_kelamin', 'L')
             ->count();
 
-        // hitung total perempuan yang sudah pernah tes
         $totalPerempuan = \App\Models\DataDiris::whereIn('nim', $nimDenganHasil)
             ->where('jenis_kelamin', 'P')
             ->count();
@@ -95,6 +96,7 @@ class HasilKuesionerCombinedController extends Controller
             'totalPerempuan' => $totalPerempuan,
         ] + $this->getStatistikFakultas());
     }
+
     /**
      * Statistik fakultas
      */

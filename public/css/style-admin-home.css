@@ -141,7 +141,7 @@ ul {
     box-shadow: none;
     z-index: 1001; /* agar di atas sidebar */
     position: relative; /* penting jika sidebar absolute/fixed */
-    color: white;
+    color: var(--white);
     z-index: 2000;
 }
 
@@ -161,7 +161,7 @@ ul {
 }
 
 .logo h2 {
-    color: var(--primary-color);
+    color: white;
     font-weight: 700;
 }
 
@@ -187,12 +187,12 @@ ul {
 
 .menu li.active,
 .menu li:hover {
-    background-color: var(--primary-color);
+    background-color: var(--white);
 }
 
 .menu li.active a,
 .menu li:hover a {
-    color: var(--white);
+    color: #3a3a3a;
 }
 
 .menu li i {
@@ -211,12 +211,7 @@ header {
     width: 100%;
     height: var(--header-height, 60px);
     /* Gradient: atas (lebih terang) → bawah (warna asli) */
-    background-image: linear-gradient(
-        to bottom,
-        #5a73ff 0%,
-        /* biru terang */ #4361ee 60%,
-        /* warna utama */ #354ad6 100% /* biru lebih gelap */
-    );
+    background-color: #1d4ed8;
     box-shadow: var(--shadow);
     display: flex;
     align-items: center;
@@ -237,6 +232,7 @@ header {
 .header-title h2 {
     font-size: 1.5rem;
     font-weight: 600;
+    color: var(--white); /* sesuaikan jika header gelap */
 }
 
 /* —— Container —— */
@@ -253,7 +249,7 @@ header {
     gap: 0.4rem;
     background: transparent;
     border: none;
-    color: #fff; /* sesuaikan jika header gelap */
+    color: var(--white); /* sesuaikan jika header gelap */
     font-weight: 600;
     cursor: pointer;
     padding: 0.4rem 0.8rem; /* sedikit lebih besar */

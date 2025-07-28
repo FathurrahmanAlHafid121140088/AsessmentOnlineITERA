@@ -281,7 +281,7 @@ function backdropClose(e, modalId) {
                 if (val > maxValue) maxValue = val;
             });
 
-            let maxBarWidth = 750;
+            let maxBarWidth = 740;
             if (window.innerWidth <= 400) maxBarWidth = 190;
             else if (window.innerWidth <= 480) maxBarWidth = 240;
             else if (window.innerWidth <= 768) maxBarWidth = 280;

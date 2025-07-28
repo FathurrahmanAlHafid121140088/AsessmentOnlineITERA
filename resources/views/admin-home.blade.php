@@ -38,9 +38,6 @@
                 </button>
 
                 <div class="account-dropdown">
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-id-badge"></i> Profil
-                    </a>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="dropdown-item logout">
@@ -50,7 +47,6 @@
                 </div>
             </div>
         </div>
-
     </header>
 
     <div class="container">
@@ -374,7 +370,7 @@
                         <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
                             <label for="limit">Tampilkan:</label>
                             <select name="limit" id="limit" onchange="this.form.submit()">
-                                @foreach ([10, 25, 50, 100, 200] as $l)
+                                @foreach ([10, 25, 50, 100] as $l)
                                     <option value="{{ $l }}"
                                         {{ request('limit') == $l ? 'selected' : '' }}>
                                         {{ $l }}

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\DataDiris;
 use App\Models\RiwayatKeluhans;
-use App\Models\HasilKuesioner;
 
 class DataDirisController extends Controller
 {
