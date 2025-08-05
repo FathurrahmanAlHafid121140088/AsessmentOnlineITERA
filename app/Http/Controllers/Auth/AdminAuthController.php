@@ -10,25 +10,27 @@ class AdminAuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('login'); // view login.blade.php yang kamu upload
+        session(['title' => 'Login']);
+        return view('login'); // atau sesuaikan dengan nama view login kamu
     }
 
-public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string',
-    ]);
 
-    if (Auth::guard('admin')->attempt($credentials)) {
-        $request->session()->regenerate();
-        return redirect('/admin');
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        if (Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect('/admin');
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->withInput()->with(['title' => 'Login']);
     }
-
-    return back()->withErrors([
-        'email' => 'Email atau password salah.',
-    ])->withInput()->with(['title' => 'Login']);
-}
 
     public function logout(Request $request)
     {

@@ -181,10 +181,10 @@
             <h2 class="section-heading text-uppercase pt-4">Quotes</h2>
         </div>
         <div class="container py-4 h-100">
-            <div class="row justify-content-center g-3">
+            <div class="d-flex row justify-content-center g-3">
 
                 <!-- Card 1 -->
-                <div data-aos="zoom-in" data-aos-delay="400" class="col-md-6 col-12">
+                <div data-aos="zoom-in" data-aos-delay="200" class="col-md-6 col-12">
                     <div class="card rounded-3"style="background-color: #f5efeff9;">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-center mb-3">
@@ -207,7 +207,7 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div data-aos="zoom-in" data-aos-delay="400" class="col-md-6 col-12">
+                <div data-aos="zoom-in" data-aos-delay="200" class="col-md-6 col-12">
                     <div class="card rounded-3"style="background-color: #f5efeff9;">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-center mb-3">

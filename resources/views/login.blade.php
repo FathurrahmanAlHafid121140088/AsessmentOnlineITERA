@@ -55,5 +55,15 @@
     </div>
 </body>
 <script src="{{ asset('js/script-login.js') }}"></script>
+@if (session('expired'))
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Sesi Berakhir',
+            text: 'Maaf, sesi Anda telah berakhir. Silakan login kembali.',
+            confirmButtonColor: '#3085d6'
+        });
+    </script>
+@endif
 
 </html>

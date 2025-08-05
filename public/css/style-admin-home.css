@@ -1912,3 +1912,57 @@ th i {
         text-align: center;
     }
 }
+.kategori-badge {
+    display: inline-block;
+    padding: 8px 24px;
+    border-radius: 3rem;
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+    margin-top: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Sangat Buruk - Distres Berat */
+.range-very-poor {
+    background: linear-gradient(
+        135deg,
+        #dc2626,
+        #ef4444
+    ); /* merah tua ke merah terang */
+    border: 1px solid #b91c1c;
+}
+
+/* Buruk - Distres Sedang */
+.range-poor {
+    background: linear-gradient(
+        135deg,
+        #ea580c,
+        #f97316
+    ); /* oranye tua ke terang */
+    border: 1px solid #c2410c;
+}
+
+/* Sedang - Rentan */
+.range-moderate {
+    background: linear-gradient(135deg, #eab308, #facc15); /* kuning emas */
+    border: 1px solid #ca8a04;
+    color: #222; /* teks lebih gelap agar terbaca di latar terang */
+}
+
+/* Baik - Sehat Secara Mental */
+.range-good {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa); /* biru terang */
+    border: 1px solid #2563eb;
+}
+
+/* Sangat Baik - Sejahtera Secara Mental */
+.range-excellent {
+    background: linear-gradient(135deg, #10b981, #34d399); /* hijau segar */
+    border: 1px solid #059669;
+}
+.kategori-badge:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+    transition: all 0.2s ease-in-out;
+}

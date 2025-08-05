@@ -90,6 +90,9 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 // ROUTES USER LAIN (Bebas diakses)
 // =====================
 
+Route::get('/user/mental-health', function () {
+    return view('user-mental-health', ['title' => 'Dashboard User']);
+});
 Route::get('/register', function () {
     return view('register', ['title' => 'Register']);
 });

@@ -61,6 +61,7 @@ class DataDiriSeeder extends Seeder
                 'Teknik Industri',
                 'Teknik Telekomunikasi',
                 'Teknik Biomedis',
+                'Teknik Pertambangan',
                 'Teknik Biosistem',
                 'Teknologi Industri Pertanian',
                 'Teknologi Pangan',

@@ -212,7 +212,8 @@
                                         <span class="legend-color"
                                             style="background-color: {{ $color }};"></span>
                                         {{ $singkatan }} ({{ $count }} Mahasiswa,
-                                        <strong>{{ $persen }}%</strong>)
+                                        <strong>{{ number_format($persen, 2) }}%</strong>)
+
                                     </div>
                                 @endforeach
                                 @endif
@@ -271,6 +272,7 @@
                                     'Teknik Telekomunikasi',
                                     'Teknik Biomedis',
                                     'Teknik Biosistem',
+                                    'Teknik Pertambangan',
                                     'Teknologi Industri Pertanian',
                                     'Teknologi Pangan',
                                     'Rekayasa Kehutanan',
@@ -332,6 +334,7 @@
                                             'Teknik Telekomunikasi' => 'fa-solid fa-tower-cell',
                                             'Teknik Biomedis' => 'fa-solid fa-heart-pulse',
                                             'Teknik Biosistem' => 'fa-solid fa-seedling',
+                                            'Teknik Pertambangan' => 'fa-solid fa-hard-hat',
                                             'Teknologi Industri Pertanian' => 'fa-solid fa-tractor',
                                             'Teknologi Pangan' => 'fa-solid fa-carrot',
                                             'Rekayasa Kehutanan' => 'fa-solid fa-tree',
@@ -365,7 +368,7 @@
             </div>
             <div class="tables">
                 <div class="table-header">
-                    <h3>Aktivitas Terbaru</h3>
+                    <h2>Aktivitas Terbaru</h2>
                     <div class="table-controls">
                         <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
                             <label for="limit">Tampilkan:</label>
@@ -547,7 +550,32 @@
 
                                                     <strong>
                                                         <i class="fas fa-tag"></i> Kategori:
-                                                    </strong> {{ $kuesioner->kategori }}<br>
+                                                    </strong>
+                                                    @php
+                                                        $kategoriSingkat = [
+                                                            'Sangat Buruk (Distres Berat)' => 'Berat',
+                                                            'Buruk (Distres Sedang)' => 'Sedang',
+                                                            'Sedang (Rentan)' => 'Rentan',
+                                                            'Baik (Sehat Secara Mental)' => 'Sehat',
+                                                            'Sangat Baik (Sejahtera Secara Mental)' => 'Sejahtera',
+                                                        ];
+
+                                                        $kelasKategori = [
+                                                            'Berat' => 'range-very-poor',
+                                                            'Sedang' => 'range-poor',
+                                                            'Rentan' => 'range-moderate',
+                                                            'Sehat' => 'range-good',
+                                                            'Sejahtera' => 'range-excellent',
+                                                        ];
+
+                                                        $kategoriLabel =
+                                                            $kategoriSingkat[$kuesioner->kategori] ?? 'Tidak Diketahui';
+                                                        $badgeClass = $kelasKategori[$kategoriLabel] ?? 'bg-gray-300';
+                                                    @endphp
+                                                    <span
+                                                        class="kategori-badge {{ $badgeClass }}">{{ $kategoriLabel }}
+                                                    </span>
+                                                    <br>
                                                 @endif
 
                                                 @if ($keluhan)

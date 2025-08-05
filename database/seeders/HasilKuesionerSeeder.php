@@ -65,6 +65,7 @@ class HasilKuesionerSeeder extends Seeder
                 'Teknik Telekomunikasi',
                 'Teknik Biomedis',
                 'Teknik Biosistem',
+                'Teknik Pertambangan',
                 'Teknologi Industri Pertanian',
                 'Teknologi Pangan',
                 'Rekayasa Kehutanan',

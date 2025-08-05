@@ -1,8 +1,59 @@
+document;
 document
     .getElementById("submit-button")
     .addEventListener("click", function (event) {
-        event.preventDefault(); // Mencegah form langsung terkirim
+        event.preventDefault();
 
+        const requiredFields = [
+            { id: "nama", label: "Nama" },
+            { id: "nim", label: "NIM" },
+            { id: "alamat", label: "Alamat" },
+            { id: "usia", label: "Usia" },
+            { id: "program_studi", label: "Program Studi" },
+            { id: "email", label: "Email" },
+            { id: "keluhan", label: "Keluhan" },
+        ];
+
+        let missingFields = [];
+
+        // Cek input text/number/textarea/select
+        requiredFields.forEach((field) => {
+            const el = document.getElementById(field.id);
+            if (!el || el.value.trim() === "" || el.value === null) {
+                missingFields.push(field.label);
+            }
+        });
+
+        // Cek radio group
+        const radioGroups = [
+            { name: "jenis_kelamin", label: "Jenis Kelamin" },
+            { name: "fakultas", label: "Fakultas" },
+            { name: "lama_keluhan", label: "Lama Keluhan" },
+            { name: "pernah_tes", label: "Pernah Tes Psikologi" },
+            { name: "pernah_konsul", label: "Pernah Konsultasi Psikolog" },
+        ];
+
+        radioGroups.forEach((group) => {
+            const selected = document.querySelector(
+                `input[name="${group.name}"]:checked`
+            );
+            if (!selected) {
+                missingFields.push(group.label);
+            }
+        });
+
+        if (missingFields.length > 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Data Belum Lengkap",
+                html: `Kolom berikut belum diisi:<br><ul style="text-align:left; list-style: none;">${missingFields
+                    .map((field) => `<li>• ${field}</li>`)
+                    .join("")}</ul>`,
+            });
+            return;
+        }
+
+        // Jika semua sudah terisi, lanjutkan konfirmasi
         Swal.fire({
             title: "Apakah Anda yakin?",
             text: "Pastikan semua data diri Anda sudah diisi dengan benar.",
@@ -14,15 +65,13 @@ document
             cancelButtonText: "Batal",
         }).then((result) => {
             if (result.isConfirmed) {
-                // Jika pengguna menekan "Ya, kirim!", tampilkan alert sukses
                 Swal.fire({
                     title: "Terkirim!",
                     text: "Data Diri Anda telah berhasil dikirim.",
                     icon: "success",
-                    timer: 2000, // Alert otomatis tertutup dalam 2 detik
+                    timer: 2000,
                     showConfirmButton: false,
                 }).then(() => {
-                    // Arahkan ke halaman /mental-health-kuesioner setelah alert sukses ditutup
                     document.querySelector("form").submit();
                 });
             }
@@ -69,6 +118,7 @@ const prodiOptions = {
         "Teknik Telekomunikasi",
         "Teknik Biomedis",
         "Teknik Biosistem",
+        "Teknik Pertambangan",
         "Teknologi Industri Pertanian",
         "Teknologi Pangan",
         "Rekayasa Kehutanan",

@@ -23,7 +23,9 @@ class AdminAuth
             Auth::guard('admin')->logout();
             Session::forget('last_activity_admin');
 
-            return redirect('/login')->with('error', 'Sesi Anda telah habis karena tidak ada aktivitas selama 1 jam.');
+            return redirect('/login')
+                ->with('expired', true)
+                ->with('error', 'Sesi Anda telah habis karena tidak ada aktivitas selama 1 jam.');
         }
 
         // Perbarui waktu aktivitas terakhir
