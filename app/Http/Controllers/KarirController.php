@@ -3,140 +3,183 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\KarirDataDiri;
 use App\Models\RmibHasilTes;
 use App\Models\RmibJawabanPeserta;
-use App\Models\Users;
+use App\Services\RmibScoringService;
+use Carbon\Carbon;
 
 class KarirController extends Controller
 {
-    public function showKarirForm()
-{
-    $kategoriRMIB = [
-        "Kelompok A" => [
-            "Petani", "Insinyur Sipil", "Akuntan", "Ilmuwan", "Manager Penjualan", "Seniman",
-            "Wartawan", "Pianis Konser", "Guru SD", "Manager Bank", "Tukang Kayu", "Dokter"
-        ],
-        "Kelompok B" => [
-            "Ahli Pembuat Alat", "Ahli Statistik", "Insinyur Kimia Industri", "Penyiar Radio",
-            "Artis Profesional", "Pengarang", "Dirigen Orkestra", "Psikolog Pendidikan",
-            "Sekretaris Perusahaan", "Ahli Bangunan", "Ahli Bedah", "Ahli Kehutanan"
-        ],
-        "Kelompok C" => [
-            "Auditor", "Ahli Meteorologi", "Salesman", "Arsitek", "Penulis Drama", "Komponis",
-            "Kepala Sekolah", "Pegawai Kecamatan", "Ahli Meubel/ Furniture", "Dokter Hewan",
-            "Juru Ukur Tanah", "Tukang Bubut/ Lemer"
-        ],
-        "Kelompok D" => [
-            "Ahli Biologi", "Agen Biro Periklanan", "Dekorator Interior", "Ahli Sejarah",
-            "Kritikus Musik", "Pekerja Sosial", "Pegawai Asuransi", "Tukang Cat", "Apoteker",
-            "Penjelajah", "Tukang Listrik", "Penilai Pajak Pendapatan"
-        ],
-        "Kelompok E" => [
-            "Petugas Wawancara", "Perancang Perhiasan", "Ahli Perpustakaan", "Guru Musik",
-            "Pembina Rohani", "Petugas Arsip", "Tukang Batu", "Dokter Gigi", "Prospektor",
-            "Montir", "Guru Ilmu Pasti", "Ahli Pertanian"
-        ],
-        "Kelompok F" => [
-            "Fotografer", "Penulis Majalah", "Pemain Orgen Tunggal", "Organisator Kepramukaan",
-            "Petugas Pengirim Barang", "Operator Mesin Perkayuan", "Ahli Kacamata",
-            "Ahli Sortir Kulit", "Instalator", "Asisten Kasir Bank", "Ahli Botani", "Pedagang Keliling"
-        ],
-        "Kelompok G" => [
-            "Kritikus Buku", "Ahli Pustaka Musik", "Pengurus Karang Taruna", "Pegawai Kantor",
-            "Tukang Plester Tembok", "Ahli Rontgent", "Nelayan", "Pembuat Arloji", "Kasir",
-            "Ahli Astronomi", "Juru Lelang", "Penata Panggung"
-        ],
-        "Kelompok H" => [
-            "Pemain Musik Band", "Ahli Penyuluh Jabatan", "Pegawai Kantor Pos", "Tukang Ledeng/ Pipa Air",
-            "Ahli Fisioterapi", "Sopir Angkutan Umum", "Montir Radio", "Juru Bayar", "Ahli Geologi",
-            "Petugas Hubungan Masyarakat", "Penata Etalase", "Penulis Sandiwara Radio"
-        ],
-        "Kelompok I" => [
-            "Petugas Kesejahteraan Sosial", "Petugas Ekspedisi Surat", "Tukang Sepatu",
-            "Paramedik/Mantri Kesehatan", "Petani Tanaman Hias", "Tukang Las", "Petugas Pajak",
-            "Asisten Laboratorium", "Salesman Asuransi", "Perancang Motif Tekstil", "Penyair",
-            "Pramuniaga Toko Musik"
-        ],
-    ];
-
-    $pekerjaan = collect($kategoriRMIB)->flatten()->unique()->sort()->values()->toArray();
-
-    return view('karir-form', compact('pekerjaan'));
-}
-
-public function simpanDataDiri(Request $request)
-{
-    $request->validate([
-        'nama' => 'required',
-        'jenis_kelamin' => 'required|in:L,P',
-    ]);
-
-    session(['gender' => $request->jenis_kelamin]);
-    return redirect()->route('karir.form');
-}
-
-public function form()
-{
-    return view('karir-form'); // file resources/views/karir-form.blade.php
-}
-
-public function simpanHasil(Request $request)
-{
-    $request->validate([
-        'peringkat' => 'required',
-        'top1' => 'required|string',
-        'top2' => 'required|string',
-        'top3' => 'required|string',
-    ]);
-
-    $user = Users::find(1); // ID dummy sementara
-
-    $peringkatData = json_decode($request->peringkat, true);
-
-    $hasil = RmibHasilTes::create([
-        'user_id' => $user->id,
-        'tanggal_pengerjaan' => now(),
-        'top_1_pekerjaan' => $request->top1,
-        'top_2_pekerjaan' => $request->top2,
-        'top_3_pekerjaan' => $request->top3,
-        'nama' => $user->name,
-        'nim' => $user->nim ?? null,
-        'program_studi' => $user->program_studi ?? null,
-    ]);
-
-    // Simpan semua jawaban pekerjaan ke rmib_jawaban_peserta
-    foreach ($peringkatData as $kelompok => $pekerjaanList) {
-        foreach ($pekerjaanList as $pekerjaan => $peringkat) {
-            RmibJawabanPeserta::create([
-                'hasil_id' => $hasil->id_hasil,
-                'kelompok' => $kelompok,
-                'pekerjaan' => $pekerjaan,
-                'peringkat' => $peringkat,
-            ]);
-        }
+    public function showDataDiri()
+    {
+        return view('karir-datadiri');
     }
-    session(['gender' => $request->jenis_kelamin]); // 'L' atau 'P'
 
-    return redirect()->route('kariri.interpretasi');
+    public function storeDataDiri(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nim' => 'required|string|max:20',
+            'jenis_kelamin' => 'required|in:L,P',
+            'alamat' => 'required|string',
+            'usia' => 'required|numeric|min:1|max:150',
+            'fakultas' => 'required|string',
+            'program_studi' => 'required|string',
+            'email' => 'required|email',
+        ]);
+
+        $dataDiri = KarirDataDiri::create($validated);
+
+        // Simpan ID ke session untuk digunakan nanti
+        session(['karir_data_diri_id' => $dataDiri->id]);
+
+        return redirect()->route('karir.form', ['id' => $dataDiri->id]);
+    }
+
+    public function form($id)
+    {
+        $dataDiri = KarirDataDiri::findOrFail($id);
+        
+        // Load data pekerjaan berdasarkan gender
+        $gender = $dataDiri->jenis_kelamin;
+        $jsonFile = $gender == 'L' ? 'data/pekerjaan_pria.json' : 'data/pekerjaan_wanita.json';
+        $jsonPath = public_path($jsonFile);
+        
+        $pekerjaan = [];
+        if (file_exists($jsonPath)) {
+            $jsonData = json_decode(file_get_contents($jsonPath), true);
+            $pekerjaan = $jsonData;
+        } else {
+            // Fallback jika file tidak ada
+            $pekerjaan = [
+                'Kategori A' => ['Pekerjaan A1', 'Pekerjaan A2', 'Pekerjaan A3'],
+                'Kategori B' => ['Pekerjaan B1', 'Pekerjaan B2', 'Pekerjaan B3'],
+            ];
+        }
+
+        return view('karir-form', [
+            'dataDiri' => $dataDiri,
+            'gender' => $dataDiri->jenis_kelamin,
+            'pekerjaan' => $pekerjaan,
+        ]);
+    }
+
+    public function storeJawaban(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'peringkat' => 'required|array',
+            'top1' => 'required|string',
+            'top2' => 'required|string',
+            'top3' => 'required|string',
+        ]);
+
+        // Ambil data diri dari session
+        $karirDataDiriId = session('karir_data_diri_id');
+        
+        if (!$karirDataDiriId) {
+            return redirect()->route('karir.datadiri')->with('error', 'Data diri tidak ditemukan');
+        }
+
+        $dataDiri = KarirDataDiri::findOrFail($karirDataDiriId);
+
+        // Buat record hasil tes
+        $hasilTes = RmibHasilTes::create([
+            'user_id' => $dataDiri->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => $validated['top1'],
+            'top_2_pekerjaan' => $validated['top2'],
+            'top_3_pekerjaan' => $validated['top3'],
+            'nama' => $dataDiri->nama,
+            'nim' => $dataDiri->nim,
+            'program_studi' => $dataDiri->program_studi,
+            'interpretasi' => '', // Akan diisi setelah kalkulasi
+        ]);
+
+        // Simpan jawaban detail per pekerjaan
+        foreach ($validated['peringkat'] as $kategori => $jobs) {
+            foreach ($jobs as $pekerjaan => $peringkat) {
+    RmibJawabanPeserta::updateOrCreate(
+        ['karir_data_diri_id' => $dataDiri->id],
+        ['peringkat' => json_encode($request->peringkat)]);
+            }
+        }
+
+        // Generate interpretasi (contoh sederhana)
+        $interpretasi = $this->generateInterpretasi($hasilTes);
+        $hasilTes->update(['interpretasi' => $interpretasi]);
+
+        return redirect()->route('karir.interpretasi', ['id' => $hasilTes->id_hasil]);
+    }
+
+        public function adminDetail($id)
+    {
+        $peserta = KarirDataDiri::findOrFail($id);
+        $jawaban = $peserta->rmibJawabanPeserta;
+        $peringkat = json_decode($jawaban->peringkat, true);
+
+        $hasil = app(RmibScoringService::class)->hitung($peringkat);
+
+        // Simpan hasil jika belum ada
+        RmibHasilTes::updateOrCreate(
+            ['user_id' => $peserta->id],
+            [
+                'tanggal_pengerjaan' => now(),
+                'top_1_pekerjaan' => array_key_first($hasil['top3']),
+                'top_2_pekerjaan' => array_keys($hasil['top3'])[1],
+                'top_3_pekerjaan' => array_keys($hasil['top3'])[2],
+                'interpretasi' => json_encode($hasil['skor']),
+                'nama' => $peserta->nama,
+                'nim' => $peserta->nim ?? 'N/A',
+                'program_studi' => $peserta->program_studi
+            ]
+        );
+
+        return view('karir-detail-hasil', [
+            'peserta' => $peserta,
+            'peringkat' => $peringkat,
+            'skor' => $hasil['skor'],
+            'top3' => $hasil['top3'],
+            'total' => $hasil['total'],
+        ]);
+    }
+
+    // public function interpretasi($id)
+    // {
+    //     $hasilTes = RmibHasilTes::with(['jawaban', 'dataDiri'])->findOrFail($id);
+        
+    //     return view('karir-interpretasi', [
+    //         'hasilTes' => $hasilTes,
+    //         'dataDiri' => $hasilTes->dataDiri,
+    //     ]);
+    // }
+    public function interpretasi($id)
+    {
+        $peserta = KarirDataDiri::findOrFail($id);
+        $hasil = RmibHasilTes::where('user_id', $id)->first();
+        $skor = $hasil ? json_decode($hasil->interpretasi, true) : [];
+
+        return view('karir-interpretasi', [
+            'dataDiri' => $peserta,
+            'skor' => $skor,
+            'top3' => array_slice($skor, 0, 3, true)
+        ]);
+    }
+    
+
+    private function generateInterpretasi($hasilTes)
+    {
+        // Contoh interpretasi sederhana berdasarkan top 3 pekerjaan
+        $top1 = $hasilTes->top_1_pekerjaan;
+        $top2 = $hasilTes->top_2_pekerjaan;
+        $top3 = $hasilTes->top_3_pekerjaan;
+
+        $interpretasi = "Berdasarkan hasil tes RMIB Anda:\n\n";
+        $interpretasi .= "Pekerjaan yang paling Anda minati adalah: {$top1}\n";
+        $interpretasi .= "Diikuti oleh: {$top2}\n";
+        $interpretasi .= "Dan: {$top3}\n\n";
+        $interpretasi .= "Hal ini menunjukkan bahwa Anda memiliki minat yang kuat terhadap bidang-bidang tersebut.";
+
+        return $interpretasi;
+    }
 }
-
-public function simpanJawaban(Request $request)
-{
-    // Validasi jika perlu
-    $request->validate([
-        'top_1' => 'required|string',
-        'top_2' => 'required|string',
-        'top_3' => 'required|string',
-        'jawaban' => 'required|array',
-    ]);
-
-    // Proses simpan ke database atau session...
-    // contoh:
-    // RmibJawabanPeserta::create([...]);
-
-    return redirect()->route('karir.hasil'); // atau ke mana pun setelah submit
-}
-
-
-}
-

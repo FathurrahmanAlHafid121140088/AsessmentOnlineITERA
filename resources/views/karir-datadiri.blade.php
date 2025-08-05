@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>{{ $title }}</title>
+    <title>tes</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
     <!-- Font Awesome icons (free version)-->
@@ -35,7 +35,8 @@
                 <div class="text-center">
                     <img src="../assets/img/img-form.png" style="width: 250px">
                 </div>
-                <form action="{{ route('karir.datadiri') }}" method="POST"> @csrf
+                <form action="{{ route('karir.datadiri.store') }}" method="POST">
+                    @csrf
                     <div class="formbold-form-title">
                         <h2 class="">Form Data Diri</h2>
                         <p>Isi data diri dibawah ini dengan benar.</p>
@@ -155,7 +156,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/script.js"></script>
-<script src="{{ asset('js/script-datadiri.js') }}"></script>
+<script src="{{ asset('js/script-karir-datadiri.js') }}"></script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

@@ -12,6 +12,7 @@
     <div class="card">
         <div class="card-header">
             <h1 class="card-title">Tes Minat Rothwell-Miller (RMIB)</h1>
+            <p>Peserta: {{ $dataDiri->nama }} ({{ $dataDiri->gender == 'L' ? 'Laki-laki' : 'Perempuan' }})</p>
         </div>
         <div class="card-content">
             <div class="instruction-box">
@@ -24,8 +25,7 @@
                 </p>
             </div>
 
-            <form method="POST" action="{{ route('karir.simpan') }}">
-                @csrf
+            <form method="POST" action="{{ route('karir.jawaban.store', ['id' => $dataDiri->id]) }}"> @csrf
                 <!-- Tempat form isian pekerjaan -->
                 <div id="categories-container" class="categories-grid"></div>
 
@@ -37,9 +37,15 @@
                         <label for="top1">Top 1</label>
                         <select name="top1" id="top1" class="form-control" required>
                             <option value="">-- Pilih Pekerjaan --</option>
-                            @foreach ($pekerjaan as $job)
-                                <option value="{{ $job }}">{{ $job }}</option>
-                            @endforeach
+                            @if (isset($pekerjaan) && is_array($pekerjaan))
+                                @foreach ($pekerjaan as $kategori => $jobs)
+                                    @if (is_array($jobs))
+                                        @foreach ($jobs as $job)
+                                            <option value="{{ $job }}">{{ $job }}</option>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
                         </select>
                     </div>
 
@@ -47,9 +53,15 @@
                         <label for="top2">Top 2</label>
                         <select name="top2" id="top2" class="form-control" required>
                             <option value="">-- Pilih Pekerjaan --</option>
-                            @foreach ($pekerjaan as $job)
-                                <option value="{{ $job }}">{{ $job }}</option>
-                            @endforeach
+                            @if (isset($pekerjaan) && is_array($pekerjaan))
+                                @foreach ($pekerjaan as $kategori => $jobs)
+                                    @if (is_array($jobs))
+                                        @foreach ($jobs as $job)
+                                            <option value="{{ $job }}">{{ $job }}</option>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
                         </select>
                     </div>
 
@@ -57,9 +69,15 @@
                         <label for="top3">Top 3</label>
                         <select name="top3" id="top3" class="form-control" required>
                             <option value="">-- Pilih Pekerjaan --</option>
-                            @foreach ($pekerjaan as $job)
-                                <option value="{{ $job }}">{{ $job }}</option>
-                            @endforeach
+                            @if (isset($pekerjaan) && is_array($pekerjaan))
+                                @foreach ($pekerjaan as $kategori => $jobs)
+                                    @if (is_array($jobs))
+                                        @foreach ($jobs as $job)
+                                            <option value="{{ $job }}">{{ $job }}</option>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -68,8 +86,12 @@
             </form>
         </div>
     </div>
+
     <script>
-        window.gender = "{{ session('gender', 'L') }}"; // Default ke 'L' jika tidak ada
+        // Data dari controller Laravel
+        window.gender = "{{ $gender }}";
+        window.pekerjaanData = @json($pekerjaan ?? []);
+        window.dataDiriId = "{{ $dataDiri->id }}";
     </script>
     <script src="{{ asset('js/karir-form.js') }}"></script>
 </body>
