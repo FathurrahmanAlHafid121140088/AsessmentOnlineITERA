@@ -102,40 +102,66 @@ Route::get('/mental-health', function () {
     return view('mental-health', ['title' => 'Mental Health']);
 });
 
+// ---------------------- KARIR ROUTES ----------------------
 
-// routes untuk Karir
+// Halaman awal: Form input data diri
 Route::get('/karir-home', function () {
-    return view('karir-home', ['title' => 'Peminatan-Karir']);
-});
+    return view('karir-home');
+})->name('karir.home');
 
+// Halaman awal: Form input data diri
 Route::get('/karir-datadiri', function () {
-    return view('karir-datadiri', ['title' => 'Isi Identitas']);
-});
-
-Route::get('/karir-form', function () {
-    return view('karir-form', ['title' => 'Form Peminatan-Karir']);
-});
-
-Route::get('/karir-hitung', function () {
-    return view('karir-hitung', ['title' => 'Hasil Hitung RMIB']);
-});
+    return view('karir-datadiri');
+})->name('karir.datadiri');
 
 Route::get('/karir-interpretasi', function () {
-    return view('karir-interpretasi', ['title' => 'Hasil Interpretasi Anda']);
-});
+    return view('karir-interpretasi');
+})->name('karir.interpretasi');
 
-Route::get('/karir-detail-hasil', function () {
-    return view('karir-detail-hasil', ['title' => 'Hasil Interpretasi Mahasiswa']);
-});
+// Simpan data diri dan redirect ke form RMIB
+Route::post('/karir-datadiri', [KarirController::class, 'storeDataDiri'])
+    ->name('karir.datadiri.store');
 
+// Tampilkan form RMIB berdasarkan ID data diri
+Route::get('/karir-form/{id}', [KarirController::class, 'form'])
+    ->name('karir.form');
+
+// Simpan jawaban RMIB
+Route::post('/karir-form/{id}', [KarirController::class, 'storeJawaban'])
+    ->name('karir.jawaban.store');
+
+// Tampilkan interpretasi hasil tes
+Route::get('/karir-interpretasi/{id}', [KarirController::class, 'interpretasi'])
+    ->name('karir.interpretasi');
+
+    // Route untuk halaman data diri
+Route::get('/karir/datadiri', [KarirController::class, 'showDataDiri'])->name('karir.datadiri');
+
+// Route untuk menyimpan data diri
+Route::post('/karir/datadiri', [KarirController::class, 'storeDataDiri'])->name('karir.datadiri.store');
+
+// Route untuk halaman form tes karir
+Route::get('/karir/form/{id}', [KarirController::class, 'form'])->name('karir.form');
+
+// Route untuk menyimpan jawaban tes
+Route::post('/karir/jawaban', [KarirController::class, 'storeJawaban'])->name('karir.simpan');
+
+// Route untuk interpretasi hasil
+Route::get('/karir/interpretasi/{id}', [KarirController::class, 'interpretasi'])->name('karir.interpretasi');
+
+// ==============================
+// ADMIN
+// ==============================
+
+// Halaman awal: Form input data diri
 Route::get('/admin-karir', function () {
-    return view('admin-karir', ['title' => 'Database Tes Karir']);
-});
-Route::post('/karir/datadiri', [KarirController::class, 'simpanDataDiri'])->name('karir.datadiri');
-// Route::post('/karir-form', [KarirController::class, 'store'])->name('karir-form.store-data-diri');
-Route::get('/karir/form', [KarirController::class, 'form'])->name('karir.form');
+    return view('admin-karir', ['title' => 'Admin Karir']);
+})->name('karir.home');
 
-Route::get('/karir-form', [KarirController::class, 'showKarirForm'])->name('karir.form');
-Route::post('/karir/form/simpan', [KarirController::class, 'simpanJawaban'])->name('karir.simpan');
+// Daftar semua peserta (admin dashboard)
+Route::get('/admin/karir', [KarirController::class, 'adminIndex'])
+    ->name('admin.karir.index');
 
-
+// Detail hasil peserta + analisis circular shift (admin)
+Route::get('/admin/karir/{id}', [KarirController::class, 'adminDetail'])
+    ->name('admin.karir.detail');
