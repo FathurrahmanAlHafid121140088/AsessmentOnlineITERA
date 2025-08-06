@@ -28,7 +28,9 @@
         <!-- 📦 Sidebar -->
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2><i class="fas fa-brain"></i> TestMind</h2>
+                <img src="../assets/img/Logo_ITERA.png" class="img-fluid animated" alt="">
+                <h2> ANLOGY</h2>
+                <h4>PPSDM ITERA</h4>
             </div>
             <div class="sidebar-menu">
                 <a href="#" class="menu-item active">

@@ -52,8 +52,10 @@
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
-            <div class="logo">
-                <h2>Dashboard</h2>
+            <div class="sidebar-header">
+                <img src="../assets/img/Logo_ITERA.png" class="img-fluid animated" alt="">
+                <h2> ANLOGY</h2>
+                <h4>PPSDM ITERA</h4>
             </div>
             <ul class="menu">
                 <li>
@@ -368,7 +370,9 @@
             </div>
             <div class="tables">
                 <div class="table-header">
-                    <h2>Aktivitas Terbaru</h2>
+                    <h2>
+                        Aktivitas Terbaru
+                    </h2>
                     <div class="table-controls">
                         <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
                             <label for="limit">Tampilkan:</label>

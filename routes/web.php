@@ -91,7 +91,7 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 // =====================
 
 Route::get('/user/mental-health', function () {
-    return view('user-mental-health', ['title' => 'Dashboard User']);
+    return view('user-mental-health', ['title' => 'ANLOGY | Institut Teknologi Sumatera']);
 });
 Route::get('/register', function () {
     return view('register', ['title' => 'Register']);
@@ -137,7 +137,7 @@ Route::post('/karir-form/{id}', [KarirController::class, 'storeJawaban'])
 Route::get('/karir-interpretasi/{id}', [KarirController::class, 'interpretasi'])
     ->name('karir.interpretasi');
 
-    // Route untuk halaman data diri
+// Route untuk halaman data diri
 Route::get('/karir/datadiri', [KarirController::class, 'showDataDiri'])->name('karir.datadiri');
 
 // Route untuk menyimpan data diri

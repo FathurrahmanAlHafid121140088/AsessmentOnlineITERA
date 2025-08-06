@@ -135,7 +135,7 @@
         </div>
     </section>
     <!-- Services-->
-    <section class="page-section" id="services" style="background-color: #f5efeff9;">
+    <section class="page-section" id="services" style="background-color: #f2f2f2;">
         <div class="container">
             <div class="text-center">
                 <h2 data-aos="fade-down" data-aos-delay="100" class="section-heading text-uppercase">Layanan Kami
@@ -185,7 +185,7 @@
 
                 <!-- Card 1 -->
                 <div data-aos="zoom-in" data-aos-delay="200" class="col-md-6 col-12">
-                    <div class="card rounded-3"style="background-color: #f5efeff9;">
+                    <div class="card rounded-3"style="background-color: #f2f2f2;">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-center mb-3">
                                 <img src="{{ asset('img/Noam-Shpancer-500x765.jpg') }}" alt="..."
@@ -208,7 +208,7 @@
 
                 <!-- Card 2 -->
                 <div data-aos="zoom-in" data-aos-delay="200" class="col-md-6 col-12">
-                    <div class="card rounded-3"style="background-color: #f5efeff9;">
+                    <div class="card rounded-3"style="background-color: #f2f2f2;">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-center mb-3">
                                 <img src="{{ asset('img/Steve_Jobs_Headshot_2010-CROP_(cropped_2).jpg') }}"

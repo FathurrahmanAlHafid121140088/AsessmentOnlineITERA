@@ -10,6 +10,7 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
     --bs-blue: #0d6efd;
@@ -94,6 +95,7 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -11307,8 +11309,6 @@ p {
 }
 
 #mainNav {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
     background-color: #212529;
 }
 #mainNav .navbar-toggler {
@@ -11347,8 +11347,6 @@ p {
 
 @media (min-width: 992px) {
     #mainNav {
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
         background-color: #212529;
         border: none;
         transition: padding-top 0.3s ease-in-out,
@@ -11811,5 +11809,64 @@ section#contact form#contactForm :-ms-input-placeholder {
     .btn-xl {
         font-size: 0.9rem; /* tombol juga lebih kecil */
         padding: 0.75rem 1rem;
+    }
+}
+.logo-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 1.5rem;
+    background: #212529;
+    border-radius: 1rem;
+}
+
+.logo-header img {
+    width: 70px;
+    height: 70px;
+    padding: 3px;
+    background-color: white;
+    border-radius: 10px;
+    object-fit: contain;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-header .logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.logo-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: normal;
+}
+@media (max-width: 768px) {
+    .logo-header {
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .logo-header img {
+        width: 45px;
+        height: 45px;
+        padding: 4px;
+    }
+
+    .logo-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .logo-header h4 {
+        font-size: 0.75rem;
     }
 }
