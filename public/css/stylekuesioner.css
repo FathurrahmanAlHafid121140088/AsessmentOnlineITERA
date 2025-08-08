@@ -37,7 +37,7 @@ body {
 }
 .question {
     margin-bottom: 30px;
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -80,6 +80,10 @@ body {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
+}
+
+.question-text p {
+    font-family: "Segoe UI", Tahoma, "Geneva", Verdana, sans-serif;
 }
 .custom-radio {
     cursor: pointer;
@@ -167,6 +171,7 @@ input[type="radio"].form-check-input:checked::before {
 .form-check-label {
     white-space: normal;
     word-break: break-word;
+    font-family: "Segoe UI", Tahoma, "Geneva", Verdana, sans-serif;
 }
 
 .form-check-input {

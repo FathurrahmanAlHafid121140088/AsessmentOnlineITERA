@@ -21,10 +21,20 @@
 <body>
     <div class="container">
         <div class="login-card">
-            <div class="login-header">
-                <h1>Selamat Datang</h1>
-                <p>Silakan masuk ke akun Anda</p>
+            <div class="logo-header">
+                <div class="logo-with-text">
+                    <img src="{{ asset('assets/img/Logo_ITERA.png') }}" alt="Logo">
+                    <div class="logo-text">
+                        <h2>ANLOGY</h2>
+                        <h4>PPSDM ITERA</h4>
+                    </div>
+                </div>
+                <div class="logo-greeting">
+                    <h1>Selamat Datang</h1>
+                    <p>Silakan masuk ke akun Anda</p>
+                </div>
             </div>
+
             <form action="{{ route('login.process') }}" method="POST">
                 @csrf <!-- Token CSRF untuk keamanan -->
                 <div class="input-group">
@@ -44,11 +54,11 @@
                     <label for="showPassword">Tampilkan password</label>
                 </div>
                 <button type="submit" class="login-btn">Masuk</button>
-                <div class="forgot-password">
-                    <a href="/lupa-password">Lupa password?</a>
+                <div class="signup-link">
+                    Mahasiswa ITERA? <i class="fas fa-key me-1"></i> <a href="/register">Login via SSO</a>
                 </div>
                 <div class="signup-link">
-                    Belum punya akun? <a href="/register">Daftar sekarang</a>
+                    <i class="fas fa-home"></i> <a href="/home">Kembali ke Halaman Utama</a>
                 </div>
             </form>
         </div>
