@@ -65,52 +65,41 @@ class KarirController extends Controller
         ]);
     }
 
-    public function storeJawaban(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'peringkat' => 'required|array',
-            'top1' => 'required|string',
-            'top2' => 'required|string',
-            'top3' => 'required|string',
-        ]);
+public function storeJawaban(Request $request, $id)
+{
+    $dataDiri = KarirDataDiri::findOrFail($id);
 
-        // Ambil data diri dari session
-        $karirDataDiriId = session('karir_data_diri_id');
-        
-        if (!$karirDataDiriId) {
-            return redirect()->route('karir.datadiri')->with('error', 'Data diri tidak ditemukan');
-        }
+    $peringkat = $request->input('peringkat');
+    if (!$peringkat) {
+        return redirect()->back()->withErrors(['peringkat' => 'Data peringkat tidak terkirim.']);
+    }
 
-        $dataDiri = KarirDataDiri::findOrFail($karirDataDiriId);
-
-        // Buat record hasil tes
-        $hasilTes = RmibHasilTes::create([
-            'user_id' => $dataDiri->id,
-            'tanggal_pengerjaan' => Carbon::now(),
-            'top_1_pekerjaan' => $validated['top1'],
-            'top_2_pekerjaan' => $validated['top2'],
-            'top_3_pekerjaan' => $validated['top3'],
-            'nama' => $dataDiri->nama,
-            'nim' => $dataDiri->nim,
-            'program_studi' => $dataDiri->program_studi,
-            'interpretasi' => '', // Akan diisi setelah kalkulasi
-        ]);
-
-        // Simpan jawaban detail per pekerjaan
-        foreach ($validated['peringkat'] as $kategori => $jobs) {
-            foreach ($jobs as $pekerjaan => $peringkat) {
     RmibJawabanPeserta::updateOrCreate(
         ['karir_data_diri_id' => $dataDiri->id],
-        ['peringkat' => json_encode($request->peringkat)]);
-            }
-        }
+        ['peringkat' => $peringkat]
+    );
 
-        // Generate interpretasi (contoh sederhana)
-        $interpretasi = $this->generateInterpretasi($hasilTes);
-        $hasilTes->update(['interpretasi' => $interpretasi]);
+    // Hitung hasil RMIB
+    $hasil = app(\App\Services\RmibScoringService::class)->hitung(json_decode($peringkat, true));
 
-        return redirect()->route('karir.interpretasi', ['id' => $hasilTes->id_hasil]);
-    }
+    // Simpan hasil ke tabel rmib_hasil_tes
+    RmibHasilTes::updateOrCreate(
+        ['user_id' => $dataDiri->id],
+        [
+            'tanggal_pengerjaan' => now(),
+            'top_1_pekerjaan' => $hasil['top3'][0]['kategori'] ?? null,
+            'top_2_pekerjaan' => $hasil['top3'][1]['kategori'] ?? null,
+            'top_3_pekerjaan' => $hasil['top3'][2]['kategori'] ?? null,
+            'interpretasi' => json_encode($hasil['skor']),
+            'nama' => $dataDiri->nama,
+            'nim' => $dataDiri->nim ?? '',
+            'program_studi' => $dataDiri->program_studi ?? ''
+        ]
+    );
+
+    return redirect()->route('karir.interpretasi', ['id' => $dataDiri->id])
+        ->with('success', 'Jawaban berhasil disimpan.');
+}
 
         public function adminDetail($id)
     {
