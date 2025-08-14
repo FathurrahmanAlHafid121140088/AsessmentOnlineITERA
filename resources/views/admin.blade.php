@@ -34,11 +34,17 @@
 
     <div class="container">
         <div class="header">
-            <div class="welcome-icon">
-                <i class="fas fa-crown"></i>
+            <div class="logo-header">
+                <div class="logo-with-text">
+                    <img src="{{ asset('assets/img/Logo_ITERA.png') }}" alt="Logo">
+                    <div class="logo-text">
+                        <h2>ANLOGY</h2>
+                        <h4>PPSDM ITERA</h4>
+                    </div>
+                </div>
             </div>
             <h1>Selamat Datang di Panel Admin</h1>
-            <p class="subtitle">Assessment Online Psychology - Institut Teknologi Sumatera</p>
+            <p class="subtitle">ANLOGY | Assessmen Online Psychology - PPSDM ITERA</p>
         </div>
 
         <div class="cards-container">
@@ -71,7 +77,7 @@
                     <div class="stat-item">
                         <span class="stat-number" id="mental-assessments"
                             data-target="{{ $totalTes }}">{{ $totalTes }}</span>
-                        <span class="stat-label">Assessment Aktif</span>
+                        <span class="stat-label">Jumlah Tes Masuk</span>
                     </div>
                 </div>
             </div>

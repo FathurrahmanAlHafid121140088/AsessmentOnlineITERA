@@ -433,6 +433,15 @@ input[type="radio"].form-check-input:checked::before {
         width: 180px !important;
         height: calc(100vh - 100px);
     }
+    .form-check-label {
+        font-size: 0.8rem;
+    }
+    .question-text p {
+        font-size: 0.9rem;
+    }
+    .quiz-title {
+        font-size: 1.1rem;
+    }
 
     .sidebar-title {
         font-size: 18px !important;

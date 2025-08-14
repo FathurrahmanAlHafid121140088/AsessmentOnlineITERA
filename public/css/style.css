@@ -498,7 +498,7 @@ legend + * {
 }
 
 .navbar-scrolled {
-    background-color: #343a40 !important; /* dark solid saat scroll */
+    background-color: #212529 !important; /* dark solid saat scroll */
 }
 
 .navbar-shrink {

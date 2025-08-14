@@ -294,3 +294,129 @@ function backdropClose(e, modalId) {
         }
     }
 })();
+
+(function chartProvinsiModule() {
+    document.addEventListener("DOMContentLoaded", function () {
+        tampilkanChartProvinsi();
+    });
+
+    function animateBarsSequentially(bars, scaleFactor) {
+        bars.forEach((bar, idx) => {
+            const rawValue = parseInt(bar.dataset.raw) || 0;
+            const targetWidth = rawValue * scaleFactor;
+            bar.style.width = "0px";
+            bar.style.opacity = 0;
+            setTimeout(() => {
+                bar.style.transition = "width 0.6s ease, opacity 0.6s ease";
+                bar.style.width = targetWidth + "px";
+                bar.style.opacity = 1;
+            }, idx * 100);
+        });
+    }
+
+    function tampilkanChartProvinsi() {
+        const container = document.getElementById("chartProvinsiContainer");
+        const targetChart = container.querySelector(
+            ".horizontal-bar-chart-provinsi"
+        );
+
+        if (targetChart) {
+            const jumlahProvinsi = parseInt(targetChart.dataset.jumlah) || 0;
+
+            // Min-height: 300px untuk mobile, dinamis untuk desktop
+            if (window.innerWidth <= 768) {
+                container.style.minHeight = "300px";
+            } else {
+                const chartHeight = jumlahProvinsi * 46 + 60;
+                container.style.minHeight = chartHeight + "px";
+            }
+
+            // Ambil semua bar
+            const bars = targetChart.querySelectorAll(".bar-fill-provinsi");
+
+            // Cari nilai max
+            let maxValue = 1;
+            bars.forEach((bar) => {
+                const val = parseInt(bar.dataset.raw) || 0;
+                if (val > maxValue) maxValue = val;
+            });
+
+            // Tentukan lebar maksimal bar sesuai layar
+            let maxBarWidth = 740;
+            if (window.innerWidth <= 400) maxBarWidth = 190;
+            else if (window.innerWidth <= 480) maxBarWidth = 240;
+            else if (window.innerWidth <= 768) maxBarWidth = 280;
+            else if (window.innerWidth <= 992) maxBarWidth = 345;
+            else if (window.innerWidth <= 1024) maxBarWidth = 245;
+            else if (window.innerWidth <= 1280) maxBarWidth = 500;
+
+            const scaleFactor = maxBarWidth / maxValue;
+
+            // Jalankan animasi
+            animateBarsSequentially(bars, scaleFactor);
+        }
+    }
+})();
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".dropdown-toggle").forEach(function (toggle) {
+        toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            let parent = this.parentElement;
+            parent.classList.toggle("open");
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const menuProdi = document.querySelector(
+        'a[href="/admin/mental-health/program-studi"]'
+    );
+    const menuProvinsi = document.querySelector(
+        'a[href="/admin/mental-health/provinsi"]'
+    );
+
+    const chartProdi = document.querySelector(".chart-prodi");
+    const chartProvinsi = document.querySelector(".chart-provinsi");
+    const tableWrapper = document.querySelector(".tables"); // Pastikan pembungkus tabel pakai class .tables
+
+    function showOnly(target) {
+        // Sembunyikan semua
+        if (chartProdi) chartProdi.style.display = "none";
+        if (chartProvinsi) chartProvinsi.style.display = "none";
+        if (tableWrapper) tableWrapper.style.display = "none";
+
+        // Tampilkan yang dipilih
+        if (target) target.style.display = "block";
+    }
+
+    if (menuProdi) {
+        menuProdi.addEventListener("click", function (e) {
+            e.preventDefault();
+            showOnly(chartProdi);
+        });
+    }
+
+    if (menuProvinsi) {
+        menuProvinsi.addEventListener("click", function (e) {
+            e.preventDefault();
+            showOnly(chartProvinsi);
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const donut = document.querySelector("#donutAsalSekolah");
+    if (!donut) return;
+
+    const segs = donut.querySelectorAll(".donut-seg");
+
+    // apply dasharray & offset setelah render => animasi terlihat
+    requestAnimationFrame(() => {
+        segs.forEach((seg) => {
+            const dash = parseFloat(seg.dataset.dash || "0");
+            const gap = parseFloat(seg.dataset.gap || "0");
+            const offset = parseFloat(seg.dataset.offset || "0");
+
+            seg.style.strokeDasharray = `${dash} ${gap}`;
+            seg.style.strokeDashoffset = offset * -1; // negatif agar maju searah jarum jam setelah rotate(-90deg)
+        });
+    });
+});

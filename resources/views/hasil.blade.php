@@ -65,14 +65,6 @@
 
         <div class="result-section">
             <h2>Ringkasan Hasil</h2>
-            <!--
-            <div class="score-card">
-                <div data-aos="zoom-in" data-aos-delay="200" class="score-item">
-                    <div class="score-label">Skor Total</div>
-                    <div class="score-value">{{ $hasil->total_skor }}</div>
-                    <div class="score-category">{{ $hasil->kategori }}</div>
-                </div>
-                -->
             <div data-aos="zoom-in" data-aos-delay="300" class="score-item score-range">
                 <div class="score-range-title">
                     <i class="fas fa-sliders-h" style="color: #3498db; margin-right: 6px;"></i> Rentang Kategori
@@ -106,17 +98,17 @@
                         </div>
                         <span
                             class="range-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 75 ? 'active' : '' }}">
-                            Berat
+                            Perlu Dukungan Intensif
                         </span>
 
                         <span
                             class="range-poor {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : '' }}">
-                            Sedang
+                            Perlu Dukungan
                         </span>
 
                         <span
                             class="range-moderate {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : '' }}">
-                            Rentan
+                            Cukup Sehat
                         </span>
 
                         <span
@@ -126,7 +118,7 @@
 
                         <span
                             class="range-excellent {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : '' }}">
-                            Sejahtera
+                            Sangat Sehat
                         </span>
                     </div>
                 </div>
@@ -158,7 +150,7 @@
                                     <i class="fas fa-frown"></i>
                                 </div>
                             </div>
-                            <h3 class="category-title">Sangat Buruk</h3>
+                            <h3 class="category-title">Perlu Dukungan Intensif</h3>
                             <p class="category-subtitle">Distres Berat</p>
                             <div class="category-range">Skor: 38 - 75</div>
                         </div>
@@ -226,7 +218,7 @@
                                 <i class="fas fa-meh"></i>
                             </div>
                         </div>
-                        <h3 class="category-title">Buruk</h3>
+                        <h3 class="category-title">Perlu Dukungan</h3>
                         <p class="category-subtitle">Distres Sedang</p>
                         <div class="category-range">Skor: 76 - 113</div>
                     </div>
@@ -295,7 +287,7 @@
                                 <i class="fas fa-smile"></i>
                             </div>
                         </div>
-                        <h3 class="category-title">Sedang</h3>
+                        <h3 class="category-title">Cukup Sehat</h3>
                         <p class="category-subtitle">Rentan</p>
                         <div class="category-range">Skor: 114 - 151</div>
                     </div>
@@ -363,7 +355,7 @@
                                 <i class="fas fa-thumbs-up"></i>
                             </div>
                         </div>
-                        <h3 class="category-title">Baik</h3>
+                        <h3 class="category-title">Sehat</h3>
                         <p class="category-subtitle">Sehat Mental</p>
                         <div class="category-range">Skor: 152 - 189</div>
                     </div>
@@ -432,7 +424,7 @@
                                 <i class="fas fa-star"></i>
                             </div>
                         </div>
-                        <h3 class="category-title">Sangat Baik</h3>
+                        <h3 class="category-title">Sangat Sehat</h3>
                         <p class="category-subtitle">Sejahtera Mental</p>
                         <div class="category-range">Skor: 190 - 226</div>
                     </div>

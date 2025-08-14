@@ -19,6 +19,9 @@
     <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 
 <body>
@@ -59,16 +62,41 @@
             </div>
             <ul class="menu">
                 <li>
-                    <a href="/admin"><i class="fas fa-home" style="margin-right: 1rem;"></i> Home</a>
+                    <a href="/admin">
+                        <i class="fas fa-home" style="margin-right: 1rem;"></i> Home
+                    </a>
                 </li>
-                <li class="active">
-                    <a href="/admin/mental-health"><i class="fas fa-brain " style="margin-right: 1rem;"></i> Mental
-                        Health</a>
+
+                <!-- Dropdown Mental Health -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/admin/mental-health">
+                                <i class="fas fa-home" style="margin-right: 0.8rem;"></i> Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/mental-health/provinsi">
+                                <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/mental-health/program-studi">
+                                <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li>
                     <a href="/admin-home-karir">
                         <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
                     </a>
+                </li>
             </ul>
         </div>
 
@@ -146,11 +174,11 @@
 
                                 /* label ringkas */
                                 $mapLabelPendek = [
-                                    'Sangat Buruk (Distres Berat)' => 'Berat',
-                                    'Buruk (Distres Sedang)' => ' Sedang',
-                                    'Sedang (Rentan)' => 'Rentan',
+                                    'Sangat Buruk (Distres Berat)' => 'Perlu Dukungan Intensif',
+                                    'Buruk (Distres Sedang)' => ' Perlu Dukungan',
+                                    'Sedang (Rentan)' => 'Cukup Sehat',
                                     'Baik (Sehat Secara Mental)' => 'Sehat',
-                                    'Sangat Baik (Sejahtera Secara Mental)' => 'Sejahtera',
+                                    'Sangat Baik (Sejahtera Secara Mental)' => 'Sangat Sehat',
                                 ];
                             @endphp
 
@@ -173,7 +201,7 @@
                         </div>
 
                     </div>
-                    <div class="chart">
+                    <div class="charts-prodi">
                         <div class="chart-header">
                             <h4>Fakultas</h4>
                         </div>
@@ -197,7 +225,7 @@
                                         </div>
                                     @endforeach
                             </div>
-                            <div class="pie-legend">
+                            <ul class="pie-legend">
                                 @foreach ($fakultasPersen as $fakultas => $persen)
                                     @php
                                         $color = $warnaFakultas[$fakultas] ?? '#999';
@@ -210,19 +238,188 @@
                                             default => 'Lainnya',
                                         };
                                     @endphp
-                                    <div>
-                                        <span class="legend-color"
-                                            style="background-color: {{ $color }};"></span>
-                                        {{ $singkatan }} ({{ $count }} Mahasiswa,
-                                        <strong>{{ number_format($persen, 2) }}%</strong>)
+                                    <li>
+                                        <span class="dot" style="background: {{ $color }}"></span>
+                                        <span class="label">{{ $singkatan }}</span>
+                                        <span class="count">
+                                            {{ $count }} Mahasiswa
+                                            ({{ number_format($persen, 2) }}%)
+                                        </span>
 
-                                    </div>
+                                    </li>
                                 @endforeach
                                 @endif
-                            </div>
+                            </ul>
                         </div>
                     </div>
+                    {{-- Donut: Asal Sekolah --}}
+                    @php
+                        use App\Models\DataDiris;
+
+                        $asalCounts = [
+                            'SMA' => DataDiris::where('asal_sekolah', 'SMA')->count(),
+                            'SMK' => DataDiris::where('asal_sekolah', 'SMK')->count(),
+                            'Boarding School' => DataDiris::where('asal_sekolah', 'Boarding School')->count(),
+                        ];
+                        $totalAsal = array_sum($asalCounts);
+
+                        $pct = function ($n) use ($totalAsal) {
+                            return $totalAsal > 0 ? round(($n / $totalAsal) * 100, 1) : 0;
+                        };
+
+                        // Untuk SVG donut
+                        $r = 60; // radius
+                        $circ = 2 * M_PI * $r; // keliling lingkaran
+                        $segments = [];
+                        $offset = 0;
+                        foreach ($asalCounts as $label => $val) {
+                            $p = $totalAsal > 0 ? $val / $totalAsal : 0;
+                            $dash = $circ * $p;
+                            $segments[] = [
+                                'label' => $label,
+                                'value' => $val,
+                                'percent' => $pct($val),
+                                'dash' => $dash,
+                                'offset' => $offset,
+                            ];
+                            $offset += $dash;
+                        }
+                    @endphp
+                    <div class="chart" id="donutAsalSekolah">
+                        <div class="donut-header">
+                            <h4>Asal Sekolah</h4>
+                        </div>
+
+                        <div class="donut-wrap">
+                            <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
+                                <!-- Ring background -->
+                                <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
+                                </circle>
+
+                                {{-- Segmen: urutan warna mengikuti legenda --}}
+                                @php
+                                    // mapping warna per label
+                                    $colorMap = [
+                                        'SMA' => '--c-sma',
+                                        'SMK' => '--c-smk',
+                                        'Boarding School' => '--c-boarding',
+                                    ];
+                                @endphp
+
+                                @foreach ($segments as $seg)
+                                    <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
+                                        style="
+                        --seg-color: var({{ $colorMap[$seg['label']] ?? '--c-sma' }});
+                    "
+                                        data-dash="{{ $seg['dash'] }}" data-gap="{{ $circ - $seg['dash'] }}"
+                                        data-offset="{{ $seg['offset'] }}"></circle>
+                                @endforeach
+                            </svg>
+
+                            <div class="donut-center">
+                                <div class="donut-total">{{ $totalAsal }}</div>
+                                <div class="donut-sub">mahasiswa</div>
+                            </div>
+                        </div>
+
+                        <ul class="donut-legend">
+                            <li>
+                                <span class="dot" style="background: var(--c-sma)"></span>
+                                <span class="label">SMA</span>
+                                <span class="count">{{ $asalCounts['SMA'] }} Mahasiswa
+                                    ({{ $pct($asalCounts['SMA']) }}%)</span>
+                            </li>
+                            <li>
+                                <span class="dot" style="background: var(--c-smk)"></span>
+                                <span class="label">SMK</span>
+                                <span class="count">{{ $asalCounts['SMK'] }} Mahasiswa
+                                    ({{ $pct($asalCounts['SMK']) }}%)</span>
+                            </li>
+                            <li>
+                                <span class="dot" style="background: var(--c-boarding)"></span>
+                                <span class="label">Boarding School</span>
+                                <span class="count">{{ $asalCounts['Boarding School'] }} Mahasiswa
+                                    ({{ $pct($asalCounts['Boarding School']) }}%)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    @php
+                        // Hitung jumlah mahasiswa per status tinggal
+                        $statusCounts = [
+                            'Kost' => DataDiris::where('status_tinggal', 'Kost')->count(),
+                            'Bersama Orang Tua' => DataDiris::where('status_tinggal', 'Bersama Orang Tua')->count(),
+                        ];
+                        $totalStatus = array_sum($statusCounts);
+
+                        $pct = function ($n) use ($totalStatus) {
+                            return $totalStatus > 0 ? round(($n / $totalStatus) * 100, 1) : 0;
+                        };
+
+                        // Untuk SVG donut
+                        $r = 60;
+                        $circ = 2 * M_PI * $r;
+                        $segments = [];
+                        $offset = 0;
+                        foreach ($statusCounts as $label => $val) {
+                            $p = $totalStatus > 0 ? $val / $totalStatus : 0;
+                            $dash = $circ * $p;
+                            $segments[] = [
+                                'label' => $label,
+                                'value' => $val,
+                                'percent' => $pct($val),
+                                'dash' => $dash,
+                                'offset' => $offset,
+                            ];
+                            $offset += $dash;
+                        }
+
+                        // Mapping warna
+                        $colorMap = [
+                            'Kost' => '--c-kost',
+                            'Bersama Orang Tua' => '--c-ortu',
+                        ];
+                    @endphp
+
+                    <div class="chart">
+                        <div class="donut-header">
+                            <h4>Status Tinggal</h4>
+                        </div>
+
+                        <div class="donut-wrap">
+                            <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
+                                <!-- Ring background -->
+                                <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
+                                </circle>
+
+                                @foreach ($segments as $seg)
+                                    <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
+                                        style="
+                stroke: var({{ $colorMap[$seg['label']] ?? '--c-kost' }});
+                stroke-dasharray: {{ $seg['dash'] }} {{ $circ - $seg['dash'] }};
+                stroke-dashoffset: -{{ $seg['offset'] }};
+            ">
+                                    </circle>
+                                @endforeach
+                            </svg>
+
+                            <div class="donut-center">
+                                <div class="donut-total">{{ $totalStatus }}</div>
+                                <div class="donut-sub">mahasiswa</div>
+                            </div>
+                        </div>
+
+                        <ul class="donut-legend">
+                            @foreach ($statusCounts as $label => $count)
+                                <li>
+                                    <span class="dot" style="background: var({{ $colorMap[$label] }})"></span>
+                                    <span class="label">{{ $label }}</span>
+                                    <span class="count">{{ $count }} Mahasiswa ({{ $pct($count) }}%)</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
+
                 <div class="chart chart-prodi" id="chartProdiContainer">
                     <div class="chart-header-prodi">
                         <h4>Program Studi</h4>
@@ -367,6 +564,80 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="chart chart-provinsi" id="chartProvinsiContainer">
+                    <div class="chart-header-provinsi">
+                        <h4>Provinsi</h4>
+                    </div>
+                    <div class="chart-canvas-provinsi" id="chartCanvasProvinsi">
+                        @php
+                            // Daftar provinsi — bisa ambil dari database langsung kalau mau
+                            $daftarProvinsi = [
+                                'Aceh',
+                                'Sumatera Utara',
+                                'Sumatera Barat',
+                                'Riau',
+                                'Jambi',
+                                'Sumatera Selatan',
+                                'Bengkulu',
+                                'Lampung',
+                                'Banten',
+                                'DKI Jakarta',
+                                'Jawa Barat',
+                                'Jawa Tengah',
+                                'DI Yogyakarta',
+                                'Jawa Timur',
+                                'Bali',
+                                'Nusa Tenggara Barat ',
+                                'Nusa Tenggara Timur',
+                                'Kalimantan Barat',
+                                'Kalimantan Tengah',
+                                'Kalimantan Selatan',
+                                'Kalimantan Timur',
+                                'Kalimantan Utara',
+                                'Sulawesi Utara',
+                                'Sulawesi Tengah',
+                                'Sulawesi Selatan',
+                                'Sulawesi Tenggara',
+                                'Gorontalo',
+                                'Sulawesi Barat',
+                                'Maluku',
+                                'Maluku Utara',
+                                'Papua',
+                                'Papua Barat',
+                                'Papua Tengah',
+                                'Papua Pegunungan',
+                                'Papua Barat Daya',
+                            ];
+                        @endphp
+
+                        {{-- Loop provinsi --}}
+                        <div class="horizontal-bar-chart-provinsi"
+                            style="min-height: {{ count($daftarProvinsi) * 38 + 60 }}px">
+                            @foreach ($daftarProvinsi as $provinsi)
+                                @php
+                                    $jumlah = \App\Models\DataDiris::where('provinsi', $provinsi)->count();
+                                @endphp
+                                <div class="bar-line">
+                                    <span class="bar-text">
+                                        <i class="color-dot fa-solid fa-map"></i> {{-- icon provinsi --}}
+                                        {{ $provinsi }}
+                                    </span>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-provinsi" data-raw="{{ $jumlah }}">
+                                        </div>
+                                        <span class="bar-count">
+                                            {{ $jumlah }} org
+                                            @if ($totalUsers > 0)
+                                                (<strong>{{ round(($jumlah / $totalUsers) * 100, 1) }}%</strong>)
+                                            @endif
+                                        </span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="tables">
                 <div class="table-header">
@@ -428,8 +699,11 @@
                                 <th>Program Studi</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Usia</th>
-                                <th>Jenis Tes</th>
+                                <th>Provinsi</th>
+                                <th>Alamat</th>
                                 <th>Email</th>
+                                <th>Asal Sekolah</th>
+                                <th>Status Tinggal</th>
                                 <th>
                                     <a href="{{ route('admin.home', ['sort' => 'created_at', 'order' => request('order') === 'asc' && request('sort') === 'created_at' ? 'desc' : 'asc'] + request()->except(['page'])) }}"
                                         class="sortable-header">
@@ -455,8 +729,11 @@
                                     <td>{{ $hasil->dataDiri->program_studi ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->dataDiri->jenis_kelamin ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->usia ?? '-' }}</td>
-                                    <td>Mental Health</td>
+                                    <td>{{ $hasil->dataDiri->provinsi ?? 'Tidak Ada Data' }}</td>
+                                    <td>{{ $hasil->dataDiri->alamat ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->dataDiri->email ?? '-' }}</td>
+                                    <td>{{ $hasil->dataDiri->asal_sekolah ?? '-' }}</td>
+                                    <td>{{ $hasil->dataDiri->status_tinggal ?? '-' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($hasil->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') }}
                                     </td>
                                     <td>
@@ -557,19 +834,19 @@
                                                     </strong>
                                                     @php
                                                         $kategoriSingkat = [
-                                                            'Sangat Buruk (Distres Berat)' => 'Berat',
-                                                            'Buruk (Distres Sedang)' => 'Sedang',
-                                                            'Sedang (Rentan)' => 'Rentan',
+                                                            'Sangat Buruk (Distres Berat)' => 'Perlu Dukungan Intensif',
+                                                            'Buruk (Distres Sedang)' => 'Perlu Dukungan',
+                                                            'Sedang (Rentan)' => 'Cukup Sehat',
                                                             'Baik (Sehat Secara Mental)' => 'Sehat',
-                                                            'Sangat Baik (Sejahtera Secara Mental)' => 'Sejahtera',
+                                                            'Sangat Baik (Sejahtera Secara Mental)' => 'Sangat Sehat',
                                                         ];
 
                                                         $kelasKategori = [
-                                                            'Berat' => 'range-very-poor',
-                                                            'Sedang' => 'range-poor',
-                                                            'Rentan' => 'range-moderate',
+                                                            'Perlu Dukungan Intensif' => 'range-very-poor',
+                                                            'Perlu Dukungan' => 'range-poor',
+                                                            'Cukup Sehat' => 'range-moderate',
                                                             'Sehat' => 'range-good',
-                                                            'Sejahtera' => 'range-excellent',
+                                                            'Sangat Sehat' => 'range-excellent',
                                                         ];
 
                                                         $kategoriLabel =

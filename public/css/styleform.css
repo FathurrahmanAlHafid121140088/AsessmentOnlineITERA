@@ -88,6 +88,7 @@
     display: block;
     margin-bottom: 10px;
     text-align: left;
+    font-weight: 600;
 }
 
 .formbold-checkbox-label,
@@ -163,6 +164,12 @@
     align-items: center;
     cursor: pointer;
     gap: 10px;
+}
+/* Style khusus mobile */
+@media (max-width: 576px) {
+    .formbold-radio-label {
+        font-size: 0.9rem; /* sedikit lebih kecil di HP */
+    }
 }
 
 .formbold-input-radio {

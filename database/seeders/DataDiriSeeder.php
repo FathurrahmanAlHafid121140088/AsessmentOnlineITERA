@@ -7,7 +7,6 @@ use App\Models\DataDiris;
 use App\Models\RiwayatKeluhans;
 use Illuminate\Support\Facades\DB;
 
-
 class DataDiriSeeder extends Seeder
 {
     public function run()
@@ -16,6 +15,7 @@ class DataDiriSeeder extends Seeder
         DB::table('data_diris')->truncate();
         DB::table('riwayat_keluhans')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $fakultasList = [
             'Fakultas Sains',
             'Fakultas Teknologi Industri',
@@ -73,20 +73,69 @@ class DataDiriSeeder extends Seeder
             ],
         ];
 
+        $provinsiList = [
+            "Aceh",
+            "Sumatera Utara",
+            "Sumatera Barat",
+            "Riau",
+            "Kepulauan Riau",
+            "Jambi",
+            "Sumatera Selatan",
+            "Bangka Belitung",
+            "Bengkulu",
+            "Lampung",
+            "DKI Jakarta",
+            "Banten",
+            "Jawa Barat",
+            "Jawa Tengah",
+            "DI Yogyakarta",
+            "Jawa Timur",
+            "Bali",
+            "Nusa Tenggara Barat",
+            "Nusa Tenggara Timur",
+            "Kalimantan Barat",
+            "Kalimantan Tengah",
+            "Kalimantan Selatan",
+            "Kalimantan Timur",
+            "Kalimantan Utara",
+            "Sulawesi Utara",
+            "Sulawesi Tengah",
+            "Sulawesi Selatan",
+            "Sulawesi Tenggara",
+            "Gorontalo",
+            "Sulawesi Barat",
+            "Maluku",
+            "Maluku Utara",
+            "Papua",
+            "Papua Barat",
+            "Papua Tengah",
+            "Papua Pegunungan",
+            "Papua Selatan",
+            "Papua Barat Daya"
+        ];
+
+        $statusTinggalList = ['Bersama Orang Tua', 'Kost'];
+        $asalSekolahList = ['SMA', 'SMK', 'Boarding School'];
 
         for ($i = 1; $i <= 1000; $i++) {
             $nim = '121140' . str_pad($i, 3, '0', STR_PAD_LEFT);
             $fakultas = $fakultasList[array_rand($fakultasList)];
             $prodi = $prodiByFakultas[$fakultas][array_rand($prodiByFakultas[$fakultas])];
+            $provinsi = $provinsiList[array_rand($provinsiList)];
+            $statusTinggal = $statusTinggalList[array_rand($statusTinggalList)];
+            $asalSekolah = $asalSekolahList[array_rand($asalSekolahList)];
 
             DataDiris::create([
                 'nim' => $nim,
                 'nama' => 'Mahasiswa ' . $i,
                 'jenis_kelamin' => $i % 2 == 0 ? 'L' : 'P',
+                'provinsi' => $provinsi,
                 'alamat' => 'Jl. Contoh Alamat No.' . $i,
                 'usia' => rand(17, 25),
                 'fakultas' => $fakultas,
                 'program_studi' => $prodi,
+                'asal_sekolah' => $asalSekolah,
+                'status_tinggal' => $statusTinggal,
                 'email' => 'mahasiswa' . $i . '@example.com',
             ]);
 

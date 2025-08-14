@@ -29,14 +29,14 @@
     <!-- Masthead-->
     <header class="masthead">
         <div class="container">
-            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="200">Selamat Datang Di</div>
-            <div class="masthead-heading text-uppercase" data-aos="fade-down" data-aos-delay="200">Assessment Online
+            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="100">Selamat Datang Di</div>
+            <div class="masthead-heading text-uppercase" data-aos="fade-down" data-aos-delay="100">Assessment Online
                 Psychology</div>
-            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="450">Pusat Pengembangan Sumber Daya
+            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="150">Pusat Pengembangan Sumber Daya
                 Manusia</div>
-            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="450">Institut Teknologi Sumatera</div>
+            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="200">Institut Teknologi Sumatera</div>
             <a class="btn btn-primary btn-xl text-uppercase" href="#services" data-aos="fade-down"
-                data-aos-delay="600">Ayo Mulai Tes!</a>
+                data-aos-delay="250">Ayo Mulai Tes!</a>
         </div>
 
     </header>
@@ -46,11 +46,11 @@
             <div class="text-center">
                 <h2 data-aos="fade-down" data-aos-delay="100" class="section-heading text-uppercase">Langkah-langkah
                 </h2>
-                <h3 data-aos="fade-down" data-aos-delay="200" class="section-subheading text-muted">Melakukan Assessment
+                <h3 data-aos="fade-down" data-aos-delay="100" class="section-subheading text-muted">Melakukan Assessment
                     Online Psychology.</h3>
             </div>
             <ul class="timeline">
-                <li data-aos="fade-right" data-aos-delay="200">
+                <li data-aos="fade-right" data-aos-delay="100">
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/1.jpg"
                             alt="..." /></div>
                     <div class="timeline-panel">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </li>
-                <li data-aos="fade-left" data-aos-delay="200" class="timeline-inverted">
+                <li data-aos="fade-left" data-aos-delay="100" class="timeline-inverted">
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg"
                             alt="..." /></div>
                     <div class="timeline-panel">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </li>
-                <li data-aos="fade-right" data-aos-delay="200">
+                <li data-aos="fade-right" data-aos-delay="100">
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg"
                             alt="..." /></div>
                     <div class="timeline-panel">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </li>
-                <li data-aos="fade-left" data-aos-delay="200" class="timeline-inverted">
+                <li data-aos="fade-left" data-aos-delay="100" class="timeline-inverted">
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/4.jpg"
                             alt="..." /></div>
                     <div class="timeline-panel">
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </li>
-                <li data-aos="fade-right" data-aos-delay="200">
+                <li data-aos="fade-right" data-aos-delay="100">
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg"
                             alt="..." /></div>
                     <div class="timeline-panel">
@@ -121,7 +121,7 @@
                     </div>
                 </li>
                 <li class="timeline-inverted">
-                    <div data-aos="zoom-in" data-aos-delay="200" class="timeline-image">
+                    <div data-aos="zoom-in" data-aos-delay="00" class="timeline-image">
                         <h4>
                             Ayo
                             <br />
@@ -140,11 +140,11 @@
             <div class="text-center">
                 <h2 data-aos="fade-down" data-aos-delay="100" class="section-heading text-uppercase">Layanan Kami
                 </h2>
-                <h3 data-aos="fade-down" data-aos-delay="200" class="section-subheading text-muted">Silahkan Pilih
+                <h3 data-aos="fade-down" data-aos-delay="100" class="section-subheading text-muted">Silahkan Pilih
                     Sesuai Dengan Keadaan Anda Saat Ini</h3>
             </div>
             <div class="row text-center g-4 ">
-                <div data-aos="flip-right" data-aos-delay="300"
+                <div data-aos="flip-right" data-aos-delay="100"
                     class="col-md-6 col-12 p-4 bg-white shadow-sm rounded-4">
                     <span class="fa-stack fa-4x">
                         <i class="fas fa-circle fa-stack-2x" style="color: #4361ee;"></i>
@@ -160,7 +160,7 @@
                     <a class="btn btn-primary btn-xl text-uppercase" href="/mental-health">Mulai Tes!</a>
                 </div>
 
-                <div data-aos="flip-left" data-aos-delay="300"
+                <div data-aos="flip-left" data-aos-delay="100"
                     class="col-md-6 col-12 p-4 bg-white shadow-sm rounded-4">
                     <span class="fa-stack fa-4x" style="color: #4361ee;">
                         <i class="fas fa-circle fa-stack-2x text-primary" style="color: #4361ee;"></i>
@@ -184,7 +184,7 @@
             <div class="d-flex row justify-content-center g-3">
 
                 <!-- Card 1 -->
-                <div data-aos="zoom-in" data-aos-delay="200" class="col-md-6 col-12">
+                <div data-aos="zoom-in" data-aos-delay="100" class="col-md-6 col-12">
                     <div class="card rounded-3"style="background-color: #f2f2f2;">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-center mb-3">
@@ -207,7 +207,7 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div data-aos="zoom-in" data-aos-delay="200" class="col-md-6 col-12">
+                <div data-aos="zoom-in" data-aos-delay="100" class="col-md-6 col-12">
                     <div class="card rounded-3"style="background-color: #f2f2f2;">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-center mb-3">

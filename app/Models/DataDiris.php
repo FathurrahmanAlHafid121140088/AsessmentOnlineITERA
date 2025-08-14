@@ -16,7 +16,17 @@ class DataDiris extends Model
     protected $keyType = 'string'; // Karena nim bertipe string
 
     protected $fillable = [
-        'nim', 'nama', 'jenis_kelamin', 'alamat', 'usia', 'fakultas', 'program_studi', 'email'
+        'nim',
+        'nama',
+        'jenis_kelamin',
+        'provinsi',       // kolom baru
+        'alamat',
+        'usia',
+        'fakultas',
+        'program_studi',
+        'asal_sekolah',   // kolom baru
+        'status_tinggal', // kolom baru
+        'email'
     ];
 
     public function riwayatKeluhans()
@@ -29,7 +39,12 @@ class DataDiris extends Model
         return $this->hasMany(HasilKuesioner::class, 'nim', 'nim');
     }
 
-    // Relasi ke Jawaban
+    // Hasil kuesioner terbaru
+    public function latestHasilKuesioner()
+    {
+        return $this->hasOne(HasilKuesioner::class, 'nim', 'nim')->latestOfMany();
+    }
+
     public function jawaban()
     {
         return $this->hasOne(Jawaban::class, 'data_diri_id', 'nim');

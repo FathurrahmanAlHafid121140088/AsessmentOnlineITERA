@@ -7,24 +7,23 @@ use App\Models\HasilKuesioner;
 use App\Models\DataDiris;
 use App\Models\RiwayatKeluhans;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class HasilKuesionerSeeder extends Seeder
 {
     public function run()
     {
-        // ✅ MATIKAN FOREIGN KEY CHECK DULU
+        // ✅ Matikan foreign key check dulu
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        // Truncate dari tabel anak ke induk (urutan penting)
+        // Truncate tabel anak ke induk
         DB::table('hasil_kuesioners')->truncate();
         DB::table('riwayat_keluhans')->truncate();
         DB::table('data_diris')->truncate();
 
-        // ✅ AKTIFKAN KEMBALI
+        // ✅ Aktifkan kembali
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // ✅ Daftar fakultas dan prodi
+        // ✅ Daftar fakultas & prodi
         $fakultasList = [
             'Fakultas Sains' => [
                 'Fisika',
@@ -76,15 +75,63 @@ class HasilKuesionerSeeder extends Seeder
             ],
         ];
 
+        // ✅ Daftar provinsi (38 provinsi sesuai BPS)
+        $provinsiList = [
+            'Aceh',
+            'Sumatera Utara',
+            'Sumatera Barat',
+            'Riau',
+            'Kepulauan Riau',
+            'Jambi',
+            'Bengkulu',
+            'Sumatera Selatan',
+            'Kepulauan Bangka Belitung',
+            'Lampung',
+            'Banten',
+            'DKI Jakarta',
+            'Jawa Barat',
+            'Jawa Tengah',
+            'DI Yogyakarta',
+            'Jawa Timur',
+            'Bali',
+            'Nusa Tenggara Barat',
+            'Nusa Tenggara Timur',
+            'Kalimantan Barat',
+            'Kalimantan Tengah',
+            'Kalimantan Selatan',
+            'Kalimantan Timur',
+            'Kalimantan Utara',
+            'Sulawesi Utara',
+            'Sulawesi Tengah',
+            'Sulawesi Selatan',
+            'Sulawesi Tenggara',
+            'Gorontalo',
+            'Sulawesi Barat',
+            'Maluku',
+            'Maluku Utara',
+            'Papua',
+            'Papua Barat',
+            'Papua Selatan',
+            'Papua Tengah',
+            'Papua Pegunungan',
+            'Papua Barat Daya'
+        ];
 
+        // ✅ Status tinggal
+        $statusTinggalList = ['Bersama Orang Tua', 'Kost'];
+
+        // ✅ Asal sekolah
+        $asalSekolahList = ['SMA', 'SMK', 'Boarding School'];
+
+        // ✅ Generate data
         for ($i = 1; $i <= 1000; $i++) {
             $nim = '121140' . str_pad($i, 3, '0', STR_PAD_LEFT);
 
-            // Random fakultas dan prodi
+            // Random fakultas & prodi
             $fakultas = array_rand($fakultasList);
             $prodi = $fakultasList[$fakultas][array_rand($fakultasList[$fakultas])];
 
-            // Buat Data Diri
+            // Insert data diri
             DataDiris::create([
                 'nim' => $nim,
                 'nama' => 'Mahasiswa ' . $i,
@@ -94,9 +141,12 @@ class HasilKuesionerSeeder extends Seeder
                 'jenis_kelamin' => $i % 2 === 0 ? 'L' : 'P',
                 'fakultas' => $fakultas,
                 'usia' => rand(17, 25),
+                'provinsi' => $provinsiList[array_rand($provinsiList)],
+                'status_tinggal' => $statusTinggalList[array_rand($statusTinggalList)],
+                'asal_sekolah' => $asalSekolahList[array_rand($asalSekolahList)],
             ]);
 
-            // Buat hasil kuesioner 1–2x
+            // Insert hasil kuesioner
             $jumlahKuesioner = rand(1, 2);
             for ($j = 1; $j <= $jumlahKuesioner; $j++) {
                 $skor = rand(38, 226);
@@ -109,7 +159,7 @@ class HasilKuesionerSeeder extends Seeder
                 ]);
             }
 
-            // Buat riwayat keluhan 1–2x
+            // Insert riwayat keluhan
             $jumlahKeluhan = rand(1, 2);
             for ($k = 1; $k <= $jumlahKeluhan; $k++) {
                 RiwayatKeluhans::create([

@@ -28,10 +28,7 @@ class HasilKuesionerCombinedController extends Controller
             ->joinSub($latestIds, 'latest', function ($join) {
                 $join->on('hasil_kuesioners.id', '=', 'latest.id');
             })
-            ->with([
-                'dataDiri',
-                // Hindari eager loading riwayat jika tidak perlu
-            ])
+            ->with(['dataDiri'])
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($q2) use ($search) {
                     $q2->where('nim', 'like', "%$search%")
@@ -41,7 +38,10 @@ class HasilKuesionerCombinedController extends Controller
                                 ->orWhere('email', 'like', "%$search%")
                                 ->orWhere('alamat', 'like', "%$search%")
                                 ->orWhere('jenis_kelamin', 'like', "%$search%")
-                                ->orWhere('fakultas', 'like', "%$search%");
+                                ->orWhere('fakultas', 'like', "%$search%")
+                                ->orWhere('provinsi', 'like', "%$search%")
+                                ->orWhere('asal_sekolah', 'like', "%$search%")
+                                ->orWhere('status_tinggal', 'like', "%$search%");
                         });
                 });
             })
@@ -49,7 +49,6 @@ class HasilKuesionerCombinedController extends Controller
             ->paginate($limit)
             ->withQueryString();
 
-        // Manual sorting by relasi nama
         if ($sort == 'nama') {
             $hasilKuesioners = $hasilKuesioners->getCollection()
                 ->sortBy(function ($item) {
@@ -77,13 +76,41 @@ class HasilKuesionerCombinedController extends Controller
 
         $nimDenganHasil = HasilKuesioner::distinct('nim')->pluck('nim');
 
-        $totalLaki = \App\Models\DataDiris::whereIn('nim', $nimDenganHasil)
+        $totalLaki = DataDiris::whereIn('nim', $nimDenganHasil)
             ->where('jenis_kelamin', 'L')
             ->count();
 
-        $totalPerempuan = \App\Models\DataDiris::whereIn('nim', $nimDenganHasil)
+        $totalPerempuan = DataDiris::whereIn('nim', $nimDenganHasil)
             ->where('jenis_kelamin', 'P')
             ->count();
+
+        // ====== Donut: Asal Sekolah ======
+        $asalCounts = [
+            'SMA' => DataDiris::where('asal_sekolah', 'SMA')->count(),
+            'SMK' => DataDiris::where('asal_sekolah', 'SMK')->count(),
+            'Boarding School' => DataDiris::where('asal_sekolah', 'Boarding School')->count(),
+        ];
+        $totalAsal = array_sum($asalCounts);
+        $pct = function ($n) use ($totalAsal) {
+            return $totalAsal > 0 ? round(($n / $totalAsal) * 100, 1) : 0;
+        };
+
+        $r = 60;
+        $circ = 2 * M_PI * $r;
+        $segments = [];
+        $offset = 0;
+        foreach ($asalCounts as $label => $val) {
+            $p = $totalAsal > 0 ? $val / $totalAsal : 0;
+            $dash = $circ * $p;
+            $segments[] = [
+                'label' => $label,
+                'value' => $val,
+                'percent' => $pct($val),
+                'dash' => $dash,
+                'offset' => $offset,
+            ];
+            $offset += $dash;
+        }
 
         return view('admin-home', [
             'title' => 'Dashboard Mental Health',
@@ -94,9 +121,13 @@ class HasilKuesionerCombinedController extends Controller
             'totalTes' => $totalTes,
             'totalLaki' => $totalLaki,
             'totalPerempuan' => $totalPerempuan,
+            'asalCounts' => $asalCounts,
+            'totalAsal' => $totalAsal,
+            'segments' => $segments,
+            'radius' => $r,
+            'circumference' => $circ
         ] + $this->getStatistikFakultas());
     }
-
     /**
      * Statistik fakultas
      */
@@ -139,5 +170,13 @@ class HasilKuesionerCombinedController extends Controller
         $hasil->delete();
 
         return redirect()->route('admin.home')->with('success', 'Data berhasil dihapus.');
+    }
+    public function showGauge()
+    {
+        $totalTinggal = DataDiris::count();
+        $kostCount = DataDiris::where('status_tinggal', 'Kost')->count();
+        $kostPercent = $totalTinggal ? round(($kostCount / $totalTinggal) * 100, 2) : 0;
+
+        return view('admin-home', compact('kostPercent'));
     }
 }
