@@ -21,7 +21,7 @@ class RmibScoringService
         'LIT', 'MUS', 'S.S', 'CLER', 'PRAC', 'MED'
     ];
 
-    public function hitung(array $peringkatUser): array
+    public function hitungSkor(array $peringkatUser): array
     {
         $skor = array_fill(0, 12, 0);
 
