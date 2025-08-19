@@ -36,6 +36,7 @@
 
 
     <div class="container">
+
         <div data-aos="zoom-in" data-aos-delay="100" class="student-info">
             <h2>Informasi Mahasiswa</h2>
             <div class="student-info-grid">
@@ -63,8 +64,12 @@
             </div>
         </div>
 
+        <div class="alert-box">
+            <i class="fas fa-exclamation-triangle alert-icon"></i>
+            <span class="alert-text">Hasil tes dibawah ini hanya berlaku selama 6 bulan</span>
+        </div>
+
         <div class="result-section">
-            <h2>Ringkasan Hasil</h2>
             <div data-aos="zoom-in" data-aos-delay="300" class="score-item score-range">
                 <div class="score-range-title">
                     <i class="fas fa-sliders-h" style="color: #3498db; margin-right: 6px;"></i> Rentang Kategori
@@ -92,6 +97,7 @@
                             190-226
                         </div>
                     </div>
+
                     <div class="score-range-labels">
                         <div class="score-range-title mobile-only">
                             <i class="fas fa-info-circle" style="color: #3498db; margin-right: 6px;"></i> Keterangan
@@ -121,6 +127,7 @@
                             Sangat Sehat
                         </span>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -154,397 +161,467 @@
                             <p class="category-subtitle">Distres Berat</p>
                             <div class="category-range">Skor: 38 - 75</div>
                         </div>
+
                         <div class="card-body">
                             <div
                                 class="category-description {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 75 ? 'active' : 'hidden' }}">
-                                Saat ini, kamu mungkin sedang berada dalam fase yang terasa sangat berat. Perasaan
-                                seperti cemas berlebih, kehilangan semangat, sulit tidur, atau merasa tidak berdaya bisa
-                                saja muncul dan mengganggu aktivitas harian. Tidak apa-apa jika semuanya terasa berat
-                                sekarang — yang penting, kamu tidak harus menghadapinya sendirian. Mencari dukungan dari
-                                tenaga profesional seperti psikolog atau psikiater bisa menjadi langkah awal yang bijak
-                                dan penuh keberanian untuk mulai merasa lebih baik.
+                                Saat ini, kondisi Anda menunjukkan adanya tekanan psikologis yang cukup berat hingga
+                                memengaruhi
+                                aktivitas sehari-hari. Mungkin Anda merasa sangat terbebani, sulit mengendalikan
+                                pikiran, cepat lelah,
+                                atau kehilangan semangat untuk beraktivitas. Hal ini wajar dan bukan kelemahan
+                                pribadi—namun sinyal bahwa
+                                tubuh dan pikiran Anda sedang membutuhkan perhatian lebih. Ingatlah, mencari dukungan
+                                dan pertolongan
+                                bukanlah tanda kelemahan, melainkan langkah berani untuk memulihkan kesehatan diri.
                             </div>
+
                             <div class="health-metrics">
+                                <!-- Fisik -->
                                 <div class="metric">
-                                    <div class="metric-icon"><i class="fas fa-head-side-virus"></i></div>
-                                    <div class="metric-label">Luangkan waktu untuk beristirahat total, hindari beban
-                                        mental yang berat</div>
+                                    <div class="metric-icon"><i class="fas fa-bed"></i></div>
+                                    <div class="metric-label">Cobalah menjaga pola tidur teratur dan cukup istirahat
+                                        agar tubuh kembali bugar.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-utensils"></i></div>
+                                    <div class="metric-label">Perhatikan asupan nutrisi seimbang, konsumsi makanan
+                                        bergizi untuk mendukung energi harian.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-walking"></i></div>
+                                    <div class="metric-label">Lakukan aktivitas fisik ringan seperti jalan santai atau
+                                        peregangan untuk melepaskan ketegangan.</div>
+                                </div>
+
+                                <!-- Mental -->
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-brain"></i></div>
+                                    <div class="metric-label">Luangkan waktu untuk latihan relaksasi, pernapasan dalam,
+                                        atau meditasi sederhana.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-user-friends"></i></div>
+                                    <div class="metric-label">Ceritakan perasaan Anda kepada orang terdekat yang
+                                        dipercaya agar tidak merasa sendirian.</div>
                                 </div>
                                 <div class="metric">
                                     <div class="metric-icon"><i class="fas fa-user-md"></i></div>
-                                    <div class="metric-label">Jangan ragu untuk berkonsultasi dengan tenaga profesional
-                                        seperti psikolog atau konselor</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-icon"><i class="fas fa-phone-alt"></i></div>
-                                    <div class="metric-label">Ceritakan kondisi Anda pada orang terpercaya sebagai
-                                        langkah awal pemulihan</div>
+                                    <div class="metric-label">Segera pertimbangkan untuk berkonsultasi dengan psikolog
+                                        atau psikiater guna mendapatkan dukungan profesional.</div>
                                 </div>
                             </div>
 
                             <div class="recommendation">
                                 <i class="fas fa-exclamation-triangle"></i>
-                                <span>Anda mengalami tekanan psikologis yang serius. Segera temui profesional kesehatan
-                                    mental seperti psikolog atau psikiater untuk mendapatkan penanganan intensif.
-                                    Menunda bantuan dapat memperburuk kondisi dan menghambat fungsi harian Anda.</span>
+                                <span>Kondisi Anda saat ini menunjukkan tekanan psikologis yang serius dan sudah
+                                    mengganggu fungsi sehari-hari.
+                                    Jangan menunda untuk mencari bantuan profesional. Dukungan dari psikolog atau
+                                    psikiater dapat membantu
+                                    Anda menemukan cara pemulihan yang lebih tepat dan aman.</span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card-footer">
-                        <div class="status-indicator">
-                            <div class="status-dot"></div>
-                            <span>Kategori Aktif</span>
+                        <div class="card-footer">
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                                <span>Kategori Aktif</span>
+                            </div>
+                            <div class="severity-level">Kritis</div>
                         </div>
-                        <div class="severity-level">Kritis</div>
                     </div>
+                @endif
+
+
+                @if ($hasil->total_skor >= 76 && $hasil->total_skor <= 113)
+                    <div class="category-item category-poor active" data-aos="flip-right" data-aos-delay="100">
+                        <div class="floating-particles">
+                            <div class="particle" style="left: 30%; animation-delay: 0.5s;"></div>
+                            <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
+                        </div>
+
+                        <div class="active-badge">
+                            <i class="fas fa-check-circle"></i> Status Aktif
+                        </div>
+
+                        <div class="card-header">
+                            <div class="icon-container">
+                                <div class="icon-bg"></div>
+                                <div class="category-icon">
+                                    <i class="fas fa-meh"></i>
+                                </div>
+                            </div>
+                            <h3 class="category-title">Perlu Dukungan</h3>
+                            <p class="category-subtitle">Distres Sedang</p>
+                            <div class="category-range">Skor: 76 - 113</div>
+                        </div>
+
+                        <div class="card-body">
+                            <div
+                                class="category-description {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : 'hidden' }}">
+                                Saat ini Anda mungkin mengalami masalah yang cukup signifikan dalam emosi maupun fungsi
+                                sosial,
+                                seperti mudah tersinggung, sulit tidur, atau merasa cepat lelah dalam berinteraksi.
+                                Kondisi ini bisa mengganggu keseharian Anda, dan penting untuk tidak menanggungnya
+                                sendirian.
+                                Dukungan dari keluarga, teman, atau tenaga profesional dapat membantu mengurangi beban
+                                yang Anda rasakan.
+                                Ingatlah, meminta bantuan adalah langkah penting untuk kembali menata keseimbangan
+                                hidup.
+                            </div>
+
+                            <div class="health-metrics">
+                                <!-- Fisik -->
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-bed"></i></div>
+                                    <div class="metric-label">Tidur cukup dengan pola yang teratur untuk menjaga
+                                        kestabilan energi harian.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-apple-alt"></i></div>
+                                    <div class="metric-label">Konsumsi makanan sehat dan hindari kafein/alkohol
+                                        berlebihan yang dapat memperburuk stres.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-bicycle"></i></div>
+                                    <div class="metric-label">Luangkan waktu untuk olahraga ringan seperti bersepeda
+                                        atau yoga agar tubuh lebih rileks.</div>
+                                </div>
+
+                                <!-- Mental -->
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-comments"></i></div>
+                                    <div class="metric-label">Buka diri untuk berbicara dengan keluarga atau sahabat
+                                        terpercaya tentang perasaan Anda.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-music"></i></div>
+                                    <div class="metric-label">Gunakan musik atau aktivitas kreatif sebagai sarana
+                                        melepas emosi negatif.</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-user-md"></i></div>
+                                    <div class="metric-label">Pertimbangkan konsultasi dengan psikolog/psikiater untuk
+                                        mendapat strategi penanganan yang tepat.</div>
+                                </div>
+                            </div>
+
+                            <div class="recommendation">
+                                <i class="fas fa-hands-helping"></i>
+                                <span>Ada masalah signifikan dalam emosi atau fungsi sosial yang membutuhkan perhatian.
+                                    Dukungan keluarga sangat penting, dan bantuan profesional dapat mempercepat
+                                    pemulihan.
+                                    Jangan ragu untuk mencari pertolongan agar keseharian Anda kembali lebih
+                                    seimbang.</span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                                <span>Kategori Aktif</span>
+                            </div>
+                            <div class="severity-level">Sedang</div>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($hasil->total_skor >= 114 && $hasil->total_skor <= 151)
+                    <div class="category-item category-moderate active" data-aos="flip-right" data-aos-delay="150">
+                        <div class="floating-particles">
+                            <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+                            <div class="particle" style="left: 60%; animation-delay: 2s;"></div>
+                        </div>
+
+                        <div class="active-badge">
+                            <i class="fas fa-check-circle"></i> Status Aktif
+                        </div>
+
+                        <div class="card-header">
+                            <div class="icon-container">
+                                <div class="icon-bg"></div>
+                                <div class="category-icon">
+                                    <i class="fas fa-smile"></i>
+                                </div>
+                            </div>
+                            <h3 class="category-title">Cukup Sehat</h3>
+                            <p class="category-subtitle">Rentan</p>
+                            <div class="category-range">Skor: 114 - 151</div>
+                        </div>
+
+                        <div class="card-body">
+                            <div
+                                class="category-description {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : 'hidden' }}">
+                                Ada keseimbangan antara faktor positif dan negatif, namun masih terdapat risiko yang
+                                perlu diperhatikan.
+                                Kamu mungkin sesekali merasa tertekan atau kurang bersemangat saat menghadapi situasi
+                                tertentu. Tetap
+                                jaga pola hidup sehat, istirahat cukup, dan hubungan sosial agar kesehatan mentalmu
+                                tetap terpelihara.
+                            </div>
+
+                            <div class="health-metrics">
+                                {{-- MENTAL --}}
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-calendar-check"></i></div>
+                                    <div class="metric-label">Tentukan jadwal harian yang seimbang antara pekerjaan,
+                                        istirahat, dan hiburan</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                                    <div class="metric-label">Berikan penghargaan kecil untuk diri sendiri atas hal-hal
+                                        yang berhasil dilakukan</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-user-friends"></i></div>
+                                    <div class="metric-label">Jaga komunikasi dengan teman dan keluarga meski hanya
+                                        melalui pesan singkat</div>
+                                </div>
+
+                                {{-- FISIK --}}
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-walking"></i></div>
+                                    <div class="metric-label">Luangkan waktu untuk aktivitas fisik ringan seperti
+                                        berjalan atau peregangan</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-apple-alt"></i></div>
+                                    <div class="metric-label">Konsumsi makanan bergizi seimbang dan cukup minum air
+                                        putih</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-bed"></i></div>
+                                    <div class="metric-label">Pastikan tidur cukup dan berkualitas setiap malam</div>
+                                </div>
+                            </div>
+
+                            <div class="recommendation">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Kondisi Anda relatif stabil namun tetap memiliki risiko. Lakukan pemeliharaan
+                                    kesehatan mental
+                                    melalui keseimbangan hidup, tidur cukup, manajemen stres, serta tetap terhubung
+                                    dengan dukungan sosial.</span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                                <span>Kategori Aktif</span>
+                            </div>
+                            <div class="severity-level">Hati-hati</div>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($hasil->total_skor >= 152 && $hasil->total_skor <= 189)
+                    <div class="category-item category-good active" data-aos="flip-right" data-aos-delay="200">
+                        <div class="floating-particles">
+                            <div class="particle" style="left: 25%; animation-delay: 0.3s;"></div>
+                            <div class="particle" style="left: 75%; animation-delay: 1.3s;"></div>
+                        </div>
+
+                        <div class="active-badge">
+                            <i class="fas fa-check-circle"></i> Status Aktif
+                        </div>
+
+                        <div class="card-header">
+                            <div class="icon-container">
+                                <div class="icon-bg"></div>
+                                <div class="category-icon">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </div>
+                            </div>
+                            <h3 class="category-title">Sehat</h3>
+                            <p class="category-subtitle">Sehat Mental</p>
+                            <div class="category-range">Skor: 152 - 189</div>
+                        </div>
+
+                        <div class="card-body">
+                            <div
+                                class="category-description {{ $hasil->total_skor >= 152 && $hasil->total_skor <= 189 ? 'active' : 'hidden' }}">
+                                Kesehatan mental Anda berada dalam kondisi baik. Anda mampu mengelola stres dengan cukup
+                                baik, menjaga
+                                keseimbangan emosi, serta berfungsi secara sosial dan emosional secara optimal. Tetaplah
+                                memberi perhatian
+                                pada diri agar kestabilan ini dapat terus terjaga.
+                            </div>
+                            <div class="health-metrics">
+                                <!-- Mental -->
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-seedling"></i></div>
+                                    <div class="metric-label">Lanjutkan rutinitas sehat untuk mendukung stabilitas
+                                        emosi</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-smile"></i></div>
+                                    <div class="metric-label">Kelola stres dengan teknik relaksasi atau mindfulness
+                                    </div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                    <div class="metric-label">Bangun hubungan sosial yang positif untuk menjaga
+                                        keseimbangan emosi</div>
+                                </div>
+
+                                <!-- Fisik -->
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-walking"></i></div>
+                                    <div class="metric-label">Lakukan aktivitas fisik ringan seperti jalan kaki atau
+                                        olahraga rutin</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-apple-alt"></i></div>
+                                    <div class="metric-label">Jaga pola makan seimbang dengan nutrisi yang cukup</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-bed"></i></div>
+                                    <div class="metric-label">Tidur yang cukup untuk pemulihan tubuh dan pikiran</div>
+                                </div>
+                            </div>
+
+                            <div class="recommendation">
+                                <i class="fas fa-smile-beam"></i>
+                                <span>Anda menunjukkan kesehatan mental yang baik. Pertahankan gaya hidup sehat, terus
+                                    beraktivitas positif, dan rawat relasi interpersonal agar tetap optimal secara
+                                    emosional dan fisik.</span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                                <span>Kategori Aktif</span>
+                            </div>
+                            <div class="severity-level">Stabil</div>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($hasil->total_skor >= 190 && $hasil->total_skor <= 226)
+                    <div class="category-item category-excellent active" data-aos="flip-right" data-aos-delay="250">
+                        <!-- Partikel hias -->
+                        <div class="floating-particles">
+                            <div class="particle" style="left: 15%; animation-delay: 0.8s;"></div>
+                            <div class="particle" style="left: 45%; animation-delay: 1.8s;"></div>
+                            <div class="particle" style="left: 85%; animation-delay: 2.8s;"></div>
+                        </div>
+
+                        <!-- Badge aktif -->
+                        <div class="active-badge">
+                            <i class="fas fa-check-circle"></i> Status Aktif
+                        </div>
+
+                        <!-- Header Card -->
+                        <div class="card-header">
+                            <div class="icon-container">
+                                <div class="icon-bg"></div>
+                                <div class="category-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <h3 class="category-title">Sangat Sehat</h3>
+                            <p class="category-subtitle">Sejahtera Mental</p>
+                            <div class="category-range">Skor: 190 - 226</div>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <!-- Deskripsi -->
+                            <div
+                                class="category-description {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : 'hidden' }}">
+                                Kamu berada pada kondisi mental dan fisik yang sangat optimal, dengan kesejahteraan
+                                psikologis
+                                yang tinggi, hubungan sosial yang harmonis, serta ketahanan diri yang kuat dalam
+                                menghadapi
+                                tekanan maupun tantangan kehidupan. Kemampuanmu dalam mengelola emosi, menjaga pikiran
+                                positif,
+                                dan menumbuhkan energi yang seimbang membuatmu tidak hanya berdaya secara pribadi,
+                                tetapi juga
+                                mampu menjadi sumber dukungan bagi orang lain. Teruslah pelihara keadaan ini dengan
+                                kebiasaan
+                                sehat, refleksi diri yang konsisten, serta aktivitas yang memberi makna agar kualitas
+                                hidupmu
+                                semakin bertumbuh secara berkelanjutan.
+                            </div>
+
+                            <!-- METRIC MENTAL -->
+                            <h4 class="metrics-title">Aspek Mental</h4>
+                            <div class="health-metrics">
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-lightbulb"></i></div>
+                                    <div class="metric-label">Terus kembangkan ide baru dan keterampilan sebagai bentuk
+                                        pengayaan diri</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-smile"></i></div>
+                                    <div class="metric-label">Kelola emosi dengan tenang serta nikmati hal-hal kecil
+                                        dalam kehidupan</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-users"></i></div>
+                                    <div class="metric-label">Jalin relasi sosial yang sehat dan berikan dukungan
+                                        kepada orang lain</div>
+                                </div>
+                            </div>
+
+                            <!-- METRIC FISIK -->
+                            <h4 class="metrics-title">Aspek Fisik</h4>
+                            <div class="health-metrics">
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-dumbbell"></i></div>
+                                    <div class="metric-label">Pertahankan aktivitas fisik rutin seperti olahraga ringan
+                                        maupun intensitas sedang</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-apple-alt"></i></div>
+                                    <div class="metric-label">Konsumsi makanan bergizi seimbang untuk menjaga energi
+                                        dan vitalitas</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-icon"><i class="fas fa-bed"></i></div>
+                                    <div class="metric-label">Tidur yang cukup dan berkualitas untuk memulihkan tubuh
+                                        dan pikiran</div>
+                                </div>
+                            </div>
+
+                            <!-- Rekomendasi -->
+                            <div class="recommendation">
+                                <i class="fas fa-trophy"></i>
+                                <span>Kondisi Anda berada pada tingkat optimal. Pertahankan gaya hidup sehat secara
+                                    menyeluruh,
+                                    perluas wawasan diri, dan jadilah sumber inspirasi serta dukungan positif bagi
+                                    lingkungan sekitar.</span>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="card-footer">
+                            <div class="status-indicator">
+                                <div class="status-dot"></div>
+                                <span>Kategori Aktif</span>
+                            </div>
+                            <div class="severity-level">Optimal</div>
+                        </div>
+                    </div>
+                @endif
+
             </div>
-            @endif
-            @if ($hasil->total_skor >= 76 && $hasil->total_skor <= 113)
-                <div class="category-item category-poor active" data-aos="flip-right" data-aos-delay="100">
-                    <div class="floating-particles">
-                        <div class="particle" style="left: 30%; animation-delay: 0.5s;"></div>
-                        <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
-                    </div>
-
-                    <div class="active-badge">
-                        <i class="fas fa-check-circle"></i> Status Aktif
-                    </div>
-
-                    <div class="card-header">
-                        <div class="icon-container">
-                            <div class="icon-bg"></div>
-                            <div class="category-icon">
-                                <i class="fas fa-meh"></i>
-                            </div>
-                        </div>
-                        <h3 class="category-title">Perlu Dukungan</h3>
-                        <p class="category-subtitle">Distres Sedang</p>
-                        <div class="category-range">Skor: 76 - 113</div>
-                    </div>
-
-                    <div class="card-body">
-                        <div
-                            class="category-description {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : 'hidden' }}">
-                            Kamu mungkin sedang menghadapi tekanan yang cukup terasa, seperti kelelahan emosional,
-                            kesulitan tidur, atau perasaan tidak nyaman yang muncul berulang. Ini adalah sinyal bahwa
-                            tubuh dan pikiranmu butuh perhatian lebih. Tidak ada yang salah dengan merasa lelah — semua
-                            orang bisa mengalaminya. Mengambil waktu untuk mengenali perasaanmu, mencari ruang untuk
-                            bercerita, atau mencoba teknik relaksasi bisa sangat membantu untuk mulai menata ulang
-                            ketenanganmu.
-                        </div>
-
-                        <div class="health-metrics">
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-journal-whills"></i></div>
-                                <div class="metric-label">Catat perasaan Anda secara rutin untuk memahami pola emosi
-                                    yang muncul</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-walking"></i></div>
-                                <div class="metric-label">Lakukan aktivitas fisik ringan seperti berjalan kaki atau
-                                    peregangan untuk meredakan ketegangan</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-headset"></i></div>
-                                <div class="metric-label">Dengarkan musik menenangkan atau meditasi singkat untuk
-                                    menstabilkan suasana hati</div>
-                            </div>
-                        </div>
-
-                        <div class="recommendation">
-                            <i class="fas fa-user-md"></i>
-                            <span>Tingkat stres Anda cukup mengganggu dan perlu direspons dengan cepat. Konsultasi
-                                dengan tenaga profesional dan mulai lakukan kegiatan pemulihan seperti konseling,
-                                mindfulness, atau aktivitas positif yang terstruktur.</span>
-                        </div>
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="status-indicator">
-                            <div class="status-dot"></div>
-                            <span>Kategori Aktif</span>
-                        </div>
-                        <div class="severity-level">Sedang</div>
-                    </div>
-                </div>
-            @endif
-            @if ($hasil->total_skor >= 114 && $hasil->total_skor <= 151)
-                <div class="category-item category-moderate active" data-aos="flip-right" data-aos-delay="150">
-                    <div class="floating-particles">
-                        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
-                        <div class="particle" style="left: 60%; animation-delay: 2s;"></div>
-                    </div>
-
-                    <div class="active-badge">
-                        <i class="fas fa-check-circle"></i> Status Aktif
-                    </div>
-
-                    <div class="card-header">
-                        <div class="icon-container">
-                            <div class="icon-bg"></div>
-                            <div class="category-icon">
-                                <i class="fas fa-smile"></i>
-                            </div>
-                        </div>
-                        <h3 class="category-title">Cukup Sehat</h3>
-                        <p class="category-subtitle">Rentan</p>
-                        <div class="category-range">Skor: 114 - 151</div>
-                    </div>
-
-                    <div class="card-body">
-                        <div
-                            class="category-description {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : 'hidden' }}">
-                            Secara umum, kamu dalam kondisi yang cukup baik, namun mungkin sesekali merasa tertekan atau
-                            kurang bersemangat saat menghadapi situasi tertentu. Ini wajar dan bisa dialami siapa pun.
-                            Tetap penting untuk menjaga keseimbangan hidup, istirahat yang cukup, waktu untuk diri
-                            sendiri, serta tetap terhubung dengan orang-orang yang kamu percayai bisa membuat perbedaan
-                            besar dalam menjaga ketahanan emosimu.
-                        </div>
-
-                        <div class="health-metrics">
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-calendar-check"></i></div>
-                                <div class="metric-label">Tentukan jadwal harian yang seimbang antara pekerjaan,
-                                    istirahat, dan hiburan</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-hand-holding-heart"></i></div>
-                                <div class="metric-label">Berikan penghargaan kecil untuk diri sendiri atas hal-hal
-                                    yang berhasil dilakukan</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-user-friends"></i></div>
-                                <div class="metric-label">Jaga komunikasi dengan teman dan keluarga meski hanya melalui
-                                    pesan singkat</div>
-                            </div>
-                        </div>
-
-                        <div class="recommendation">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Kondisi Anda relatif stabil namun cenderung rentan terhadap tekanan. Jaga keseimbangan
-                                hidup dengan cukup tidur, atur waktu istirahat, hindari tekanan berlebih, dan tetap
-                                terhubung secara sosial.</span>
-                        </div>
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="status-indicator">
-                            <div class="status-dot"></div>
-                            <span>Kategori Aktif</span>
-                        </div>
-                        <div class="severity-level">Hati-hati</div>
-                    </div>
-                </div>
-            @endif
-            @if ($hasil->total_skor >= 152 && $hasil->total_skor <= 189)
-                <div class="category-item category-good active" data-aos="flip-right" data-aos-delay="200">
-                    <div class="floating-particles">
-                        <div class="particle" style="left: 25%; animation-delay: 0.3s;"></div>
-                        <div class="particle" style="left: 75%; animation-delay: 1.3s;"></div>
-                    </div>
-
-                    <div class="active-badge">
-                        <i class="fas fa-check-circle"></i> Status Aktif
-                    </div>
-
-                    <div class="card-header">
-                        <div class="icon-container">
-                            <div class="icon-bg"></div>
-                            <div class="category-icon">
-                                <i class="fas fa-thumbs-up"></i>
-                            </div>
-                        </div>
-                        <h3 class="category-title">Sehat</h3>
-                        <p class="category-subtitle">Sehat Mental</p>
-                        <div class="category-range">Skor: 152 - 189</div>
-                    </div>
-
-                    <div class="card-body">
-                        <div
-                            class="category-description {{ $hasil->total_skor >= 152 && $hasil->total_skor <= 189 ? 'active' : 'hidden' }}">
-                            Hasil ini menunjukkan bahwa kamu memiliki kemampuan yang baik dalam menghadapi tekanan dan
-                            menjaga keseimbangan emosional. Kamu cenderung mampu berpikir jernih, berelasi secara
-                            positif, dan menjalani hari-hari dengan cukup stabil. Tetaplah jaga rutinitas sehat ini dan
-                            beri ruang untuk tetap tumbuh — baik secara pribadi maupun sosial. Perjalanan menjaga
-                            kesehatan mental adalah proses yang terus berkembang.
-                        </div>
-
-                        <div class="health-metrics">
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-seedling"></i></div>
-                                <div class="metric-label">Lanjutkan rutinitas yang mendukung kesehatan mental seperti
-                                    tidur cukup dan makan teratur</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-smile"></i></div>
-                                <div class="metric-label">Fokus pada hal-hal positif dan kelola stres dengan cara yang
-                                    sehat</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-users"></i></div>
-                                <div class="metric-label">Terlibat dalam kegiatan sosial atau komunitas yang membangun
-                                    koneksi sehat</div>
-                            </div>
-                        </div>
-
-                        <div class="recommendation">
-                            <i class="fas fa-smile-beam"></i>
-                            <span>Anda menunjukkan kesehatan mental yang baik. Pertahankan gaya hidup sehat, terus
-                                beraktivitas positif, dan rawat relasi interpersonal agar tetap seimbang secara
-                                emosional dan sosial.</span>
-                        </div>
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="status-indicator">
-                            <div class="status-dot"></div>
-                            <span>Kategori Aktif</span>
-                        </div>
-                        <div class="severity-level">Stabil</div>
-                    </div>
-                </div>
-            @endif
-            @if ($hasil->total_skor >= 190 && $hasil->total_skor <= 226)
-                <div class="category-item category-excellent active" data-aos="flip-right" data-aos-delay="250">
-                    <div class="floating-particles">
-                        <div class="particle" style="left: 15%; animation-delay: 0.8s;"></div>
-                        <div class="particle" style="left: 45%; animation-delay: 1.8s;"></div>
-                        <div class="particle" style="left: 85%; animation-delay: 2.8s;"></div>
-                    </div>
-
-                    <div class="active-badge">
-                        <i class="fas fa-check-circle"></i> Status Aktif
-                    </div>
-
-                    <div class="card-header">
-                        <div class="icon-container">
-                            <div class="icon-bg"></div>
-                            <div class="category-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <h3 class="category-title">Sangat Sehat</h3>
-                        <p class="category-subtitle">Sejahtera Mental</p>
-                        <div class="category-range">Skor: 190 - 226</div>
-                    </div>
-
-                    <div class="card-body">
-                        <div
-                            class="category-description {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : 'hidden' }}">
-                            Kamu berada pada kondisi mental yang sangat baik. Kemampuanmu dalam mengelola emosi,
-                            berpikir positif, dan menjaga relasi sosial patut diapresiasi. Kamu tidak hanya mampu
-                            menghadapi tekanan, tetapi juga menjadi sosok yang memberi dampak positif bagi orang lain.
-                            Terus jaga dan rawat kondisi ini dengan kebiasaan baik, refleksi diri, serta terlibat dalam
-                            hal-hal yang memberi makna bagi hidupmu.
-                        </div>
-
-                        <div class="health-metrics">
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-lightbulb"></i></div>
-                                <div class="metric-label">Terus eksplorasi minat dan ide baru sebagai bentuk
-                                    pengembangan diri</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-sun"></i></div>
-                                <div class="metric-label">Syukuri hal-hal kecil dan jalani hari dengan niat yang
-                                    positif</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-icon"><i class="fas fa-hands-helping"></i></div>
-                                <div class="metric-label">Bantu orang lain di sekitar sebagai bentuk empati dan
-                                    memperkuat makna hidup</div>
-                            </div>
-                        </div>
-
-                        <div class="recommendation">
-                            <i class="fas fa-trophy"></i>
-                            <span>Kesejahteraan mental Anda berada pada tingkat optimal. Pertahankan kebiasaan positif,
-                                perluas wawasan diri, dan jadilah sumber dukungan atau inspirasi bagi lingkungan sekitar
-                                Anda.</span>
-                        </div>
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="status-indicator">
-                            <div class="status-dot"></div>
-                            <span>Kategori Aktif</span>
-                        </div>
-                        <div class="severity-level">Optimal</div>
-                    </div>
-                </div>
-            @endif
         </div>
-    </div>
-    <!--
-    <div data-aos="fade-right" data-aos-delay="200" class="category-description-active" <h3>Tentang Kategori
-        "Sedang
-        (Rentan)"</h3>
-        <p>Individu dalam kategori ini memiliki tingkat kesehatan mental yang cukup, namun berada dalam kondisi
-            rentan terhadap stres dan tekanan. Mungkin mengalami beberapa gejala gangguan psikologis ringan yang
-            dapat berkembang jika tidak dikelola dengan baik. Diperlukan upaya aktif untuk menjaga dan
-            meningkatkan
-            kesejahteraan mental.</p>
-    </div>
-
-    <div data-aos="zoom-in" data-aos-delay="100" class="result-section">
-        <h2>Penilaian Kesehatan Mental</h2>
-
-        <div data-aos="fade-right" data-aos-delay="200" class="diagnosis-box diagnosis-moderate">
-            <div class="diagnosis-title">
-                <i class="icon icon-moderate">!</i>
-                <h3>Kesehatan Mental Sedang (Rentan)</h3>
+        <div class="tombol">
+            <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
+                <a href="/home" class="btn-back">
+                    <i class="fa-solid fa-house"></i>
+                    Kembali ke Halaman Utama
+                </a>
             </div>
-            <div class="diagnosis-content">
-                <p>Berdasarkan hasil kuesioner, Anda berada dalam kategori kesehatan mental "Sedang (Rentan)"
-                    dengan
-                    skor 145 dari rentang 131-160. Hal ini menunjukkan bahwa Anda memiliki beberapa kekuatan
-                    mental
-                    namun juga area yang perlu perhatian.</p>
-
-                <h4>Kekuatan:</h4>
-                <ul>
-                    <li>Pengaruh positif umum yang baik (74%)</li>
-                    <li>Kepuasan hidup yang cukup tinggi (75%)</li>
-                </ul>
-
-                <h4>Area yang perlu perhatian:</h4>
-                <ul>
-                    <li>Kontrol perilaku dan emosi (66%)</li>
-                    <li>Kecemasan yang masih dalam level moderat (58%)</li>
-                </ul>
-
-                <div class="recommendations">
-                    <h4>Rekomendasi:</h4>
-                    <div class="recommendation-item">• Terapkan teknik pernapasan dan relaksasi secara teratur
-                        untuk
-                        mengelola kecemasan</div>
-                    <div class="recommendation-item">• Tingkatkan kemampuan regulasi emosi melalui praktik
-                        mindfulness</div>
-                    <div class="recommendation-item">• Pertahankan aktivitas yang memberikan kepuasan hidup
-                    </div>
-                    <div class="recommendation-item">• Lakukan aktivitas fisik rutin minimal 30 menit per hari
-                    </div>
-                    <div class="recommendation-item">• Jaga hubungan sosial yang sehat dan positif</div>
-                </div>
+            <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
+                <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Konsultasi Lebih Lanjut
+                </a>
             </div>
         </div>
-    </div>
--->
-    <div class="tombol">
-        <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-            <a href="/home" class="btn-back">
-                <i class="fa-solid fa-house"></i>
-                Kembali ke Halaman Utama
-            </a>
-        </div>
-        <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-            <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
-                <i class="fa-brands fa-whatsapp"></i>
-                Konsultasi Lebih Lanjut
-            </a>
-        </div>
-    </div>
     </div>
 </body>
 <x-footer></x-footer>

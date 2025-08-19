@@ -38,13 +38,13 @@
                 <div class="logo-with-text">
                     <img src="{{ asset('assets/img/Logo_ITERA.png') }}" alt="Logo">
                     <div class="logo-text">
-                        <h2>ANLOGY</h2>
+                        <h2>ANALOGY</h2>
                         <h4>PPSDM ITERA</h4>
                     </div>
                 </div>
             </div>
             <h1>Selamat Datang di Panel Admin</h1>
-            <p class="subtitle">ANLOGY | Assessmen Online Psychology - PPSDM ITERA</p>
+            <p class="subtitle">ANALOGY | Assessmen Online Psychology - PPSDM ITERA</p>
         </div>
 
         <div class="cards-container">

@@ -57,7 +57,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <img src="../assets/img/Logo_ITERA.png" class="img-fluid animated" alt="">
-                <h2> ANLOGY</h2>
+                <h2>ANALOGY</h2>
                 <h4>PPSDM ITERA</h4>
             </div>
             <ul class="menu">
@@ -317,7 +317,7 @@
                             </svg>
 
                             <div class="donut-center">
-                                <div class="donut-total">{{ $totalAsal }}</div>
+                                <div class="donut-total">{{ $totalUsers }}</div>
                                 <div class="donut-sub">mahasiswa</div>
                             </div>
                         </div>
@@ -403,7 +403,7 @@
                             </svg>
 
                             <div class="donut-center">
-                                <div class="donut-total">{{ $totalStatus }}</div>
+                                <div class="donut-total">{{ $totalUsers }}</div>
                                 <div class="donut-sub">mahasiswa</div>
                             </div>
                         </div>

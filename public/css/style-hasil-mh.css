@@ -1828,3 +1828,39 @@ h3 {
     margin-top: 1.2rem;
     color: var(--primary-color);
 }
+.alert-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff8db; /* kuning muda */
+    color: #856404; /* coklat gelap untuk teks */
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin: 15px 0;
+    border: 1px solid #ffeeba; /* garis tipis biar rapih */
+}
+
+.alert-icon {
+    font-size: 1.2rem;
+    color: #856404;
+}
+@media (max-width: 768px) {
+    .alert-box {
+        align-items: center;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        gap: 6px;
+    }
+    .alert-icon {
+        font-size: 1.1rem;
+        margin-right: 0.7rem;
+    }
+    .alert-text {
+        line-height: 1.4;
+    }
+    .student-info h2 {
+        font-size: 1.3rem;
+    }
+}

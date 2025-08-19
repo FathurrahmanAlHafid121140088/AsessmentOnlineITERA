@@ -72,7 +72,7 @@
                         </div>
 
                         <div class="formbold-mb-3">
-                            <label for="provinsi" class="formbold-form-label">Provinsi</label>
+                            <label for="provinsi" class="formbold-form-label">Asal Provinsi</label>
                             <select name="provinsi" id="provinsi" class="formbold-form-input" required>
                                 <option value="" disabled selected>Pilih Provinsi</option>
                                 <option value="Aceh">Aceh</option>
