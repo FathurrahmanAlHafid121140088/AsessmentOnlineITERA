@@ -217,3 +217,66 @@ h4,
         font-size: 0.85rem;
     }
 }
+@media (max-width: 480px) {
+    /* Container footer */
+    .container-footer {
+        padding: 0 0.5rem !important;
+    }
+
+    /* Grid footer jadi 1 kolom biar tidak terlalu sempit */
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+        text-align: center !important;
+        justify-items: center !important;
+    }
+
+    /* Judul & teks */
+    .footer h3 {
+        font-size: 1rem !important;
+    }
+
+    .footer h4 {
+        font-size: 0.9rem !important;
+    }
+
+    .footer p,
+    .footer span,
+    .footer a {
+        font-size: 0.75rem !important;
+    }
+
+    /* Social icons lebih kecil */
+    .social-icons a {
+        font-size: 0.85rem !important;
+        margin: 0 4px !important;
+    }
+
+    /* Contact info */
+    .footer ul li {
+        font-size: 0.75rem !important;
+        margin-bottom: 6px !important;
+    }
+
+    .footer ul li i {
+        font-size: 0.8rem !important;
+        margin-right: 4px !important;
+    }
+
+    /* Bagian copyright */
+    .footer p {
+        font-size: 0.7rem !important;
+    }
+
+    /* Developer badge */
+    .developer-container {
+        flex-direction: column !important;
+        gap: 4px !important;
+        text-align: center !important;
+    }
+
+    .developer-badge {
+        font-size: 0.7rem !important;
+        padding: 2px 6px !important;
+    }
+}

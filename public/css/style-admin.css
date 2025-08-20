@@ -46,7 +46,6 @@ body {
     height: 3px;
     background: rgba(var(--primary-color), 0.5);
     border-radius: 50%;
-    animation: float-particles 8s linear infinite;
 }
 
 @keyframes float-particles {
@@ -76,7 +75,6 @@ body {
     filter: blur(40px);
     opacity: 0.2;
     /* Very subtle on #f4f6fd background */
-    animation: orb-float 6s ease-in-out infinite;
 }
 
 .orb-1 {
@@ -144,7 +142,6 @@ body {
 .header {
     text-align: center;
     margin-bottom: 2rem;
-    animation: fadeInUp 1s ease-out;
 }
 
 .header h1 {
@@ -167,7 +164,6 @@ body {
     /* Slightly larger icon */
     color: #f4f6fd;
     margin-bottom: 20px;
-    animation: pulse-glow 2s infinite;
 }
 
 @keyframes pulse-glow {
@@ -395,14 +391,6 @@ body {
     font-weight: 500;
 }
 
-.mental-health {
-    animation: slideInLeft 1s ease-out 0.3s both;
-}
-
-.career-interest {
-    animation: slideInRight 1s ease-out 0.6s both;
-}
-
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -606,5 +594,62 @@ body {
 
     .logo-text h4 {
         font-size: 0.8rem;
+    }
+}
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.2rem; /* judul lebih kecil */
+    }
+
+    .header .subtitle {
+        font-size: 0.8rem; /* subtitle kecil */
+    }
+
+    .logo-with-text img {
+        width: 40px;
+        height: auto;
+    }
+
+    .logo-text h2 {
+        font-size: 1rem;
+    }
+
+    .logo-text h4 {
+        font-size: 0.8rem;
+    }
+
+    .cards-container {
+        display: flex;
+        flex-direction: column; /* stack kartu */
+        gap: 1rem;
+    }
+
+    .admin-card {
+        padding: 12px; /* rapatkan padding */
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-description {
+        font-size: 0.8rem;
+    }
+
+    .card-button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+
+    .card-icon i {
+        font-size: 1.5rem; /* ikon lebih kecil */
+    }
+
+    .stats-counter .stat-number {
+        font-size: 1rem;
+    }
+
+    .stats-counter .stat-label {
+        font-size: 0.75rem;
     }
 }

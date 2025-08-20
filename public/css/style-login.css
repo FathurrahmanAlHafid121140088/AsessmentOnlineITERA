@@ -156,7 +156,7 @@ body {
 
 @media (max-width: 480px) {
     .container {
-        padding: 2rem;
+        padding: 1rem;
     }
 
     .login-card {
@@ -253,5 +253,12 @@ body {
 
     .logo-greeting p {
         font-size: 0.9rem;
+    }
+    .input-field {
+        font-size: 12px;
+    }
+    .login-btn {
+        padding: 12px;
+        font-size: 12px;
     }
 }

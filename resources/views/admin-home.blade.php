@@ -33,14 +33,20 @@
             <h2>Dashboard</h2>
         </div>
         <div class="user-wrapper">
-            <div class="account-group"> {{-- pembungkus untuk :focus-within --}}
+            <div class="account-group">
                 <button class="account-toggle">
                     <i class="fas fa-user-circle"></i>
-                    <span>{{ Auth::guard('admin')->user()->username }}</span>
+                    <span class="account-username">{{ Auth::guard('admin')->user()->username }}</span>
                     <i class="fas fa-caret-down caret"></i>
                 </button>
 
                 <div class="account-dropdown">
+                    <!-- Username masuk dropdown saat mobile -->
+                    <div class="dropdown-item account-name">
+                        <i class="fas fa-user"></i>
+                        {{ Auth::guard('admin')->user()->username }}
+                    </div>
+
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="dropdown-item logout">
@@ -50,6 +56,7 @@
                 </div>
             </div>
         </div>
+
     </header>
 
     <div class="container">
@@ -76,7 +83,7 @@
                     <ul class="dropdown-menu">
                         <li>
                             <a href="/admin/mental-health">
-                                <i class="fas fa-home" style="margin-right: 0.8rem;"></i> Home
+                                <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
                             </a>
                         </li>
                         <li>
@@ -243,7 +250,7 @@
                                         <span class="label">{{ $singkatan }}</span>
                                         <span class="count">
                                             {{ $count }} Mahasiswa
-                                            ({{ number_format($persen, 2) }}%)
+                                            ({{ number_format($persen, 1) }}%)
                                         </span>
 
                                     </li>
@@ -619,7 +626,7 @@
                                 @endphp
                                 <div class="bar-line">
                                     <span class="bar-text">
-                                        <i class="color-dot fa-solid fa-map"></i> {{-- icon provinsi --}}
+                                        <i class="color-dot fa-solid fa-location-dot"></i> {{-- icon provinsi --}}
                                         {{ $provinsi }}
                                     </span>
                                     <div class="bar-track">

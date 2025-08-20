@@ -67,7 +67,6 @@
                     </button>
                 </a>
 
-
                 <div class="stats-counter">
                     <div class="stat-item">
                         <span class="stat-number" id="mental-users"

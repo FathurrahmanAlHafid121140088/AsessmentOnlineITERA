@@ -135,7 +135,7 @@
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="fakultas" value="Fakultas Sains"
-                                    class="formbold-input-radio" required onchange="updateProdi()"> Fakultas Sains
+                                    class="formbold-input-radio" required onchange="updateProdi()"> FS
                             </label>
                         </div>
 
@@ -144,15 +144,14 @@
                                 <input type="radio" name="fakultas"
                                     value="Fakultas Teknologi Infrastruktur dan Kewilayahan"
                                     class="formbold-input-radio" required onchange="updateProdi()">
-                                Fakultas Teknologi Infrastruktur dan Kewilayahan
+                                FTIK
                             </label>
                         </div>
 
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="fakultas" value="Fakultas Teknologi Industri"
-                                    class="formbold-input-radio" required onchange="updateProdi()"> Fakultas Teknologi
-                                Industri
+                                    class="formbold-input-radio" required onchange="updateProdi()"> FTI
                             </label>
                         </div>
                     </div>

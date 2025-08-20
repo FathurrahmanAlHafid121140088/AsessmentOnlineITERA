@@ -284,3 +284,53 @@ body {
     color: #4f46e5;
     margin-right: 6px;
 }
+@media (max-width: 480px) {
+    body {
+        font-size: 12px; /* perkecil ukuran teks default */
+    }
+
+    .formbold-form-wrapper {
+        padding: 15px;
+    }
+
+    .formbold-form-title h2 {
+        font-size: 18px;
+    }
+
+    .formbold-form-title p {
+        font-size: 12px;
+    }
+
+    .formbold-form-input,
+    .formbold-form-label,
+    .formbold-radio-label,
+    select,
+    textarea {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .btn-submit {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+
+    .btn-pdf {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    img {
+        max-width: 180px;
+    }
+
+    /* Atur flex agar stack ke bawah */
+    .formbold-input-flex {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .col-lg-6 {
+        width: 100%;
+    }
+}

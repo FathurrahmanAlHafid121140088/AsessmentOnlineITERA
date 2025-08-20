@@ -162,7 +162,7 @@ ul {
 
 .menu .dropdown-menu li a {
     color: #ddd;
-    padding: 0.6rem 2.5rem;
+    padding: 0.6rem 1.5rem;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -268,6 +268,7 @@ ul {
     color: var(--white);
     font-weight: 500;
     transition: var(--transition);
+    font-size: 1rem;
 }
 
 .menu:hover,
@@ -803,7 +804,7 @@ header {
     background-color: var(--white);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    margin: 0px 20px 0px 20px;
+    margin: 0px 20px 20px 20px;
 }
 
 .table {
@@ -923,6 +924,18 @@ tbody tr:nth-child(odd) {
 
 tbody tr:nth-child(even) {
     background-color: #ffffff; /* baris genap (2,4,6,…) */
+}
+
+@media (max-width: 480px) {
+    thead th {
+        font-size: 12px; /* perkecil teks */
+        padding: 8px 10px; /* sesuaikan padding */
+    }
+
+    tbody td {
+        font-size: 12px; /* perkecil teks */
+        padding: 8px 10px; /* lebih rapat */
+    }
 }
 .status {
     padding: 3px 10px;
@@ -1891,6 +1904,25 @@ th i {
     content: "riwayat"; /* teks tooltip */
     background: #1d4ed8; /* selaras dgn warna tombol */
 }
+/* Responsive: tombol & ikon lebih kecil di layar max 480px */
+@media (max-width: 480px) {
+    .history-button,
+    .print-button,
+    .delete-button {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem; /* perkecil ikon */
+    }
+
+    .history-button svg,
+    .print-button svg,
+    .delete-button svg,
+    .history-button i {
+        font-size: 0.8rem; /* ikon fontawesome */
+        height: 14px;
+        width: 14px;
+    }
+}
 
 .bar-fill-prodi {
     display: block;
@@ -2274,8 +2306,172 @@ th i {
     .pie-legend {
         margin-top: 2rem;
     }
+    .menu li a {
+        font-size: 0.85rem;
+    }
 }
 :root {
     --c-kost: #ef4444; /* merah terang */
     --c-ortu: #7c3aed; /* ungu tua */
+}
+/* Default: username tampil di tombol */
+.account-username {
+    display: inline;
+}
+.account-dropdown .account-name {
+    display: none;
+}
+
+/* Mobile mode */
+@media (max-width: 768px) {
+    /* sembunyikan username di tombol */
+    .account-username {
+        display: none;
+    }
+
+    /* munculkan username di dropdown */
+    .account-dropdown .account-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        color: #333;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #eee;
+    }
+    .account-toggle {
+        font-size: 1.3rem;
+    }
+}
+@media (max-width: 480px) {
+    .custom-modal-content {
+        font-size: 0.85rem; /* perkecil teks isi modal */
+        line-height: 1.4;
+    }
+
+    .custom-modal-content h4 {
+        font-size: 1rem; /* judul modal lebih kecil */
+    }
+
+    .custom-modal-content strong {
+        font-size: 0.85rem; /* label tebal ikut kecil */
+    }
+}
+@media (max-width: 480px) {
+    .cards .card {
+        padding: 0.75rem; /* perkecil padding card */
+        border-radius: 10px; /* opsional: biar tetap rapi */
+    }
+
+    .cards .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem; /* kecilkan ukuran ikon */
+    }
+
+    .cards .card-info h3 {
+        font-size: 0.85rem; /* judul card lebih kecil */
+    }
+
+    .cards .card-info h2 {
+        font-size: 1.1rem; /* angka lebih kecil */
+    }
+
+    .cards .card i {
+        font-size: 1rem; /* kecilkan ikon fontawesome */
+    }
+}
+@media (max-width: 480px) {
+    .table-header h2 {
+        font-size: 1rem; /* perkecil judul tabel */
+    }
+
+    .table-header label,
+    .table-header select {
+        font-size: 0.8rem; /* kecilkan teks label & dropdown limit */
+    }
+
+    .table-header .search-form input[type="text"] {
+        font-size: 0.8rem; /* kecilkan teks input search */
+    }
+
+    .table-header .search-button i {
+        font-size: 0.8rem; /* kecilkan ikon search */
+    }
+}
+@media (max-width: 480px) {
+    .btn-pdf {
+        font-size: 0.8rem; /* kecilkan teks */
+        padding: 6px 10px; /* kurangi padding */
+    }
+
+    .btn-pdf i {
+        font-size: 0.9rem; /* kecilkan icon */
+        margin-right: 4px; /* kasih jarak kecil */
+    }
+}
+@media (max-width: 480px) {
+    header {
+        padding: 6px 10px; /* lebih rapat */
+    }
+
+    .header-title h2 {
+        font-size: 1rem; /* kecilkan judul Dashboard */
+    }
+
+    .hamburger i {
+        font-size: 1.2rem; /* kecilkan icon hamburger */
+    }
+
+    .account-toggle {
+        font-size: 0.85rem; /* kecilkan teks username */
+        padding: 4px 6px; /* padding lebih kecil */
+    }
+
+    .account-toggle i {
+        font-size: 1rem; /* kecilkan icon user & caret */
+    }
+
+    .account-dropdown .dropdown-item {
+        font-size: 0.85rem; /* isi dropdown lebih kecil */
+        padding: 6px 8px;
+    }
+}
+@media (max-width: 480px) {
+    .sidebar {
+        width: 180px; /* sidebar lebih ramping */
+    }
+
+    .sidebar-header img {
+        width: 40px; /* logo lebih kecil */
+        height: auto;
+    }
+
+    .sidebar-header h2 {
+        font-size: 1rem; /* judul ANALOGY kecil */
+    }
+
+    .sidebar-header h4 {
+        font-size: 0.8rem; /* subjudul PPSDM ITERA kecil */
+    }
+
+    .menu a {
+        font-size: 0.85rem; /* kecilkan teks menu */
+        padding: 6px 8px; /* rapatkan padding */
+    }
+
+    .menu a i {
+        font-size: 0.9rem; /* kecilkan icon */
+        margin-right: 0.6rem !important;
+    }
+
+    .dropdown-menu a {
+        font-size: 0.8rem; /* sub-menu lebih kecil */
+        padding: 5px 8px;
+    }
+
+    .dropdown-menu a i {
+        font-size: 0.85rem;
+        margin-right: 0.5rem !important;
+    }
 }
