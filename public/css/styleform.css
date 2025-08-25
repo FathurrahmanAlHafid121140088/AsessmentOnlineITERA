@@ -41,7 +41,7 @@
 }
 
 .formbold-form-title {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-align: center;
 }
 .formbold-form-title h2 {
@@ -72,7 +72,6 @@
     border: 1px solid #6c757d; /* Soft Gray */
     background: #ffffff;
     font-weight: 500;
-    font-size: 16px;
     color: #212529; /* Dark Gray */
     outline: none;
     resize: none;
@@ -83,7 +82,7 @@
 }
 .formbold-form-label {
     color: #536387;
-    font-size: 14px;
+    font-size: 20px;
     line-height: 24px;
     display: block;
     margin-bottom: 10px;
@@ -290,7 +289,7 @@ body {
     }
 
     .formbold-form-wrapper {
-        padding: 15px;
+        padding: 20px;
     }
 
     .formbold-form-title h2 {
@@ -306,8 +305,15 @@ body {
     .formbold-radio-label,
     select,
     textarea {
-        font-size: 12px;
-        padding: 6px;
+        font-size: 13px;
+        padding: 5px;
+    }
+    .formbold-radio-label i {
+        margin-right: 8px;
+    }
+
+    .formbold-form-input {
+        padding: 10px;
     }
 
     .btn-submit {

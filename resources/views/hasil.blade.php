@@ -103,27 +103,27 @@
                             <i class="fas fa-info-circle" style="color: #3498db; margin-right: 6px;"></i> Keterangan
                         </div>
                         <span
-                            class="range-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 75 ? 'active' : '' }}">
+                            class="range-item range-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 75 ? 'active' : '' }}">
                             Perlu Dukungan Intensif
                         </span>
 
                         <span
-                            class="range-poor {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : '' }}">
+                            class="range-item range-poor {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : '' }}">
                             Perlu Dukungan
                         </span>
 
                         <span
-                            class="range-moderate {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : '' }}">
+                            class=" range-item range-moderate {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : '' }}">
                             Cukup Sehat
                         </span>
 
                         <span
-                            class="range-good {{ $hasil->total_skor >= 152 && $hasil->total_skor <= 189 ? 'active' : '' }}">
+                            class="range-item range-good {{ $hasil->total_skor >= 152 && $hasil->total_skor <= 189 ? 'active' : '' }}">
                             Sehat
                         </span>
 
                         <span
-                            class="range-excellent {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : '' }}">
+                            class="range-item range-excellent {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : '' }}">
                             Sangat Sehat
                         </span>
                     </div>

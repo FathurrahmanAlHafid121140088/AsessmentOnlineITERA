@@ -741,7 +741,7 @@
                                     <td>{{ $hasil->dataDiri->email ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->asal_sekolah ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->status_tinggal ?? '-' }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($hasil->created_at)->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') }}
+                                    <td>{{ \Carbon\Carbon::parse($hasil->created_at)->locale('id')->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') }}
                                     </td>
                                     <td>
                                         <div class="action-buttons"
@@ -819,6 +819,7 @@
                                         @forelse ($grouped as $timestamp => $entries)
                                             @php
                                                 $tgl = \Carbon\Carbon::parse($entries->first()['created_at'])
+                                                    ->locale('id')
                                                     ->setTimezone('Asia/Jakarta')
                                                     ->translatedFormat('l, d M Y - H:i');
 

@@ -58,7 +58,7 @@
                             <h4 class="subheading">1️⃣ Registrasi & Login</h4>
                         </div>
                         <div class="timeline-body">
-                            <p class="text-muted">Buat akun atau masuk ke sistem dengan username dan password.
+                            <p class="text-muted">Masuk ke sistem dengan username dan password akun SSO.
                                 <br>Pastikan data yang diinput aman dan rahasia.
                             </p>
                         </div>
@@ -153,9 +153,9 @@
                     <h4 class="my-3">Mental Health</h4>
                     <p>Cek tingkat stres, kecemasan, dan kesehatan emosional Anda dengan metode ilmiah yang terpercaya.
                     </p>
-                    <p class="text-muted">Metode RMIH-38 (RAND Mental Health Inventory-38) adalah alat evaluasi
+                    <p class="text-muted">Metode RMHI-38 (RAND Mental Health Inventory-38) adalah alat evaluasi
                         kesehatan mental yang dirancang untuk menganalisis tingkat stres, kecemasan, dan kesejahteraan
-                        emosional secara cepat dan akurat. Dengan 38 parameter berbasis penelitian ilmiah, metode ini
+                        emosional secara cepat dan akurat. Dengan 38 pertanyaan berbasis penelitian ilmiah, metode ini
                         memberikan hasil instan yang dapat digunakan sebagai dasar konsultasi dengan psikolog.</p>
                     <a class="btn btn-primary btn-xl text-uppercase" href="/mental-health">Mulai Tes!</a>
                 </div>

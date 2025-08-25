@@ -76,7 +76,7 @@ h3 {
 .result-section {
     background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 5px;
     margin-top: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -839,7 +839,6 @@ h3 {
     gap: 8px;
     padding: 8px 0;
     border-radius: 20px;
-    background: rgba(241, 245, 249, 0.5);
     transition: all 0.3s ease;
 }
 

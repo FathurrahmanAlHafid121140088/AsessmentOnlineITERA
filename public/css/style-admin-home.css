@@ -800,7 +800,7 @@ header {
 
 /* Tables Styling */
 .tables {
-    padding: 20px;
+    padding: 10px;
     background-color: var(--white);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
@@ -809,7 +809,7 @@ header {
 
 .table {
     background-color: var(--white);
-    padding: 20px;
+    padding: 5px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     overflow-x: auto;
@@ -2424,7 +2424,7 @@ th i {
     }
 
     .account-toggle {
-        font-size: 0.85rem; /* kecilkan teks username */
+        font-size: 1rem; /* kecilkan teks username */
         padding: 4px 6px; /* padding lebih kecil */
     }
 
@@ -2473,5 +2473,21 @@ th i {
     .dropdown-menu a i {
         font-size: 0.85rem;
         margin-right: 0.5rem !important;
+    }
+    .search-form input[type="text"] {
+        padding: 5px 10px;
+        width: 80%;
+    }
+    .limit-form {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+@media (max-width: 480px) {
+    .pagination-info {
+        font-size: 12px;
+        text-align: center;
     }
 }

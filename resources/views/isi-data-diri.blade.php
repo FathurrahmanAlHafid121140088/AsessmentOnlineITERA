@@ -44,19 +44,24 @@
 
                     <div class="formbold-input-flex">
                         <div>
-                            <label for="nama" class="formbold-form-label"> Nama </label>
-                            <input type="text" name="nama" id="nama" class="formbold-form-input"
+                            <label for="nama" class="formbold-form-label">
+                                <i class="fas fa-user fa-sm"></i> Nama
+                            </label> <input type="text" name="nama" id="nama" class="formbold-form-input"
                                 placeholder="Masukkan nama lengkap" required />
                         </div>
                         <div>
-                            <label for="nim" class="formbold-form-label"> NIM </label>
+                            <label for="nim" class="formbold-form-label">
+                                <i class="fas fa-id-card fa-sm"></i> NIM
+                            </label>
                             <input type="number" name="nim" id="nim" class="formbold-form-input"
                                 placeholder="Masukkan NIM" required />
                         </div>
                     </div>
                     <div class="formbold-input-flex">
                         <div>
-                            <label class="formbold-form-label">Jenis Kelamin</label>
+                            <label class="formbold-form-label">
+                                <i class="fas fa-venus-mars fa-sm"></i> Jenis Kelamin
+                            </label>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="jenis_kelamin" value="L"
@@ -72,7 +77,9 @@
                         </div>
 
                         <div class="formbold-mb-3">
-                            <label for="provinsi" class="formbold-form-label">Asal Provinsi</label>
+                            <label for="provinsi" class="formbold-form-label">
+                                <i class="fas fa-map-marked-alt fa-sm"></i> Asal Provinsi
+                            </label>
                             <select name="provinsi" id="provinsi" class="formbold-form-input" required>
                                 <option value="" disabled selected>Pilih Provinsi</option>
                                 <option value="Aceh">Aceh</option>
@@ -118,20 +125,25 @@
 
                     <div class="formbold-input-flex">
                         <div>
-                            <label for="alamat" class="formbold-form-label"> Alamat </label>
+                            <label for="alamat" class="formbold-form-label">
+                                <i class="fas fa-home fa-sm"></i> Alamat
+                            </label>
                             <textarea name="alamat" id="alamat" class="formbold-form-input" placeholder="Masukkan alamat" rows="3"
                                 required></textarea>
                         </div>
                         <div>
-                            <label for="usia" class="formbold-form-label"> Usia </label>
+                            <label for="usia" class="formbold-form-label">
+                                <i class="fas fa-birthday-cake fa-sm"></i> Usia
+                            </label>
                             <input type="number" name="usia" id="usia" class="formbold-form-input"
                                 placeholder="Masukkan usia" required min="1" max="150" />
                         </div>
                     </div>
 
                     <div class="formbold-mb-3">
-                        <label class="formbold-form-label">Fakultas</label>
-
+                        <label for="fakultas" class="formbold-form-label">
+                            <i class="fas fa-university fa-sm"></i> Fakultas
+                        </label>
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="fakultas" value="Fakultas Sains"
@@ -158,7 +170,9 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="formbold-mb-3">
-                                <label for="program_studi" class="formbold-form-label">Program Studi</label>
+                                <label for="prodi" class="formbold-form-label">
+                                    <i class="fas fa-book-open fa-sm"></i> Program Studi
+                                </label>
                                 <select name="program_studi" id="program_studi" class="formbold-form-input" required>
                                     <option value="" disabled selected>Pilih program studi</option>
                                 </select>
@@ -167,7 +181,9 @@
 
                         <div class="col-lg-6">
                             <div class="formbold-mb-3">
-                                <label for="asal_sekolah" class="formbold-form-label">Asal Sekolah</label>
+                                <label for="sekolah" class="formbold-form-label">
+                                    <i class="fas fa-school fa-sm"></i> Asal Sekolah
+                                </label>
                                 <select name="asal_sekolah" id="asal_sekolah" class="formbold-form-input" required>
                                     <option value="" disabled selected>Pilih asal sekolah</option>
                                     <option value="SMA">SMA</option>
@@ -181,13 +197,17 @@
                     <div class="formbold-input-flex">
                         <div>
                             <div class="formbold-mb-3">
-                                <label for="email" class="formbold-form-label"> Email </label>
+                                <label for="email" class="formbold-form-label">
+                                    <i class="fas fa-envelope fa-sm"></i> Email
+                                </label>
                                 <input type="email" name="email" id="email" class="formbold-form-input"
                                     placeholder="Masukkan email" required />
                             </div>
                         </div>
                         <div class="formbold-mb-3">
-                            <label class="formbold-form-label">Status Tinggal</label>
+                            <label for="status_tinggal" class="formbold-form-label">
+                                <i class="fas fa-house-user fa-sm"></i> Status Tinggal
+                            </label>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="status_tinggal" value="Bersama Orang Tua"
@@ -205,13 +225,17 @@
 
                     <div class="formbold-input-flex">
                         <div>
-                            <label for="keluhan" class="formbold-form-label"> Keluhan </label>
+                            <label for="keluhan" class="formbold-form-label">
+                                <i class="fas fa-comment-dots fa-sm"></i> Keluhan
+                            </label>
                             <textarea name="keluhan" id="keluhan" class="formbold-form-input" rows="4"
                                 placeholder="Masukkan keluhan yang dialami saat ini" required></textarea>
                         </div>
 
                         <div class="formbold-mb-3">
-                            <label class="formbold-form-label">Lama Keluhan (dalam bulan)</label>
+                            <label for="lama_keluhan" class="formbold-form-label">
+                                <i class="fas fa-hourglass-half fa-sm"></i> Lama Keluhan
+                            </label>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="lama_keluhan" value="1"
@@ -247,7 +271,9 @@
 
                     <div class="formbold-input-flex">
                         <div class="formbold-mb-3">
-                            <label class="formbold-form-label">Sudah Pernah Mengikuti Tes Psikologi?</label>
+                            <label class="formbold-form-label">
+                                <i class="fas fa-brain fa-sm"></i> Pernah Tes Psikologi?
+                            </label>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="pernah_tes" value="Ya"
@@ -262,7 +288,9 @@
                             </div>
                         </div>
                         <div class="formbold-mb-3">
-                            <label class="formbold-form-label">Sudah Pernah Konsultasi dengan Psikolog?</label>
+                            <label class="formbold-form-label">
+                                <i class="fas fa-hands-helping fa-sm"></i> Pernah Konsultasi?
+                            </label>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="pernah_konsul" value="Ya"
