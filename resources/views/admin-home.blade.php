@@ -163,29 +163,29 @@
 
                                 /* warna setiap kategori */
                                 $warnaKategori = [
-                                    'Sangat Buruk (Distres Berat)' => '#f44336',
-                                    'Buruk (Distres Sedang)' => '#ff9800',
-                                    'Sedang (Rentan)' => '#ffc107',
-                                    'Baik (Sehat Secara Mental)' => '#2196f3',
-                                    'Sangat Baik (Sejahtera Secara Mental)' => '#4caf50',
+                                    'Perlu Dukungan Intensif' => '#f44336', // merah
+                                    'Perlu Dukungan' => '#ff9800', // oranye
+                                    'Cukup Sehat' => '#ffc107', // kuning
+                                    'Sehat' => '#2196f3', // biru
+                                    'Sangat Sehat' => '#4caf50', // hijau
                                 ];
 
                                 /* urutan tampilan */
                                 $urutanKategori = [
-                                    'Sangat Buruk (Distres Berat)',
-                                    'Buruk (Distres Sedang)',
-                                    'Sedang (Rentan)',
-                                    'Baik (Sehat Secara Mental)',
-                                    'Sangat Baik (Sejahtera Secara Mental)',
+                                    'Perlu Dukungan Intensif',
+                                    'Perlu Dukungan',
+                                    'Cukup Sehat',
+                                    'Sehat',
+                                    'Sangat Sehat',
                                 ];
 
-                                /* label ringkas */
+                                /* label ringkas (sama dengan kategori sekarang, bisa dihapus jika redundant) */
                                 $mapLabelPendek = [
-                                    'Sangat Buruk (Distres Berat)' => 'Perlu Dukungan Intensif',
-                                    'Buruk (Distres Sedang)' => ' Perlu Dukungan',
-                                    'Sedang (Rentan)' => 'Cukup Sehat',
-                                    'Baik (Sehat Secara Mental)' => 'Sehat',
-                                    'Sangat Baik (Sejahtera Secara Mental)' => 'Sangat Sehat',
+                                    'Perlu Dukungan Intensif' => 'Perlu Dukungan Intensif',
+                                    'Perlu Dukungan' => 'Perlu Dukungan',
+                                    'Cukup Sehat' => 'Cukup Sehat',
+                                    'Sehat' => 'Sehat',
+                                    'Sangat Sehat' => 'Sangat Sehat',
                                 ];
                             @endphp
 
@@ -652,26 +652,67 @@
                         Aktivitas Terbaru
                     </h2>
                     <div class="table-controls">
-                        <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
-                            <label for="limit">Tampilkan:</label>
-                            <select name="limit" id="limit" onchange="this.form.submit()">
-                                @foreach ([10, 25, 50, 100] as $l)
-                                    <option value="{{ $l }}"
-                                        {{ request('limit') == $l ? 'selected' : '' }}>
-                                        {{ $l }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="search" value="{{ request('search') }}">
-                        </form>
+                        <div class="left-controls">
+                            {{-- Form Limit --}}
+                            <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
+                                <div class="limit-wrapper">
+                                    <label for="limit">Tampilkan:</label>
+                                    <div class="limit-controls">
+                                        <select name="limit" id="limit" onchange="this.form.submit()">
+                                            @foreach ([10, 25, 50] as $l)
+                                                <option value="{{ $l }}"
+                                                    {{ request('limit') == $l ? 'selected' : '' }}>
+                                                    {{ $l }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="reset-button" onclick="resetFilters()"
+                                            title="Reset Filter">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+                            </form>
+
+                            {{-- Form Kategori --}}
+                            <form method="GET" action="{{ route('admin.home') }}" class="category-form">
+                                <div class="category-wrapper">
+                                    <label for="kategori">Filter Kategori:</label>
+                                    <div class="category-controls">
+                                        <select name="kategori" id="kategori" onchange="this.form.submit()">
+                                            <option value="">Pilih:</option>
+                                            @foreach (['Perlu Dukungan Intensif', 'Perlu Dukungan', 'Cukup Sehat', 'Sehat', 'Sangat Sehat'] as $k)
+                                                <option value="{{ $k }}"
+                                                    {{ request('kategori') == $k ? 'selected' : '' }}>
+                                                    {{ $k }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="reset-button" onclick="resetFilters()"
+                                            title="Reset Filter">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="search" value="{{ request('search') }}">
+                                <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
+                                <input type="hidden" name="sort" value="{{ request('sort', 'created_at') }}">
+                                <input type="hidden" name="order" value="{{ request('order', 'desc') }}">
+                            </form>
+                        </div>
                         {{-- Search Box --}}
-                        <form action="{{ route('admin.home') }}" method="GET" class="search-form">
-                            <input type="text" name="search" placeholder="Cari Data..."
-                                value="{{ request('search') }}">
-                            <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
-                            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
-                        </form>
+                        <div class="right-controls">
+                            <form action="{{ route('admin.home') }}" method="GET" class="search-form">
+                                <input type="text" name="search" placeholder="Cari Data..."
+                                    value="{{ request('search') }}">
+                                <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
+                                <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
                     </div>
+
 
                 </div>
                 <div class="table">
@@ -711,6 +752,7 @@
                                 <th>Email</th>
                                 <th>Asal Sekolah</th>
                                 <th>Status Tinggal</th>
+                                <th>Kategori Terakhir</th>
                                 <th>
                                     <a href="{{ route('admin.home', ['sort' => 'created_at', 'order' => request('order') === 'asc' && request('sort') === 'created_at' ? 'desc' : 'asc'] + request()->except(['page'])) }}"
                                         class="sortable-header">
@@ -741,6 +783,19 @@
                                     <td>{{ $hasil->dataDiri->email ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->asal_sekolah ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->status_tinggal ?? '-' }}</td>
+                                    <td>
+                                        <span
+                                            class="
+        range-badge
+        @if ($hasil->kategori === 'Perlu Dukungan Intensif') range-very-poor
+        @elseif ($hasil->kategori === 'Perlu Dukungan') range-poor
+        @elseif ($hasil->kategori === 'Cukup Sehat') range-moderate
+        @elseif ($hasil->kategori === 'Sehat') range-good
+        @elseif ($hasil->kategori === 'Sangat Sehat') range-excellent @endif
+    ">
+                                            {{ $hasil->kategori }}
+                                        </span>
+                                    </td>
                                     <td>{{ \Carbon\Carbon::parse($hasil->created_at)->locale('id')->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') }}
                                     </td>
                                     <td>
@@ -842,13 +897,13 @@
                                                     </strong>
                                                     @php
                                                         $kategoriSingkat = [
-                                                            'Sangat Buruk (Distres Berat)' => 'Perlu Dukungan Intensif',
-                                                            'Buruk (Distres Sedang)' => 'Perlu Dukungan',
-                                                            'Sedang (Rentan)' => 'Cukup Sehat',
-                                                            'Baik (Sehat Secara Mental)' => 'Sehat',
-                                                            'Sangat Baik (Sejahtera Secara Mental)' => 'Sangat Sehat',
+                                                            'Perlu Dukungan Intensif' => 'Perlu Dukungan Intensif',
+                                                            'Perlu Dukungan' => 'Perlu Dukungan',
+                                                            'Cukup Sehat' => 'Cukup Sehat',
+                                                            'Sehat' => 'Sehat',
+                                                            'Sangat Sehat' => 'Sangat Sehat',
+                                                            'Tidak Terdefinisi' => 'Tidak Terdefinisi',
                                                         ];
-
                                                         $kelasKategori = [
                                                             'Perlu Dukungan Intensif' => 'range-very-poor',
                                                             'Perlu Dukungan' => 'range-poor',
@@ -894,7 +949,7 @@
                                 </div>
                             @empty
                                 <tr>
-                                    <td colspan="10" class="text-center">
+                                    <td colspan="13" class="text-center">
                                         @if (request()->has('search') && request('search'))
                                             <span class="text-danger">Tidak ditemukan hasil untuk:
                                                 <strong>{{ request('search') }}</strong></span>

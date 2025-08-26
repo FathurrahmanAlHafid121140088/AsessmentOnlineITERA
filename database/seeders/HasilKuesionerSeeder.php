@@ -178,11 +178,11 @@ class HasilKuesionerSeeder extends Seeder
     private function getKategori($skor)
     {
         return match (true) {
-            $skor >= 190 => 'Sangat Baik (Sejahtera Secara Mental)',
-            $skor >= 152 => 'Baik (Sehat Secara Mental)',
-            $skor >= 114 => 'Sedang (Rentan)',
-            $skor >= 76 => 'Buruk (Distres Sedang)',
-            $skor >= 38 => 'Sangat Buruk (Distres Berat)',
+            $skor >= 190 => 'Sangat Sehat',
+            $skor >= 152 => 'Sehat',
+            $skor >= 114 => 'Cukup Sehat',
+            $skor >= 76 => 'Perlu Dukungan',
+            $skor >= 38 => 'Perlu Dukungan Intensif',
             default => 'Tidak Diketahui',
         };
     }

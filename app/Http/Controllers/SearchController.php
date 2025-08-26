@@ -7,30 +7,61 @@ use App\Models\HasilKuesioner;
 
 class SearchController extends Controller
 {
-public function search(Request $request)
-{
-    $query = $request->input('search');
+    public function search(Request $request)
+    {
+        $kategoriFilter = $request->input('kategori'); // kategori dari dropdown
+        $keyword = $request->input('search'); // input search text
+        $limit = $request->input('limit', 10);
 
-    $hasilKuesioners = HasilKuesioner::with('dataDiri')
-        ->when($query, function ($q) use ($query) {
-            $q->where('nim', 'like', "%{$query}%")
-                ->orWhereHas('dataDiri', function ($q2) use ($query) {
-                    $q2->where('nama', 'like', "%{$query}%")
-                        ->orWhere('program_studi', 'like', "%{$query}%")
-                        ->orWhere('email', 'like', "%{$query}%")
-                        ->orWhere('alamat', 'like', "%{$query}%")
-                        ->orWhere('jenis_kelamin', 'like', "%{$query}%")
-                        ->orWhere('fakultas', 'like', "%{$query}%");
-                });
-        })
-        ->get();
+        $query = HasilKuesioner::with(['dataDiri', 'riwayatKeluhans']);
 
-    $message = $hasilKuesioners->isEmpty() ? 'Data tidak ditemukan.' : 'Data berhasil ditemukan!';
+        // Filter berdasarkan kategori jika ada
+        if ($kategoriFilter) {
+            $query->where('kategori', $kategoriFilter);
+        }
 
-    return view('admin-home', [
-        'title' => 'Admin',
-        'hasilKuesioners' => $hasilKuesioners,
-        'searchMessage' => $message, // kirim ke blade
-    ]);
-}
+        // Filter pencarian text
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nim', 'like', "%$keyword%")
+                    ->orWhere('total_skor', 'like', "%$keyword%")
+                    ->orWhere('kategori', 'like', "%$keyword%")
+                    ->orWhereHas('dataDiri', function ($q2) use ($keyword) {
+                        $q2->where('nama', 'like', "%$keyword%")
+                            ->orWhere('program_studi', 'like', "%$keyword%")
+                            ->orWhere('email', 'like', "%$keyword%")
+                            ->orWhere('alamat', 'like', "%$keyword%")
+                            ->orWhere('jenis_kelamin', 'like', "%$keyword%")
+                            ->orWhere('fakultas', 'like', "%$keyword%")
+                            ->orWhere('asal_sekolah', 'like', "%$keyword%")
+                            ->orWhere('provinsi', 'like', "%$keyword%")
+                            ->orWhere('status_tinggal', 'like', "%$keyword%");
+                    })
+                    ->orWhereHas('riwayatKeluhans', function ($q3) use ($keyword) {
+                        $q3->where('keluhan', 'like', "%$keyword%")
+                            ->orWhere('lama_keluhan', 'like', "%$keyword%")
+                            ->orWhere('pernah_konsul', 'like', "%$keyword%")
+                            ->orWhere('pernah_tes', 'like', "%$keyword%");
+                    });
+            });
+        }
+
+        $hasilKuesioners = $query->orderBy('created_at', 'desc')
+            ->paginate($limit)
+            ->withQueryString();
+
+        $kategoriOptions = [
+            'Perlu Dukungan Intensif',
+            'Perlu Dukungan',
+            'Cukup Sehat',
+            'Sehat',
+            'Sangat Sehat'
+        ];
+
+        $message = $hasilKuesioners->isEmpty()
+            ? 'Data tidak ditemukan.'
+            : 'Data berhasil ditemukan!';
+
+        return view('admin-home', compact('hasilKuesioners', 'kategoriOptions', 'kategoriFilter', 'keyword', 'message'));
+    }
 }

@@ -1,9 +1,10 @@
+// Toggle (menampilkan/menyembunyikan) search box
 function toggleSearchInput() {
     const searchBox = document.getElementById("searchBox");
     searchBox.classList.toggle("active");
 }
 
-// Optional: Hide search when clicking outside
+// Optional: sembunyikan search box kalau klik di luar
 document.addEventListener("click", (e) => {
     if (!searchBox.contains(e.target)) {
         searchBox.classList.remove("active");
@@ -13,17 +14,19 @@ document.addEventListener("click", (e) => {
 const hamburger = document.getElementById("hamburger");
 const sidebar = document.getElementById("sidebar");
 
+// Toggle sidebar ketika tombol hamburger diklik
 hamburger.addEventListener("click", () => {
     sidebar.classList.toggle("active");
 });
 
-// Optional: klik di luar sidebar untuk nutup
+// Optional: klik di luar sidebar → sidebar menutup
 document.addEventListener("click", (e) => {
     if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
         sidebar.classList.remove("active");
     }
 });
 
+// Generate PDF berisi seluruh hasil assessment dalam tabel
 async function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -34,7 +37,7 @@ async function generatePDF() {
         align: "center",
     });
 
-    // Ambil data tabel
+    // Ambil data dari tabel HTML
     const table = document.getElementById("assessmentTable");
     const rows = table.querySelectorAll("tbody tr");
 
@@ -43,6 +46,7 @@ async function generatePDF() {
         return Array.from(cells).map((cell) => cell.innerText.trim());
     });
 
+    // Header tabel
     const headers = [
         [
             "NIM",
@@ -54,7 +58,7 @@ async function generatePDF() {
         ],
     ];
 
-    // Tambahkan tabel ke dokumen
+    // Tambahkan tabel ke PDF
     doc.autoTable({
         head: headers,
         body: data,
@@ -65,15 +69,16 @@ async function generatePDF() {
     doc.save("hasil_assessment.pdf");
 }
 
+// Generate PDF hanya untuk satu baris (satu peserta) → dipanggil via tombol "Print"
 function printPDF(button) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Ambil data baris
+    // Ambil baris data sesuai tombol
     var row = button.closest("tr");
     var cells = row.querySelectorAll("td");
 
-    // Ambil text dari setiap cell kecuali kolom aksi terakhir
+    // Susun data
     var data = [
         [
             "NIM",
@@ -93,16 +98,19 @@ function printPDF(button) {
         ],
     ];
 
-    // Generate tabel ke PDF
+    // Buat tabel ke PDF
     doc.autoTable({
         head: [data[0]],
         body: [data[1]],
         theme: "grid",
-        headStyles: { fillColor: [52, 58, 64] }, // dark header
+        headStyles: { fillColor: [52, 58, 64] }, // warna header
     });
 
-    doc.save("hasil-kuesioner-" + cells[0].innerText + ".pdf"); // Nama file: hasil-kuesioner-NIM.pdf
+    // Nama file berdasarkan NIM
+    doc.save("hasil-kuesioner-" + cells[0].innerText + ".pdf");
 }
+
+// Konfirmasi sebelum menghapus data
 function confirmDelete(id) {
     Swal.fire({
         title: "Yakin ingin menghapus data ini?",
@@ -119,6 +127,8 @@ function confirmDelete(id) {
         }
     });
 }
+
+// Pencarian data via fetch (Ajax)
 function toggleSearchInput() {
     const input = document.getElementById("searchInput");
     if (input.value.trim() !== "") {
@@ -126,10 +136,12 @@ function toggleSearchInput() {
             .then((response) => response.json())
             .then((data) => {
                 console.log("Hasil Pencarian:", data);
-                // update table/HTML here based on data
+                // update tabel/HTML sesuai hasil pencarian
             });
     }
 }
+
+// Handle klik icon search di layar kecil (mobile)
 document.addEventListener("DOMContentLoaded", function () {
     const searchForm = document.querySelector(".search-form");
     const searchIcon = document.querySelector("#searchIcon");
@@ -145,14 +157,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+// Buka modal
 function openModal(id) {
     document.getElementById(id).classList.add("show");
 }
 
+// Tutup modal
 function closeModal(id) {
     document.getElementById(id).classList.remove("show");
 }
 
+// Animasi angka score (counting effect)
 window.addEventListener("load", function () {
     const counters = document.querySelectorAll(".score-value");
 
@@ -169,15 +185,16 @@ window.addEventListener("load", function () {
             }
             counter.textContent = Math.floor(currentValue);
 
-            // tambahkan efek animasi
+            // Tambah efek animasi
             counter.classList.add("animated");
             setTimeout(() => {
                 counter.classList.remove("animated");
-            }, 300); // match durasi .3s
+            }, 300);
         }, 20);
     });
 });
 
+// Animasi naiknya tinggi bar chart (kategori)
 window.addEventListener("load", function () {
     const bars = document.querySelectorAll(".bar-fill");
     const barValues = document.querySelectorAll(".bar-value");
@@ -191,16 +208,15 @@ window.addEventListener("load", function () {
             if (barValues[idx]) {
                 barValues[idx].style.opacity = 1;
             }
-        }, 700); // lebih lambat muncul
+        }, 700);
     });
 });
 
+// Animasi munculnya pie chart segment
 window.addEventListener("load", function () {
     const segments = document.querySelectorAll(".pie-segment");
     segments.forEach((seg, idx) => {
-        // reset transform dulu
         seg.style.transform = "rotate(0deg)";
-        // reset opacity
         seg.style.opacity = 0;
 
         setTimeout(() => {
@@ -208,9 +224,11 @@ window.addEventListener("load", function () {
                 "--start"
             )})`;
             seg.style.opacity = 1;
-        }, 500 + idx * 300); // muncul satu per satu
+        }, 500 + idx * 300);
     });
 });
+
+// Responsif: sesuaikan tinggi bar chart program studi saat resize
 window.addEventListener("resize", function () {
     const bars = document.querySelectorAll(".bar-fill-prodi");
     bars.forEach((bar) => {
@@ -222,13 +240,15 @@ window.addEventListener("resize", function () {
         }
     });
 });
+
+// Tutup modal bila klik backdrop (area luar konten modal)
 function backdropClose(e, modalId) {
-    // close hanya bila yang diklik persis backdrop, BUKAN kontennya
     if (e.target.classList.contains("custom-modal")) {
         closeModal(modalId);
     }
 }
 
+// Modul chart per program studi
 (function chartProdiModule() {
     document.addEventListener("DOMContentLoaded", function () {
         const dropdown = document.getElementById("fakultasDropdown");
@@ -240,6 +260,7 @@ function backdropClose(e, modalId) {
         tampilkanChart(initialFakultas);
     });
 
+    // Animasi bar chart horizontal secara berurutan
     function animateBarsSequentially(bars, scaleFactor) {
         bars.forEach((bar, idx) => {
             const rawValue = parseInt(bar.dataset.raw) || 0;
@@ -254,6 +275,7 @@ function backdropClose(e, modalId) {
         });
     }
 
+    // Menampilkan chart sesuai fakultas yang dipilih
     function tampilkanChart(fakultas) {
         const allCharts = document.querySelectorAll(".horizontal-bar-chart");
         const container = document.getElementById("chartProdiContainer");
@@ -266,7 +288,7 @@ function backdropClose(e, modalId) {
 
             const jumlahProdi = parseInt(targetChart.dataset.jumlah) || 0;
 
-            // Min-height: 500px for mobile, dynamic for desktop
+            // Sesuaikan tinggi container chart
             if (window.innerWidth <= 768) {
                 container.style.minHeight = "300px";
             } else {
@@ -274,67 +296,8 @@ function backdropClose(e, modalId) {
                 container.style.minHeight = chartHeight + "px";
             }
 
+            // Hitung skala bar agar proporsional
             const bars = targetChart.querySelectorAll(".bar-fill-prodi");
-            let maxValue = 1;
-            bars.forEach((bar) => {
-                const val = parseInt(bar.dataset.raw) || 0;
-                if (val > maxValue) maxValue = val;
-            });
-
-            let maxBarWidth = 740;
-            if (window.innerWidth <= 400) maxBarWidth = 190;
-            else if (window.innerWidth <= 480) maxBarWidth = 240;
-            else if (window.innerWidth <= 768) maxBarWidth = 280;
-            else if (window.innerWidth <= 992) maxBarWidth = 345;
-            else if (window.innerWidth <= 1024) maxBarWidth = 245;
-            else if (window.innerWidth <= 1280) maxBarWidth = 500;
-
-            const scaleFactor = maxBarWidth / maxValue;
-            animateBarsSequentially(bars, scaleFactor);
-        }
-    }
-})();
-
-(function chartProvinsiModule() {
-    document.addEventListener("DOMContentLoaded", function () {
-        tampilkanChartProvinsi();
-    });
-
-    function animateBarsSequentially(bars, scaleFactor) {
-        bars.forEach((bar, idx) => {
-            const rawValue = parseInt(bar.dataset.raw) || 0;
-            const targetWidth = rawValue * scaleFactor;
-            bar.style.width = "0px";
-            bar.style.opacity = 0;
-            setTimeout(() => {
-                bar.style.transition = "width 0.6s ease, opacity 0.6s ease";
-                bar.style.width = targetWidth + "px";
-                bar.style.opacity = 1;
-            }, idx * 100);
-        });
-    }
-
-    function tampilkanChartProvinsi() {
-        const container = document.getElementById("chartProvinsiContainer");
-        const targetChart = container.querySelector(
-            ".horizontal-bar-chart-provinsi"
-        );
-
-        if (targetChart) {
-            const jumlahProvinsi = parseInt(targetChart.dataset.jumlah) || 0;
-
-            // Min-height: 300px untuk mobile, dinamis untuk desktop
-            if (window.innerWidth <= 768) {
-                container.style.minHeight = "300px";
-            } else {
-                const chartHeight = jumlahProvinsi * 46 + 60;
-                container.style.minHeight = chartHeight + "px";
-            }
-
-            // Ambil semua bar
-            const bars = targetChart.querySelectorAll(".bar-fill-provinsi");
-
-            // Cari nilai max
             let maxValue = 1;
             bars.forEach((bar) => {
                 const val = parseInt(bar.dataset.raw) || 0;
@@ -351,12 +314,72 @@ function backdropClose(e, modalId) {
             else if (window.innerWidth <= 1280) maxBarWidth = 500;
 
             const scaleFactor = maxBarWidth / maxValue;
-
-            // Jalankan animasi
             animateBarsSequentially(bars, scaleFactor);
         }
     }
 })();
+
+// Modul chart per provinsi
+(function chartProvinsiModule() {
+    document.addEventListener("DOMContentLoaded", function () {
+        tampilkanChartProvinsi();
+    });
+
+    // Animasi bar chart horizontal provinsi
+    function animateBarsSequentially(bars, scaleFactor) {
+        bars.forEach((bar, idx) => {
+            const rawValue = parseInt(bar.dataset.raw) || 0;
+            const targetWidth = rawValue * scaleFactor;
+            bar.style.width = "0px";
+            bar.style.opacity = 0;
+            setTimeout(() => {
+                bar.style.transition = "width 0.6s ease, opacity 0.6s ease";
+                bar.style.width = targetWidth + "px";
+                bar.style.opacity = 1;
+            }, idx * 100);
+        });
+    }
+
+    // Menampilkan chart provinsi
+    function tampilkanChartProvinsi() {
+        const container = document.getElementById("chartProvinsiContainer");
+        const targetChart = container.querySelector(
+            ".horizontal-bar-chart-provinsi"
+        );
+
+        if (targetChart) {
+            const jumlahProvinsi = parseInt(targetChart.dataset.jumlah) || 0;
+
+            if (window.innerWidth <= 768) {
+                container.style.minHeight = "300px";
+            } else {
+                const chartHeight = jumlahProvinsi * 46 + 60;
+                container.style.minHeight = chartHeight + "px";
+            }
+
+            const bars = targetChart.querySelectorAll(".bar-fill-provinsi");
+
+            let maxValue = 1;
+            bars.forEach((bar) => {
+                const val = parseInt(bar.dataset.raw) || 0;
+                if (val > maxValue) maxValue = val;
+            });
+
+            let maxBarWidth = 740;
+            if (window.innerWidth <= 400) maxBarWidth = 190;
+            else if (window.innerWidth <= 480) maxBarWidth = 240;
+            else if (window.innerWidth <= 768) maxBarWidth = 280;
+            else if (window.innerWidth <= 992) maxBarWidth = 345;
+            else if (window.innerWidth <= 1024) maxBarWidth = 245;
+            else if (window.innerWidth <= 1280) maxBarWidth = 500;
+
+            const scaleFactor = maxBarWidth / maxValue;
+            animateBarsSequentially(bars, scaleFactor);
+        }
+    }
+})();
+
+// Dropdown toggle menu (sidebar/nav)
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".dropdown-toggle").forEach(function (toggle) {
         toggle.addEventListener("click", function (e) {
@@ -366,6 +389,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+// Switch tampilan: chart prodi, chart provinsi, atau tabel
 document.addEventListener("DOMContentLoaded", function () {
     const menuProdi = document.querySelector(
         'a[href="/admin/mental-health/program-studi"]'
@@ -376,15 +401,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const chartProdi = document.querySelector(".chart-prodi");
     const chartProvinsi = document.querySelector(".chart-provinsi");
-    const tableWrapper = document.querySelector(".tables"); // Pastikan pembungkus tabel pakai class .tables
+    const tableWrapper = document.querySelector(".tables");
 
     function showOnly(target) {
-        // Sembunyikan semua
         if (chartProdi) chartProdi.style.display = "none";
         if (chartProvinsi) chartProvinsi.style.display = "none";
         if (tableWrapper) tableWrapper.style.display = "none";
 
-        // Tampilkan yang dipilih
         if (target) target.style.display = "block";
     }
 
@@ -402,13 +425,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+// Animasi donat chart (asal sekolah)
 document.addEventListener("DOMContentLoaded", function () {
     const donut = document.querySelector("#donutAsalSekolah");
     if (!donut) return;
 
     const segs = donut.querySelectorAll(".donut-seg");
 
-    // apply dasharray & offset setelah render => animasi terlihat
+    // Terapkan dasharray & offset agar animasi stroke terlihat
     requestAnimationFrame(() => {
         segs.forEach((seg) => {
             const dash = parseFloat(seg.dataset.dash || "0");
@@ -416,7 +441,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const offset = parseFloat(seg.dataset.offset || "0");
 
             seg.style.strokeDasharray = `${dash} ${gap}`;
-            seg.style.strokeDashoffset = offset * -1; // negatif agar maju searah jarum jam setelah rotate(-90deg)
+            seg.style.strokeDashoffset = offset * -1;
         });
     });
 });
+//document.addEventListener("DOMContentLoaded", function () {
+//if (window.location.search.length > 0) {
+//window.history.replaceState(
+//{},
+//document.title,
+//window.location.pathname
+//);
+//}
+//});
+function resetFilters() {
+    let url = new URL(window.location.href);
+    url.search = ""; // hapus semua query string
+    window.location.href = url.toString();
+}

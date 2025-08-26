@@ -86,7 +86,7 @@ class DataDirisController extends Controller
     {
         $keyword = $request->input('query');
 
-        $results = DataDiris::with('riwayatKeluhan')
+        $results = DataDiris::with(['riwayatKeluhan', 'hasilKuesioner'])
             ->search($keyword)
             ->get();
 
@@ -107,11 +107,20 @@ class DataDirisController extends Controller
                 ->orWhere('asal_sekolah', 'like', "%$keyword%")
                 ->orWhere('status_tinggal', 'like', "%$keyword%")
                 ->orWhere('email', 'like', "%$keyword%");
-        })->orWhereHas('riwayatKeluhan', function ($q) use ($keyword) {
-            $q->where('keluhan', 'like', "%$keyword%")
-                ->orWhere('lama_keluhan', 'like', "%$keyword%")
-                ->orWhere('pernah_konsul', 'like', "%$keyword%")
-                ->orWhere('pernah_tes', 'like', "%$keyword%");
-        });
+        })
+            ->orWhereHas('riwayatKeluhans', function ($q) use ($keyword) {
+                $q->where('keluhan', 'like', "%$keyword%")
+                    ->orWhere('lama_keluhan', 'like', "%$keyword%")
+                    ->orWhere('pernah_konsul', 'like', "%$keyword%")
+                    ->orWhere('pernah_tes', 'like', "%$keyword%");
+            })
+            ->orWhereHas('hasilKuesioners', function ($q) use ($keyword) {
+                $q->where('nim', 'like', "%$keyword%")
+                    ->orWhere('total_skor', 'like', "%$keyword%")
+                    ->orWhereRaw('LOWER(kategori) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                    ->orWhere('created_at', 'like', "%$keyword%");
+            });
     }
+
+
 }

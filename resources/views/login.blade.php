@@ -65,13 +65,26 @@
     </div>
 </body>
 <script src="{{ asset('js/script-login.js') }}"></script>
-@if (session('expired'))
+@if (session('error'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         Swal.fire({
-            icon: 'warning',
-            title: 'Sesi Berakhir',
-            text: 'Maaf, sesi Anda telah berakhir. Silakan login kembali.',
-            confirmButtonColor: '#3085d6'
+            icon: 'error',
+            title: 'Login Gagal',
+            text: '{{ session('error') }}',
+            confirmButtonColor: '#344cbb'
+        });
+    </script>
+@endif
+
+@if (session('success'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: '{{ session('success') }}',
+            confirmButtonColor: '#344cbb'
         });
     </script>
 @endif

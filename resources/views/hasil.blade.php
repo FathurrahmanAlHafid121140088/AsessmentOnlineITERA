@@ -103,27 +103,27 @@
                             <i class="fas fa-info-circle" style="color: #3498db; margin-right: 6px;"></i> Keterangan
                         </div>
                         <span
-                            class="range-item range-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 75 ? 'active' : '' }}">
+                            class="range-very-poor {{ $hasil->total_skor >= 38 && $hasil->total_skor <= 75 ? 'active' : '' }}">
                             Perlu Dukungan Intensif
                         </span>
 
                         <span
-                            class="range-item range-poor {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : '' }}">
+                            class="range-poor {{ $hasil->total_skor >= 76 && $hasil->total_skor <= 113 ? 'active' : '' }}">
                             Perlu Dukungan
                         </span>
 
                         <span
-                            class=" range-item range-moderate {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : '' }}">
+                            class=" range-moderate {{ $hasil->total_skor >= 114 && $hasil->total_skor <= 151 ? 'active' : '' }}">
                             Cukup Sehat
                         </span>
 
                         <span
-                            class="range-item range-good {{ $hasil->total_skor >= 152 && $hasil->total_skor <= 189 ? 'active' : '' }}">
+                            class="range-good {{ $hasil->total_skor >= 152 && $hasil->total_skor <= 189 ? 'active' : '' }}">
                             Sehat
                         </span>
 
                         <span
-                            class="range-item range-excellent {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : '' }}">
+                            class="range-excellent {{ $hasil->total_skor >= 190 && $hasil->total_skor <= 226 ? 'active' : '' }}">
                             Sangat Sehat
                         </span>
                     </div>
@@ -605,20 +605,26 @@
                         </div>
                     </div>
                 @endif
-
             </div>
         </div>
+        <div class="alert-box-blue">
+            <i class="fas fa-info-circle alert-icon-blue"></i>
+            <span class="alert-text">
+                "Kalau hasil tes kamu Cukup Sehat sampai Perlu Dukungan Intensif, segera
+                hubungi Mental Health Care ITERA via WhatsApp untuk konseling lanjutan."
+            </span>
+        </div>
         <div class="tombol">
-            <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-                <a href="/home" class="btn-back">
-                    <i class="fa-solid fa-house"></i>
-                    Kembali ke Halaman Utama
-                </a>
-            </div>
             <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
                 <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
                     <i class="fa-brands fa-whatsapp"></i>
                     Konsultasi Lebih Lanjut
+                </a>
+            </div>
+            <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
+                <a href="/home" class="btn-back">
+                    <i class="fa-solid fa-house"></i>
+                    Kembali ke Halaman Utama
                 </a>
             </div>
         </div>

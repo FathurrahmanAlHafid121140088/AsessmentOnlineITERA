@@ -23,10 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // ===== Validasi Submit =====
     if (submitButton && quizForm) {
         submitButton.addEventListener("click", function (e) {
-            e.preventDefault();
+            e.preventDefault(); // cegah form langsung submit
             let unansweredQuestions = [];
             const allQuestions = document.querySelectorAll(".question");
 
+            // Loop cek semua pertanyaan
             allQuestions.forEach((question) => {
                 const number = question
                     .getAttribute("id")
@@ -34,15 +35,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 const selected = document.querySelector(
                     `input[name="question${number}"]:checked`
                 );
+
                 if (!selected) {
                     unansweredQuestions.push(number);
-                    question.classList.add("highlight-question");
+                    question.classList.add("highlight-question"); // tandai yang belum dijawab
                 } else {
                     question.classList.remove("highlight-question");
                 }
             });
 
             if (unansweredQuestions.length > 0) {
+                // Jika ada soal belum dijawab
                 Swal.fire({
                     title: "Oops!",
                     html: `Harap isi semua pertanyaan sebelum mengirim!<br><br><strong>Belum dijawab No:</strong> ${unansweredQuestions.join(
@@ -52,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     confirmButtonText: "OK",
                     timer: 4000,
                 }).then(() => {
+                    // Scroll ke pertanyaan pertama yang belum dijawab
                     const firstUnanswered = document.getElementById(
                         `question${unansweredQuestions[0]}`
                     );
@@ -63,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 });
             } else {
+                // Jika semua soal sudah dijawab, konfirmasi submit
                 Swal.fire({
                     title: "Yakin ingin mengirim?",
                     text: "Pastikan semua jawaban sudah benar!",
@@ -83,15 +88,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
 
                         setTimeout(() => {
-                            quizForm.submit();
-                        }, 2000); // ⏳ Tunggu agar ucapan muncul sebelum reload
+                            quizForm.submit(); // submit form setelah 2 detik
+                        }, 2000);
                     }
                 });
             }
         });
     }
 
-    // ===== Buat Indikator Soal =====
+    // ===== Buat Indikator Soal (sidebar nomor soal) =====
     const questionGrid = document.getElementById("question-grid");
     for (let i = 1; i <= totalQuestions; i++) {
         const box = document.createElement("button");
@@ -100,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         box.innerHTML = `<span>${i}</span><span class="status">❌</span>`;
         box.style.cursor = "pointer";
 
+        // Klik nomor -> scroll ke soal
         box.addEventListener("click", () => {
             const target = document.getElementById(`question${i}`);
             if (target) {
@@ -110,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         questionGrid.appendChild(box);
     }
 
-    // ===== Update status indikator soal =====
+    // ===== Update status indikator soal (✅ atau ❌) =====
     function updateStatus() {
         for (let i = 1; i <= totalQuestions; i++) {
             const answered = document.querySelector(
@@ -123,11 +129,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (btn && status) {
                 if (answered) {
-                    status.textContent = "✅";
+                    status.textContent = "✅"; // soal terjawab
                     status.style.color = "white";
                     btn.classList.add("answered");
                 } else {
-                    status.textContent = "❌";
+                    status.textContent = "❌"; // soal belum dijawab
                     status.style.color = "red";
                     btn.classList.remove("answered");
                 }
@@ -135,27 +141,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    updateStatus();
+    updateStatus(); // jalankan awal
     document.querySelectorAll("input[type='radio']").forEach((radio) => {
-        radio.addEventListener("change", updateStatus);
+        radio.addEventListener("change", updateStatus); // update setiap ganti jawaban
     });
 
     // ===== Sidebar toggle =====
     if (toggleButton && questionStatusContainer) {
         toggleButton.addEventListener("click", function () {
-            questionStatusContainer.classList.add("collapsed");
-            showSidebarButton.style.display = "block";
+            questionStatusContainer.classList.add("collapsed"); // sembunyikan sidebar
+            showSidebarButton.style.display = "block"; // tampilkan tombol show
         });
     }
 
     if (showSidebarButton && questionStatusContainer) {
         showSidebarButton.addEventListener("click", function () {
-            questionStatusContainer.classList.remove("collapsed");
+            questionStatusContainer.classList.remove("collapsed"); // tampilkan sidebar
             showSidebarButton.style.display = "none";
         });
     }
 
-    // ===== Klik luar sidebar untuk menyembunyikan =====
+    // ===== Klik luar sidebar untuk menutup sidebar =====
     document.addEventListener("click", function (event) {
         const isInsideSidebar = questionStatusContainer.contains(event.target);
         const isToggleButton = toggleButton?.contains(event.target);
@@ -172,16 +178,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+// ===== Tombol scroll ke atas & bawah =====
 document.addEventListener("DOMContentLoaded", function () {
     const btnUp = document.getElementById("scroll-up");
     const btnDown = document.getElementById("scroll-down");
 
-    // Scroll atas
+    // Scroll ke atas
     btnUp?.addEventListener("click", function () {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    // Scroll bawah
+    // Scroll ke bawah
     btnDown?.addEventListener("click", function () {
         window.scrollTo({
             top: document.body.scrollHeight,
@@ -189,20 +197,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Tampilkan tombol berdasarkan posisi scroll
+    // Tampilkan/sembunyikan tombol berdasarkan posisi scroll
     window.addEventListener("scroll", () => {
         const scrollY = window.scrollY;
         const windowHeight = window.innerHeight;
         const fullHeight = document.documentElement.scrollHeight;
 
-        // Tampilkan tombol atas jika sudah scroll > 200px
+        // Tombol atas muncul jika sudah scroll > 200px
         if (scrollY > 200) {
             btnUp?.classList.add("visible");
         } else {
             btnUp?.classList.remove("visible");
         }
 
-        // Tampilkan tombol bawah jika belum mencapai paling bawah
+        // Tombol bawah muncul jika belum di paling bawah
         if (scrollY + windowHeight < fullHeight - 100) {
             btnDown?.classList.add("visible");
         } else {

@@ -434,10 +434,10 @@ input[type="radio"].form-check-input:checked::before {
         height: calc(100vh - 100px);
     }
     .form-check-label {
-        font-size: 0.8rem;
+        font-size: 0.73rem;
     }
     .question-text p {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     .quiz-title {
         font-size: 1.1rem;

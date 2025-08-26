@@ -11,25 +11,27 @@ class AdminAuthController extends Controller
     public function showLoginForm()
     {
         session(['title' => 'Login']);
-        return view('login'); // atau sesuaikan dengan nama view login kamu
+        return view('login'); // sesuaikan nama file view login
     }
-
 
     public function login(Request $request)
     {
+        // validasi input
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
+        // cek login dengan guard admin
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('/admin');
+            return redirect()->intended('/admin'); // arahkan ke dashboard admin
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->withInput()->with(['title' => 'Login']);
+        // kalau gagal login
+        return redirect()->back()
+            ->withInput($request->only('email')) // biar email tetap keisi
+            ->with('error', 'Email atau password salah!');
     }
 
     public function logout(Request $request)
@@ -37,6 +39,6 @@ class AdminAuthController extends Controller
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Anda berhasil logout.');
     }
 }

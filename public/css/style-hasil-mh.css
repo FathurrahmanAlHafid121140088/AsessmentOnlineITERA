@@ -509,7 +509,6 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; /* opsional: memberi ruang di dalam container */
 }
 
 .whatsapp-btn {
@@ -1189,8 +1188,6 @@ h3 {
 .action-buttons {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 20px;
 }
 
 .btn-back {
@@ -1845,6 +1842,25 @@ h3 {
     font-size: 1.2rem;
     color: #856404;
 }
+.alert-box-blue {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #eaf0ff; /* biru sangat muda */
+    color: #0d3c61; /* biru tua untuk teks */
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin: 15px 0;
+    border: 1px solid #b8d4f8; /* biru lembut untuk border */
+}
+
+.alert-icon-blue {
+    font-size: 1.2rem;
+    color: #344cbb; /* biru dasar lebih terang untuk ikon */
+}
+
 @media (max-width: 768px) {
     .alert-box {
         align-items: center;
@@ -1861,5 +1877,26 @@ h3 {
     }
     .student-info h2 {
         font-size: 1.3rem;
+    }
+}
+/* 📱 Responsive untuk layar kecil (≤480px) */
+@media (max-width: 480px) {
+    .header .title {
+        font-size: 1.5rem; /* lebih kecil agar muat */
+        margin-bottom: 1rem;
+    }
+
+    .header .subtitle {
+        font-size: 0.875rem; /* lebih kecil */
+        line-height: 1.4;
+        margin: 0.5rem;
+    }
+}
+@media (max-width: 480px) {
+    .alert-text {
+        font-size: 0.7rem; /* perkecil teks */
+    }
+    .alert-icon {
+        font-size: 1rem; /* ikut diperkecil agar proporsional */
     }
 }

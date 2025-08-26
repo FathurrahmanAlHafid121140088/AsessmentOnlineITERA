@@ -24,6 +24,8 @@ class HasilKuesionerCombinedController extends Controller
             ->select(DB::raw('MAX(id) as id'))
             ->groupBy('nim');
 
+        $kategori = $request->input('kategori');
+
         $hasilKuesioners = HasilKuesioner::select('hasil_kuesioners.*')
             ->joinSub($latestIds, 'latest', function ($join) {
                 $join->on('hasil_kuesioners.id', '=', 'latest.id');
@@ -44,6 +46,9 @@ class HasilKuesionerCombinedController extends Controller
                                 ->orWhere('status_tinggal', 'like', "%$search%");
                         });
                 });
+            })
+            ->when($kategori, function ($q) use ($kategori) {
+                $q->where('kategori', $kategori);
             })
             ->orderBy($sort == 'nama' ? 'created_at' : $sort, $order)
             ->paginate($limit)

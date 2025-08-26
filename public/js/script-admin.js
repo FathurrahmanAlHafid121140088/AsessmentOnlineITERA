@@ -1,8 +1,11 @@
-// Create floating particles
+// ==============================
+// FLOATING PARTICLES
+// ==============================
 function createParticles() {
     const particlesContainer = document.getElementById("particles");
-    const particleCount = 50;
+    if (!particlesContainer) return;
 
+    const particleCount = 50;
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement("div");
         particle.className = "particle";
@@ -13,9 +16,10 @@ function createParticles() {
     }
 }
 
-// Animate counters with easing
-function animateCounter(elementId, targetValue, duration = 2500) {
-    const element = document.getElementById(elementId);
+// ==============================
+// COUNTER WITH EASING
+// ==============================
+function animateCounter(element, targetValue, duration = 2500) {
     const startValue = 0;
     const startTime = performance.now();
 
@@ -23,6 +27,7 @@ function animateCounter(elementId, targetValue, duration = 2500) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
 
+        // easing (easeOutQuart)
         const easeOutQuart = 1 - Math.pow(1 - progress, 4);
         const currentValue = Math.floor(
             startValue + (targetValue - startValue) * easeOutQuart
@@ -38,16 +43,22 @@ function animateCounter(elementId, targetValue, duration = 2500) {
     requestAnimationFrame(updateCounter);
 }
 
-// Enhanced card click handler
+// ==============================
+// CARD CLICK HANDLER
+// ==============================
 function handleCardClick(cardType) {
     const card = document.querySelector(`.${cardType}`);
+    if (!card) return;
+
     const button = card.querySelector(".card-button");
+    if (!button) return;
 
     button.style.transform = "scale(0.95)";
 
     setTimeout(() => {
         button.style.transform = "translateY(-5px) scale(1.03)";
 
+        // flash effect
         const flash = document.createElement("div");
         flash.style.cssText = `
             position: fixed;
@@ -71,6 +82,7 @@ function handleCardClick(cardType) {
             }, 100);
         }, 50);
 
+        // redirect
         setTimeout(() => {
             if (cardType === "mental-health") {
                 alert("🧠 Mengalihkan ke Dashboard Admin Mental Health...");
@@ -83,46 +95,55 @@ function handleCardClick(cardType) {
     }, 150);
 }
 
-// Hover glow
-document.querySelectorAll(".admin-card").forEach((card) => {
-    card.addEventListener("mouseenter", () => {
-        const icon = card.querySelector(".card-icon");
-        icon.style.animation = "none";
-        void icon.offsetWidth; // reset
-        icon.style.animation = "pulse-glow 1s infinite";
+// ==============================
+// HOVER GLOW ICON
+// ==============================
+function setupHoverGlow() {
+    document.querySelectorAll(".admin-card").forEach((card) => {
+        card.addEventListener("mouseenter", () => {
+            const icon = card.querySelector(".card-icon");
+            if (!icon) return;
+            icon.style.animation = "none";
+            void icon.offsetWidth; // reset
+            icon.style.animation = "pulse-glow 1s infinite";
+        });
+        card.addEventListener("mouseleave", () => {
+            const icon = card.querySelector(".card-icon");
+            if (!icon) return;
+            icon.style.animation = "none";
+        });
     });
-    card.addEventListener("mouseleave", () => {
-        const icon = card.querySelector(".card-icon");
-        icon.style.animation = "none";
-    });
-});
+}
 
-// Parallax scroll
-window.addEventListener("scroll", () => {
-    const scrolled = window.pageYOffset;
-    document.querySelectorAll(".orb").forEach((orb, index) => {
-        const speed = (index + 1) * 0.05;
-        orb.style.transform = `translateY(${scrolled * speed}px)`;
+// ==============================
+// PARALLAX SCROLL
+// ==============================
+function setupParallax() {
+    window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        document.querySelectorAll(".orb").forEach((orb, index) => {
+            const speed = (index + 1) * 0.05;
+            orb.style.transform = `translateY(${scrolled * speed}px)`;
+        });
     });
-});
+}
+
+// ==============================
+// INIT
+// ==============================
 document.addEventListener("DOMContentLoaded", () => {
-    const counters = document.querySelectorAll(".stat-number");
+    // particles
+    createParticles();
 
-    counters.forEach((counter) => {
+    // counters
+    document.querySelectorAll(".stat-number").forEach((counter) => {
         const target = +counter.dataset.target;
-        const duration = 3000; // durasi 3 detik
-        const step = Math.ceil(target / (duration / 20));
-        let count = 0;
-
-        function updateCounter() {
-            count += step;
-            if (count < target) {
-                counter.innerText = count;
-                setTimeout(updateCounter, 20);
-            } else {
-                counter.innerText = target;
-            }
-        }
-        updateCounter();
+        animateCounter(counter, target, 3000);
     });
+
+    // hover glow
+    setupHoverGlow();
+
+    // parallax
+    setupParallax();
 });
