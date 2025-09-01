@@ -24,8 +24,9 @@ class HasilKuesionerSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // ✅ Daftar fakultas & prodi
+// ✅ Daftar fakultas & prodi
         $fakultasList = [
-            'Fakultas Sains' => [
+            'FS' => [
                 'Fisika',
                 'Matematika',
                 'Biologi',
@@ -37,7 +38,7 @@ class HasilKuesionerSeeder extends Seeder
                 'Sains Atmosfer dan Keplanetan',
                 'Magister Fisika',
             ],
-            'Fakultas Teknologi Infrastruktur dan Kewilayahan' => [
+            'FTIK' => [
                 'Perencanaan Wilayah dan Kota',
                 'Teknik Geomatika',
                 'Teknik Sipil',
@@ -50,7 +51,7 @@ class HasilKuesionerSeeder extends Seeder
                 'Rekayasa Tata Kelola Air Terpadu',
                 'Pariwisata',
             ],
-            'Fakultas Teknologi Industri' => [
+            'FTI' => [
                 'Teknik Elektro',
                 'Teknik Fisika',
                 'Teknik Informatika',
@@ -74,7 +75,6 @@ class HasilKuesionerSeeder extends Seeder
                 'Rekayasa Keolahragaan',
             ],
         ];
-
         // ✅ Daftar provinsi (38 provinsi sesuai BPS)
         $provinsiList = [
             'Aceh',

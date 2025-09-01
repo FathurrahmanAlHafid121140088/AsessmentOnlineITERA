@@ -146,24 +146,23 @@
                         </label>
                         <div>
                             <label class="formbold-radio-label">
-                                <input type="radio" name="fakultas" value="Fakultas Sains"
-                                    class="formbold-input-radio" required onchange="updateProdi()"> FS
+                                <input type="radio" name="fakultas" value="FS" class="formbold-input-radio"
+                                    required onchange="updateProdi()"> FS
                             </label>
                         </div>
 
                         <div>
                             <label class="formbold-radio-label">
-                                <input type="radio" name="fakultas"
-                                    value="Fakultas Teknologi Infrastruktur dan Kewilayahan"
-                                    class="formbold-input-radio" required onchange="updateProdi()">
+                                <input type="radio" name="fakultas" value="FTIK" class="formbold-input-radio"
+                                    required onchange="updateProdi()">
                                 FTIK
                             </label>
                         </div>
 
                         <div>
                             <label class="formbold-radio-label">
-                                <input type="radio" name="fakultas" value="Fakultas Teknologi Industri"
-                                    class="formbold-input-radio" required onchange="updateProdi()"> FTI
+                                <input type="radio" name="fakultas" value="FTI" class="formbold-input-radio"
+                                    required onchange="updateProdi()"> FTI
                             </label>
                         </div>
                     </div>

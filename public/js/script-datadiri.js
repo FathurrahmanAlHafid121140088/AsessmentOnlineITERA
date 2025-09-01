@@ -87,7 +87,7 @@ document
 
 // Data: daftar fakultas dan program studi terkait
 const prodiOptions = {
-    "Fakultas Sains": [
+    FS: [
         "Fisika",
         "Matematika",
         "Biologi",
@@ -99,7 +99,7 @@ const prodiOptions = {
         "Sains Atmosfer dan Keplanetan",
         "Magister Fisika",
     ],
-    "Fakultas Teknologi Infrastruktur dan Kewilayahan": [
+    FTIK: [
         "Perencanaan Wilayah dan Kota",
         "Teknik Geomatika",
         "Teknik Sipil",
@@ -112,7 +112,7 @@ const prodiOptions = {
         "Rekayasa Tata Kelola Air Terpadu",
         "Pariwisata",
     ],
-    "Fakultas Teknologi Industri": [
+    FTI: [
         "Teknik Elektro",
         "Teknik Fisika",
         "Teknik Informatika",

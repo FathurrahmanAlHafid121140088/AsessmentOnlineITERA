@@ -6,122 +6,146 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\HasilKuesioner;
 use App\Models\DataDiris;
+use Illuminate\Database\Eloquent\Builder;
 
 class HasilKuesionerCombinedController extends Controller
 {
     /**
-     * Dashboard + pagination + search
+     * Fungsi utama untuk menampilkan dashboard admin (VERSI OPTIMAL)
+     * - Semua logika dikembalikan ke dalam satu fungsi index tanpa mengubah nama fungsi.
+     * - Tetap mempertahankan performa tinggi dengan jumlah query minimal.
      */
     public function index(Request $request)
     {
+        // 1. Ambil parameter dari request
         $limit = $request->input('limit', 10);
         $search = $request->input('search');
         $sort = $request->input('sort', 'created_at');
         $order = $request->input('order', 'desc');
+        $kategori = $request->input('kategori');
 
-        // Subquery: ambil ID hasil terakhir tiap NIM
+        // 2. Subquery untuk mendapatkan ID hasil kuesioner terakhir per mahasiswa (Dibuat sekali, dipakai ulang)
         $latestIds = DB::table('hasil_kuesioners')
             ->select(DB::raw('MAX(id) as id'))
             ->groupBy('nim');
 
-        $kategori = $request->input('kategori');
+        // 3. Query Utama (Digabung dengan data_diris untuk sorting & search)
+        $query = HasilKuesioner::query()
+            ->joinSub($latestIds, 'latest', 'hasil_kuesioners.id', '=', 'latest.id')
+            ->join('data_diris', 'hasil_kuesioners.nim', '=', 'data_diris.nim')
+            ->select('hasil_kuesioners.*', 'data_diris.nama as nama_mahasiswa');
 
-        $hasilKuesioners = HasilKuesioner::select('hasil_kuesioners.*')
-            ->joinSub($latestIds, 'latest', function ($join) {
-                $join->on('hasil_kuesioners.id', '=', 'latest.id');
-            })
-            ->with(['dataDiri'])
-            ->when($search, function ($q) use ($search) {
-                $q->where(function ($q2) use ($search) {
-                    $q2->where('nim', 'like', "%$search%")
-                        ->orWhereHas('dataDiri', function ($q3) use ($search) {
-                            $q3->where('nama', 'like', "%$search%")
-                                ->orWhere('program_studi', 'like', "%$search%")
-                                ->orWhere('email', 'like', "%$search%")
-                                ->orWhere('alamat', 'like', "%$search%")
-                                ->orWhere('jenis_kelamin', 'like', "%$search%")
-                                ->orWhere('fakultas', 'like', "%$search%")
-                                ->orWhere('provinsi', 'like', "%$search%")
-                                ->orWhere('asal_sekolah', 'like', "%$search%")
-                                ->orWhere('status_tinggal', 'like', "%$search%");
-                        });
-                });
-            })
+        // 4. Terapkan Filter & Pencarian secara langsung
+        $query
             ->when($kategori, function ($q) use ($kategori) {
-                $q->where('kategori', $kategori);
+                $q->where('hasil_kuesioners.kategori', $kategori);
             })
-            ->orderBy($sort == 'nama' ? 'created_at' : $sort, $order)
-            ->paginate($limit)
-            ->withQueryString();
+            ->when($search, function ($q) use ($search) {
+                $terms = array_filter(preg_split('/\s+/', trim($search)));
+                $q->where(function (Builder $query) use ($terms) {
+                    foreach ($terms as $term) {
+                        // Setiap term harus ditemukan, jadi kita gunakan `where` untuk membuat klausa AND
+                        $query->where(function (Builder $subQuery) use ($term) {
+                            // Sebuah term bisa cocok di salah satu kolom ini, jadi kita gunakan `orWhere`
+                            $subQuery->orWhere('hasil_kuesioners.nim', 'like', "%$term%")
+                                ->orWhere('data_diris.nama', 'like', "%$term%")
+                                ->orWhere('data_diris.email', 'like', "%$term%")
+                                ->orWhere('data_diris.alamat', 'like', "%$term%")
+                                ->orWhere('data_diris.asal_sekolah', 'like', "%$term%")
+                                ->orWhere('data_diris.status_tinggal', 'like', "%$term%");
 
-        if ($sort == 'nama') {
-            $hasilKuesioners = $hasilKuesioners->getCollection()
-                ->sortBy(function ($item) {
-                    return $item->dataDiri->nama ?? '';
-                }, SORT_REGULAR, $order === 'desc')
-                ->values();
+                            // Logika pencarian khusus untuk fakultas (exact match)
+                            if (in_array(strtolower($term), ['fs', 'fti', 'ftik'])) {
+                                $subQuery->orWhere('data_diris.fakultas', strtoupper($term));
+                            } else {
+                                $subQuery->orWhere('data_diris.fakultas', 'like', "%$term%");
+                            }
 
-            $hasilKuesioners = new \Illuminate\Pagination\LengthAwarePaginator(
-                $hasilKuesioners,
-                $hasilKuesioners->count(),
-                $limit,
-                $request->input('page', 1),
-                ['path' => $request->url(), 'query' => $request->query()]
-            );
-        }
+                            // Logika pencarian khusus untuk provinsi (exact match)
+                            if (in_array(strtolower($term), ['papua'])) {
+                                $subQuery->orWhere('data_diris.provinsi', strtoupper($term));
+                            } else {
+                                $subQuery->orWhere('data_diris.provinsi', 'like', "%$term%");
+                            }
 
-        // Data chart dan statistik
-        $kategoriCounts = HasilKuesioner::selectRaw('kategori, COUNT(*) as jumlah')
+                            // Logika pencarian khusus untuk program studi (exact match)
+                            if (in_array(strtolower($term), ['fisika', 'arsitektur', 'kimia'])) {
+                                $subQuery->orWhere('data_diris.program_studi', $term);
+                            } else {
+                                $subQuery->orWhere('data_diris.program_studi', 'like', "%$term%");
+                            }
+
+                            // Logika pencarian khusus untuk jenis kelamin (exact match)
+                            if (in_array(strtolower($term), ['l', 'p'])) {
+                                $subQuery->orWhere('data_diris.jenis_kelamin', strtoupper($term));
+                            }
+                        });
+                    }
+                });
+            });
+
+        // 5. Terapkan Sorting (semua di level DB)
+        $sortColumn = match ($sort) {
+            'nama' => 'data_diris.nama',
+            default => 'hasil_kuesioners.' . $sort,
+        };
+        $query->orderBy($sortColumn, $order);
+
+        // 6. Ambil data dengan Pagination (Hanya 1 query utama untuk data tabel)
+        $hasilKuesioners = $query->paginate($limit)->withQueryString();
+
+        // 7. Ambil semua statistik global dengan query seminimal mungkin
+        // Ambil NIM unik dari mahasiswa yang pernah mengisi (1 query)
+        $nimDenganHasil = HasilKuesioner::distinct()->pluck('nim');
+
+        // Ambil statistik gender dan asal sekolah dalam SATU query
+        $userStats = DataDiris::whereIn('nim', $nimDenganHasil)
+            ->selectRaw("
+                COUNT(CASE WHEN jenis_kelamin = 'L' THEN 1 END) as total_laki,
+                COUNT(CASE WHEN jenis_kelamin = 'P' THEN 1 END) as total_perempuan,
+                COUNT(CASE WHEN asal_sekolah = 'SMA' THEN 1 END) as total_sma,
+                COUNT(CASE WHEN asal_sekolah = 'SMK' THEN 1 END) as total_smk,
+                COUNT(CASE WHEN asal_sekolah = 'Boarding School' THEN 1 END) as total_boarding
+            ")->first();
+
+        // OPTIMASI: Gunakan ulang query builder $latestIds, tidak perlu query baru
+        $kategoriCounts = HasilKuesioner::whereIn('id', $latestIds)
+            ->selectRaw('kategori, COUNT(*) as jumlah')
             ->groupBy('kategori')
             ->pluck('jumlah', 'kategori')
-            ->toArray();
+            ->all(); // FIX: Convert Collection to Array
 
-        $totalUsers = HasilKuesioner::distinct('nim')->count('nim');
+        $totalUsers = $nimDenganHasil->count();
         $totalTes = HasilKuesioner::count();
-
-        $nimDenganHasil = HasilKuesioner::distinct('nim')->pluck('nim');
-
-        $totalLaki = DataDiris::whereIn('nim', $nimDenganHasil)
-            ->where('jenis_kelamin', 'L')
-            ->count();
-
-        $totalPerempuan = DataDiris::whereIn('nim', $nimDenganHasil)
-            ->where('jenis_kelamin', 'P')
-            ->count();
-
-        // ====== Donut: Asal Sekolah ======
+        $totalLaki = $userStats->total_laki ?? 0;
+        $totalPerempuan = $userStats->total_perempuan ?? 0;
         $asalCounts = [
-            'SMA' => DataDiris::where('asal_sekolah', 'SMA')->count(),
-            'SMK' => DataDiris::where('asal_sekolah', 'SMK')->count(),
-            'Boarding School' => DataDiris::where('asal_sekolah', 'Boarding School')->count(),
+            'SMA' => $userStats->total_sma ?? 0,
+            'SMK' => $userStats->total_smk ?? 0,
+            'Boarding School' => $userStats->total_boarding ?? 0,
         ];
-        $totalAsal = array_sum($asalCounts);
-        $pct = function ($n) use ($totalAsal) {
-            return $totalAsal > 0 ? round(($n / $totalAsal) * 100, 1) : 0;
-        };
 
+        // 8. Siapkan data untuk Donut Chart
+        $totalAsal = array_sum($asalCounts);
         $r = 60;
         $circ = 2 * M_PI * $r;
         $segments = [];
         $offset = 0;
+        $pct = fn($n) => $totalAsal > 0 ? round(($n / $totalAsal) * 100, 1) : 0;
+
         foreach ($asalCounts as $label => $val) {
             $p = $totalAsal > 0 ? $val / $totalAsal : 0;
             $dash = $circ * $p;
-            $segments[] = [
-                'label' => $label,
-                'value' => $val,
-                'percent' => $pct($val),
-                'dash' => $dash,
-                'offset' => $offset,
-            ];
+            $segments[] = ['label' => $label, 'value' => $val, 'percent' => $pct($val), 'dash' => $dash, 'offset' => $offset];
             $offset += $dash;
         }
 
+        // 9. Kirim data ke view
         return view('admin-home', [
             'title' => 'Dashboard Mental Health',
             'hasilKuesioners' => $hasilKuesioners,
-            'kategoriCounts' => $kategoriCounts,
             'limit' => $limit,
+            'kategoriCounts' => $kategoriCounts,
             'totalUsers' => $totalUsers,
             'totalTes' => $totalTes,
             'totalLaki' => $totalLaki,
@@ -130,15 +154,15 @@ class HasilKuesionerCombinedController extends Controller
             'totalAsal' => $totalAsal,
             'segments' => $segments,
             'radius' => $r,
-            'circumference' => $circ
+            'circumference' => $circ,
         ] + $this->getStatistikFakultas());
     }
+
     /**
-     * Statistik fakultas
+     * Ambil statistik mahasiswa per fakultas (Sudah cukup efisien)
      */
     private function getStatistikFakultas()
     {
-        // ambil hanya mahasiswa yang punya hasil kuesioner
         $fakultasCount = DataDiris::select('data_diris.fakultas', DB::raw('COUNT(DISTINCT data_diris.nim) as total'))
             ->join('hasil_kuesioners', 'data_diris.nim', '=', 'hasil_kuesioners.nim')
             ->whereNotNull('data_diris.fakultas')
@@ -146,42 +170,40 @@ class HasilKuesionerCombinedController extends Controller
             ->pluck('total', 'data_diris.fakultas');
 
         $totalFakultas = $fakultasCount->sum();
-
-        $fakultasPersen = $fakultasCount->map(function ($count) use ($totalFakultas) {
-            return $totalFakultas > 0 ? round(($count / $totalFakultas) * 100, 1) : 0;
-        });
-
-        $warnaFakultas = [
-            'Fakultas Sains' => '#4e79a7',
-            'Fakultas Teknologi Industri' => '#f28e2c',
-            'Fakultas Teknologi Infrastruktur dan Kewilayahan' => '#e15759',
-        ];
+        $fakultasPersen = $fakultasCount->map(fn($count) => $totalFakultas > 0 ? round(($count / $totalFakultas) * 100, 1) : 0);
 
         return [
-            'fakultasCount' => $fakultasCount,
-            'fakultasPersen' => $fakultasPersen,
-            'warnaFakultas' => $warnaFakultas,
+            'fakultasCount' => $fakultasCount->all(), // FIX: Convert Collection to Array
+            'fakultasPersen' => $fakultasPersen->all(), // FIX: Convert Collection to Array
+            'warnaFakultas' => ['FS' => '#4e79a7', 'FTI' => '#f28e2c', 'FTIK' => '#e15759'],
         ];
     }
 
+    /**
+     * Hapus data hasil kuesioner berdasarkan ID (Sudah efisien)
+     */
     public function destroy($id)
     {
         $hasil = HasilKuesioner::find($id);
-
         if (!$hasil) {
             return redirect()->route('admin.home')->with('error', 'Data tidak ditemukan.');
         }
-
         $hasil->delete();
-
         return redirect()->route('admin.home')->with('success', 'Data berhasil dihapus.');
     }
+
+    /**
+     * OPTIMASI: Tampilkan persentase mahasiswa yang tinggal di kost (2 query menjadi 1)
+     */
     public function showGauge()
     {
-        $totalTinggal = DataDiris::count();
-        $kostCount = DataDiris::where('status_tinggal', 'Kost')->count();
-        $kostPercent = $totalTinggal ? round(($kostCount / $totalTinggal) * 100, 2) : 0;
+        $stats = DataDiris::selectRaw("
+            COUNT(*) as total,
+            COUNT(CASE WHEN status_tinggal = 'Kost' THEN 1 END) as kost_count
+        ")->first();
 
+        $kostPercent = $stats->total ? round(($stats->kost_count / $stats->total) * 100, 2) : 0;
         return view('admin-home', compact('kostPercent'));
     }
 }
+

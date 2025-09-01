@@ -237,22 +237,14 @@
                                     @php
                                         $color = $warnaFakultas[$fakultas] ?? '#999';
                                         $count = $fakultasCount[$fakultas] ?? 0;
-
-                                        $singkatan = match ($fakultas) {
-                                            'Fakultas Sains' => 'FS',
-                                            'Fakultas Teknologi Industri' => 'FTI',
-                                            'Fakultas Teknologi Infrastruktur dan Kewilayahan' => 'FTIK',
-                                            default => 'Lainnya',
-                                        };
                                     @endphp
                                     <li>
                                         <span class="dot" style="background: {{ $color }}"></span>
-                                        <span class="label">{{ $singkatan }}</span>
+                                        <span class="label">{{ $fakultas }}</span> {{-- Tampilkan langsung kunci singkatan --}}
                                         <span class="count">
                                             {{ $count }} Mahasiswa
                                             ({{ number_format($persen, 1) }}%)
                                         </span>
-
                                     </li>
                                 @endforeach
                                 @endif
@@ -583,9 +575,11 @@
                                 'Sumatera Utara',
                                 'Sumatera Barat',
                                 'Riau',
+                                'Kepulauan Riau',
                                 'Jambi',
-                                'Sumatera Selatan',
                                 'Bengkulu',
+                                'Kepulauan Bangka Belitung',
+                                'Sumatera Selatan',
                                 'Lampung',
                                 'Banten',
                                 'DKI Jakarta',
@@ -594,7 +588,7 @@
                                 'DI Yogyakarta',
                                 'Jawa Timur',
                                 'Bali',
-                                'Nusa Tenggara Barat ',
+                                'Nusa Tenggara Barat',
                                 'Nusa Tenggara Timur',
                                 'Kalimantan Barat',
                                 'Kalimantan Tengah',
@@ -611,6 +605,7 @@
                                 'Maluku Utara',
                                 'Papua',
                                 'Papua Barat',
+                                'Papua Selatan',
                                 'Papua Tengah',
                                 'Papua Pegunungan',
                                 'Papua Barat Daya',
@@ -654,26 +649,33 @@
                     <div class="table-controls">
                         <div class="left-controls">
                             {{-- Form Limit --}}
+                            {{-- Form Limit --}}
                             <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
-                                <div class="limit-wrapper">
-                                    <label for="limit">Tampilkan:</label>
-                                    <div class="limit-controls">
-                                        <select name="limit" id="limit" onchange="this.form.submit()">
-                                            @foreach ([10, 25, 50] as $l)
-                                                <option value="{{ $l }}"
-                                                    {{ request('limit') == $l ? 'selected' : '' }}>
-                                                    {{ $l }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <button type="button" class="reset-button" onclick="resetFilters()"
-                                            title="Reset Filter">
-                                            <i class="fas fa-sync-alt"></i>
-                                        </button>
-                                    </div>
+                                <label for="limit" class="limit-label">Tampilkan:</label>
+
+                                <div class="limit-actions">
+                                    <select name="limit" id="limit" onchange="this.form.submit()">
+                                        @foreach ([10, 25, 50] as $l)
+                                            <option value="{{ $l }}"
+                                                {{ request('limit') == $l ? 'selected' : '' }}>
+                                                {{ $l }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    <button type="button" class="reset-button" onclick="resetFilters()"
+                                        title="Reset Filter">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
                                 </div>
+
+                                {{-- Bawa parameter lain supaya tidak ter-reset --}}
                                 <input type="hidden" name="search" value="{{ request('search') }}">
+                                <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                                <input type="hidden" name="sort" value="{{ request('sort', 'created_at') }}">
+                                <input type="hidden" name="order" value="{{ request('order', 'desc') }}">
                             </form>
+
 
                             {{-- Form Kategori --}}
                             <form method="GET" action="{{ route('admin.home') }}" class="category-form">
@@ -705,10 +707,18 @@
                         {{-- Search Box --}}
                         <div class="right-controls">
                             <form action="{{ route('admin.home') }}" method="GET" class="search-form">
-                                <input type="text" name="search" placeholder="Cari Data..."
+                                <input type="text" name="search" placeholder="Cari data..."
                                     value="{{ request('search') }}">
+
+                                {{-- Simpan filter lain --}}
                                 <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
-                                <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+                                <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                                <input type="hidden" name="sort" value="{{ request('sort', 'created_at') }}">
+                                <input type="hidden" name="order" value="{{ request('order', 'desc') }}">
+
+                                <button type="submit" class="search-button">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -744,6 +754,7 @@
                                         @endif
                                     </a>
                                 </th>
+                                <th>Fakultas</th>
                                 <th>Program Studi</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Usia</th>
@@ -775,6 +786,7 @@
                                     <td>{{ $loop->iteration + ($hasilKuesioners->firstItem() - 1) }}</td>
                                     <td>{{ $hasil->nim }}</td>
                                     <td>{{ $hasil->dataDiri->nama ?? 'Tidak Ada Data' }}</td>
+                                    <td>{{ $hasil->dataDiri->fakultas ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->dataDiri->program_studi ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->dataDiri->jenis_kelamin ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->usia ?? '-' }}</td>

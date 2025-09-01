@@ -445,17 +445,29 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-//document.addEventListener("DOMContentLoaded", function () {
-//if (window.location.search.length > 0) {
-//window.history.replaceState(
-//{},
-//document.title,
-//window.location.pathname
-//);
-//}
-//});
+
 function resetFilters() {
     let url = new URL(window.location.href);
     url.search = ""; // hapus semua query string
     window.location.href = url.toString();
 }
+// Menjalankan skrip setelah seluruh konten halaman dimuat
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. Ambil parameter URL saat ini
+    const currentParams = new URLSearchParams(window.location.search);
+
+    // 2. Cek apakah parameter 'limit' ada di URL
+    if (currentParams.has("limit")) {
+        // 3. Hapus parameter 'limit' dari objek parameter
+        currentParams.delete("limit");
+
+        // 4. Buat URL baru tanpa parameter 'limit'
+        // window.location.pathname adalah bagian URL setelah domain (cth: /admin/mental-health)
+        const newPath =
+            window.location.pathname + "?" + currentParams.toString();
+
+        // 5. Ganti URL di address bar tanpa me-reload halaman
+        // Argumen pertama adalah state object (bisa null), kedua adalah title (kosongkan), ketiga adalah URL baru
+        window.history.replaceState(null, "", newPath);
+    }
+});

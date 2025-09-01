@@ -17,13 +17,13 @@ class DataDiriSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $fakultasList = [
-            'Fakultas Sains',
-            'Fakultas Teknologi Industri',
-            'Fakultas Teknologi Infrastruktur dan Kewilayahan',
+            'FS',
+            'FTI',
+            'FTIK',
         ];
 
         $prodiByFakultas = [
-            'Fakultas Sains' => [
+            'FS' => [
                 'Fisika',
                 'Matematika',
                 'Biologi',
@@ -35,7 +35,7 @@ class DataDiriSeeder extends Seeder
                 'Sains Atmosfer dan Keplanetan',
                 'Magister Fisika',
             ],
-            'Fakultas Teknologi Infrastruktur dan Kewilayahan' => [
+            'FTIK' => [
                 'Perencanaan Wilayah dan Kota',
                 'Teknik Geomatika',
                 'Teknik Sipil',
@@ -48,7 +48,7 @@ class DataDiriSeeder extends Seeder
                 'Rekayasa Tata Kelola Air Terpadu',
                 'Pariwisata',
             ],
-            'Fakultas Teknologi Industri' => [
+            'FTI' => [
                 'Teknik Elektro',
                 'Teknik Fisika',
                 'Teknik Informatika',

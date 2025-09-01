@@ -9,6 +9,14 @@ use App\Models\RiwayatKeluhans;
 
 class DataDirisController extends Controller
 {
+    /**
+     * Menampilkan halaman form untuk mengisi data diri mahasiswa.
+     *
+     * Fungsi ini hanya bertugas untuk mengembalikan view 'isi-data-diri'
+     * beserta judul halaman yang akan ditampilkan di tab browser.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('isi-data-diri', [
@@ -16,32 +24,54 @@ class DataDirisController extends Controller
         ]);
     }
 
+    /**
+     * Menyimpan data diri dan riwayat keluhan yang di-submit dari form.
+     *
+     * Fungsi ini melakukan beberapa hal:
+     * 1. Validasi semua input yang masuk.
+     * 2. Menggunakan Transaction untuk memastikan kedua data (data diri & riwayat) berhasil disimpan.
+     * 3. Mencari atau membuat data diri baru berdasarkan NIM untuk menghindari duplikasi.
+     * 4. Membuat entri baru untuk riwayat keluhan.
+     * 5. Menyimpan informasi penting ke session untuk digunakan di halaman selanjutnya.
+     * 6. Mengarahkan pengguna ke halaman kuesioner jika berhasil.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
+        // 1. Validasi input dari form. Jika gagal, Laravel akan otomatis redirect kembali
+        // dengan pesan error.
         $validated = $request->validate([
-            'nim' => 'required|string',
-            'nama' => 'required|string',
+            'nim' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:L,P',
-            'provinsi' => 'required|string',
+            'provinsi' => 'required|string|max:255',
             'alamat' => 'required|string',
             'usia' => 'required|integer|min:1',
-            'fakultas' => 'required|string',
-            'program_studi' => 'required|string',
-            'asal_sekolah' => 'required|string',
-            'status_tinggal' => 'required|string',
-            'email' => 'required|email',
+            'fakultas' => 'required|string|max:255',
+            'program_studi' => 'required|string|max:255',
+            'asal_sekolah' => 'required|string|max:255',
+            'status_tinggal' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
             'keluhan' => 'required|string',
-            'lama_keluhan' => 'required|string',
+            'lama_keluhan' => 'required|string|max:255',
             'pernah_konsul' => 'required|in:Ya,Tidak',
             'pernah_tes' => 'required|in:Ya,Tidak',
         ]);
 
+        // 2. Memulai Transaction. Ini penting untuk menjaga integritas data.
+        // Jika salah satu proses (misal: simpan riwayat) gagal, maka proses simpan data diri
+        // juga akan dibatalkan.
         DB::beginTransaction();
 
         try {
+            // 3. Menggunakan firstOrCreate untuk efisiensi.
+            // - Jika mahasiswa dengan NIM ini sudah ada, data dirinya akan diambil.
+            // - Jika belum ada, data diri baru akan dibuat dengan data yang disediakan.
             $dataDiri = DataDiris::firstOrCreate(
-                ['nim' => $validated['nim']],
-                [
+                ['nim' => $validated['nim']], // Kunci untuk mencari
+                [ // Data yang akan diisi jika data baru dibuat
                     'nama' => $validated['nama'],
                     'jenis_kelamin' => $validated['jenis_kelamin'],
                     'provinsi' => $validated['provinsi'],
@@ -55,6 +85,7 @@ class DataDirisController extends Controller
                 ]
             );
 
+            // 4. Membuat entri baru di tabel RiwayatKeluhans yang berelasi dengan data diri.
             RiwayatKeluhans::create([
                 'nim' => $dataDiri->nim,
                 'keluhan' => $validated['keluhan'],
@@ -63,64 +94,52 @@ class DataDirisController extends Controller
                 'pernah_tes' => $validated['pernah_tes'],
             ]);
 
-            // simpan nim ke session
+            // 5. Menyimpan data penting ke dalam session untuk personalisasi di halaman kuesioner.
             session([
                 'nim' => $dataDiri->nim,
                 'nama' => $dataDiri->nama,
                 'program_studi' => $dataDiri->program_studi
             ]);
+
+            // 6. Jika semua proses di atas berhasil, konfirmasi perubahan ke database.
             DB::commit();
 
+            // 7. Arahkan ke halaman kuesioner dengan pesan sukses.
             return redirect()
                 ->route('mental-health.kuesioner')
                 ->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
+            // 8. Jika terjadi error di dalam blok 'try', batalkan semua query yang sudah dijalankan.
             DB::rollBack();
+
+            // 9. Kembalikan pengguna ke halaman form dengan pesan error dan data input sebelumnya.
             return back()
                 ->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])
                 ->withInput();
         }
     }
 
+    /**
+     * Menangani request pencarian data mahasiswa secara asynchronous (AJAX).
+     *
+     * Fungsi ini memanggil 'scopeSearch' yang sudah dioptimalkan di dalam Model DataDiris.
+     * Menggunakan 'with()' untuk Eager Loading, mencegah masalah N+1 query
+     * saat mengambil data relasi (riwayatKeluhans, hasilKuesioners).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function search(Request $request)
     {
+        // Ambil kata kunci pencarian dari request.
         $keyword = $request->input('query');
 
-        $results = DataDiris::with(['riwayatKeluhan', 'hasilKuesioner'])
-            ->search($keyword)
+        // Lakukan query menggunakan scope 'search' dari model DataDiris.
+        $results = DataDiris::with(['riwayatKeluhans', 'hasilKuesioners']) // Eager load relasi
+            ->search($keyword) // Memanggil scopeSearch($keyword) yang sudah dioptimalkan
             ->get();
 
+        // Kembalikan hasil dalam format JSON.
         return response()->json($results);
     }
-
-    public function scopeSearch($query, $keyword)
-    {
-        return $query->where(function ($q) use ($keyword) {
-            $q->where('nim', 'like', "%$keyword%")
-                ->orWhere('nama', 'like', "%$keyword%")
-                ->orWhere('jenis_kelamin', 'like', "%$keyword%")
-                ->orWhere('provinsi', 'like', "%$keyword%")
-                ->orWhere('alamat', 'like', "%$keyword%")
-                ->orWhere('usia', 'like', "%$keyword%")
-                ->orWhere('fakultas', 'like', "%$keyword%")
-                ->orWhere('program_studi', 'like', "%$keyword%")
-                ->orWhere('asal_sekolah', 'like', "%$keyword%")
-                ->orWhere('status_tinggal', 'like', "%$keyword%")
-                ->orWhere('email', 'like', "%$keyword%");
-        })
-            ->orWhereHas('riwayatKeluhans', function ($q) use ($keyword) {
-                $q->where('keluhan', 'like', "%$keyword%")
-                    ->orWhere('lama_keluhan', 'like', "%$keyword%")
-                    ->orWhere('pernah_konsul', 'like', "%$keyword%")
-                    ->orWhere('pernah_tes', 'like', "%$keyword%");
-            })
-            ->orWhereHas('hasilKuesioners', function ($q) use ($keyword) {
-                $q->where('nim', 'like', "%$keyword%")
-                    ->orWhere('total_skor', 'like', "%$keyword%")
-                    ->orWhereRaw('LOWER(kategori) LIKE ?', ['%' . strtolower($keyword) . '%'])
-                    ->orWhere('created_at', 'like', "%$keyword%");
-            });
-    }
-
-
 }

@@ -433,7 +433,10 @@ header {
     transition: all 0.3s ease;
     gap: 8px;
 }
-
+.search-form input::placeholder {
+    font-size: 0.85rem; /* kecilkan teks placeholder */
+    color: #7a7a7a; /* opsional, biar lebih halus */
+}
 .search-box input {
     flex: 1;
     border: none;
@@ -859,6 +862,16 @@ header {
     border-radius: 8px;
     padding: 0.4rem 0.75rem;
 }
+.limit-label {
+    margin-right: auto; /* dorong ke kiri */
+    font-weight: 500;
+}
+
+.limit-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* jarak dropdown & button */
+}
 .limit-wrapper {
     display: flex;
     justify-content: space-between;
@@ -917,6 +930,7 @@ header {
 
 .category-wrapper label {
     font-weight: 500;
+    margin-right: 0.5rem;
 }
 
 .category-controls {
@@ -2601,11 +2615,17 @@ th i {
         width: 80%;
     }
     .limit-form {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
+        justify-content: space-between; /* tetap row */
         padding: 0.25rem 0.5rem;
+    }
+    .limit-label {
+        font-size: 0.9rem;
+    }
+    .limit-actions select {
+        max-width: 80px; /* lebih kecil di hp */
+    }
+    .search-button {
+        margin-left: 0.45rem;
     }
 }
 @media (max-width: 480px) {

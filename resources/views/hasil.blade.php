@@ -546,7 +546,6 @@
                             </div>
 
                             <!-- METRIC MENTAL -->
-                            <h4 class="metrics-title">Aspek Mental</h4>
                             <div class="health-metrics">
                                 <div class="metric">
                                     <div class="metric-icon"><i class="fas fa-lightbulb"></i></div>
@@ -566,7 +565,6 @@
                             </div>
 
                             <!-- METRIC FISIK -->
-                            <h4 class="metrics-title">Aspek Fisik</h4>
                             <div class="health-metrics">
                                 <div class="metric">
                                     <div class="metric-icon"><i class="fas fa-dumbbell"></i></div>
