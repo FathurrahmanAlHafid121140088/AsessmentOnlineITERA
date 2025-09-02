@@ -9,7 +9,11 @@ class RiwayatKeluhans extends Model
     protected $table = 'riwayat_keluhans';
 
     protected $fillable = [
-        'nim', 'keluhan', 'lama_keluhan', 'pernah_konsul', 'pernah_tes'
+        'nim',
+        'keluhan',
+        'lama_keluhan',
+        'pernah_konsul',
+        'pernah_tes'
     ];
 
     public function dataDiri()

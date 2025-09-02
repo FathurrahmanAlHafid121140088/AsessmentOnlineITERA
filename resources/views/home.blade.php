@@ -30,7 +30,7 @@
     <header class="masthead">
         <div class="container">
             <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="100">Selamat Datang Di</div>
-            <div class="masthead-heading text-uppercase" data-aos="fade-down" data-aos-delay="100">Assessment Online
+            <div class="masthead-heading text-uppercase" data-aos="fade-down" data-aos-delay="100">Asessment Online
                 Psychology</div>
             <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="150">Pusat Pengembangan Sumber Daya
                 Manusia</div>

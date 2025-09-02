@@ -127,7 +127,7 @@
                             <i class="fas fa-brain" style="color: #22c55e"></i>
                         </div>
                         <div class="card-info">
-                            <h3>Mental Health Tests</h3>
+                            <h3>Jumlah Tes Masuk</h3>
                             <h2 class="score-value">{{ $totalTes ?? 0 }}</h2>
                         </div>
                     </div>
@@ -496,7 +496,7 @@
                                 style="display: {{ $loop->first ? 'block' : 'none' }}; min-height: {{ $chartHeight }}px">
                                 @foreach ($prodis as $prodi)
                                     @php
-                                        $jumlah = \App\Models\DataDiris::where('program_studi', $prodi)->count();
+                                        $jumlah = DataDiris::where('program_studi', $prodi)->count();
                                         $iconMap = [
                                             'Fisika' => 'fa-solid fa-atom',
                                             'Matematika' => 'fa-solid fa-square-root-variable',
@@ -617,7 +617,7 @@
                             style="min-height: {{ count($daftarProvinsi) * 38 + 60 }}px">
                             @foreach ($daftarProvinsi as $provinsi)
                                 @php
-                                    $jumlah = \App\Models\DataDiris::where('provinsi', $provinsi)->count();
+                                    $jumlah = DataDiris::where('provinsi', $provinsi)->count();
                                 @endphp
                                 <div class="bar-line">
                                     <span class="bar-text">
@@ -985,17 +985,48 @@
 </body>
 <x-footer></x-footer>
 <script src="{{ asset('js/script-admin-mh.js') }}"></script>
-@if (session('searchMessage') || isset($searchMessage))
+@if ($searchMessage)
     <script>
         Swal.fire({
             title: 'Hasil Pencarian',
-            text: '{{ $searchMessage ?? session('searchMessage') }}',
-            icon: '{{ isset($searchMessage) && $searchMessage === 'Data berhasil ditemukan!' ? 'success' : 'warning' }}',
-            timer: 3000,
+            text: '{{ $searchMessage }}',
+            icon: '{{ $searchMessage === 'Data berhasil ditemukan!' ? 'success' : 'warning' }}',
+            timer: 2500,
             showConfirmButton: false
         });
     </script>
 @endif
+<script>
+    // Konfirmasi sebelum hapus
+    function confirmDelete(id) {
+        Swal.fire({
+            title: "Yakin ingin menghapus data ini?",
+            text: "Data yang dihapus tidak bisa dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("delete-form-" + id).submit();
+            }
+        });
+    }
+
+    // Popup setelah berhasil dihapus
+    @if (session('success'))
+        Swal.fire({
+            title: "Berhasil!",
+            text: "{{ session('success') }}",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK"
+        });
+    @endif
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </html>

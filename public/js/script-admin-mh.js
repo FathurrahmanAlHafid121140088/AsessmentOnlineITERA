@@ -110,24 +110,6 @@ function printPDF(button) {
     doc.save("hasil-kuesioner-" + cells[0].innerText + ".pdf");
 }
 
-// Konfirmasi sebelum menghapus data
-function confirmDelete(id) {
-    Swal.fire({
-        title: "Yakin ingin menghapus data ini?",
-        text: "Data yang dihapus tidak bisa dikembalikan!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Ya, Hapus!",
-        cancelButtonText: "Batal",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById("delete-form-" + id).submit();
-        }
-    });
-}
-
 // Pencarian data via fetch (Ajax)
 function toggleSearchInput() {
     const input = document.getElementById("searchInput");

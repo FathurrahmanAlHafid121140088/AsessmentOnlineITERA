@@ -1038,12 +1038,12 @@ header {
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem; /* lebih kecil dari default */
-    border: 1px solid rgba(0, 0, 0, 0.1); /* garis luar tipis */
+    font-size: 0.8rem; /* Diperkecil dari 0.85rem */
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 thead th {
-    padding: 6px 8px; /* lebih kecil, menyesuaikan font */
+    padding: 4px 6px; /* Diperkecil dari 6px 8px */
     text-align: left;
     border: 1px solid rgba(0, 0, 0, 0.1);
     font-weight: 600;
@@ -1051,7 +1051,7 @@ thead th {
 }
 
 tbody td {
-    padding: 6px 8px; /* disesuaikan juga */
+    padding: 4px 6px; /* Diperkecil dari 6px 8px */
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 

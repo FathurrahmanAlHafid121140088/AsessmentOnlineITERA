@@ -94,6 +94,15 @@ class HasilKuesionerCombinedController extends Controller
         // 6. Ambil data dengan Pagination (Hanya 1 query utama untuk data tabel)
         $hasilKuesioners = $query->paginate($limit)->withQueryString();
 
+        // ✅ Tambahkan status pesan pencarian
+        $searchMessage = null;
+        if ($search) {
+            if ($hasilKuesioners->total() > 0) {
+                $searchMessage = 'Data berhasil ditemukan!';
+            } else {
+                $searchMessage = 'Data tidak ditemukan!';
+            }
+        }
         // 7. Ambil semua statistik global dengan query seminimal mungkin
         // Ambil NIM unik dari mahasiswa yang pernah mengisi (1 query)
         $nimDenganHasil = HasilKuesioner::distinct()->pluck('nim');
@@ -155,7 +164,9 @@ class HasilKuesionerCombinedController extends Controller
             'segments' => $segments,
             'radius' => $r,
             'circumference' => $circ,
+            'searchMessage' => $searchMessage, // ✅ kirim ke blade
         ] + $this->getStatistikFakultas());
+
     }
 
     /**
@@ -184,12 +195,32 @@ class HasilKuesionerCombinedController extends Controller
      */
     public function destroy($id)
     {
+        // 1. Temukan hasil kuesioner berdasarkan ID yang dikirim dari tombol hapus.
         $hasil = HasilKuesioner::find($id);
+
         if (!$hasil) {
             return redirect()->route('admin.home')->with('error', 'Data tidak ditemukan.');
         }
+
+        // 2. Dapatkan NIM dari hasil kuesioner tersebut.
+        $nim = $hasil->nim;
+
+        // 3. Temukan data diri mahasiswa berdasarkan NIM.
+        $mahasiswa = DataDiris::find($nim);
+
+        // 4. Jika data mahasiswa ditemukan, hapus data tersebut.
+        // Ini akan otomatis menghapus semua riwayat dan hasil kuesioner
+        // jika 'cascade on delete' sudah diatur di migration.
+        if ($mahasiswa) {
+            $mahasiswa->delete();
+            return redirect()->route('admin.home')->with('success', 'Seluruh data mahasiswa dengan NIM ' . $nim . ' berhasil dihapus.');
+        }
+
+        // Fallback: Jika karena suatu alasan data diri tidak ditemukan tapi hasil kuesioner ada,
+        // hapus saja hasil kuesioner tunggal ini untuk membersihkan data 'yatim'.
         $hasil->delete();
-        return redirect()->route('admin.home')->with('success', 'Data berhasil dihapus.');
+        return redirect()->route('admin.dashboard') // atau ke route yang sesuai
+            ->with('success', 'Data berhasil dihapus!');
     }
 
     /**
