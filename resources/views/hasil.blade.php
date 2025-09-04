@@ -608,7 +608,7 @@
         <div class="alert-box-blue">
             <i class="fas fa-info-circle alert-icon-blue"></i>
             <span class="alert-text">
-                "Kalau hasil tes kamu Cukup Sehat sampai Perlu Dukungan Intensif, segera
+                "Kalau hasil tes kamu Perlu Dukungan hingga Perlu Dukungan Intensif, segera
                 hubungi Mental Health Care ITERA via WhatsApp untuk konseling lanjutan."
             </span>
         </div>

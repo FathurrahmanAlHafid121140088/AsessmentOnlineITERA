@@ -1164,7 +1164,7 @@ tbody tr:nth-child(even) {
 .btn-pdf {
     background-color: #4361ee;
     color: white;
-    padding: 10px 16px;
+    padding: 8px 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -1178,7 +1178,7 @@ tbody tr:nth-child(even) {
 
 @media (max-width: 768px) {
     .btn-pdf {
-        margin-top: 3.5rem; /* tambahkan lebih banyak ruang di atas tombol */
+        margin-top: 3rem; /* tambahkan lebih banyak ruang di atas tombol */
     }
 }
 
@@ -2689,5 +2689,42 @@ th i {
 
     .category-controls select {
         flex: 1;
+    }
+}
+.export-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #1d6f42; /* Warna hijau Excel */
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.export-button:hover {
+    background-color: #165934;
+}
+.button-control {
+    margin-top: 1.5rem;
+}
+@media (max-width: 480px) {
+    .export-button {
+        font-size: 0.8rem; /* kecilkan teks */
+        padding: 6px 10px; /* kurangi padding */
+        gap: 6px;
+        margin-top: 0.9rem;
+    }
+
+    .export-button i {
+        font-size: 0.9rem; /* kecilkan icon */
+        margin-right: 0; /* hilangkan jarak */
+    }
+    .button-control {
+        margin-top: 0;
     }
 }

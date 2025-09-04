@@ -976,9 +976,29 @@
                 </div>
                 <div class="pagination">
                     {{ $hasilKuesioners->links('vendor.pagination.default') }} </div>
-                <button class="btn-pdf" onclick="generatePDF()">
-                    <i class="fas fa-file-pdf"></i> Cetak PDF
-                </button>
+                <div class="button-control">
+                    <button class="btn-pdf" onclick="generatePDF()">
+                        <i class="fas fa-file-pdf"></i> Cetak PDF
+                    </button>
+                    {{-- TOMBOL EXPORT EXCEL --}}
+                    {{-- TOMBOL EXPORT EXCEL --}}
+                    <form action="{{ route('admin.export.excel') }}" method="GET" style="display: inline;">
+                        {{-- Loop melalui parameter query yang ada dan menambahkannya sebagai input tersembunyi --}}
+                        @foreach (request()->query() as $key => $value)
+                            @if (is_array($value))
+                                @foreach ($value as $val)
+                                    <input type="hidden" name="{{ $key }}[]"
+                                        value="{{ $val }}">
+                                @endforeach
+                            @else
+                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                            @endif
+                        @endforeach
+                        <button type="submit" class="export-button">
+                            <i class="fas fa-file-excel"></i> Export ke Excel
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -62,7 +62,7 @@ Route::middleware([AdminAuth::class])->group(function () {
             'totalTes' => $totalTes,
         ]);
     });
-
+    Route::get('/admin/mental-health/export', [App\Http\Controllers\HasilKuesionerCombinedController::class, 'exportExcel'])->name('admin.export.excel');
 });
 Route::get('/mental-health/kuesioner', function () {
     return view('kuesioner', [

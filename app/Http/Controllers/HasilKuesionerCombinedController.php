@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Exports\HasilKuesionerExport; // 1. Tambahkan use statement untuk class Export
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\HasilKuesioner;
@@ -235,6 +236,20 @@ class HasilKuesionerCombinedController extends Controller
 
         $kostPercent = $stats->total ? round(($stats->kost_count / $stats->total) * 100, 2) : 0;
         return view('admin-home', compact('kostPercent'));
+    }
+    public function exportExcel(Request $request)
+    {
+        // Ambil semua parameter filter dan sort dari request saat ini
+        $search = $request->input('search');
+        $kategori = $request->input('kategori');
+        $sort = $request->input('sort', 'created_at');
+        $order = $request->input('order', 'desc');
+
+        // Tentukan nama file dinamis dengan tanggal saat ini
+        $fileName = 'hasil-kuesioner-' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+
+        // Panggil class export dengan parameter yang relevan dan trigger unduhan
+        return Excel::download(new HasilKuesionerExport($search, $kategori, $sort, $order), $fileName);
     }
 }
 
