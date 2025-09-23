@@ -970,6 +970,19 @@ header {
         font-size: 0.85rem;
         padding: 0.2rem 0.5rem;
     }
+    .left-controls {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 1024px) {
+    .left-controls {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
 }
 
 /* Mobile: max-width 480px */
@@ -1038,7 +1051,7 @@ header {
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.8rem; /* Diperkecil dari 0.85rem */
+    font-size: 0.78rem; /* Diperkecil dari 0.85rem */
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -1067,15 +1080,22 @@ tbody tr:nth-child(even) {
     background-color: #ffffff;
 }
 
+td.email {
+    max-width: 200px; /* atur sesuai kebutuhan */
+    white-space: nowrap; /* biar tetap satu baris */
+    overflow: hidden;
+    text-overflow: ellipsis; /* kasih "..." kalau kepanjangan */
+}
+
 @media (max-width: 480px) {
     thead th {
-        font-size: 12px; /* perkecil teks */
-        padding: 8px 10px; /* sesuaikan padding */
+        font-size: 10px; /* perkecil teks */
+        padding: 6px 8px; /* sesuaikan padding */
     }
 
     tbody td {
-        font-size: 12px; /* perkecil teks */
-        padding: 8px 10px; /* lebih rapat */
+        font-size: 10px; /* perkecil teks */
+        padding: 6px 8px; /* lebih rapat */
     }
 }
 .status {
@@ -2673,6 +2693,9 @@ th i {
 
     .limit-controls select {
         flex: 1;
+    }
+    .range-badge {
+        font-size: 10px;
     }
 }
 @media (max-width: 768px) {

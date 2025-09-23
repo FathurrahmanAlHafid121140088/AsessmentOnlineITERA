@@ -763,6 +763,7 @@
                                 <th>Email</th>
                                 <th>Asal Sekolah</th>
                                 <th>Status Tinggal</th>
+                                <th>Jumlah Tes</th> {{-- ✅ HEADER BARU --}}
                                 <th>Kategori Terakhir</th>
                                 <th>
                                     <a href="{{ route('admin.home', ['sort' => 'created_at', 'order' => request('order') === 'asc' && request('sort') === 'created_at' ? 'desc' : 'asc'] + request()->except(['page'])) }}"
@@ -792,9 +793,10 @@
                                     <td>{{ $hasil->dataDiri->usia ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->provinsi ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->dataDiri->alamat ?? 'Tidak Ada Data' }}</td>
-                                    <td>{{ $hasil->dataDiri->email ?? '-' }}</td>
+                                    <td class="email">{{ $hasil->dataDiri->email ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->asal_sekolah ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->status_tinggal ?? '-' }}</td>
+                                    <td>{{ $hasil->jumlah_tes }} Kali</td> {{-- ✅ KOLOM BARU --}}
                                     <td>
                                         <span
                                             class="

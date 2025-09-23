@@ -8,13 +8,20 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+// ✅ 1. Import Class-class yang dibutuhkan untuk Styling
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
+// ✅ 2. Tambahkan interface WithStyles dan ShouldAutoSize
+class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
 {
     protected $search;
     protected $kategori;
     protected $sort;
     protected $order;
+    private int $rowNumber = 0;
 
     /**
      * Menerima parameter filter dari controller.
@@ -29,7 +36,6 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
 
     /**
      * Menyiapkan query builder untuk mengambil data yang akan diekspor.
-     * Logika query ini sekarang identik dengan yang ada di controller.
      */
     public function query()
     {
@@ -42,14 +48,16 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
         $query = HasilKuesioner::query()
             ->joinSub($latestIds, 'latest', 'hasil_kuesioners.id', '=', 'latest.id')
             ->join('data_diris', 'hasil_kuesioners.nim', '=', 'data_diris.nim')
-            ->select('hasil_kuesioners.*'); // Eager load relasi untuk efisiensi di method map()
+            ->select('hasil_kuesioners.*')
+            // ✅ TAMBAHAN: Subquery untuk menghitung jumlah tes per mahasiswa
+            ->addSelect(DB::raw('(SELECT COUNT(*) FROM hasil_kuesioners as hk_count WHERE hk_count.nim = data_diris.nim) as jumlah_tes'));
 
         // Terapkan Filter Kategori
         $query->when($this->kategori, function ($q) {
             $q->where('hasil_kuesioners.kategori', $this->kategori);
         });
 
-        // Terapkan Filter Pencarian (LOGIKA BARU YANG LEBIH DETAIL)
+        // Terapkan Filter Pencarian
         $query->when($this->search, function ($q) {
             $terms = array_filter(preg_split('/\s+/', trim($this->search)));
             $q->where(function (Builder $query) use ($terms) {
@@ -62,28 +70,24 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
                             ->orWhere('data_diris.asal_sekolah', 'like', "%$term%")
                             ->orWhere('data_diris.status_tinggal', 'like', "%$term%");
 
-                        // Logika pencarian khusus untuk fakultas (exact match)
                         if (in_array(strtolower($term), ['fs', 'fti', 'ftik'])) {
                             $subQuery->orWhere('data_diris.fakultas', strtoupper($term));
                         } else {
                             $subQuery->orWhere('data_diris.fakultas', 'like', "%$term%");
                         }
 
-                        // Logika pencarian khusus untuk provinsi (exact match)
                         if (in_array(strtolower($term), ['papua'])) {
                             $subQuery->orWhere('data_diris.provinsi', $term);
                         } else {
                             $subQuery->orWhere('data_diris.provinsi', 'like', "%$term%");
                         }
 
-                        // Logika pencarian khusus untuk program studi (exact match)
                         if (in_array(strtolower($term), ['fisika', 'arsitektur', 'kimia'])) {
                             $subQuery->orWhere('data_diris.program_studi', $term);
                         } else {
                             $subQuery->orWhere('data_diris.program_studi', 'like', "%$term%");
                         }
 
-                        // Logika pencarian khusus untuk jenis kelamin (exact match)
                         if (in_array(strtolower($term), ['l', 'p'])) {
                             $subQuery->orWhere('data_diris.jenis_kelamin', strtoupper($term));
                         }
@@ -99,7 +103,6 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
         };
         $query->orderBy($sortColumn, $this->order);
 
-        // Load relasi dataDiri untuk digunakan di method map()
         return $query->with('dataDiri');
     }
 
@@ -109,6 +112,8 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
+            'No',
+            'Tanggal Submit',
             'NIM',
             'Nama',
             'Fakultas',
@@ -120,9 +125,9 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
             'Email',
             'Asal Sekolah',
             'Status Tinggal',
+            'Jumlah Tes',
             'Kategori Terakhir',
             'Total Skor Terakhir',
-            'Tanggal Submit',
         ];
     }
 
@@ -132,6 +137,8 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
     public function map($hasil): array
     {
         return [
+            ++$this->rowNumber,
+            $hasil->created_at->setTimezone('Asia/Jakarta')->format('d-m-Y H:i:s'),
             $hasil->nim,
             $hasil->dataDiri->nama ?? 'N/A',
             $hasil->dataDiri->fakultas ?? 'N/A',
@@ -143,10 +150,32 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping
             $hasil->dataDiri->email ?? 'N/A',
             $hasil->dataDiri->asal_sekolah ?? 'N/A',
             $hasil->dataDiri->status_tinggal ?? 'N/A',
+            $hasil->jumlah_tes . ' kali', // ✅ PERUBAHAN DI SINI
             $hasil->kategori,
             $hasil->total_skor,
-            $hasil->created_at->setTimezone('Asia/Jakarta')->format('d-m-Y H:i:s'),
         ];
+    }
+
+    /**
+     * ✅ 3. Tambahkan fungsi styles() untuk mengatur tampilan spreadsheet.
+     */
+    public function styles(Worksheet $sheet)
+    {
+        // Mengatur style untuk baris header (baris ke-1)
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->getFont()->setBold(true);
+
+        // Mengatur border untuk seluruh data tabel
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['argb' => 'FF000000'],
+                ],
+            ],
+        ];
+
+        // Menerapkan style border ke seluruh sel yang berisi data
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())->applyFromArray($styleArray);
     }
 }
 

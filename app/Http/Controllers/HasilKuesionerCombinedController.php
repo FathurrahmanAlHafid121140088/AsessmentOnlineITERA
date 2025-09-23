@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Exports\HasilKuesionerExport; // 1. Tambahkan use statement untuk class Export
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -34,56 +35,76 @@ class HasilKuesionerCombinedController extends Controller
         $query = HasilKuesioner::query()
             ->joinSub($latestIds, 'latest', 'hasil_kuesioners.id', '=', 'latest.id')
             ->join('data_diris', 'hasil_kuesioners.nim', '=', 'data_diris.nim')
-            ->select('hasil_kuesioners.*', 'data_diris.nama as nama_mahasiswa');
+            ->select('hasil_kuesioners.*', 'data_diris.nama as nama_mahasiswa')
+            // ✅ TAMBAHAN: Subquery untuk menghitung jumlah tes per mahasiswa
+            ->addSelect(DB::raw('(SELECT COUNT(*) FROM hasil_kuesioners as hk_count WHERE hk_count.nim = data_diris.nim) as jumlah_tes'));
 
         // 4. Terapkan Filter & Pencarian secara langsung
         $query
             ->when($kategori, function ($q) use ($kategori) {
                 $q->where('hasil_kuesioners.kategori', $kategori);
             })
+            // ✅ BLOK PENCARIAN YANG DIOPTIMALKAN
             ->when($search, function ($q) use ($search) {
                 $terms = array_filter(preg_split('/\s+/', trim($search)));
-                $q->where(function (Builder $query) use ($terms) {
+
+                // Definisikan kolom-kolom untuk pencarian umum menggunakan 'like'
+                $likeColumns = [
+                    'hasil_kuesioners.nim',
+                    'data_diris.nama',
+                    'data_diris.email',
+                    'data_diris.alamat',
+                    'data_diris.asal_sekolah',
+                    'data_diris.status_tinggal',
+                ];
+
+                // Definisikan aturan pencarian khusus untuk pencocokan eksak
+                $specialRules = [
+                    'fakultas' => [
+                        'values' => ['fs', 'fti', 'ftik'],
+                        'transform' => 'strtoupper', // contoh: fti -> FTI
+                    ],
+                    'provinsi' => [
+                        'values' => ['papua', 'riau'],
+                        'transform' => 'ucfirst', // contoh: papua -> Papua
+                    ],
+                    'program_studi' => [
+                        'values' => ['fisika', 'arsitektur', 'kimia'],
+                        'transform' => null, // tidak ada transformasi
+                    ],
+                    'jenis_kelamin' => [
+                        'values' => ['l', 'p'],
+                        'transform' => 'strtoupper', // contoh: l -> L
+                    ],
+                ];
+
+                $q->where(function (Builder $query) use ($terms, $likeColumns, $specialRules) {
                     foreach ($terms as $term) {
-                        // Setiap term harus ditemukan, jadi kita gunakan `where` untuk membuat klausa AND
-                        $query->where(function (Builder $subQuery) use ($term) {
-                            // Sebuah term bisa cocok di salah satu kolom ini, jadi kita gunakan `orWhere`
-                            $subQuery->orWhere('hasil_kuesioners.nim', 'like', "%$term%")
-                                ->orWhere('data_diris.nama', 'like', "%$term%")
-                                ->orWhere('data_diris.email', 'like', "%$term%")
-                                ->orWhere('data_diris.alamat', 'like', "%$term%")
-                                ->orWhere('data_diris.asal_sekolah', 'like', "%$term%")
-                                ->orWhere('data_diris.status_tinggal', 'like', "%$term%");
-
-                            // Logika pencarian khusus untuk fakultas (exact match)
-                            if (in_array(strtolower($term), ['fs', 'fti', 'ftik'])) {
-                                $subQuery->orWhere('data_diris.fakultas', strtoupper($term));
-                            } else {
-                                $subQuery->orWhere('data_diris.fakultas', 'like', "%$term%");
+                        $query->where(function (Builder $subQuery) use ($term, $likeColumns, $specialRules) {
+                            // 1. Terapkan pencarian 'like' pada kolom-kolom umum
+                            foreach ($likeColumns as $column) {
+                                $subQuery->orWhere($column, 'like', "%$term%");
                             }
 
-                            // Logika pencarian khusus untuk provinsi (exact match)
-                            if (in_array(strtolower($term), ['papua'])) {
-                                $subQuery->orWhere('data_diris.provinsi', strtoupper($term));
-                            } else {
-                                $subQuery->orWhere('data_diris.provinsi', 'like', "%$term%");
-                            }
+                            // 2. Terapkan pencarian berdasarkan aturan khusus
+                            foreach ($specialRules as $columnName => $rule) {
+                                $dbColumn = 'data_diris.' . $columnName;
+                                $lowerTerm = strtolower($term);
 
-                            // Logika pencarian khusus untuk program studi (exact match)
-                            if (in_array(strtolower($term), ['fisika', 'arsitektur', 'kimia'])) {
-                                $subQuery->orWhere('data_diris.program_studi', $term);
-                            } else {
-                                $subQuery->orWhere('data_diris.program_studi', 'like', "%$term%");
-                            }
-
-                            // Logika pencarian khusus untuk jenis kelamin (exact match)
-                            if (in_array(strtolower($term), ['l', 'p'])) {
-                                $subQuery->orWhere('data_diris.jenis_kelamin', strtoupper($term));
+                                if (in_array($lowerTerm, $rule['values'])) {
+                                    // Jika cocok aturan, gunakan pencocokan eksak dengan transformasi
+                                    $transformedTerm = $rule['transform'] ? $rule['transform']($term) : $term;
+                                    $subQuery->orWhere($dbColumn, $transformedTerm);
+                                } else {
+                                    // Jika tidak, tetap cari dengan 'like' di kolom ini
+                                    $subQuery->orWhere($dbColumn, 'like', "%$term%");
+                                }
                             }
                         });
                     }
                 });
             });
+
 
         // 5. Terapkan Sorting (semua di level DB)
         $sortColumn = match ($sort) {
@@ -95,9 +116,10 @@ class HasilKuesionerCombinedController extends Controller
         // 6. Ambil data dengan Pagination (Hanya 1 query utama untuk data tabel)
         $hasilKuesioners = $query->paginate($limit)->withQueryString();
 
-        // ✅ Tambahkan status pesan pencarian
+        // ✅ PERUBAHAN: Tambahkan status pesan pencarian (hanya untuk request awal, bukan paginasi)
         $searchMessage = null;
-        if ($search) {
+        // Pesan hanya akan muncul jika ada parameter 'search' DAN BUKAN dari klik paginasi (selain halaman 1)
+        if ($search && !$request->has('page')) {
             if ($hasilKuesioners->total() > 0) {
                 $searchMessage = 'Data berhasil ditemukan!';
             } else {
@@ -167,7 +189,6 @@ class HasilKuesionerCombinedController extends Controller
             'circumference' => $circ,
             'searchMessage' => $searchMessage, // ✅ kirim ke blade
         ] + $this->getStatistikFakultas());
-
     }
 
     /**

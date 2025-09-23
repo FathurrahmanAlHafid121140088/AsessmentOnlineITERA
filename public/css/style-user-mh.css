@@ -12,10 +12,6 @@ body {
     background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
 }
 
-.dashboard-container {
-    display: flex;
-}
-
 /* Sidebar */
 .sidebar {
     width: 250px;
@@ -562,7 +558,7 @@ tr:hover {
     }
 
     .navbar-title {
-        font-size: 18px;
+        font-size: 14px;
     }
 
     .content {

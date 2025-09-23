@@ -19,7 +19,7 @@ class AdminAuth
         $lastActivity = Session::get('last_activity_admin');
         $now = Carbon::now();
 
-        if ($lastActivity && $now->diffInMinutes(Carbon::parse($lastActivity)) > 60) {
+        if ($lastActivity && $now->diffInMinutes(Carbon::parse($lastActivity)) > 30) {
             Auth::guard('admin')->logout();
             Session::forget('last_activity_admin');
 
