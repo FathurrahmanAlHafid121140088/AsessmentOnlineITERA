@@ -12,17 +12,13 @@ use App\Http\Controllers\HasilKuesionerController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\KarirController;
+use App\Http\Controllers\DashboardController; // <-- Jangan lupa tambahkan ini di atas
+
 
 // Beranda/Home
 Route::get('/home', function () {
     return view('home', ['title' => 'Home']);
 })->name('home');
-
-// Mental Health: Form Data Diri
-Route::prefix('mental-health')->name('mental-health.')->group(function () {
-    Route::get('/isi-data-diri', [DataDirisController::class, 'create'])->name('isi-data-diri');
-    Route::post('/isi-data-diri', [DataDirisController::class, 'store'])->name('store-data-diri');
-});
 
 // Resource routes
 
@@ -64,24 +60,34 @@ Route::middleware([AdminAuth::class])->group(function () {
     });
     Route::get('/admin/mental-health/export', [App\Http\Controllers\HasilKuesionerCombinedController::class, 'exportExcel'])->name('admin.export.excel');
 });
-Route::get('/mental-health/kuesioner', function () {
-    return view('kuesioner', [
-        'title' => 'Kuesioner Mental Health',
-        'nim' => session('nim')
-    ]);
-})->middleware(CheckNimSession::class)->name('mental-health.kuesioner');
+Route::middleware('auth')->group(function () {
 
-Route::get('/mental-health/data-diri', [DataDirisController::class, 'create'])->name('mental-health.data-diri');
-Route::post('/mental-health/data-diri', [DataDirisController::class, 'store'])->name('mental-health.store-data-diri');
+    // Halaman dashboard utama
+    Route::get('/user/mental-health', [DashboardController::class, 'index']);
 
-// submit
-Route::post('/mental-health/kuesioner', [HasilKuesionerController::class, 'store'])
-    ->name('mental-health.kuesioner.submit');
+    // --- RUTE-RUTE APLIKASI MENTAL HEALTH ---
 
-// hasil
-Route::get('/mental-health/hasil', [HasilKuesionerController::class, 'showLatest'])
-    ->name('mental-health.hasil');
+    // Rute untuk alur pengisian data diri (dikelompokkan)
+    Route::prefix('mental-health')->name('mental-health.')->group(function () {
+        Route::get('/isi-data-diri', [DataDirisController::class, 'create'])->name('isi-data-diri');
+        Route::post('/isi-data-diri', [DataDirisController::class, 'store'])->name('store-data-diri');
+    });
 
+    // Rute untuk menampilkan dan mengirim kuesioner
+    Route::get('/mental-health/kuesioner', function () {
+        // Data 'nim' tidak perlu lagi dikirim dari sini, karena bisa diakses
+        // langsung di view atau controller menggunakan Auth::user()->nim
+        return view('kuesioner', [
+            'title' => 'Kuesioner Mental Health'
+        ]);
+    })->name('mental-health.kuesioner');
+
+    Route::post('/mental-health/kuesioner', [HasilKuesionerController::class, 'store'])->name('mental-health.kuesioner.submit');
+
+    // Rute untuk menampilkan hasil kuesioner terakhir
+    Route::get('/mental-health/hasil', [HasilKuesionerController::class, 'showLatest'])->name('mental-health.hasil');
+
+});
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
@@ -90,16 +96,17 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 // ROUTES USER LAIN (Bebas diakses)
 // =====================
 
-Route::get('/user/mental-health', function () {
-    return view('user-mental-health', ['title' => 'ANLOGY | Institut Teknologi Sumatera']);
-});
-Route::get('/register', function () {
-    return view('register', ['title' => 'Register']);
-});
+use App\Http\Controllers\AuthController;
 
-Route::get('/lupa-password', function () {
-    return view('lupa-password', ['title' => 'Lupa Password']);
-});
+// Rute untuk mengarahkan pengguna ke halaman login Google
+Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
+
+// Rute yang akan diakses Google setelah pengguna login (callback)
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
+
+Route::get('/user/mental-health', [DashboardController::class, 'index'])->middleware('auth');
+
 
 Route::get('/mental-health', function () {
     return view('mental-health', ['title' => 'Mental Health']);

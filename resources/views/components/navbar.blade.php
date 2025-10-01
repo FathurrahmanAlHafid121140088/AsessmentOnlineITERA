@@ -16,11 +16,55 @@
                 <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="/mental-health">Mental Health</a></li>
                 <li class="nav-item"><a class="nav-link" href="/karir-home">Peminatan Karir</a></li>
-                <li class="nav-item">
-                    <a class="nav-link text-success" href="{{ route('login') }}">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
-                </li>
+                @auth
+                    {{-- JIKA SUDAH LOGIN --}}
+                    <li class="nav-item">
+                        <div class="user-info" tabindex="0">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <i class="fas fa-caret-down user-caret"></i>
+
+                            <div class="user-dropdown">
+                                <div class="dropdown-user-details">
+                                    <div class="user-username">
+                                        <i class="fas fa-user-circle fa-fw"></i>
+                                        <strong>{{ Auth::user()->name }}</strong><br>
+                                    </div>
+                                    <div class="user-email">
+                                        <i class="fas fa-envelope fa-fw"></i>
+                                        <span>{{ Auth::user()->email }}</span>
+                                    </div>
+                                </div>
+
+                                <a href="{{ url('/user/mental-health') }}" class="dropdown-item">
+                                    <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard
+                                </a>
+                                <hr>
+
+                                <!-- Tombol Logout -->
+                                <a href="{{ route('logout') }}" class="dropdown-item logout"
+                                    onclick="event.preventDefault(); document.getElementById('navbar-logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt fa-fw"></i> Logout
+                                </a>
+
+                                <!-- ✅ Form Logout (Wajib Ada) -->
+                                <form id="navbar-logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+
+                        </div>
+                    </li>
+                @else
+                    {{-- BELUM LOGIN --}}
+                    <li class="nav-item">
+                        <a class="nav-link text-success" href="{{ route('login') }}">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>

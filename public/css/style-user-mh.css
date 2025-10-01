@@ -12,6 +12,10 @@ body {
     background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
 }
 
+.dashboard-container {
+    display: flex;
+}
+
 /* Sidebar */
 .sidebar {
     width: 250px;
@@ -172,6 +176,7 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
+    overflow: hidden; /* <-- PERBAIKAN DI SINI */
 }
 
 /* Navbar */
@@ -279,7 +284,7 @@ body {
 
 /* Content Area */
 .content {
-    padding: 30px;
+    padding: 20px;
 }
 
 /* Cards */
@@ -287,51 +292,48 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
-    margin-bottom: 30px;
+    margin: 1rem;
 }
 
+/* === Warna Card & Background === */
+.card.total-tests {
+    background: linear-gradient(135deg, #4caf50, #45a049);
+}
+
+.card.completed-tests {
+    background: linear-gradient(135deg, #03a9f4, #0288d1);
+}
+
+/* Warna icon mengikuti tema card */
+.card.total-tests .card-icon {
+    color: #4caf50 !important;
+}
+
+.card.completed-tests .card-icon {
+    color: #0288d1 !important;
+}
+
+.card.avg-score .card-icon {
+    color: #7b1fa2 !important;
+}
+
+/* === Card Container === */
 .card {
-    background: white;
     border-radius: 15px;
+    color: white;
     padding: 25px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-left: 4px solid transparent;
+    position: relative;
+    overflow: hidden;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Optional: Icon animation on hover */
-.card:hover .card-icon i {
-    transform: scale(1.1) rotate(5deg);
-    color: #1d4ed8;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.card-icon i {
-    font-size: 2rem;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.card.total-tests {
-    border-left-color: #4caf50;
-}
-
-.card.completed-tests {
-    border-left-color: #2196f3;
-}
-
-.card.pending-tests {
-    border-left-color: #ff9800;
-}
-
-.card.avg-score {
-    border-left-color: #9c27b0;
-}
-
+/* === Header dan Layout === */
 .card-header {
     display: flex;
     justify-content: space-between;
@@ -341,49 +343,92 @@ body {
 
 .card-title {
     font-size: 14px;
-    color: #666;
+    color: #f0f0f0;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.card-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: white;
-}
-
-.card.total-tests .card-icon {
-    background: linear-gradient(135deg, #4caf50, #45a049);
-}
-
-.card.completed-tests .card-icon {
-    background: linear-gradient(135deg, #2196f3, #1976d2);
-}
-
-.card.pending-tests .card-icon {
-    background: linear-gradient(135deg, #ff9800, #f57c00);
-}
-
-.card.avg-score .card-icon {
-    background: linear-gradient(135deg, #9c27b0, #7b1fa2);
-}
-
 .card-value {
     font-size: 32px;
     font-weight: 700;
-    color: #333;
+    color: #fff;
     margin-bottom: 5px;
 }
 
 .card-subtitle {
     font-size: 13px;
-    color: #888;
+    color: #e4e4e4;
+}
+
+/* === Card Icon === */
+/* Default (fallback) */
+.card.avg-score {
+    background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+    color: #fff;
+}
+
+/* === Dinamis Berdasarkan Kategori === */
+.card.avg-score.range-intensif {
+    background: linear-gradient(135deg, #dc2626, #b91c1c); /* Merah */
+}
+
+.card.avg-score.range-support {
+    background: linear-gradient(135deg, #ea580c, #c2410c); /* Oranye */
+}
+
+.card.avg-score.range-moderate {
+    background: linear-gradient(135deg, #ca8a04, #a16207); /* Kuning */
+}
+
+.card.avg-score.range-good {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8); /* Biru */
+}
+
+.card.avg-score.range-excellent {
+    background: linear-gradient(135deg, #059669, #047857); /* Hijau */
+}
+
+/* === Style Ikon Tetap Terlihat Kontras === */
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background-color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.card.avg-score.range-intensif .card-icon {
+    color: #dc2626 !important;
+}
+
+.card.avg-score.range-support .card-icon {
+    color: #ea580c !important;
+}
+
+.card.avg-score.range-moderate .card-icon {
+    color: #ca8a04 !important;
+}
+
+.card.avg-score.range-good .card-icon {
+    color: #2563eb !important;
+}
+
+.card.avg-score.range-excellent .card-icon {
+    color: #059669 !important;
+}
+
+.card-icon i {
+    font-size: 28px;
+}
+
+/* Hover effect */
+.card:hover .card-icon {
+    transform: scale(1.1);
 }
 
 /* Table */
@@ -442,13 +487,22 @@ body {
 }
 
 /* Sel tabel */
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse; /* penting agar border tidak double */
+    border: 1px solid #ddd; /* 📌 border luar tabel tipis abu */
+}
+
+/* Sel tabel */
 th,
 td {
-    white-space: nowrap; /* agar teks tidak terpotong ke bawah */
-    padding: 14px 18px;
+    white-space: nowrap;
+    padding: 8px 12px;
     text-align: left;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
+    border: 1px solid #ddd; /* 📌 border antar sel tipis abu */
+    font-size: 13px;
+    vertical-align: middle;
 }
 
 /* Cegah ikon dan teks nabrak */
@@ -456,7 +510,7 @@ td i {
     margin-right: 6px;
 }
 
-/* Untuk teks yang sangat panjang di kolom keluhan */
+/* Untuk teks panjang */
 td {
     word-break: break-word;
 }
@@ -465,7 +519,7 @@ th {
     background-color: #f8f9fa;
     font-weight: 600;
     color: #555;
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -562,7 +616,7 @@ tr:hover {
     }
 
     .content {
-        padding: 1rem;
+        padding: 0.5rem;
     }
 
     .cards-grid {
@@ -616,6 +670,112 @@ tr:hover {
     .table-container {
         max-width: 100vw;
     }
+}
+
+/* Overlay */
+.modal {
+    display: none; /* awalnya tersembunyi */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+}
+
+/* Kotak konten */
+.modal-content {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 14px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Tombol close */
+.close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+.close:hover {
+    color: #000;
+}
+
+.diagnose-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #2563eb, #1e40af); /* biru elegan */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.diagnose-btn i {
+    font-size: 16px;
+}
+
+.diagnose-btn:hover {
+    background: linear-gradient(135deg, #1e40af, #1d4ed8);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.diagnose-btn:active {
+    transform: scale(0.97);
+}
+
+/* Animasi */
+@keyframes fadeIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #1d4ed8;
+}
+.modal-content p {
+    color: #555;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+.modal-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+.modal-content li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.modal-content i {
+    color: #3b82f6;
 }
 
 /* Hide sidebar by default on mobile */
@@ -740,5 +900,242 @@ tr:hover {
 
     .cards-grid > .card:nth-child(3) {
         grid-area: card3;
+    }
+}
+
+.range-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 1. Perlu Dukungan Intensif */
+.range-intensif {
+    color: #dc2626;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+/* 2. Perlu Dukungan */
+.range-support {
+    color: #ea580c;
+    background: rgba(249, 115, 22, 0.08);
+}
+
+/* 3. Cukup Sehat */
+.range-moderate {
+    color: #ca8a04;
+    background: rgba(234, 179, 8, 0.12);
+}
+
+/* 4. Sehat */
+.range-good {
+    color: #2563eb;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* 5. Sangat Sehat */
+.range-excellent {
+    color: #059669;
+    background: rgba(16, 185, 129, 0.1);
+}
+.chart-section {
+    margin: 1rem;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.chart-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1d4ed8;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-title i {
+    margin-right: 10px;
+    color: #1d4ed8;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+/* Responsif untuk Grafik */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
+    .chart-title {
+        font-size: 1.2rem;
+    }
+}
+/* === GREETING CARD === */
+.greeting-wrapper {
+    background-color: #f4f4f4;
+    padding: 1rem 2.5rem;
+}
+.greeting-card {
+    background: #1d4ed8;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #4f46e5; /* warna ungu */
+    max-width: 450px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.greeting-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.greeting-text {
+    font-size: 1.4rem; /* ⬅️ lebih kecil dari sebelumnya */
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.greeting-text .user-name {
+    color: #4f46e5;
+    font-weight: 800;
+}
+
+.greeting-subtitle {
+    font-size: 0.95rem; /* ⬅️ lebih kecil */
+    color: #000000;
+    margin-top: 6px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .greeting-card {
+        padding: 18px 20px;
+    }
+
+    .greeting-text {
+        font-size: 1.2rem;
+    }
+
+    .greeting-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .greeting-text {
+        font-size: 0.85rem; /* teks utama lebih kecil */
+    }
+
+    .greeting-text .user-name {
+        display: inline; /* pastikan muncul */
+        font-size: 0.85rem; /* sedikit lebih kecil dari teks utama */
+        font-weight: 700; /* tetap tegas */
+        color: #4f46e5; /* warna ungu tetap */
+    }
+
+    .greeting-subtitle {
+        font-size: 0.85rem;
+    }
+}
+@media (max-width: 768px) {
+    th,
+    td {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    th,
+    td {
+        padding: 4px 6px;
+        font-size: 11px; /* 📉 lebih kecil agar muat layar */
+    }
+
+    table {
+        font-size: 11px;
+    }
+}
+/* === BADGE === */
+.range-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* === BUTTON === */
+.diagnose-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.diagnose-btn:hover {
+    background: #1e40af;
+}
+
+.diagnose-btn i {
+    font-size: 14px;
+}
+
+/* 📱 RESPONSIVE - Tablet */
+@media (max-width: 768px) {
+    .range-badge {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
+    .diagnose-btn {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+
+    .diagnose-btn i {
+        font-size: 13px;
+    }
+}
+
+/* 📱 RESPONSIVE - Mobile */
+@media (max-width: 480px) {
+    .range-badge {
+        padding: 3px 8px;
+        font-size: 11px;
+    }
+
+    .diagnose-btn {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+
+    .diagnose-btn i {
+        font-size: 12px;
     }
 }

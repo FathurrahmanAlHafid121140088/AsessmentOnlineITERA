@@ -20,6 +20,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/style-user-mh.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
 </head>
 
@@ -60,23 +61,57 @@
 
                 <div class="user-info" tabindex="0">
                     <div class="user-avatar">
+                        {{-- Jika Anda menyimpan avatar dari Google, Anda bisa menampilkannya di sini --}}
                         <i class="fas fa-user"></i> <!-- Ikon profil -->
                     </div>
-                    <span class="user-name">Ahmad Rizki</span>
+
+                    {{-- Tampilkan nama pengguna yang sedang login --}}
+                    <span class="user-name">{{ Auth::user()->name }}</span>
+
                     <i class="fas fa-caret-down caret" style="color: white"></i> <!-- Ikon dropdown -->
                     <div class="user-dropdown">
                         <!-- Info user (untuk mobile) -->
                         <div class="dropdown-user-details">
-                            <strong><i class="fas fa-user-circle" style="color: white"></i> Ahmad Rizki</strong><br>
+                            <strong><i class="fas fa-user-circle" style="color: white"></i>
+                                {{ Auth::user()->name }}</strong><br>
+                            <small style="color: #ddd;">{{ Auth::user()->email }}</small>
                         </div>
                         <hr>
-                        <a href="/logout" class="dropdown-item logout">
+
+                        <!-- Form Logout -->
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
+                        <a href="{{ route('logout') }}" class="dropdown-item logout"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>
                     </div>
                 </div>
             </nav>
+            @php
+                // Ambil waktu sekarang pakai WIB
+                $hour = now('Asia/Jakarta')->format('H');
 
+                if ($hour >= 5 && $hour < 12) {
+                    $greeting = 'Selamat Pagi';
+                } elseif ($hour >= 12 && $hour < 15) {
+                    $greeting = 'Selamat Siang';
+                } elseif ($hour >= 15 && $hour < 18) {
+                    $greeting = 'Selamat Sore';
+                } else {
+                    $greeting = 'Selamat Malam';
+                }
+            @endphp
+
+
+            <div class="greeting-wrapper">
+                <h2 class="greeting-text">
+                    {{ $greeting }}, <span class="user-name">{{ Auth::user()->name }}</span> 👋
+                </h2>
+                <p class="greeting-subtitle">Semoga harimu menyenangkan 💫</p>
+            </div>
             <!-- Content -->
             <div class="content">
                 <!-- Cards -->
@@ -84,13 +119,15 @@
                     <!-- Card 1: Total Tes Diikuti -->
                     <div class="card total-tests">
                         <div class="card-header">
-                            <div>
+                            <div class="card-content">
                                 <div class="card-title">Tes Diikuti</div>
-                                <div class="card-value">12</div>
+                                <div class="card-value">{{ $jumlahTesDiikuti }}</div>
                                 <div class="card-subtitle">Total semua tes</div>
                             </div>
-                            <div class="card-icon">
-                                <i class="fas fa-list-ul"></i>
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fas fa-list-ul"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -98,31 +135,78 @@
                     <!-- Card 2: Tes Selesai -->
                     <div class="card completed-tests">
                         <div class="card-header">
-                            <div>
+                            <div class="card-content">
                                 <div class="card-title">Tes Selesai</div>
-                                <div class="card-value">9</div>
+                                <div class="card-value">{{ $jumlahTesSelesai }}</div>
                                 <div class="card-subtitle">Sudah dikerjakan</div>
                             </div>
-                            <div class="card-icon">
-                                <i class="fas fa-check-circle"></i>
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Card 3: Kategori Terakhir -->
-                    <div class="card avg-score">
+                    @php
+                        $kategoriClass = '';
+                        $iconClass = 'fas fa-heartbeat'; // default icon
+
+                        switch ($kategoriTerakhir) {
+                            case 'Perlu Dukungan Intensif':
+                                $kategoriClass = 'range-intensif';
+                                $iconClass = 'fas fa-frown';
+                                break;
+                            case 'Perlu Dukungan':
+                                $kategoriClass = 'range-support';
+                                $iconClass = 'fas fa-meh';
+                                break;
+                            case 'Cukup Sehat':
+                                $kategoriClass = 'range-moderate';
+                                $iconClass = 'fas fa-smile';
+                                break;
+                            case 'Sehat':
+                                $kategoriClass = 'range-good';
+                                $iconClass = 'fas fa-thumbs-up';
+                                break;
+                            case 'Sangat Sehat':
+                                $kategoriClass = 'range-excellent';
+                                $iconClass = 'fas fa-star';
+                                break;
+                        }
+                    @endphp
+
+                    <div class="card avg-score {{ $kategoriClass }}">
                         <div class="card-header">
-                            <div>
-                                <div class="card-title">Kategori Terakhir</div>
-                                <div class="card-value">Sehat</div>
+                            <div class="card-content">
+                                <div class="card-title">Kategori</div>
+                                <div class="card-value">{{ $kategoriTerakhir }}</div>
                                 <div class="card-subtitle">Dari tes terakhir</div>
                             </div>
-                            <div class="card-icon">
-                                <i class="fas fa-heartbeat"></i>
+                            <div class="card-icon-wrapper">
+                                <div class="card-icon">
+                                    <i class="{{ $iconClass }}"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                <!-- Grafik Perkembangan (Desain Diperbarui) -->
+                <section class="chart-section">
+                    <h3 class="chart-title"><i class="fas fa-chart-line"></i> Grafik Skor Mental Health</h3>
+                    <div class="chart-container">
+                        @if (isset($chartLabels) && $chartLabels->isNotEmpty())
+                            <canvas id="mentalHealthChart"></canvas>
+                        @else
+                            <p style="text-align: center; color: #888; padding-top: 50px;">Grafik akan muncul setelah
+                                Anda menyelesaikan tes pertama.</p>
+                        @endif
+                    </div>
+                </section>
+
                 <!-- Table -->
                 <div class="table-container">
                     <div class="table-header">
@@ -134,67 +218,69 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Jenis Tes</th>
                                     <th>Tanggal Tes</th>
-                                    <th>Keluhan</th> <!-- Kolom baru -->
-                                    <th>Lama Keluhan</th> <!-- Kolom baru -->
-                                    <th>Status</th>
+                                    <th>NIM</th>
+                                    <th>Nama</th>
+                                    <th>Prodi</th>
+                                    <th>Riwayat Keluhan</th>
+                                    <th>Lama Keluhan</th>
+                                    <th>Kategori Mental Health</th>
+                                    <th>Lihat Hasil Tes</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><i class="fas fa-heart text-red-500 mr-2"></i>Tes Depresi (PHQ-9)</td>
-                                    <td>15 Juli 2024</td>
-                                    <td>Sering merasa sedih</td>
-                                    <td>6 bulan</td>
-                                    <td><span class="status-badge status-completed">Selesai</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><i class="fas fa-heart text-red-500 mr-2"></i>Tes Kecemasan (GAD-7)</td>
-                                    <td>20 Juli 2024</td>
-                                    <td>Gelisah berlebihan</td>
-                                    <td>4 bulan</td>
-                                    <td><span class="status-badge status-completed">Selesai</span></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><i class="fas fa-briefcase text-blue-500 mr-2"></i>Tes Minat Karir Holland</td>
-                                    <td>25 Juli 2024</td>
-                                    <td>Tidak tahu minat kerja</td>
-                                    <td>-</td>
-                                    <td><span class="status-badge status-pending">Tertunda</span></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><i class="fas fa-heart text-red-500 mr-2"></i>Tes Stres (PSS-10)</td>
-                                    <td>28 Juli 2024</td>
-                                    <td>Mudah marah dan lelah</td>
-                                    <td>2 bulan</td>
-                                    <td><span class="status-badge status-completed">Selesai</span></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><i class="fas fa-briefcase text-blue-500 mr-2"></i>Tes Kepribadian Big Five
-                                    </td>
-                                    <td>02 Agustus 2024</td>
-                                    <td>Ingin kenali diri</td>
-                                    <td>-</td>
-                                    <td><span class="status-badge status-completed">Selesai</span></td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td><i class="fas fa-heart text-red-500 mr-2"></i>Tes Burnout (MBI)</td>
-                                    <td>05 Agustus 2024</td>
-                                    <td>Lelah kerja terus-menerus</td>
-                                    <td>8 bulan</td>
-                                    <td><span class="status-badge status-pending">Tertunda</span></td>
-                                </tr>
+                                @forelse ($riwayatTes as $tes)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        {{-- Kolom Tanggal Tes ditambahkan di sini --}}
+                                        <td>{{ \Carbon\Carbon::parse($tes->created_at)->timezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
+                                            WIB</td>
+                                        <td>{{ $tes->nim }}</td>
+                                        <td>{{ $tes->nama }}</td>
+                                        <td>{{ $tes->program_studi ?? '-' }}</td>
+                                        <td>{{ $tes->keluhan ?? '-' }}</td>
+                                        <td>{{ $tes->lama_keluhan ? $tes->lama_keluhan . ' Bulan' : '-' }}</td>
+                                        <td style="text-align: center">
+                                            @php
+                                                $kategori = $tes->kategori_mental_health ?? 'N/A';
+                                                $badgeClass = match ($kategori) {
+                                                    'Perlu Dukungan Intensif' => 'range-intensif',
+                                                    'Perlu Dukungan' => 'range-support',
+                                                    'Cukup Sehat' => 'range-moderate',
+                                                    'Sehat' => 'range-good',
+                                                    'Sangat Sehat' => 'range-excellent',
+                                                    default => 'range-moderate', // fallback
+                                                };
+                                            @endphp
+
+                                            <span class="range-badge {{ $badgeClass }}">
+                                                {{ $kategori }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="open-modal diagnose-btn"
+                                                data-kategori="{{ $kategori }}">
+                                                <i class="fa-solid fa-eye"></i> Interpretasi
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        {{-- Colspan disesuaikan menjadi 8 --}}
+                                        <td colspan="8" style="text-align: center;">Anda belum pernah mengikuti
+                                            tes.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
+                        <!-- 📊 Modal Diagnosa -->
+                        <div id="diagnosaModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <div id="diagnosaContent"></div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </main>
@@ -202,5 +288,101 @@
 </body>
 <x-footer></x-footer>
 <script src="{{ asset('js/script-user-mh.js') }}"></script>
+{{-- 3. Pindahkan Script ke bagian bawah body (tanpa @push) --}}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const chartSection = document.getElementById("mentalHealthChart");
+
+        // 🔥 Lazy render grafik (baru aktif saat terlihat di layar)
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                renderChart();
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(chartSection);
+
+        function renderChart() {
+            const labels = @json($chartLabels ?? []);
+            const scores = @json($chartScores ?? []);
+
+            if (!labels.length || !scores.length) {
+                console.warn("⚠️ Data tidak cukup untuk menampilkan grafik.");
+                return;
+            }
+
+            new Chart(chartSection, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Skor',
+                        data: scores,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37,99,235,0.15)',
+                        pointBackgroundColor: '#2563eb',
+                        tension: 0.3,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false, // ⚡ Matikan animasi agar lebih ringan
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    weight: 'bold', // ✅ Tetap bold
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 38,
+                            max: 226,
+                            title: {
+                                display: true,
+                                text: 'Total Skor',
+                                font: {
+                                    weight: 'bold', // ✅ Tetap bold
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                stepSize: 38,
+                                font: {
+                                    weight: 'bold', // ✅ Tetap bold
+                                    size: 13
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Riwayat Tes',
+                                font: {
+                                    weight: 'bold', // ✅ Tetap bold
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                font: {
+                                    weight: 'bold', // ✅ Tetap bold
+                                    size: 13
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
 
 </html>
