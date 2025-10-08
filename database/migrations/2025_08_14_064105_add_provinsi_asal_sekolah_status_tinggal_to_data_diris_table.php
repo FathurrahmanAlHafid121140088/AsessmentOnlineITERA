@@ -11,14 +11,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('data_diris', function (Blueprint $table) {
-            // Provinsi setelah jenis_kelamin
-            $table->string('provinsi')->after('jenis_kelamin');
-
-            // Asal sekolah setelah program_studi
-            $table->string('asal_sekolah')->after('program_studi');
-
-            // Status tinggal setelah asal_sekolah
-            $table->string('status_tinggal')->after('asal_sekolah');
+            // Menambahkan ->nullable() agar kolom ini diizinkan kosong
+            $table->string('provinsi')->after('jenis_kelamin')->nullable();
+            $table->string('asal_sekolah')->after('program_studi')->nullable();
+            $table->string('status_tinggal')->after('asal_sekolah')->nullable();
         });
     }
 

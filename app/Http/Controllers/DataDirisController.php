@@ -50,13 +50,9 @@ class DataDirisController extends Controller
         DB::beginTransaction();
 
         try {
-            // PERUBAHAN UTAMA: Menggunakan firstOrCreate.
-            // Metode ini akan mencari DataDiri berdasarkan NIM.
-            // - JIKA SUDAH ADA: Ia akan mengembalikan data yang ada tanpa memperbaruinya.
-            // - JIKA BELUM ADA: Ia akan membuat record baru dengan data dari form.
             $dataDiri = DataDiris::firstOrCreate(
-                ['nim' => $user->nim], // Kunci untuk mencari
-                [ // Data ini HANYA digunakan jika record baru dibuat
+                ['nim' => $user->nim],
+                [
                     'nama' => $validated['nama'],
                     'jenis_kelamin' => $validated['jenis_kelamin'],
                     'provinsi' => $validated['provinsi'],
@@ -70,7 +66,6 @@ class DataDirisController extends Controller
                 ]
             );
 
-            // Selalu buat entri riwayat keluhan yang baru setiap kali form disubmit.
             RiwayatKeluhans::create([
                 'nim' => $user->nim,
                 'keluhan' => $validated['keluhan'],
@@ -81,8 +76,6 @@ class DataDirisController extends Controller
 
             DB::commit();
 
-            // Ambil data 'nama' dan 'program_studi' dari hasil operasi di atas
-            // ($dataDiri), yang merupakan data paling up-to-date, lalu simpan ke session.
             session([
                 'nim' => $user->nim,
                 'nama' => $dataDiri->nama,
@@ -99,18 +92,6 @@ class DataDirisController extends Controller
                 ->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])
                 ->withInput();
         }
-    }
-
-    /**
-     * Menangani request pencarian data mahasiswa secara asynchronous (AJAX).
-     */
-    public function search(Request $request)
-    {
-        $keyword = $request->input('query');
-        $results = DataDiris::with(['riwayatKeluhans', 'hasilKuesioners'])
-            ->search($keyword)
-            ->get();
-        return response()->json($results);
     }
 }
 

@@ -11,7 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        \App\Http\Middleware\CheckNimSession::class;
+        // PERUBAHAN UTAMA:
+        // Daftarkan middleware kustom Anda untuk menggantikan middleware bawaan.
+        // Ini akan memastikan kode logging kita di VerifyCsrfToken.php dijalankan.
+        $middleware->replace(
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\VerifyCsrfToken::class
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

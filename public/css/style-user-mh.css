@@ -1139,3 +1139,106 @@ tr:hover {
         font-size: 12px;
     }
 }
+/* WhatsApp fixed contact button */
+#wa-contact {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px; /* pill shape */
+    background: linear-gradient(180deg, #25d366 0%, #1da851 100%);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.18),
+        0 2px 6px rgba(0, 0, 0, 0.12);
+    transform-origin: center;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    font-weight: 600;
+    -webkit-tap-highlight-color: transparent;
+    backdrop-filter: blur(4px);
+}
+
+/* Icon */
+#wa-contact .wa-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 20px;
+}
+
+/* Label */
+#wa-contact .wa-label {
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Hover / active */
+#wa-contact:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 14px 40px rgba(37, 211, 102, 0.18),
+        0 6px 16px rgba(0, 0, 0, 0.14);
+    text-decoration: none;
+}
+
+/* Small pulsing ring */
+#wa-contact::after {
+    content: "";
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid rgba(37, 211, 102, 0.14);
+    animation: waPulse 2.6s infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes waPulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.25);
+        opacity: 0.25;
+    }
+    100% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* Responsif: sembunyikan label di layar kecil, tampilkan hanya ikon */
+@media (max-width: 480px) {
+    #wa-contact {
+        right: 14px;
+        bottom: 14px;
+        padding: 8px;
+    }
+    #wa-contact .wa-label {
+        display: none;
+    }
+    #wa-contact .wa-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+    }
+}
+
+/* Safe spacing for devices with bottom insets (iPhone notch) */
+@supports (padding: max(0px)) {
+    #wa-contact {
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    }
+}

@@ -13,6 +13,8 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\KarirController;
 use App\Http\Controllers\DashboardController; // <-- Jangan lupa tambahkan ini di atas
+use App\Http\Controllers\AuthController;
+
 
 
 // Beranda/Home
@@ -96,7 +98,6 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 // ROUTES USER LAIN (Bebas diakses)
 // =====================
 
-use App\Http\Controllers\AuthController;
 
 // Rute untuk mengarahkan pengguna ke halaman login Google
 Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');

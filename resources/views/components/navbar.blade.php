@@ -44,13 +44,12 @@
 
                                 <!-- Tombol Logout -->
                                 <a href="{{ route('logout') }}" class="dropdown-item logout"
-                                    onclick="event.preventDefault(); document.getElementById('navbar-logout-form').submit();">
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="fas fa-sign-out-alt fa-fw"></i> Logout
                                 </a>
 
                                 <!-- ✅ Form Logout (Wajib Ada) -->
-                                <form id="navbar-logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </div>

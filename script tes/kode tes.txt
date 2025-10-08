@@ -1,0 +1,79 @@
+(function() {
+  window.fillForTarget = function(TARGET) {
+    const questions = Array.from(document.querySelectorAll('.question'));
+    if (questions.length === 0) {
+      console.error("⚠️ Tidak ditemukan elemen .question. Pastikan halaman sudah selesai dimuat.");
+      return;
+    }
+
+    // Ambil semua opsi tiap pertanyaan
+    const options = questions.map(q => {
+      const radios = Array.from(q.querySelectorAll('input[type="radio"]'));
+      const vals = radios.map(r => Number(r.value)).filter(v => !isNaN(v));
+      return { radios, vals };
+    });
+
+    // Hitung total minimum dan maksimum
+    const minSum = options.reduce((s, q) => s + Math.min(...q.vals), 0);
+    const maxSum = options.reduce((s, q) => s + Math.max(...q.vals), 0);
+
+    console.log(`📊 Jumlah soal: ${options.length}`);
+    console.log(`🔢 Total minimum: ${minSum}, maksimum: ${maxSum}`);
+
+    // Cek apakah target memungkinkan
+    if (TARGET < minSum || TARGET > maxSum) {
+      console.warn(`⚠️ Target ${TARGET} di luar jangkauan (${minSum} - ${maxSum}). Akan dipilih kombinasi terdekat.`);
+    }
+
+    // Dynamic Programming
+    const dp = Array.from({ length: options.length + 1 }, () => new Map());
+    dp[0].set(0, null);
+
+    for (let i = 0; i < options.length; i++) {
+      for (const [sum, prev] of dp[i].entries()) {
+        for (const val of options[i].vals) {
+          const newSum = sum + val;
+          if (!dp[i + 1].has(newSum)) {
+            dp[i + 1].set(newSum, { prevSum: sum, choice: val });
+          }
+        }
+      }
+    }
+
+    // Cari kombinasi terdekat
+    const finalMap = dp[options.length];
+    let bestSum = null;
+    let bestDiff = Infinity;
+    for (const sum of finalMap.keys()) {
+      const diff = Math.abs(sum - TARGET);
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestSum = sum;
+      }
+    }
+
+    // Rekonstruksi jawaban
+    let sum = bestSum;
+    const choices = [];
+    for (let i = options.length; i > 0; i--) {
+      const node = dp[i].get(sum);
+      choices.unshift(node.choice);
+      sum = node.prevSum;
+    }
+
+    // Tandai radio yang sesuai
+    options.forEach((q, i) => {
+      const val = choices[i];
+      const radio = q.radios.find(r => Number(r.value) === val);
+      if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+
+    console.log(`✅ Kombinasi ditemukan: total ${bestSum} (selisih ${Math.abs(bestSum - TARGET)})`);
+    return bestSum;
+  };
+
+  console.log("✅ Fungsi fillForTarget(TARGET) siap! Contoh: fillForTarget(76)");
+})();

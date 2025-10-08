@@ -36,7 +36,23 @@
                 <div class="text-center">
                     <img src="../assets/img/img-form.png" style="width: 250px">
                 </div>
-                <form action="{{ route('mental-health.store-data-diri') }}" method="POST"> @csrf
+                <form id="data-diri-form" action="{{ route('mental-health.store-data-diri') }}" method="POST">
+                    {{-- 1. Token CSRF diletakkan di sini untuk keamanan --}}
+                    @csrf
+
+                    {{-- 2. Blok ini akan menampilkan pesan error jika validasi gagal --}}
+                    {{-- BLOK UNTUK MENAMPILKAN ERROR VALIDASI --}}
+                    @if ($errors->any())
+                        <div class="error-box">
+                            <strong>Terjadi kesalahan, periksa kembali isian Anda:</strong>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="formbold-form-title">
                         <h2 class="">Form Data Diri</h2>
                         <p>Isi data diri dibawah ini dengan benar.</p>
@@ -44,17 +60,24 @@
 
                     <div class="formbold-input-flex">
                         <div>
-                            <label for="nama" class="formbold-form-label">
-                                <i class="fas fa-user fa-sm"></i> Nama
-                            </label> <input type="text" name="nama" id="nama" class="formbold-form-input"
-                                placeholder="Masukkan nama lengkap" required />
+                            {{-- Field Nama: Mengisi otomatis berdasarkan prioritas: --}}
+                            {{-- 1. Input lama (jika validasi gagal) --}}
+                            {{-- 2. Data dari database (jika sudah ada) --}}
+                            {{-- 3. Nama dari akun Google (sebagai default) --}}
+                            <label for="nama" class="formbold-form-label"><i class="fas fa-user fa-sm"></i>
+                                Nama</label>
+                            <input type="text" name="nama" id="nama" class="formbold-form-input"
+                                placeholder="Masukkan nama lengkap"
+                                value="{{ old('nama', $dataDiri->nama ?? Auth::user()->name) }}" required />
                         </div>
                         <div>
-                            <label for="nim" class="formbold-form-label">
-                                <i class="fas fa-id-card fa-sm"></i> NIM
-                            </label>
-                            <input type="number" name="nim" id="nim" class="formbold-form-input"
-                                placeholder="Masukkan NIM" required />
+                            {{-- Field NIM: Diambil otomatis dari user yang login untuk memastikan data terhubung --}}
+                            {{-- Dibuat disabled agar tidak bisa diubah oleh pengguna --}}
+                            <label for="nim_display" class="formbold-form-label"><i class="fas fa-id-card fa-sm"></i>
+                                NIM</label>
+                            <input type="number" id="nim_display" class="formbold-form-input"
+                                value="{{ Auth::user()->nim }}" disabled
+                                style="background-color: #f0f2f5; cursor: not-allowed;" />
                         </div>
                     </div>
                     <div class="formbold-input-flex">
@@ -65,13 +88,17 @@
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="jenis_kelamin" value="L"
-                                        class="formbold-input-radio" required> Laki-laki
+                                        class="formbold-input-radio" required
+                                        {{ old('jenis_kelamin', $dataDiri->jenis_kelamin ?? '') == 'L' ? 'checked' : '' }}>
+                                    Laki-laki
                                 </label>
                             </div>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="jenis_kelamin" value="P"
-                                        class="formbold-input-radio" required> Perempuan
+                                        class="formbold-input-radio" required
+                                        {{ old('jenis_kelamin', $dataDiri->jenis_kelamin ?? '') == 'P' ? 'checked' : '' }}>
+                                    Perempuan
                                 </label>
                             </div>
                         </div>
@@ -82,6 +109,7 @@
                             </label>
                             <select name="provinsi" id="provinsi" class="formbold-form-input" required>
                                 <option value="" disabled selected>Pilih Provinsi</option>
+                                {{-- Daftar provinsi Anda --}}
                                 <option value="Aceh">Aceh</option>
                                 <option value="Sumatera Utara">Sumatera Utara</option>
                                 <option value="Sumatera Barat">Sumatera Barat</option>
@@ -150,15 +178,12 @@
                                     required onchange="updateProdi()"> FS
                             </label>
                         </div>
-
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="fakultas" value="FTIK" class="formbold-input-radio"
-                                    required onchange="updateProdi()">
-                                FTIK
+                                    required onchange="updateProdi()"> FTIK
                             </label>
                         </div>
-
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="fakultas" value="FTI" class="formbold-input-radio"
@@ -166,6 +191,7 @@
                             </label>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="formbold-mb-3">
@@ -177,7 +203,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-lg-6">
                             <div class="formbold-mb-3">
                                 <label for="sekolah" class="formbold-form-label">
@@ -199,8 +224,10 @@
                                 <label for="email" class="formbold-form-label">
                                     <i class="fas fa-envelope fa-sm"></i> Email
                                 </label>
+                                {{-- Mengisi otomatis email dari data user yang login --}}
                                 <input type="email" name="email" id="email" class="formbold-form-input"
-                                    placeholder="Masukkan email" required />
+                                    value="{{ old('email', Auth::user()->email) }}" placeholder="Masukkan email"
+                                    required />
                             </div>
                         </div>
                         <div class="formbold-mb-3">
@@ -222,49 +249,29 @@
                         </div>
                     </div>
 
+                    {{-- Keluhan dan pertanyaan lainnya --}}
                     <div class="formbold-input-flex">
                         <div>
                             <label for="keluhan" class="formbold-form-label">
                                 <i class="fas fa-comment-dots fa-sm"></i> Keluhan
                             </label>
                             <textarea name="keluhan" id="keluhan" class="formbold-form-input" rows="4"
-                                placeholder="Masukkan keluhan yang dialami saat ini" required></textarea>
+                                placeholder="Masukkan keluhan yang dialami saat ini" required>{{ old('keluhan') }}</textarea>
                         </div>
-
                         <div class="formbold-mb-3">
                             <label for="lama_keluhan" class="formbold-form-label">
                                 <i class="fas fa-hourglass-half fa-sm"></i> Lama Keluhan
                             </label>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="lama_keluhan" value="1"
-                                        class="formbold-input-radio" required> 1 Bulan
-                                </label>
-                            </div>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="lama_keluhan" value="2"
-                                        class="formbold-input-radio"> 2 Bulan
-                                </label>
-                            </div>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="lama_keluhan" value="3"
-                                        class="formbold-input-radio"> 3 Bulan
-                                </label>
-                            </div>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="lama_keluhan" value="4"
-                                        class="formbold-input-radio"> 4 Bulan
-                                </label>
-                            </div>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="lama_keluhan" value="5"
-                                        class="formbold-input-radio"> 5 Bulan
-                                </label>
-                            </div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
+                                        value="1" class="formbold-input-radio" required> 1 Bulan</label></div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
+                                        value="2" class="formbold-input-radio"> 2 Bulan</label></div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
+                                        value="3" class="formbold-input-radio"> 3 Bulan</label></div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
+                                        value="4" class="formbold-input-radio"> 4 Bulan</label></div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
+                                        value="5" class="formbold-input-radio"> 5 Bulan</label></div>
                         </div>
                     </div>
 
@@ -273,47 +280,29 @@
                             <label class="formbold-form-label">
                                 <i class="fas fa-brain fa-sm"></i> Pernah Tes Psikologi?
                             </label>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="pernah_tes" value="Ya"
-                                        class="formbold-input-radio" required> Ya
-                                </label>
-                            </div>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="pernah_tes" value="Tidak"
-                                        class="formbold-input-radio"> Tidak
-                                </label>
-                            </div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="pernah_tes"
+                                        value="Ya" class="formbold-input-radio" required> Ya</label></div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="pernah_tes"
+                                        value="Tidak" class="formbold-input-radio"> Tidak</label></div>
                         </div>
                         <div class="formbold-mb-3">
                             <label class="formbold-form-label">
                                 <i class="fas fa-hands-helping fa-sm"></i> Pernah Konsultasi?
                             </label>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="pernah_konsul" value="Ya"
-                                        class="formbold-input-radio" required> Ya
-                                </label>
-                            </div>
-                            <div>
-                                <label class="formbold-radio-label">
-                                    <input type="radio" name="pernah_konsul" value="Tidak"
-                                        class="formbold-input-radio"> Tidak
-                                </label>
-                            </div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="pernah_konsul"
+                                        value="Ya" class="formbold-input-radio" required> Ya</label></div>
+                            <div><label class="formbold-radio-label"><input type="radio" name="pernah_konsul"
+                                        value="Tidak" class="formbold-input-radio"> Tidak</label></div>
                         </div>
                     </div>
 
                     <div class="text-center">
                         <button type="submit" class="btn-submit" id="submit-button">
-                            <span>
-                                Submit
-                                <i class="fas fa-paper-plane"></i>
-                            </span>
+                            <span>Submit <i class="fas fa-paper-plane"></i></span>
                         </button>
                     </div>
                 </form>
+
             </div>
         </div>
 

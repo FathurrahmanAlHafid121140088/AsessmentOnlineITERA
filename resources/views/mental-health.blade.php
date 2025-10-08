@@ -32,7 +32,6 @@
     </head>
 </head>
 <x-navbar></x-navbar>
-
 <main>
     <!-- Hero Section -->
     <section id="hero" class="hero section">
@@ -98,6 +97,7 @@
         </div>
     </section>
 </main><!-- /About Section -->
+
 <x-footer></x-footer>
 </body>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

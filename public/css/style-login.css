@@ -117,6 +117,23 @@ body {
     gap: 0.4rem;
 }
 
+/* 📱 Responsif untuk layar kecil */
+@media (max-width: 768px) {
+    .signup-link {
+        font-size: 13px; /* sedikit lebih kecil */
+        margin-top: 20px; /* jarak atas lebih rapat */
+        gap: 0.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-link {
+        font-size: 12px; /* lebih kecil lagi di mobile */
+        margin-top: 18px;
+        gap: 0.3rem;
+    }
+}
+
 .signup-link a {
     color: #000;
     text-decoration: none;
@@ -312,12 +329,12 @@ body {
 /* 📱 RESPONSIVE */
 @media (max-width: 480px) {
     .btn-165 {
-        padding: 6px 12px; /* ⬅️ lebih kecil di mobile */
-        font-size: 12px;
-        gap: 6px;
+        padding: 6px 12px; /* ⬅️ lebih kecil lagi di mobile */
+        font-size: 11px;
+        gap: 4px;
     }
 
     .btn-165 svg {
-        height: 18px; /* ⬅️ ikon lebih kecil di mobile */
+        height: 16px; /* ⬅️ ikon lebih kecil lagi */
     }
 }

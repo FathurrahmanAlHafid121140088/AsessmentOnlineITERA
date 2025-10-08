@@ -285,6 +285,13 @@
             </div>
         </main>
     </div>
+    <a id="wa-contact" href="https://wa.me/6285150876464" target="_blank" rel="noopener noreferrer"
+        aria-label="Hubungi kami via WhatsApp">
+        <span class="wa-icon" aria-hidden="true">
+            <i class="fab fa-whatsapp"></i>
+        </span>
+        <span class="wa-label">Hubungi Kami</span>
+    </a>
 </body>
 <x-footer></x-footer>
 <script src="{{ asset('js/script-user-mh.js') }}"></script>
@@ -304,12 +311,17 @@
         observer.observe(chartSection);
 
         function renderChart() {
-            const labels = @json($chartLabels ?? []);
+            let labels = @json($chartLabels ?? []);
             const scores = @json($chartScores ?? []);
 
             if (!labels.length || !scores.length) {
                 console.warn("⚠️ Data tidak cukup untuk menampilkan grafik.");
                 return;
+            }
+
+            // 📱 Jika layar kecil (mobile), ubah label menjadi angka 1, 2, 3, ...
+            if (window.innerWidth <= 768) {
+                labels = labels.map((_, index) => index + 1);
             }
 
             new Chart(chartSection, {
@@ -331,12 +343,12 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: false, // ⚡ Matikan animasi agar lebih ringan
+                    animation: false,
                     plugins: {
                         legend: {
                             labels: {
                                 font: {
-                                    weight: 'bold', // ✅ Tetap bold
+                                    weight: 'bold',
                                     size: 14
                                 }
                             }
@@ -350,14 +362,14 @@
                                 display: true,
                                 text: 'Total Skor',
                                 font: {
-                                    weight: 'bold', // ✅ Tetap bold
+                                    weight: 'bold',
                                     size: 14
                                 }
                             },
                             ticks: {
                                 stepSize: 38,
                                 font: {
-                                    weight: 'bold', // ✅ Tetap bold
+                                    weight: 'bold',
                                     size: 13
                                 }
                             }
@@ -367,13 +379,13 @@
                                 display: true,
                                 text: 'Riwayat Tes',
                                 font: {
-                                    weight: 'bold', // ✅ Tetap bold
+                                    weight: 'bold',
                                     size: 14
                                 }
                             },
                             ticks: {
                                 font: {
-                                    weight: 'bold', // ✅ Tetap bold
+                                    weight: 'bold',
                                     size: 13
                                 }
                             }
@@ -384,5 +396,6 @@
         }
     });
 </script>
+
 
 </html>

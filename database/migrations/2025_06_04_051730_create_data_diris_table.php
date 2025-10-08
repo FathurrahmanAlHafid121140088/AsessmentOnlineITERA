@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,13 +12,13 @@ return new class extends Migration
     {
         Schema::create('data_diris', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('nim')->unique(); // ubah dari string ke angka
+            $table->bigInteger('nim')->unique();
             $table->string('nama');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->text('alamat');
-            $table->integer('usia');
-            $table->string('fakultas');
-            $table->string('program_studi');
+            $table->enum('jenis_kelamin', ['L', 'P'])->nullable();
+            $table->text('alamat')->nullable();
+            $table->integer('usia')->nullable();
+            $table->string('fakultas')->nullable();
+            $table->string('program_studi')->nullable();
             $table->timestamps();
         });
     }
