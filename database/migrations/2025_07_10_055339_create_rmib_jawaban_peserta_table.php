@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('rmib_jawaban_peserta', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('hasil_id');
+            $table->bigInteger('nim');
             $table->string('kelompok'); // Nama kategori pekerjaan
             $table->string('pekerjaan'); // Nama pekerjaan
             $table->integer('peringkat'); // Peringkat 1-12
             $table->timestamps();
 
-            $table->foreign('hasil_id')->references('id_hasil')->on('rmib_hasil_tes')->onDelete('cascade');
+            $table->foreignId('karir_data_diri_id')->constrained('karir_data_diri')->onDelete('cascade');
         });
     }
 

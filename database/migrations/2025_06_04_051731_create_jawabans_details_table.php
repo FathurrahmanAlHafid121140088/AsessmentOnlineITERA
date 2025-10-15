@@ -13,10 +13,14 @@ return new class extends Migration
     {
     Schema::create('jawabans_details', function (Blueprint $table) {
         $table->id();
+        $table->bigInteger('nim');
         $table->foreignId('jawaban_id')->constrained('jawaban')->onDelete('cascade');
         $table->integer('nomor_soal');
         $table->integer('skor');
         $table->timestamps();
+
+        $table->foreignId('karir_data_diri_id')->constrained('karir_data_diri')->onDelete('cascade');
+
     });
 
     }
