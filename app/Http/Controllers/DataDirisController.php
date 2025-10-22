@@ -15,7 +15,8 @@ class DataDirisController extends Controller
      */
     public function create()
     {
-        $dataDiri = DataDiris::find(Auth::user()->nim);
+        // Mencari data diri berdasarkan NIM user yang sedang login
+        $dataDiri = DataDiris::where('nim', Auth::user()->nim)->first();
 
         return view('isi-data-diri', [
             'title' => 'Form Data Diri',
@@ -24,7 +25,7 @@ class DataDirisController extends Controller
     }
 
     /**
-     * Membuat data diri jika belum ada, dan selalu menyimpan riwayat keluhan baru.
+     * Memperbarui atau membuat data diri, dan selalu menyimpan riwayat keluhan baru.
      */
     public function store(Request $request)
     {
@@ -50,7 +51,10 @@ class DataDirisController extends Controller
         DB::beginTransaction();
 
         try {
-            $dataDiri = DataDiris::firstOrCreate(
+            // SOLUSI: Ganti firstOrCreate dengan updateOrCreate
+            // Ini akan mencari data diri berdasarkan NIM. Jika ada, akan di-update.
+            // Jika tidak ada, akan dibuat baru.
+            $dataDiri = DataDiris::updateOrCreate(
                 ['nim' => $user->nim],
                 [
                     'nama' => $validated['nama'],
@@ -66,6 +70,7 @@ class DataDirisController extends Controller
                 ]
             );
 
+            // Selalu buat entri riwayat keluhan baru setiap kali form ini disubmit
             RiwayatKeluhans::create([
                 'nim' => $user->nim,
                 'keluhan' => $validated['keluhan'],
@@ -94,4 +99,3 @@ class DataDirisController extends Controller
         }
     }
 }
-

@@ -11,9 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // PERUBAHAN UTAMA:
-        // Daftarkan middleware kustom Anda untuk menggantikan middleware bawaan.
-        // Ini akan memastikan kode logging kita di VerifyCsrfToken.php dijalankan.
+        // Daftarkan middleware 'guest' di sini
+        $middleware->alias([
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        ]);
+
+        // ... middleware lain yang mungkin sudah ada
         $middleware->replace(
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \App\Http\Middleware\VerifyCsrfToken::class

@@ -49,7 +49,7 @@
                 <h4>Menu Utama</h4>
                 <ul style="list-style: none; padding: 0;">
                     <li>
-                        <a href="/home" class="animated-link">Home</a>
+                        <a href="/" class="animated-link">Home</a>
                     </li>
                     <li>
                         <a href="/mental-health" class="animated-link">Mental Health</a>

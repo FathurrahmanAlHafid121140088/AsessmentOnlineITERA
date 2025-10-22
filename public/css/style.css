@@ -1529,6 +1529,7 @@ header.masthead .masthead-heading {
 }
 
 /* 👤 Avatar */
+/* 👤 Avatar */
 .user-avatar {
     width: 30px;
     height: 30px;
@@ -1538,7 +1539,8 @@ header.masthead .masthead-heading {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 1rem; /* <-- Tambahkan atau ubah baris ini */
+    font-weight: 700;
 }
 
 /* 🧑 Nama pengguna (di navbar) */
@@ -1655,23 +1657,6 @@ header.masthead .masthead-heading {
     margin: 5px 0;
 }
 
-/* ============================= */
-/* 📱 Responsif */
-/* ============================= */
-@media (max-width: 768px) {
-    .user-name {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .dropdown-item,
-    .user-username,
-    .user-email {
-        font-size: 0.85rem;
-        padding: 0.6rem 0.8rem;
-    }
-}
 /* Segitiga dropdown */
 .user-caret {
     color: #fff; /* ✅ warna putih */
@@ -1683,4 +1668,37 @@ header.masthead .masthead-heading {
 /* Tambahan opsional: putar saat dropdown terbuka */
 .user-info:focus-within .user-caret {
     transform: rotate(180deg);
+}
+
+/* ============================= */
+/* 📱 Responsif */
+/* ============================= */
+@media (max-width: 768px) {
+    .user-name {
+        display: none;
+    }
+}
+
+/* ============================= */
+/* 📱 Kecilkan ukuran teks di layar <480px */
+/* ============================= */
+/* ============================= */
+/* 📱 Kecilkan ukuran teks di layar <480px */
+/* ============================= */
+@media (max-width: 480px) {
+    .user-name,
+    .dropdown-item,
+    .user-username,
+    .user-email,
+    .logout {
+        font-size: 0.75rem; /* 💬 sedikit lebih kecil */
+    }
+
+    /* Ikon ikut disesuaikan agar tetap seimbang */
+    .dropdown-item .fa-fw,
+    .user-username i,
+    .user-email i,
+    .user-caret {
+        font-size: 0.75rem;
+    }
 }

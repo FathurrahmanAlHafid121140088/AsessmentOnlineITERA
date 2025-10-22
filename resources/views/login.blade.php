@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/style-login.css" rel="stylesheet" />
-    <!-- AOS Library -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 
@@ -74,7 +74,9 @@
                         <span>Login with Google</span>
                     </a>
                 </div>
-
+                <a class="signup-link" href="/">
+                    <i class="fas fa-home"></i> Kembali ke Halaman Utama
+                </a>
             </form>
         </div>
     </div>

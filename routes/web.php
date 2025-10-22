@@ -18,7 +18,7 @@ use App\Http\Controllers\AuthController;
 
 
 // Beranda/Home
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('home', ['title' => 'Home']);
 })->name('home');
 
@@ -29,11 +29,13 @@ Route::get('/home', function () {
 // AUTH ADMIN ROUTE
 // =====================
 
-// Form Login Admin
-Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+Route::middleware('guest')->group(function () {
+    // Form Login Admin
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 
-// Proses Login Admin
-Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
+    // Proses Login Admin
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
+});
 
 // Logout Admin
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');

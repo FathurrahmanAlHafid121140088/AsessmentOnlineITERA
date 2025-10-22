@@ -13,8 +13,8 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Ambil data tes + total_skor
-        $riwayatData = HasilKuesioner::query()
+        // Membuat query dasar yang akan digunakan kembali
+        $baseQuery = HasilKuesioner::query()
             ->leftJoin('data_diris', 'hasil_kuesioners.nim', '=', 'data_diris.nim')
             ->where('hasil_kuesioners.nim', $user->nim)
             ->select(
@@ -26,31 +26,37 @@ class DashboardController extends Controller
                 'hasil_kuesioners.created_at',
                 DB::raw('(SELECT keluhan FROM riwayat_keluhans WHERE nim = hasil_kuesioners.nim AND created_at <= hasil_kuesioners.created_at ORDER BY created_at DESC LIMIT 1) as keluhan'),
                 DB::raw('(SELECT lama_keluhan FROM riwayat_keluhans WHERE nim = hasil_kuesioners.nim AND created_at <= hasil_kuesioners.created_at ORDER BY created_at DESC LIMIT 1) as lama_keluhan')
-            )
-            ->orderBy('hasil_kuesioners.created_at', 'asc')
-            ->get();
+            );
 
-        // Label: Tes ke-1, Tes ke-2, dst
-        $labels = $riwayatData->map(function ($item, $index) {
+        // 1. Ambil SEMUA data untuk chart (diurutkan dari TERLAMA ke terbaru - asc)
+        $semuaRiwayat = $baseQuery->clone()->orderBy('hasil_kuesioners.created_at', 'asc')->get();
+
+        // 2. Ambil data PAGINASI untuk tabel riwayat (urutan sama, tes terlama di halaman pertama)
+        $riwayatTes = $baseQuery->clone()->orderBy('hasil_kuesioners.created_at', 'asc')->paginate(10);
+
+        // --- Proses data untuk chart dan statistik dari $semuaRiwayat ---
+
+        // Label: Tes ke-1, Tes ke-2, dst. ("Tes 1" adalah tes terlama)
+        $labels = $semuaRiwayat->map(function ($item, $index) {
             return 'Tes ' . ($index + 1);
         });
 
-        // Data skor (pastikan cast ke integer)
-        $scores = $riwayatData->pluck('total_skor')->map(fn($v) => (int) $v);
+        // Data skor (diurutkan dari terlama ke terbaru)
+        $scores = $semuaRiwayat->pluck('total_skor')->map(fn($v) => (int) $v);
 
-        $jumlahTesDiikuti = $riwayatData->count();
-        $kategoriTerakhir = $riwayatData->isNotEmpty() ? $riwayatData->last()->kategori_mental_health : 'Belum ada tes';
+        $jumlahTesDiikuti = $semuaRiwayat->count();
+        // Karena urutan asc, data terakhir adalah item TERAKHIR
+        $kategoriTerakhir = $semuaRiwayat->isNotEmpty() ? $semuaRiwayat->last()->kategori_mental_health : 'Belum ada tes';
 
         return view('user-mental-health', [
             'title' => 'Dashboard Mental Health',
             'jumlahTesDiikuti' => $jumlahTesDiikuti,
             'jumlahTesSelesai' => $jumlahTesDiikuti,
             'kategoriTerakhir' => $kategoriTerakhir,
-            'riwayatTes' => $riwayatData,
+            'riwayatTes' => $riwayatTes, // Kirim data paginasi ke view
             'chartLabels' => $labels,
             'chartScores' => $scores,
         ]);
     }
-
-
 }
+

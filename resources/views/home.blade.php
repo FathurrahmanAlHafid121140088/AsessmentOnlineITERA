@@ -29,7 +29,7 @@
     <!-- Masthead-->
     <header class="masthead">
         <div class="container">
-            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="100">Selamat Datang Di</div>
+            <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="100">Selamat Datang di</div>
             <div class="masthead-heading text-uppercase" data-aos="fade-down" data-aos-delay="100">Asessment Online
                 Psychology</div>
             <div class="masthead-subheading" data-aos="fade-down" data-aos-delay="150">Pusat Pengembangan Sumber Daya
@@ -244,6 +244,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/script.js"></script>
+<script>
+    // Periksa jika ada pesan 'success' di session
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session('success') }}',
+            timer: 2000, // Notifikasi akan hilang setelah 2 detik
+            showConfirmButton: false
+        });
+    @endif
+</script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

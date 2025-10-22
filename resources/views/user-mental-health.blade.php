@@ -20,6 +20,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('css/style-user-mh.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
 </head>
@@ -61,8 +62,8 @@
 
                 <div class="user-info" tabindex="0">
                     <div class="user-avatar">
-                        {{-- Jika Anda menyimpan avatar dari Google, Anda bisa menampilkannya di sini --}}
-                        <i class="fas fa-user"></i> <!-- Ikon profil -->
+                        {{-- Mengambil huruf pertama dari email user dan menjadikannya kapital --}}
+                        {{ strtoupper(substr(Auth::user()->email, 0, 1)) }}
                     </div>
 
                     {{-- Tampilkan nama pengguna yang sedang login --}}
@@ -89,6 +90,8 @@
                         </a>
                     </div>
                 </div>
+
+
             </nav>
             @php
                 // Ambil waktu sekarang pakai WIB
@@ -231,10 +234,15 @@
                             <tbody>
                                 @forelse ($riwayatTes as $tes)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ ($riwayatTes->currentPage() - 1) * $riwayatTes->perPage() + $loop->iteration }}
+                                        </td>
                                         {{-- Kolom Tanggal Tes ditambahkan di sini --}}
-                                        <td>{{ \Carbon\Carbon::parse($tes->created_at)->timezone('Asia/Jakarta')->translatedFormat('d F Y H:i') }}
-                                            WIB</td>
+                                        <td>
+                                            {{-- Pisahkan format tanggal dan waktu untuk menebalkan jam --}}
+                                            {{ \Carbon\Carbon::parse($tes->created_at)->timezone('Asia/Jakarta')->translatedFormat('d F Y') }}
+                                            <strong>{{ \Carbon\Carbon::parse($tes->created_at)->timezone('Asia/Jakarta')->translatedFormat('H:i') }}
+                                                WIB</strong>
+                                        </td>
                                         <td>{{ $tes->nim }}</td>
                                         <td>{{ $tes->nama }}</td>
                                         <td>{{ $tes->program_studi ?? '-' }}</td>
@@ -266,13 +274,19 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        {{-- Colspan disesuaikan menjadi 8 --}}
-                                        <td colspan="8" style="text-align: center;">Anda belum pernah mengikuti
+                                        {{-- Colspan disesuaikan menjadi 9 agar sesuai dengan jumlah kolom header --}}
+                                        <td colspan="9" style="text-align: center;">Anda belum pernah mengikuti
                                             tes.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
+
+                        <!-- ✅ Paginasi Ditambahkan Di Sini -->
+                        <div class="pagination">
+                            {{ $riwayatTes->links('vendor.pagination.default') }}
+                        </div>
+
                         <!-- 📊 Modal Diagnosa -->
                         <div id="diagnosaModal" class="modal">
                             <div class="modal-content">
@@ -282,6 +296,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </main>
     </div>

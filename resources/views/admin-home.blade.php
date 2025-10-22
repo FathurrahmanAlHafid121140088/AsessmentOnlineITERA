@@ -979,10 +979,6 @@
                 <div class="pagination">
                     {{ $hasilKuesioners->links('vendor.pagination.default') }} </div>
                 <div class="button-control">
-                    <button class="btn-pdf" onclick="generatePDF()">
-                        <i class="fas fa-file-pdf"></i> Cetak PDF
-                    </button>
-                    {{-- TOMBOL EXPORT EXCEL --}}
                     {{-- TOMBOL EXPORT EXCEL --}}
                     <form action="{{ route('admin.export.excel') }}" method="GET" style="display: inline;">
                         {{-- Loop melalui parameter query yang ada dan menambahkannya sebagai input tersembunyi --}}

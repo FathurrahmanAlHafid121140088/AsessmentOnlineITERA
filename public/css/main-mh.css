@@ -1221,3 +1221,20 @@ section,
         display: block !important;
     }
 }
+@media (max-width: 480px) {
+    .user-name,
+    .dropdown-item,
+    .user-username,
+    .user-email,
+    .logout {
+        font-size: 0.75rem; /* 💬 sedikit lebih kecil */
+    }
+
+    /* Ikon ikut disesuaikan agar tetap seimbang */
+    .dropdown-item .fa-fw,
+    .user-username i,
+    .user-email i,
+    .user-caret {
+        font-size: 0.75rem;
+    }
+}

@@ -806,6 +806,7 @@ p {
 }
 
 /* 👤 Avatar */
+/* 👤 Avatar */
 .user-avatar {
     width: 30px;
     height: 30px;
@@ -815,9 +816,9 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 1rem; /* <-- Tambahkan atau ubah baris ini */
+    font-weight: 700;
 }
-
 /* 🧑 Nama pengguna (di navbar) */
 .user-name {
     font-weight: 600;

@@ -1,2 +1,25 @@
-@import "tailwindcss";
-@source "../views";
+/* File ini berfungsi sebagai titik masuk (entry point) untuk semua file CSS Anda.
+  Vite akan membaca file ini dan secara otomatis menggabungkan semua
+  file yang di-import di bawah ini menjadi satu bundel yang efisien.
+*/
+
+@import url("karir-admin.css");
+@import url("karir-form.css");
+@import url("karir-hitung.css");
+@import url("karir-home.css");
+@import url("karir-interpretasi.css");
+@import url("main-mh.css");
+@import url("main.css");
+@import url("style-admin-home.css");
+@import url("style-admin.css");
+@import url("style-footer.css");
+@import url("style-hasil-mh.css");
+@import url("style-home-mh.css");
+@import url("style-login.css");
+@import url("style-lupa-password.css");
+@import url("style-mental-health.css");
+@import url("style-register.css");
+@import url("style-user-mh.css");
+@import url("style.css");
+@import url("styleform.css");
+@import url("stylekuesioner.css");

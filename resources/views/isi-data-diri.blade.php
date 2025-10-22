@@ -60,15 +60,11 @@
 
                     <div class="formbold-input-flex">
                         <div>
-                            {{-- Field Nama: Mengisi otomatis berdasarkan prioritas: --}}
-                            {{-- 1. Input lama (jika validasi gagal) --}}
-                            {{-- 2. Data dari database (jika sudah ada) --}}
-                            {{-- 3. Nama dari akun Google (sebagai default) --}}
+                            {{-- Field Nama: Sekarang diisi secara manual --}}
                             <label for="nama" class="formbold-form-label"><i class="fas fa-user fa-sm"></i>
                                 Nama</label>
                             <input type="text" name="nama" id="nama" class="formbold-form-input"
-                                placeholder="Masukkan nama lengkap"
-                                value="{{ old('nama', $dataDiri->nama ?? Auth::user()->name) }}" required />
+                                placeholder="Masukkan nama lengkap" value="{{ old('nama') }}" required />
                         </div>
                         <div>
                             {{-- Field NIM: Diambil otomatis dari user yang login untuk memastikan data terhubung --}}
@@ -314,6 +310,7 @@
 <!-- Core theme JS-->
 <script src="js/script.js"></script>
 <script src="{{ asset('js/script-datadiri.js') }}"></script>
+
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

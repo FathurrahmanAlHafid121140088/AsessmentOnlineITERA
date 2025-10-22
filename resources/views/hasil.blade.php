@@ -620,7 +620,7 @@
                 </a>
             </div>
             <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-                <a href="/home" class="btn-back">
+                <a href="/" class="btn-back">
                     <i class="fa-solid fa-house"></i>
                     Kembali ke Halaman Utama
                 </a>
