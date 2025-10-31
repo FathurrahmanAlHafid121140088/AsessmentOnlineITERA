@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hasil Tes Minat Rothwell-Miller (RMIB)</title>
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
   <link href="{{ asset('css/karir-hitung.css') }}" rel="stylesheet">
 </head>
 <body>

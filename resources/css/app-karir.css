@@ -1,0 +1,14 @@
+/* ============================================
+   KARIR (CAREER TEST) PAGES CSS BUNDLE
+   Used by: karir-home.blade.php, karir-form.blade.php, karir-interpretasi.blade.php, admin-karir.blade.php
+   ============================================ */
+
+/* Base styles FIRST (lowest priority) */
+@import url('../../public/css/style.css');
+
+/* Karir specific styles (higher priority - will override base) */
+@import url('../../public/css/karir-home.css');
+@import url('../../public/css/karir-form.css');
+@import url('../../public/css/karir-admin.css');
+@import url('../../public/css/karir-interpretasi.css');
+@import url('../../public/css/karir-hitung.css');

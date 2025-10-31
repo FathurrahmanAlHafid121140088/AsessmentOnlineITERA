@@ -1,0 +1,21 @@
+/* ============================================
+   MENTAL HEALTH FORM PAGE CSS BUNDLE
+   Used by: isi-data-diri.blade.php
+   ============================================ */
+
+/* Base styles */
+@import url('../../public/css/style.css');
+@import url('../../public/css/main.css');
+
+/* Mental Health specific */
+@import url('../../public/css/style-home-mh.css');
+@import url('../../public/css/main-mh.css');
+@import url('../../public/css/style-mental-health.css');
+
+/* Forms & Results */
+@import url('../../public/css/styleform.css');
+@import url('../../public/css/stylekuesioner.css');
+@import url('../../public/css/style-hasil-mh.css');
+
+/* Footer (load last) */
+@import url('../../public/css/style-footer.css');

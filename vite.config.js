@@ -7,53 +7,41 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            // Daftarkan SEMUA file CSS dan JS Anda di sini
-            // agar Vite tahu cara menanganinya.
+            // Multiple Entry Points - Each page type has its own CSS bundle
+            // This prevents class name conflicts between different sections
             input: [
-                // CSS Files
-                "resources/css/app.css",
-                "resources/css/karir-admin.css",
-                "resources/css/karir-form.css",
-                "resources/css/karir-hitung.css",
-                "resources/css/karir-home.css",
-                "resources/css/main-interpretasi.css",
-                "resources/css/main-mh.css",
-                "resources/css/main.css",
-                "resources/css/style-admin-home.css",
-                "resources/css/style-admin.css",
-                "resources/css/style-footer.css",
-                "resources/css/style-hasil-mh.css",
-                "resources/css/style-home-mh.css",
-                "resources/css/style-login.css",
-                "resources/css/style-lupa-password.css",
-                "resources/css/style-mental-health.css",
-                "resources/css/style-register.css",
-                "resources/css/style-user-mh.css",
-                "resources/css/style.css",
-                "resources/css/styleform.css",
-                "resources/css/stylekuesioner.css",
-                "resources/vendor/bootstrap/css/bootstrap.min.css",
-                "resources/vendor/bootstrap-icons/bootstrap-icons.css",
-                "resources/vendor/aos/aos.css",
-                "resources/vendor/glightbox/css/glightbox.min.css",
-                "resources/vendor/swiper/swiper-bundle.min.css",
+                // ==========================================
+                // CSS BUNDLES - Consolidated by Page Type
+                // ==========================================
 
-                // JS Files
+                // 1. Public Pages (home, karir-home)
+                "resources/css/app-public.css",
+
+                // 2. Mental Health Pages
+                "resources/css/app-mh-home.css", // mental-health.blade.php (landing)
+                "resources/css/app-mental-health.css", // isi-data-diri.blade.php
+                "resources/css/app-mh-hasil.css", // hasil.blade.php
+                "resources/css/app-mh-quiz.css", // kuesioner.blade.php
+
+                // 3. Admin Pages
+                "resources/css/app-admin.css", // admin.blade.php (login)
+                "resources/css/app-admin-dashboard.css", // admin-home.blade.php
+
+                // 4. User Dashboard (user-mental-health)
+                "resources/css/app-user-dashboard.css",
+
+                // 5. Authentication Pages (login, register, lupa-password)
+                "resources/css/app-auth.css",
+
+                // 6. Karir/Career Pages (karir-*)
+                "resources/css/app-karir.css",
+
+                // ==========================================
+                // JAVASCRIPT FILES
+                // ==========================================
+                // Note: Hanya include file JS yang ada di resources/js/
+                // File JS lainnya sudah inline di blade atau di public/js/
                 "resources/js/app.js",
-                "resources/js/karir-form.js",
-                "resources/js/karir-hitung.js",
-                "resources/js/script-admin-mh.js",
-                "resources/js/script-admin.js",
-                "resources/js/script-datadiri.js",
-                "resources/js/script-footer.js",
-                "resources/js/script-hasil-mh.js",
-                "resources/js/script-karir-datadiri.js",
-                "resources/js/script-login.js",
-                "resources/js/script-lupa-password.js",
-                "resources/js/script-quiz.js",
-                "resources/js/script-register.js",
-                "resources/js/script-user-mh.js",
-                "resources/js/script.js",
             ],
             refresh: true,
         }),

@@ -1,0 +1,9 @@
+/* ============================================
+   AUTHENTICATION PAGES CSS BUNDLE
+   Used by: login.blade.php, register.blade.php, lupa-password.blade.php
+   ============================================ */
+
+/* Auth specific styles - No conflicts thanks to page-specific body classes */
+@import url('../../public/css/style-login.css');
+@import url('../../public/css/style-register.css');
+@import url('../../public/css/style-lupa-password.css');

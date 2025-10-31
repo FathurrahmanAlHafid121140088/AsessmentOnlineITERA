@@ -20,5 +20,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+
+        // Register Model Observers untuk auto cache invalidation
+        \App\Models\HasilKuesioner::observe(\App\Observers\HasilKuesionerObserver::class);
+        \App\Models\DataDiris::observe(\App\Observers\DataDirisObserver::class);
     }
 }

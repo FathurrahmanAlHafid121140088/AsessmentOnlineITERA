@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(awk:*)",
+      "Bash(php artisan route:list:*)",
+      "Bash(sort:*)",
+      "Bash(for file in style-admin-home.css style-hasil-mh.css style.css)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(done)",
+      "Bash(npm run build:*)",
+      "Bash(for file in style-admin-home.css style-admin.css)",
+      "Bash(php artisan make:migration:*)",
+      "Bash(php artisan migrate:*)",
+      "Bash(php test-indexes-performance.php:*)",
+      "Bash(php:*)",
+      "Bash(echo:*)",
+      "Bash(findstr:*)",
+      "Bash(del \"C:\\laragon\\www\\AsessmentOnline\\tests\\Feature\\RateLimitingTest.php\")",
+      "Bash(dir C:laragonwwwAsessmentOnlinepubliccss)",
+      "Bash(dir:*)",
+      "Bash(curl:*)",
+      "Bash(for file in karir-*.blade.php)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

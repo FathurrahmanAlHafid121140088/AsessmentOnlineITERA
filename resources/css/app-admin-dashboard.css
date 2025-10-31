@@ -1,0 +1,10 @@
+/* ============================================
+   ADMIN DASHBOARD PAGE CSS BUNDLE
+   Used by: admin-home.blade.php (dashboard)
+   ============================================ */
+
+/* Admin dashboard specific styles */
+@import url('../../public/css/style-admin-home.css');
+
+/* Footer */
+@import url('../../public/css/style-footer.css');

@@ -1,0 +1,10 @@
+/* ============================================
+   USER DASHBOARD CSS BUNDLE
+   Used by: user-mental-health.blade.php
+   ============================================ */
+
+/* User dashboard styles */
+@import url("../../public/css/style-user-mh.css");
+
+/* Footer */
+@import url("../../public/css/style-footer.css");

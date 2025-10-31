@@ -2,59 +2,50 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+// 1. Pastikan Anda mengimpor HasFactory
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class Users extends Authenticatable
 {
-    /**
-     * Menggunakan traits bawaan Laravel untuk fungsionalitas tambahan.
-     * HasFactory -> Memudahkan pembuatan data dummy untuk testing.
-     * Notifiable -> Memungkinkan model ini untuk menerima notifikasi.
-     */
+    // 2. Pastikan Anda menggunakan HasFactory
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * Atribut ini mendefinisikan kolom mana saja dari tabel 'users'
-     * yang boleh diisi secara massal untuk keamanan.
-     *
-     * @var array<int, string>
+     * Tentukan 'nim' sebagai Primary Key.
+     * Ini sangat penting karena kode Anda tidak menggunakan 'id'.
+     */
+    protected $primaryKey = 'nim';
+
+    /**
+     * Beritahu Laravel bahwa 'nim' bukan auto-incrementing.
+     */
+    public $incrementing = false;
+
+    /**
+     * Tentukan tipe data 'nim' (bisa string atau integer).
+     * Jika NIM Anda bisa diawali angka 0, gunakan 'string'.
+     */
+    protected $keyType = 'string';
+
+    /**
+     * Atribut yang boleh diisi secara massal.
+     * Disesuaikan dengan kode AuthController Anda.
      */
     protected $fillable = [
+        'nim',
         'name',
         'email',
-        'nim',
-        'google_id',
         'password',
+        'google_id',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * Atribut ini akan disembunyikan ketika model diubah menjadi array atau JSON.
-     * Sangat penting untuk menyembunyikan password dan remember_token.
-     *
-     * @var array<int, string>
+     * Atribut yang harus disembunyikan.
      */
     protected $hidden = [
         'password',
         'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * Atribut ini secara otomatis mengubah tipe data dari kolom.
-     * Misalnya, 'email_verified_at' akan diubah menjadi objek Carbon (tanggal/waktu).
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed', // Otomatis hash password saat diset
     ];
 }

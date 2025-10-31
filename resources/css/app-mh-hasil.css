@@ -1,0 +1,22 @@
+/* ============================================
+   MENTAL HEALTH RESULT PAGE CSS BUNDLE
+   Used by: hasil.blade.php
+   ============================================ */
+
+/* IMPORTANT: Load order optimized for CSS cascade
+   - Base styles first (lowest priority)
+   - Result-specific styles last (highest priority)
+
+   NOTE: DO NOT include main.css or main-mh.css as they set h1 { color: var(--heading-color) }
+         which would override the white color from header { color: white }
+*/
+
+/* Base styles (lowest priority) */
+@import url('../../public/css/style.css');
+@import url('../../public/css/styleform.css');
+
+/* Result page specific (HIGHEST priority - has header { color: white } for h1 inheritance) */
+@import url('../../public/css/style-hasil-mh.css');
+
+/* Footer (load last) */
+@import url('../../public/css/style-footer.css');

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tes Minat Rothwell-Miller (RMIB)</title>
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/karir-form.css') }}" rel="stylesheet">
 </head>
 

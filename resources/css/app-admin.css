@@ -1,0 +1,10 @@
+/* ============================================
+   ADMIN LOGIN PAGE CSS BUNDLE
+   Used by: admin.blade.php (login page)
+   ============================================ */
+
+/* Admin login specific styles */
+@import url('../../public/css/style-admin.css');
+
+/* Footer */
+@import url('../../public/css/style-footer.css');

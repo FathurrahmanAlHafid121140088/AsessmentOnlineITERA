@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
 use App\Models\DataDiris;
 use App\Models\RiwayatKeluhans;
 
@@ -80,6 +81,12 @@ class DataDirisController extends Controller
             ]);
 
             DB::commit();
+
+            // ⚡ CACHING: Invalidate caches after updating data diri
+            // Only invalidate admin caches (user-stats, fakultas-stats)
+            // because data diri affects demographics but not test results
+            Cache::forget('mh.admin.user_stats');
+            Cache::forget('mh.admin.fakultas_stats');
 
             session([
                 'nim' => $user->nim,

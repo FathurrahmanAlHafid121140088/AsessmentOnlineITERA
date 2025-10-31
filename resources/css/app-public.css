@@ -1,0 +1,8 @@
+/* ============================================
+   PUBLIC PAGES CSS BUNDLE
+   Used by: home.blade.php, karir-home.blade.php
+   ============================================ */
+
+/* Import CSS dalam urutan priority rendah ke tinggi */
+@import url('../../public/css/style.css');
+@import url('../../public/css/style-footer.css');

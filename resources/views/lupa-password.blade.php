@@ -16,7 +16,7 @@
             <!-- AOS Library -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
-<body>
+<body class="forgot-page">
     <div class="container">
         <div class="forgot-card">
             <div class="forgot-header">

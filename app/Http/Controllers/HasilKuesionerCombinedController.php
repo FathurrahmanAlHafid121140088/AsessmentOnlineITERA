@@ -6,8 +6,10 @@ use App\Exports\HasilKuesionerExport; // 1. Tambahkan use statement untuk class 
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
 use App\Models\HasilKuesioner;
 use App\Models\DataDiris;
+use App\Models\Users; // <-- Pastikan ini ada
 use Illuminate\Database\Eloquent\Builder;
 
 class HasilKuesionerCombinedController extends Controller
@@ -32,12 +34,25 @@ class HasilKuesionerCombinedController extends Controller
             ->groupBy('nim');
 
         // 3. Query Utama (Digabung dengan data_diris untuk sorting & search)
+        // ⚡ OPTIMASI: Ganti correlated subquery dengan LEFT JOIN + COUNT untuk avoid N+1
         $query = HasilKuesioner::query()
             ->joinSub($latestIds, 'latest', 'hasil_kuesioners.id', '=', 'latest.id')
             ->join('data_diris', 'hasil_kuesioners.nim', '=', 'data_diris.nim')
+            // ⚡ LEFT JOIN untuk count jumlah tes per mahasiswa (menggantikan subquery)
+            ->leftJoin('hasil_kuesioners as hk_count', 'data_diris.nim', '=', 'hk_count.nim')
             ->select('hasil_kuesioners.*', 'data_diris.nama as nama_mahasiswa')
-            // ✅ TAMBAHAN: Subquery untuk menghitung jumlah tes per mahasiswa
-            ->addSelect(DB::raw('(SELECT COUNT(*) FROM hasil_kuesioners as hk_count WHERE hk_count.nim = data_diris.nim) as jumlah_tes'));
+            // ⚡ COUNT dengan GROUP BY (1 query, bukan N queries!)
+            ->selectRaw('COUNT(hk_count.id) as jumlah_tes')
+            ->groupBy(
+                'hasil_kuesioners.id',
+                'hasil_kuesioners.nim',
+                'hasil_kuesioners.total_skor',
+                'hasil_kuesioners.kategori',
+                'hasil_kuesioners.tanggal_pengerjaan',
+                'hasil_kuesioners.created_at',
+                'hasil_kuesioners.updated_at',
+                'data_diris.nama'
+            );
 
         // 4. Terapkan Filter & Pencarian secara langsung
         $query
@@ -127,28 +142,41 @@ class HasilKuesionerCombinedController extends Controller
             }
         }
         // 7. Ambil semua statistik global dengan query seminimal mungkin
-        // Ambil NIM unik dari mahasiswa yang pernah mengisi (1 query)
-        $nimDenganHasil = HasilKuesioner::distinct()->pluck('nim');
+        // ⚡ CACHING: Cache global statistics for 1 minute (frequent updates)
+        $userStats = Cache::remember('mh.admin.user_stats', 60, function () {
+            return DB::table('data_diris')
+                ->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('hasil_kuesioners')
+                        ->whereColumn('hasil_kuesioners.nim', 'data_diris.nim');
+                })
+                ->selectRaw("
+                    COUNT(DISTINCT data_diris.nim) as total_users,
+                    COUNT(DISTINCT CASE WHEN jenis_kelamin = 'L' THEN data_diris.nim END) as total_laki,
+                    COUNT(DISTINCT CASE WHEN jenis_kelamin = 'P' THEN data_diris.nim END) as total_perempuan,
+                    COUNT(DISTINCT CASE WHEN asal_sekolah = 'SMA' THEN data_diris.nim END) as total_sma,
+                    COUNT(DISTINCT CASE WHEN asal_sekolah = 'SMK' THEN data_diris.nim END) as total_smk,
+                    COUNT(DISTINCT CASE WHEN asal_sekolah = 'Boarding School' THEN data_diris.nim END) as total_boarding
+                ")
+                ->first();
+        });
 
-        // Ambil statistik gender dan asal sekolah dalam SATU query
-        $userStats = DataDiris::whereIn('nim', $nimDenganHasil)
-            ->selectRaw("
-                COUNT(CASE WHEN jenis_kelamin = 'L' THEN 1 END) as total_laki,
-                COUNT(CASE WHEN jenis_kelamin = 'P' THEN 1 END) as total_perempuan,
-                COUNT(CASE WHEN asal_sekolah = 'SMA' THEN 1 END) as total_sma,
-                COUNT(CASE WHEN asal_sekolah = 'SMK' THEN 1 END) as total_smk,
-                COUNT(CASE WHEN asal_sekolah = 'Boarding School' THEN 1 END) as total_boarding
-            ")->first();
+        // Use the total_users from query instead of separate count
+        $totalUsers = $userStats->total_users ?? 0;
 
-        // OPTIMASI: Gunakan ulang query builder $latestIds, tidak perlu query baru
-        $kategoriCounts = HasilKuesioner::whereIn('id', $latestIds)
-            ->selectRaw('kategori, COUNT(*) as jumlah')
-            ->groupBy('kategori')
-            ->pluck('jumlah', 'kategori')
-            ->all(); // FIX: Convert Collection to Array
+        // ⚡ CACHING: Cache kategori counts for 1 minute
+        $kategoriCounts = Cache::remember('mh.admin.kategori_counts', 60, function () use ($latestIds) {
+            return HasilKuesioner::whereIn('id', $latestIds)
+                ->selectRaw('kategori, COUNT(*) as jumlah')
+                ->groupBy('kategori')
+                ->pluck('jumlah', 'kategori')
+                ->all();
+        });
 
-        $totalUsers = $nimDenganHasil->count();
-        $totalTes = HasilKuesioner::count();
+        // ⚡ CACHING: Cache total tests count for 1 minute
+        $totalTes = Cache::remember('mh.admin.total_tes', 60, function () {
+            return HasilKuesioner::count();
+        });
         $totalLaki = $userStats->total_laki ?? 0;
         $totalPerempuan = $userStats->total_perempuan ?? 0;
         $asalCounts = [
@@ -192,24 +220,27 @@ class HasilKuesionerCombinedController extends Controller
     }
 
     /**
-     * Ambil statistik mahasiswa per fakultas (Sudah cukup efisien)
+     * Ambil statistik mahasiswa per fakultas
+     * ⚡ CACHING: Cached for 1 minute (frequent updates)
      */
     private function getStatistikFakultas()
     {
-        $fakultasCount = DataDiris::select('data_diris.fakultas', DB::raw('COUNT(DISTINCT data_diris.nim) as total'))
-            ->join('hasil_kuesioners', 'data_diris.nim', '=', 'hasil_kuesioners.nim')
-            ->whereNotNull('data_diris.fakultas')
-            ->groupBy('data_diris.fakultas')
-            ->pluck('total', 'data_diris.fakultas');
+        return Cache::remember('mh.admin.fakultas_stats', 60, function () {
+            $fakultasCount = DataDiris::select('data_diris.fakultas', DB::raw('COUNT(DISTINCT data_diris.nim) as total'))
+                ->join('hasil_kuesioners', 'data_diris.nim', '=', 'hasil_kuesioners.nim')
+                ->whereNotNull('data_diris.fakultas')
+                ->groupBy('data_diris.fakultas')
+                ->pluck('total', 'data_diris.fakultas');
 
-        $totalFakultas = $fakultasCount->sum();
-        $fakultasPersen = $fakultasCount->map(fn($count) => $totalFakultas > 0 ? round(($count / $totalFakultas) * 100, 1) : 0);
+            $totalFakultas = $fakultasCount->sum();
+            $fakultasPersen = $fakultasCount->map(fn($count) => $totalFakultas > 0 ? round(($count / $totalFakultas) * 100, 1) : 0);
 
-        return [
-            'fakultasCount' => $fakultasCount->all(), // FIX: Convert Collection to Array
-            'fakultasPersen' => $fakultasPersen->all(), // FIX: Convert Collection to Array
-            'warnaFakultas' => ['FS' => '#4e79a7', 'FTI' => '#f28e2c', 'FTIK' => '#e15759'],
-        ];
+            return [
+                'fakultasCount' => $fakultasCount->all(), // FIX: Convert Collection to Array
+                'fakultasPersen' => $fakultasPersen->all(), // FIX: Convert Collection to Array
+                'warnaFakultas' => ['FS' => '#4e79a7', 'FTI' => '#f28e2c', 'FTIK' => '#e15759'],
+            ];
+        });
     }
 
     /**
@@ -227,23 +258,46 @@ class HasilKuesionerCombinedController extends Controller
         // 2. Dapatkan NIM dari hasil kuesioner tersebut.
         $nim = $hasil->nim;
 
-        // 3. Temukan data diri mahasiswa berdasarkan NIM.
-        $mahasiswa = DataDiris::find($nim);
+        // --- PERBAIKAN DI SINI ---
+        DB::beginTransaction(); // Gunakan transaksi untuk keamanan
+        try {
+            // 3. Temukan data diri mahasiswa berdasarkan NIM (gunakan where).
+            $dataDiri = DataDiris::where('nim', $nim)->first();
 
-        // 4. Jika data mahasiswa ditemukan, hapus data tersebut.
-        // Ini akan otomatis menghapus semua riwayat dan hasil kuesioner
-        // jika 'cascade on delete' sudah diatur di migration.
-        if ($mahasiswa) {
-            $mahasiswa->delete();
+            // 4. Temukan data user mahasiswa berdasarkan NIM (gunakan where).
+            $user = Users::where('nim', $nim)->first();
+
+            // 5. Hapus semua data terkait (Hasil, Riwayat otomatis jika ada cascade, DataDiri, User)
+            // Hapus Hasil Kuesioner (jika tidak ada cascade)
+            HasilKuesioner::where('nim', $nim)->delete();
+            // Hapus Riwayat Keluhan (jika tidak ada cascade)
+            \App\Models\RiwayatKeluhans::where('nim', $nim)->delete(); // Pastikan namespace benar
+
+            // Hapus Data Diri jika ada
+            if ($dataDiri) {
+                $dataDiri->delete();
+            }
+
+            // Hapus User jika ada
+            if ($user) {
+                $user->delete();
+            }
+
+            DB::commit(); // Konfirmasi semua penghapusan
+
+            // ⚡ CACHING: Invalidate all cached statistics after deletion
+            Cache::forget('mh.admin.user_stats');
+            Cache::forget('mh.admin.kategori_counts');
+            Cache::forget('mh.admin.total_tes');
+            Cache::forget('mh.admin.fakultas_stats');
+
             return redirect()->route('admin.home')->with('success', 'Seluruh data mahasiswa dengan NIM ' . $nim . ' berhasil dihapus.');
-        }
 
-        // Fallback: Jika karena suatu alasan data diri tidak ditemukan tapi hasil kuesioner ada,
-        // hapus saja hasil kuesioner tunggal ini untuk membersihkan data 'yatim'.
-        $hasil->delete();
-        return redirect()->route('admin.dashboard') // atau ke route yang sesuai
-            ->with('success', 'Data berhasil dihapus!');
-    }
+        } catch (\Exception $e) {
+            DB::rollBack(); // Batalkan jika ada error
+            return redirect()->route('admin.home')->with('error', 'Gagal menghapus data mahasiswa: ' . $e->getMessage());
+        }
+    } // <-- Kurung kurawal penutup untuk destroy()
 
     /**
      * OPTIMASI: Tampilkan persentase mahasiswa yang tinggal di kost (2 query menjadi 1)
@@ -258,6 +312,10 @@ class HasilKuesionerCombinedController extends Controller
         $kostPercent = $stats->total ? round(($stats->kost_count / $stats->total) * 100, 2) : 0;
         return view('admin-home', compact('kostPercent'));
     }
+
+    /**
+     * Ekspor data ke file Excel.
+     */
     public function exportExcel(Request $request)
     {
         // Ambil semua parameter filter dan sort dari request saat ini
@@ -266,8 +324,9 @@ class HasilKuesionerCombinedController extends Controller
         $sort = $request->input('sort', 'created_at');
         $order = $request->input('order', 'desc');
 
-        // Tentukan nama file dinamis dengan tanggal saat ini
-        $fileName = 'hasil-kuesioner-' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+        // --- PERBAIKAN: Gunakan setTimezone('Asia/Jakarta') ---
+        $fileName = 'hasil-kuesioner-' . now()->setTimezone('Asia/Jakarta')->format('Y-m-d_H-i') . '.xlsx';
+        // --- AKHIR PERBAIKAN ---
 
         // Panggil class export dengan parameter yang relevan dan trigger unduhan
         return Excel::download(new HasilKuesionerExport($search, $kategori, $sort, $order), $fileName);

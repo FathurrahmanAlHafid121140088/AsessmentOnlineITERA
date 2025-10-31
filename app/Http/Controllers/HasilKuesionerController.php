@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
 use App\Models\HasilKuesioner;
 
 class HasilKuesionerController extends Controller
@@ -34,6 +35,17 @@ class HasilKuesionerController extends Controller
                 'total_skor' => $totalSkor,
                 'kategori' => $kategori,
             ]);
+
+            // ⚡ CACHING: Invalidate all related caches after creating new test
+            // 1. Invalidate admin dashboard caches
+            Cache::forget('mh.admin.user_stats');
+            Cache::forget('mh.admin.kategori_counts');
+            Cache::forget('mh.admin.total_tes');
+            Cache::forget('mh.admin.fakultas_stats');
+
+            // 2. Invalidate user-specific cache
+            Cache::forget("mh.user.{$validated['nim']}.test_history");
+
         } catch (\Exception $e) {
             return back()->withErrors([
                 'error' => 'Gagal menyimpan hasil kuesioner: ' . $e->getMessage()

@@ -12,11 +12,11 @@
             <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
             <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
             <!-- Core theme CSS (includes Bootstrap)-->
-            <link href="css/style-register.css" rel="stylesheet" />
+            @vite(['resources/css/app-auth.css'])
             <!-- AOS Library -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
-<body>
+<body class="register-page">
     <div class="container">
         <div class="register-card">
             <div class="register-header">

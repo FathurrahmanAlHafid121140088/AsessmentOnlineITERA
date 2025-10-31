@@ -7,7 +7,7 @@
     font-family: "Poppins", sans-serif;
 }
 
-body {
+body.login-page {
     background-color: #ffffff;
     background-image: url("../assets/Sprinkle.svg");
     height: 100vh;

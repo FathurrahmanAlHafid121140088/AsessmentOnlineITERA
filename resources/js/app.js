@@ -1,23 +1,15 @@
-/* File ini berfungsi sebagai titik masuk (entry point) untuk semua file JavaScript Anda.
-  Vite akan membaca file ini dan menggabungkan semua script yang di-import
-  menjadi satu bundel yang efisien untuk aplikasi Anda.
+/* File ini berfungsi sebagai titik masuk (entry point) untuk JavaScript di Laravel + Vite.
+
+   NOTE: File-file JavaScript lainnya masih ada di public/js/ dan di-load langsung di blade.
+   Untuk sekarang, kita fokus ke CSS optimization dulu.
+   JavaScript optimization bisa dilakukan nanti jika diperlukan.
 */
 
-// Import file bootstrap default dari Laravel (biasanya sudah ada)
+// Import file bootstrap default dari Laravel
 import "./bootstrap";
 
-// Import semua file JavaScript kustom Anda
-import "./karir-form.js";
-import "./karir-hitung.js";
-import "./script-admin-mh.js";
-import "./script-admin.js";
-import "./script-datadiri.js";
-import "./script-footer.js";
-import "./script-hasil-mh.js";
-import "./script-karir-datadiri.js";
-import "./script-login.js";
-import "./script-lupa-password.js";
-import "./script-quiz.js";
-import "./script-register.js";
-import "./script-user-mh.js";
-import "./script.js";
+// Jika ada JavaScript global yang perlu di-bundle, tambahkan di sini
+// Contoh:
+// import './global.js';
+
+console.log('Vite + Laravel ready!');

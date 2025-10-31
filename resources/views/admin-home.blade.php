@@ -16,8 +16,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- AOS Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <link href="{{ asset('css/style-admin-home.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    @vite(['resources/css/app-admin-dashboard.css'])
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>

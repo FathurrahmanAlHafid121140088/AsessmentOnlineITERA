@@ -1,0 +1,11 @@
+/* ============================================
+   MENTAL HEALTH HOME PAGE CSS BUNDLE
+   Used by: mental-health.blade.php (landing page)
+   ============================================ */
+
+/* Mental Health Home specific */
+@import url('../../public/css/style-home-mh.css');
+@import url('../../public/css/main-mh.css');
+
+/* Footer */
+@import url('../../public/css/style-footer.css');

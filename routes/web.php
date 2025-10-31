@@ -34,7 +34,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
 
     // Proses Login Admin
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
+    Route::post('/login', [AdminAuthController::class, 'login'])
+        ->name('login.process');
 });
 
 // Logout Admin
@@ -53,6 +54,7 @@ Route::middleware([AdminAuth::class])->group(function () {
     // Hapus hasil
     Route::delete('/admin/mental-health/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
         ->name('admin.delete');
+
     Route::get('/admin', function () {
         $totalUsers = \App\Models\HasilKuesioner::distinct('nim')->count('nim');
         $totalTes = \App\Models\HasilKuesioner::count();
@@ -62,19 +64,25 @@ Route::middleware([AdminAuth::class])->group(function () {
             'totalTes' => $totalTes,
         ]);
     });
-    Route::get('/admin/mental-health/export', [App\Http\Controllers\HasilKuesionerCombinedController::class, 'exportExcel'])->name('admin.export.excel');
+
+    // Export Excel
+    Route::get('/admin/mental-health/export', [App\Http\Controllers\HasilKuesionerCombinedController::class, 'exportExcel'])
+        ->name('admin.export.excel');
 });
 Route::middleware('auth')->group(function () {
 
     // Halaman dashboard utama
-    Route::get('/user/mental-health', [DashboardController::class, 'index']);
+    Route::get('/user/mental-health', [DashboardController::class, 'index'])->name('user.mental-health');
 
     // --- RUTE-RUTE APLIKASI MENTAL HEALTH ---
 
     // Rute untuk alur pengisian data diri (dikelompokkan)
     Route::prefix('mental-health')->name('mental-health.')->group(function () {
         Route::get('/isi-data-diri', [DataDirisController::class, 'create'])->name('isi-data-diri');
-        Route::post('/isi-data-diri', [DataDirisController::class, 'store'])->name('store-data-diri');
+
+        // Submit Data Diri
+        Route::post('/isi-data-diri', [DataDirisController::class, 'store'])
+            ->name('store-data-diri');
     });
 
     // Rute untuk menampilkan dan mengirim kuesioner
@@ -86,7 +94,9 @@ Route::middleware('auth')->group(function () {
         ]);
     })->name('mental-health.kuesioner');
 
-    Route::post('/mental-health/kuesioner', [HasilKuesionerController::class, 'store'])->name('mental-health.kuesioner.submit');
+    // Submit Kuesioner
+    Route::post('/mental-health/kuesioner', [HasilKuesionerController::class, 'store'])
+        ->name('mental-health.kuesioner.submit');
 
     // Rute untuk menampilkan hasil kuesioner terakhir
     Route::get('/mental-health/hasil', [HasilKuesionerController::class, 'showLatest'])->name('mental-health.hasil');
@@ -104,16 +114,13 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 // Rute untuk mengarahkan pengguna ke halaman login Google
 Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
 
-// Rute yang akan diakses Google setelah pengguna login (callback)
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
-
-
-Route::get('/user/mental-health', [DashboardController::class, 'index'])->middleware('auth');
-
+// Google Callback
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])
+    ->name('google.callback');
 
 Route::get('/mental-health', function () {
     return view('mental-health', ['title' => 'Mental Health']);
-});
+})->name('mental-health.index');
 
 // ---------------------- KARIR ROUTES ----------------------
 
@@ -124,11 +131,17 @@ Route::get('/karir-home', function () {
 
 // Form input data diri
 Route::get('/karir-datadiri', [KarirController::class, 'showDataDiri'])->name('karir.datadiri');
-Route::post('/karir-datadiri', [KarirController::class, 'storeDataDiri'])->name('karir.datadiri.store');
+
+// Submit Data Diri Karir
+Route::post('/karir-datadiri', [KarirController::class, 'storeDataDiri'])
+    ->name('karir.datadiri.store');
 
 // Form RMIB berdasarkan ID data diri
 Route::get('/karir-form/{id}', [KarirController::class, 'showForm'])->name('karir.form');
-Route::post('/karir-form/{id}', [KarirController::class, 'storeForm'])->name('karir.form.store');
+
+// Submit Form RMIB
+Route::post('/karir-form/{id}', [KarirController::class, 'storeForm'])
+    ->name('karir.form.store');
 
 // Interpretasi hasil tes untuk user
 Route::get('/karir-interpretasi/{id_hasil}', [KarirController::class, 'interpretasi'])->name('karir.interpretasi');

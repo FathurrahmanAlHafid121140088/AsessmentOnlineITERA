@@ -21,10 +21,7 @@
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/stylekuesioner.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
+    @vite(['resources/css/app-mh-quiz.css'])
 
 </head>
 

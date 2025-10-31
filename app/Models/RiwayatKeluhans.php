@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory; // <-- BARIS 1
 use Illuminate\Database\Eloquent\Model;
 
 class RiwayatKeluhans extends Model
 {
+    use HasFactory;
     protected $table = 'riwayat_keluhans';
 
     protected $fillable = [

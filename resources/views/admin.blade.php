@@ -19,8 +19,7 @@
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ asset('css/style-admin.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
+    @vite(['resources/css/app-admin.css'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 

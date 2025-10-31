@@ -15,6 +15,8 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- AOS Library -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+        <!-- Core theme CSS -->
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('css/karir-admin.css') }}" rel="stylesheet">
 </head>
 <body>

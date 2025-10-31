@@ -1,0 +1,14 @@
+/* ============================================
+   MENTAL HEALTH QUIZ PAGE CSS BUNDLE
+   Used by: kuesioner.blade.php
+   ============================================ */
+
+/* Base styles */
+@import url('../../public/css/style.css');
+@import url('../../public/css/main.css');
+
+/* Quiz specific */
+@import url('../../public/css/stylekuesioner.css');
+
+/* Footer */
+@import url('../../public/css/style-footer.css');

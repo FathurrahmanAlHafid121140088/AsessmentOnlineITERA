@@ -8,19 +8,20 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-// ✅ 1. Import Class-class yang dibutuhkan untuk Styling
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-// ✅ 2. Tambahkan interface WithStyles dan ShouldAutoSize
 class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
 {
-    protected $search;
-    protected $kategori;
-    protected $sort;
-    protected $order;
+    // --- PERBAIKAN DI SINI: Ubah dari protected menjadi public ---
+    public $search;
+    public $kategori;
+    public $sort;
+    public $order;
+    // --- AKHIR PERBAIKAN ---
+
     private int $rowNumber = 0;
 
     /**
@@ -39,6 +40,7 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping, With
      */
     public function query()
     {
+        // ... (Kode query tetap sama) ...
         // Subquery untuk mendapatkan ID hasil kuesioner terakhir per mahasiswa
         $latestIds = DB::table('hasil_kuesioners')
             ->select(DB::raw('MAX(id) as id'))
@@ -178,4 +180,3 @@ class HasilKuesionerExport implements FromQuery, WithHeadings, WithMapping, With
         $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())->applyFromArray($styleArray);
     }
 }
-
