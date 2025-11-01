@@ -283,6 +283,193 @@ npm run dev
 
 ---
 
+## 🔍 TROUBLESHOOTING ADVANCED
+
+### Case Study: app-auth.css Styling Issues (Nov 2025)
+
+**Problem:**
+Login page styling tidak konsisten setelah migrasi ke Vite. Background image tidak muncul dan beberapa style tidak ter-apply.
+
+**Root Cause:**
+1. `@import` path dengan relative URL tidak ter-resolve oleh Vite
+2. Background image path `url("../assets/Sprinkle.svg")` gagal di-bundle
+3. Beberapa CSS tidak ter-load karena import gagal
+
+**Solution:**
+
+#### 1. **Update app-auth.css dengan Complete CSS**
+
+**Before (`resources/css/app-auth.css`):**
+```css
+/* Only imports - NOT WORKING with Vite */
+@import url('../../public/css/style-login.css');
+@import url('../../public/css/style-register.css');
+@import url('../../public/css/style-lupa-password.css');
+```
+
+**After (`resources/css/app-auth.css`):**
+```css
+/* Complete CSS copy dengan path fix */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body.login-page {
+    background-color: #ffffff;
+    /* ✅ FIXED: Absolute path instead of relative */
+    background-image: url("/assets/Sprinkle.svg");
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ... rest of 341 lines CSS ... */
+```
+
+#### 2. **Asset Path Rules dengan Vite**
+
+| Path Type | Example | Vite Behavior | Recommended |
+|-----------|---------|---------------|-------------|
+| Relative | `url("../assets/file.svg")` | ❌ May fail | Avoid |
+| Absolute | `url("/assets/file.svg")` | ✅ Works | Use this |
+| External | `url("https://...")` | ✅ Works | OK for fonts |
+| Asset in public | `/assets/file.svg` | ✅ Served as-is | Best |
+
+#### 3. **Best Practices untuk Auth Pages**
+
+**DO:**
+```css
+/* ✅ Use absolute paths for public assets */
+background-image: url("/assets/Sprinkle.svg");
+
+/* ✅ Import external fonts directly */
+@import url("https://fonts.googleapis.com/css2?family=Poppins...");
+
+/* ✅ Copy complete CSS instead of @import dari public */
+body.login-page { ... }
+```
+
+**DON'T:**
+```css
+/* ❌ Avoid relative paths in Vite bundles */
+background-image: url("../assets/Sprinkle.svg");
+
+/* ❌ Avoid @import dari public folder */
+@import url('../../public/css/style-login.css');
+
+/* ❌ Don't use asset() helper in CSS */
+background-image: asset('assets/Sprinkle.svg'); /* This is Blade syntax */
+```
+
+#### 4. **Rebuild dan Verify**
+
+```bash
+# Rebuild Vite assets
+npm run build
+
+# Output should show:
+# ✓ built in 2.20s
+# app-auth-CceyxNNV.css   4.02 kB │ gzip: 1.30 kB
+
+# Verify file exists
+ls -lh public/build/assets/app-auth-*.css
+
+# Clear Laravel caches
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+```
+
+#### 5. **Verify in Browser**
+
+1. Open login page (Ctrl + Shift + R untuk hard refresh)
+2. Check DevTools → Network tab
+3. Verify `app-auth-*.css` loaded (status 200)
+4. Check Elements tab → Computed styles
+5. Verify background-image applied
+
+**Expected in DevTools:**
+```
+Network Tab:
+GET /build/assets/app-auth-CceyxNNV.css    200  4.0 kB
+
+Computed Styles:
+background-image: url("/assets/Sprinkle.svg")
+```
+
+---
+
+## 📝 BEST PRACTICES UPDATE
+
+### For Authentication Pages
+
+1. **Complete CSS Copy**
+   - Copy seluruh CSS ke bundle file (jangan gunakan `@import` dari public)
+   - Benefit: Vite bisa optimize dan minify dengan benar
+
+2. **Absolute Asset Paths**
+   - Gunakan `/assets/file.svg` bukan `../assets/file.svg`
+   - Benefit: Konsisten di development dan production
+
+3. **External Resources**
+   - Font dari CDN: OK menggunakan `@import url("https://...")`
+   - Icon libraries: OK menggunakan CDN `<script>` di Blade
+
+4. **Testing Checklist**
+   - [ ] Hard refresh browser (Ctrl + Shift + R)
+   - [ ] Check Network tab untuk CSS file
+   - [ ] Verify background images loaded
+   - [ ] Test di multiple browsers
+   - [ ] Verify mobile responsive
+
+### For All Vite Bundles
+
+1. **File Organization**
+   ```
+   resources/css/
+   ├── app-auth.css       ✅ Complete CSS
+   ├── app-public.css     ✅ Only @import dari public
+   ├── app-mh-home.css    ✅ Only @import dari public
+   └── ...
+   ```
+
+2. **When to Use Complete CSS vs @import**
+
+   **Use Complete CSS when:**
+   - Asset paths dalam CSS (background-image, fonts, etc.)
+   - CSS file kecil (< 10 KB)
+   - Styling critical untuk page
+
+   **Use @import when:**
+   - CSS file besar (Bootstrap, vendors)
+   - CSS stable dan tidak perlu diubah
+   - Shared CSS across multiple pages
+
+3. **Build Verification**
+   ```bash
+   # Always check build output
+   npm run build
+
+   # Look for warnings
+   # Example warning:
+   # /assets/Sprinkle.svg referenced in /assets/Sprinkle.svg
+   # didn't resolve at build time, it will remain unchanged to be
+   # resolved at runtime
+
+   # This is OK for public assets!
+   ```
+
+---
+
 ## 🎉 Selesai!
 
 Setelah implementasi, semua page akan load CSS yang sesuai tanpa konflik.
+
+**Updated:** 1 November 2025
+**Version:** 1.1.0

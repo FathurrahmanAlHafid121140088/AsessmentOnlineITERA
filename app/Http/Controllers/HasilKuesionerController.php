@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
 use App\Models\HasilKuesioner;
+use App\Http\Requests\StoreHasilKuesionerRequest;
 
 class HasilKuesionerController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreHasilKuesionerRequest $request)
     {
-        $validated = $request->validate([
-            'nim' => 'required',
-        ]);
+        // Data sudah tervalidasi otomatis oleh FormRequest (nim + 38 questions)
+        $validated = $request->validated();
 
         $totalSkor = 0;
 

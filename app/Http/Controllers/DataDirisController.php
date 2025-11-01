@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
 use App\Models\DataDiris;
 use App\Models\RiwayatKeluhans;
+use App\Http\Requests\StoreDataDiriRequest;
 
 class DataDirisController extends Controller
 {
@@ -28,26 +29,12 @@ class DataDirisController extends Controller
     /**
      * Memperbarui atau membuat data diri, dan selalu menyimpan riwayat keluhan baru.
      */
-    public function store(Request $request)
+    public function store(StoreDataDiriRequest $request)
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:L,P',
-            'provinsi' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'usia' => 'required|integer|min:1',
-            'fakultas' => 'required|string|max:255',
-            'program_studi' => 'required|string|max:255',
-            'asal_sekolah' => 'required|string|max:255',
-            'status_tinggal' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'keluhan' => 'required|string',
-            'lama_keluhan' => 'required|string|max:255',
-            'pernah_konsul' => 'required|in:Ya,Tidak',
-            'pernah_tes' => 'required|in:Ya,Tidak',
-        ]);
+        // Data sudah tervalidasi otomatis oleh FormRequest
+        $validated = $request->validated();
 
         DB::beginTransaction();
 

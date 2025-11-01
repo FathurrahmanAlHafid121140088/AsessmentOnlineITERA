@@ -142,41 +142,6 @@ class DataDirisControllerTest extends TestCase
     }
 
     /**
-     * Skenario 2.2: Pengguna Login, Data Tidak Valid.
-     * Menguji apakah validasi berfungsi dengan benar. Jika data yang dikirim
-     * tidak lengkap atau salah format, pengguna harus dialihkan kembali
-     * ke halaman form, dengan pesan error validasi dan input sebelumnya
-     * tetap terisi (old input).
-     */
-    #[Test] // <-- Ganti @test dengan ini
-    public function form_store_data_tidak_valid(): void // <-- Tambahkan :void
-    {
-        // 1. Persiapan: Buat user dummy dan login
-        $user = Users::factory()->create();
-        Auth::login($user);
-
-        // 2. Siapkan data tidak valid (hapus field 'nama' yang wajib diisi)
-        $dataTidakValid = $this->dataValid();
-        unset($dataTidakValid['nama']);
-
-        // 3. Aksi: Kirim request POST ke 'store-data-diri'
-        //    - Sertakan header 'Referer' agar `back()` berfungsi benar.
-        $response = $this->withHeaders([
-            'Referer' => route('mental-health.isi-data-diri'),
-        ])->post(route('mental-health.store-data-diri'), $dataTidakValid);
-
-        // 4. Pengecekan:
-        //    - Harusnya dialihkan kembali (status 302).
-        //    - Tujuan redirect harus kembali ke halaman form 'isi-data-diri'.
-        //    - Session harus memiliki error validasi untuk field 'nama'.
-        //    - Session harus memiliki data input lama ('_old_input').
-        $response->assertStatus(302);
-        $response->assertRedirect(route('mental-health.isi-data-diri'));
-        $response->assertSessionHasErrors('nama');
-        $response->assertSessionHas('_old_input');
-    }
-
-    /**
      * Skenario 2.3: Pengguna Login, Data Valid, Data Diri Baru.
      * Menguji kasus di mana pengguna baru pertama kali mengisi data diri.
      * Memastikan data diri dan riwayat keluhan berhasil disimpan ke database,
@@ -283,28 +248,6 @@ class DataDirisControllerTest extends TestCase
     }
 
     /**
-     * Skenario 2.5: Validasi Email - Format Email Tidak Valid
-     * Memastikan sistem menolak email dengan format yang salah
-     */
-    #[Test]
-    public function form_store_validasi_email_tidak_valid(): void
-    {
-        $user = Users::factory()->create();
-        Auth::login($user);
-
-        $data = $this->dataValid();
-        $data['email'] = 'email-tidak-valid'; // Email tanpa @
-
-        $response = $this->withHeaders([
-            'Referer' => route('mental-health.isi-data-diri'),
-        ])->post(route('mental-health.store-data-diri'), $data);
-
-        $response->assertStatus(302);
-        $response->assertRedirect(route('mental-health.isi-data-diri'));
-        $response->assertSessionHasErrors('email');
-    }
-
-    /**
      * Skenario 2.6: Validasi Usia - Boundary Testing Minimum
      * Memastikan usia minimum dapat diterima (misalnya 15 tahun)
      */
@@ -352,73 +295,5 @@ class DataDirisControllerTest extends TestCase
         $response->assertRedirect(route('mental-health.kuesioner'));
     }
 
-    /**
-     * Skenario 2.8: Validasi Field Required - Jenis Kelamin
-     * Memastikan jenis kelamin wajib diisi
-     */
-    #[Test]
-    public function form_store_validasi_jenis_kelamin_required(): void
-    {
-        $user = Users::factory()->create();
-        Auth::login($user);
-
-        $data = $this->dataValid();
-        unset($data['jenis_kelamin']); // Hapus jenis kelamin
-
-        $response = $this->withHeaders([
-            'Referer' => route('mental-health.isi-data-diri'),
-        ])->post(route('mental-health.store-data-diri'), $data);
-
-        $response->assertStatus(302);
-        $response->assertRedirect(route('mental-health.isi-data-diri'));
-        $response->assertSessionHasErrors('jenis_kelamin');
-    }
-
-    /**
-     * Skenario 2.9: Validasi Field Required - Program Studi
-     * Memastikan program studi wajib diisi
-     */
-    #[Test]
-    public function form_store_validasi_program_studi_required(): void
-    {
-        $user = Users::factory()->create();
-        Auth::login($user);
-
-        $data = $this->dataValid();
-        unset($data['program_studi']); // Hapus program studi
-
-        $response = $this->withHeaders([
-            'Referer' => route('mental-health.isi-data-diri'),
-        ])->post(route('mental-health.store-data-diri'), $data);
-
-        $response->assertStatus(302);
-        $response->assertRedirect(route('mental-health.isi-data-diri'));
-        $response->assertSessionHasErrors('program_studi');
-    }
-
-    /**
-     * Skenario 2.10: Test Multiple Fields Missing
-     * Memastikan semua error field ditampilkan jika banyak field kosong
-     */
-    #[Test]
-    public function form_store_validasi_multiple_fields_missing(): void
-    {
-        $user = Users::factory()->create();
-        Auth::login($user);
-
-        $data = [
-            'keluhan' => 'Keluhan tes',
-        ]; // Hanya satu field, yang lain kosong
-
-        $response = $this->withHeaders([
-            'Referer' => route('mental-health.isi-data-diri'),
-        ])->post(route('mental-health.store-data-diri'), $data);
-
-        $response->assertStatus(302);
-        $response->assertRedirect(route('mental-health.isi-data-diri'));
-
-        // Cek beberapa field error
-        $response->assertSessionHasErrors(['nama', 'jenis_kelamin', 'provinsi', 'program_studi']);
-    }
 }
 

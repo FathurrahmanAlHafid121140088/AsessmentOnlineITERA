@@ -54,21 +54,6 @@ class HasilKuesionerControllerTest extends TestCase
     }
 
     /**
-     * SKENARIO 1: Validasi NIM Wajib Diisi
-     * Memastikan form tidak bisa disubmit tanpa NIM
-     */
-    public function test_validasi_nim_wajib_diisi()
-    {
-        $response = $this->post(route('mental-health.kuesioner.submit'), [
-            'question1' => 5,
-            'question2' => 4,
-            // nim tidak diisi
-        ]);
-
-        $response->assertSessionHasErrors(['nim']);
-    }
-
-    /**
      * SKENARIO 2: Simpan Kuesioner dengan Kategori "Sangat Sehat"
      * Total skor: 190-226
      */

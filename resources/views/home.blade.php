@@ -142,34 +142,47 @@
                 <h3 data-aos="fade-down" data-aos-delay="100" class="section-subheading text-muted">Silahkan Pilih
                     Sesuai Dengan Keadaan Anda Saat Ini</h3>
             </div>
-            <div class="row text-center g-4 ">
-                <div data-aos="flip-right" data-aos-delay="100"
-                    class="col-md-6 col-12 p-4 bg-white shadow-sm rounded-4">
-                    <span class="fa-stack fa-4x">
-                        <i class="fas fa-circle fa-stack-2x" style="color: #4361ee;"></i>
-                        <i class="fas fa-brain fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <h4 class="my-3">Mental Health</h4>
-                    <p>Cek tingkat stres, kecemasan, dan kesehatan emosional Anda dengan metode ilmiah yang terpercaya.
-                    </p>
-                    <p class="text-muted">Metode RMHI-38 (RAND Mental Health Inventory-38) adalah alat evaluasi
-                        kesehatan mental yang dirancang untuk menganalisis tingkat stres, kecemasan, dan kesejahteraan
-                        emosional secara cepat dan akurat. Dengan 38 pertanyaan berbasis penelitian ilmiah, metode ini
-                        memberikan hasil instan yang dapat digunakan sebagai dasar konsultasi dengan psikolog.</p>
-                    <a class="btn btn-primary btn-xl text-uppercase" href="/mental-health">Mulai Tes!</a>
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-md-6" data-aos="flip-right" data-aos-delay="100">
+                    <div class="p-4 bg-white shadow-sm rounded-4 h-100 d-flex flex-column">
+                        <div class="text-center mb-3">
+                            <span class="fa-stack fa-4x">
+                                <i class="fas fa-circle fa-stack-2x" style="color: #4361ee;"></i>
+                                <i class="fas fa-brain fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </div>
+                        <h4 class="my-3 text-center">Mental Health</h4>
+                        <p class="text-center mb-2">Cek tingkat stres, kecemasan, dan kesehatan emosional Anda dengan metode ilmiah yang terpercaya.</p>
+                        <div class="flex-grow-1">
+                            <p class="text-muted text-center">Metode RMHI-38 (RAND Mental Health Inventory-38) adalah alat evaluasi
+                                kesehatan mental yang dirancang untuk menganalisis tingkat stres, kecemasan, dan kesejahteraan
+                                emosional secara cepat dan akurat. Dengan 38 pertanyaan berbasis penelitian ilmiah, metode ini
+                                memberikan hasil instan yang dapat digunakan sebagai dasar konsultasi dengan psikolog.</p>
+                        </div>
+                        <div class="text-center mt-auto pt-3">
+                            <a class="btn btn-primary btn-xl text-uppercase" href="/mental-health">Mulai Tes!</a>
+                        </div>
+                    </div>
                 </div>
 
-                <div data-aos="flip-left" data-aos-delay="100"
-                    class="col-md-6 col-12 p-4 bg-white shadow-sm rounded-4">
-                    <span class="fa-stack fa-4x" style="color: #4361ee;">
-                        <i class="fas fa-circle fa-stack-2x text-primary" style="color: #4361ee;"></i>
-                        <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <h4 class="my-3">Peminatan Karir</h4>
-                    <p>Temukan pekerjaan yang sesuai dengan bakat dan kepribadian Anda.</p>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
-                        architecto quo inventore harum ex magni, dicta impedit.</p>
-                    <a class="btn btn-primary btn-xl text-uppercase" href="/karir-home">Tes Sekarang!</a>
+                <div class="col-12 col-md-6" data-aos="flip-left" data-aos-delay="100">
+                    <div class="p-4 bg-white shadow-sm rounded-4 h-100 d-flex flex-column">
+                        <div class="text-center mb-3">
+                            <span class="fa-stack fa-4x" style="color: #4361ee;">
+                                <i class="fas fa-circle fa-stack-2x text-primary" style="color: #4361ee;"></i>
+                                <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </div>
+                        <h4 class="my-3 text-center">Peminatan Karir</h4>
+                        <p class="text-center mb-2">Temukan pekerjaan yang sesuai dengan bakat dan kepribadian Anda.</p>
+                        <div class="flex-grow-1">
+                            <p class="text-muted text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                                architecto quo inventore harum ex magni, dicta impedit.</p>
+                        </div>
+                        <div class="text-center mt-auto pt-3">
+                            <a class="btn btn-primary btn-xl text-uppercase" href="/karir-home">Tes Sekarang!</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,24 +193,24 @@
             <h2 class="section-heading text-uppercase pt-4">Quotes</h2>
         </div>
         <div class="container py-4 h-100">
-            <div class="d-flex row justify-content-center g-3">
+            <div class="row justify-content-center g-3">
 
                 <!-- Card 1 -->
-                <div data-aos="zoom-in" data-aos-delay="100" class="col-md-6 col-12">
-                    <div class="card rounded-3"style="background-color: #f2f2f2;">
-                        <div class="card-body p-4">
+                <div data-aos="zoom-in" data-aos-delay="100" class="col-12 col-md-6">
+                    <div class="card rounded-3 h-100 d-flex flex-column" style="background-color: #f2f2f2;">
+                        <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex justify-content-center mb-3">
                                 <img src="{{ asset('img/Noam-Shpancer-500x765.jpg') }}" alt="..."
                                     class="rounded-circle shadow-1-strong" width="80" height="80" />
                             </div>
-                            <figure class="text-center mb-0">
-                                <blockquote class="blockquote mb-3">
+                            <figure class="text-center mb-0 flex-grow-1 d-flex flex-column">
+                                <blockquote class="blockquote mb-3 flex-grow-1">
                                     <p><span class="font-italic">
                                             "Mental health… is not a destination, but a process. It's about how you
                                             drive, not where you're going."
                                         </span></p>
                                 </blockquote>
-                                <figcaption class="blockquote-footer mb-0">
+                                <figcaption class="blockquote-footer mb-0 mt-auto">
                                     Noam Shpancer, Ph.D
                                 </figcaption>
                             </figure>
@@ -206,22 +219,22 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div data-aos="zoom-in" data-aos-delay="100" class="col-md-6 col-12">
-                    <div class="card rounded-3"style="background-color: #f2f2f2;">
-                        <div class="card-body p-4">
+                <div data-aos="zoom-in" data-aos-delay="100" class="col-12 col-md-6">
+                    <div class="card rounded-3 h-100 d-flex flex-column" style="background-color: #f2f2f2;">
+                        <div class="card-body p-4 d-flex flex-column">
                             <div class="d-flex justify-content-center mb-3">
                                 <img src="{{ asset('img/Steve_Jobs_Headshot_2010-CROP_(cropped_2).jpg') }}"
                                     alt="..." class="rounded-circle shadow-1-strong" width="80"
                                     height="80" />
                             </div>
-                            <figure class="text-center mb-0">
-                                <blockquote class="blockquote mb-3">
+                            <figure class="text-center mb-0 flex-grow-1 d-flex flex-column">
+                                <blockquote class="blockquote mb-3 flex-grow-1">
                                     <p><span class="font-italic">
                                             "Your work is going to fill a large part of your life, and the only way to
                                             be truly satisfied is to do what you believe is great work."
                                         </span></p>
                                 </blockquote>
-                                <figcaption class="blockquote-footer mb-0">
+                                <figcaption class="blockquote-footer mb-0 mt-auto">
                                     Steve Jobs
                                 </figcaption>
                             </figure>

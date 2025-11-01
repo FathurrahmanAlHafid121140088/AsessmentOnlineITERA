@@ -9,7 +9,8 @@
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
             aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu <i class="fas fa-bars ms-1"></i>
+            Menu
+            <i class="fas fa-bars ms-1 navbar-toggler-icon"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0 text-uppercase">
@@ -69,3 +70,24 @@
         </div>
     </div>
 </nav>
+
+<script>
+    // Animasi toggle icon hamburger
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const togglerIcon = document.querySelector('.navbar-toggler-icon');
+
+        if (navbarToggler && togglerIcon) {
+            navbarToggler.addEventListener('click', function() {
+                // Toggle icon dengan animasi rotate
+                if (togglerIcon.classList.contains('fa-bars')) {
+                    togglerIcon.classList.remove('fa-bars');
+                    togglerIcon.classList.add('fa-times');
+                } else {
+                    togglerIcon.classList.remove('fa-times');
+                    togglerIcon.classList.add('fa-bars');
+                }
+            });
+        }
+    });
+</script>

@@ -83,7 +83,7 @@
 
         <div
             style="border-top: 1px solid #4b4b4b; margin-top: 2rem; padding-top: 1rem; display: flex; flex-direction: column; align-items: center;">
-            <p style="margin: 0; opacity: 0.7;">&copy; 2025 PPSDM ITERA. All rights reserved.</p>
+            <p style="margin: 0; opacity: 0.7;">&copy; {{ date('Y') }} PPSDM ITERA. All rights reserved.</p>
             <div class="developer-container">
                 <span class="developed-by">Developed By:</span>
                 <div style="display: flex"> <a href="https://www.linkedin.com/in/fathurrahman-al-hafid-a21a7a246/"
