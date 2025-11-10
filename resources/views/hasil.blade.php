@@ -65,7 +65,7 @@
 
         <div class="alert-box">
             <i class="fas fa-exclamation-triangle alert-icon"></i>
-            <span class="alert-text">Hasil tes dibawah ini hanya berlaku selama 6 bulan</span>
+            <span class="alert-text">Hasil tes dibawah ini hanya berlaku selama 2 bulan</span>
         </div>
 
         <div class="result-section">

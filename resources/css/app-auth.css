@@ -17,12 +17,33 @@
 }
 
 body.login-page {
-    background-color: #ffffff;
-    background-image: url("/assets/Sprinkle.svg");
+    background-color: #0e2a47;
+    background-image: url("../images/Sprinkle.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+body.login-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(14, 42, 71, 0.5);
+    z-index: 0;
+}
+
+body.login-page .container {
+    position: relative;
+    z-index: 1;
 }
 
 .container {

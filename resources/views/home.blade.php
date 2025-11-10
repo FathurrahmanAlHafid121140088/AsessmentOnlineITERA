@@ -57,7 +57,7 @@
                             <h4 class="subheading">1️⃣ Registrasi & Login</h4>
                         </div>
                         <div class="timeline-body">
-                            <p class="text-muted">Masuk ke sistem dengan username dan password akun SSO.
+                            <p class="text-muted">Masuk ke sistem dengan menggunakan akun Email ITERA.
                                 <br>Pastikan data yang diinput aman dan rahasia.
                             </p>
                         </div>
@@ -152,12 +152,17 @@
                             </span>
                         </div>
                         <h4 class="my-3 text-center">Mental Health</h4>
-                        <p class="text-center mb-2">Cek tingkat stres, kecemasan, dan kesehatan emosional Anda dengan metode ilmiah yang terpercaya.</p>
+                        <p class="text-center mb-2">Cek tingkat stres, kecemasan, dan kesehatan emosional Anda dengan
+                            metode ilmiah yang terpercaya.</p>
                         <div class="flex-grow-1">
-                            <p class="text-muted text-center">Metode RMHI-38 (RAND Mental Health Inventory-38) adalah alat evaluasi
-                                kesehatan mental yang dirancang untuk menganalisis tingkat stres, kecemasan, dan kesejahteraan
-                                emosional secara cepat dan akurat. Dengan 38 pertanyaan berbasis penelitian ilmiah, metode ini
-                                memberikan hasil instan yang dapat digunakan sebagai dasar konsultasi dengan psikolog.</p>
+                            <p class="text-muted text-center">Metode RMHI-38 (RAND Mental Health Inventory-38) adalah
+                                alat evaluasi
+                                kesehatan mental yang dirancang untuk menganalisis tingkat stres, kecemasan, dan
+                                kesejahteraan
+                                emosional secara cepat dan akurat. Dengan 38 pertanyaan berbasis penelitian ilmiah,
+                                metode ini
+                                memberikan hasil instan yang dapat digunakan sebagai dasar konsultasi dengan psikolog.
+                            </p>
                         </div>
                         <div class="text-center mt-auto pt-3">
                             <a class="btn btn-primary btn-xl text-uppercase" href="/mental-health">Mulai Tes!</a>
@@ -174,9 +179,11 @@
                             </span>
                         </div>
                         <h4 class="my-3 text-center">Peminatan Karir</h4>
-                        <p class="text-center mb-2">Temukan pekerjaan yang sesuai dengan bakat dan kepribadian Anda.</p>
+                        <p class="text-center mb-2">Temukan pekerjaan yang sesuai dengan bakat dan kepribadian Anda.
+                        </p>
                         <div class="flex-grow-1">
-                            <p class="text-muted text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                            <p class="text-muted text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Minima maxime quam
                                 architecto quo inventore harum ex magni, dicta impedit.</p>
                         </div>
                         <div class="text-center mt-auto pt-3">

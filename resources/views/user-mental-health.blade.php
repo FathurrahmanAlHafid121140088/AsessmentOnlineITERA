@@ -204,6 +204,13 @@
                     </div>
                 </section>
 
+                <div class="alert-box-blue">
+                    <i class="fas fa-info-circle alert-icon-blue"></i>
+                    <span class="alert-text">
+                        “Tes berkala disarankan setiap 2 bulan.”
+                    </span>
+                </div>
+
                 <!-- Table -->
                 <div class="table-container">
                     <div class="table-header">
@@ -288,6 +295,13 @@
                                 <div id="diagnosaContent"></div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Button Mulai Tes -->
+                    <div class="button-container" style="text-align: left; margin-top: 20px;">
+                        <a href="{{ route('mental-health.isi-data-diri') }}" class="start-test-btn">
+                            <i class="fas fa-play-circle"></i> Mulai Tes
+                        </a>
                     </div>
                 </div>
 
