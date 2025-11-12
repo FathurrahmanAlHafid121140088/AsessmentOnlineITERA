@@ -15,8 +15,9 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/karir-home.css') }}" rel="stylesheet">
+    <link href="css/karir-home.css" rel="stylesheet" />
+    <link href="{{ asset('css/style-footer.css') }}" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" />
     <!-- AOS Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
@@ -36,7 +37,7 @@
                     <p data-aos="fade-down" data-aos-delay="200">"Disini anda akan menemukan jenis karir yang cocok
                         dengan gambaran kepribadian anda."</p>
                     <div data-aos="zoom-in" data-aos-delay="300" class="d-flex">
-                        <a href="/karir-datadiri" class="cta-button">Mulai Tes Sekarang!</a>
+                        <a href="/karir/data-diri" class="cta-button">Mulai Tes Sekarang!</a>
                     </div>
                 </div>
                 <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="100">

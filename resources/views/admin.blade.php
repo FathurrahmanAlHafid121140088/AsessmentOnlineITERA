@@ -87,7 +87,7 @@
                     Administrasi tes minat bakat, evaluasi kesesuaian karir, dan berikan
                     rekomendasi jalur profesional yang tepat untuk setiap individu.
                 </p>
-                <a href="/admin-karir" class="card-button-link">
+                <a href="{{ route('admin.karir.index') }}" class="card-button-link">
                     <button class="card-button">
                         <i class="fas fa-rocket"></i> Masuk Dashboard
                     </button>
