@@ -1,341 +1,221 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Cek apakah data tersedia dari server
-    const pekerjaanData = window.pekerjaanData || {};
-    const categoriesContainer = document.getElementById("categories-container");
-    const submitButton = document.getElementById("submit-button");
-
-    // Object untuk menyimpan peringkat
-    let peringkatData = {};
-
-    // Inisialisasi peringkat data structure
-    function initializePeringkatData() {
-        Object.keys(pekerjaanData).forEach((kategori) => {
-            peringkatData[kategori] = {};
-            pekerjaanData[kategori].forEach((job) => {
-                peringkatData[kategori][job] = null;
-            });
-        });
-    }
-
-    // Render form berdasarkan data pekerjaan
-    function renderCategories() {
-        categoriesContainer.innerHTML = "";
-
-        Object.keys(pekerjaanData).forEach((kategori) => {
-            const jobs = pekerjaanData[kategori];
-
-            // Container untuk setiap kategori
-            const categoryDiv = document.createElement("div");
-            categoryDiv.className = "category-section";
-            categoryDiv.setAttribute("data-category", kategori);
-
-            // Header kategori
-            const headerDiv = document.createElement("div");
-            headerDiv.className = "category-header";
-            headerDiv.innerHTML = `<h3>${kategori}</h3>`;
-
-            // Error messages container
-            const errorContainer = document.createElement("div");
-            errorContainer.className = "error-container";
-            errorContainer.innerHTML = `
-                <div class="error-message">⚠️ Terdapat peringkat duplikat pada kategori ini</div>
-                <div class="unfill-message">⚠️ Masih ada pekerjaan yang belum diberi peringkat</div>
-            `;
-
-            // Container untuk pekerjaan dalam kategori
-            const jobsDiv = document.createElement("div");
-            jobsDiv.className = "jobs-container";
-
-            jobs.forEach((job) => {
-                const jobDiv = document.createElement("div");
-                jobDiv.className = "job-item";
-
-                jobDiv.innerHTML = `
-                    <div class="job-info">
-                        <label class="job-label">${job}</label>
-                    </div>
-                    <div class="job-ranking">
-                        <select name="peringkat[${kategori}][${job}]" class="ranking-select" data-kategori="${kategori}" data-job="${job}" required>
-                            <option value="">Pilih Peringkat</option>
-                            ${Array.from({ length: 12 }, (_, i) => i + 1)
-                                .map(
-                                    (num) =>
-                                        `<option value="${num}">${num}</option>`
-                                )
-                                .join("")}
-                        </select>
-                    </div>
-                `;
-
-                jobsDiv.appendChild(jobDiv);
-            });
-
-            categoryDiv.appendChild(headerDiv);
-            categoryDiv.appendChild(errorContainer);
-            categoryDiv.appendChild(jobsDiv);
-            categoriesContainer.appendChild(categoryDiv);
-        });
-
-        // Add event listeners untuk validasi peringkat
-        addRankingValidation();
-    }
-
-    // Validasi peringkat dalam setiap kategori
-    function addRankingValidation() {
-        const selects = document.querySelectorAll(".ranking-select");
-
-        selects.forEach((select) => {
-            select.addEventListener("change", function () {
-                const kategori = this.dataset.kategori;
-                const job = this.dataset.job;
-                const peringkat = parseInt(this.value);
-
-                if (!peringkatData[kategori]) {
-                    peringkatData[kategori] = {};
-                }
-
-                // Hapus peringkat lama jika ada
-                Object.keys(peringkatData[kategori]).forEach((oldJob) => {
-                    if (
-                        peringkatData[kategori][oldJob] === peringkat &&
-                        oldJob !== job
-                    ) {
-                        delete peringkatData[kategori][oldJob];
-                        // Reset select yang conflict
-                        const conflictSelect = document.querySelector(
-                            `[data-kategori="${kategori}"][data-job="${oldJob}"]`
-                        );
-                        if (conflictSelect) {
-                            conflictSelect.value = "";
-                        }
-                    }
-                });
-
-                peringkatData[kategori][job] = peringkat;
-
-                // Update visual feedback
-                updateCategoryProgress(kategori);
-
-                // Hide error messages jika sudah valid
-                hideErrorMessages(kategori);
-            });
-        });
-    }
-
-    // Update progress visual untuk setiap kategori
-    function updateCategoryProgress(kategori) {
-        const categorySection = document.querySelector(
-            `[data-category="${kategori}"]`
-        );
-        const totalJobs = pekerjaanData[kategori].length;
-        const completedJobs = Object.values(
-            peringkatData[kategori] || {}
-        ).filter(
-            (value) =>
-                value !== null &&
-                value !== "" &&
-                !isNaN(value) &&
-                value >= 1 &&
-                value <= 12
-        ).length;
-
-        // Add atau update progress indicator
-        let progressDiv = categorySection.querySelector(".category-progress");
-        if (!progressDiv) {
-            progressDiv = document.createElement("div");
-            progressDiv.className = "category-progress";
-            categorySection
-                .querySelector(".category-header")
-                .appendChild(progressDiv);
-        }
-
-        progressDiv.innerHTML = `<span class="progress-text">${completedJobs}/${totalJobs} selesai</span>`;
-
-        if (completedJobs === totalJobs) {
-            categorySection.classList.add("completed");
-        } else {
-            categorySection.classList.remove("completed");
-        }
-    }
-
-    // Hide error messages untuk kategori tertentu
-    function hideErrorMessages(kategori) {
-        const categorySection = document.querySelector(
-            `[data-category="${kategori}"]`
-        );
-        const errorMessages = categorySection.querySelectorAll(
-            ".error-message, .unfill-message"
-        );
-        errorMessages.forEach((msg) => {
-            msg.classList.remove("visible");
-        });
-    }
-
-    // Cek peringkat unik dalam kategori
-    function cekPeringkatUnik(kategori) {
-        const peringkatKategori = Object.values(peringkatData[kategori] || {});
-        const peringkatValid = peringkatKategori.filter(
-            (r) => r !== null && r !== "" && !isNaN(r) && r >= 1 && r <= 12
-        );
-        const peringkatUnik = new Set(peringkatValid);
-        return peringkatUnik.size === peringkatValid.length;
-    }
-
-    // Cek semua peringkat terisi dalam kategori
-    function cekSemuaPeringkatTerisi(kategori) {
-        const totalJobs = pekerjaanData[kategori].length;
-        const filledJobs = Object.values(peringkatData[kategori] || {}).filter(
-            (r) => r !== null && r !== "" && !isNaN(r)
-        ).length;
-        return filledJobs === totalJobs;
-    }
-
-    // Validasi form sebelum submit
-    function validateForm() {
-        let valid = true;
-        let errorDetails = {
-            duplicates: [],
-            unfilled: [],
-        };
-
-        Object.keys(pekerjaanData).forEach((kategori) => {
-            // Cek peringkat duplikat
-            if (!cekPeringkatUnik(kategori)) {
-                valid = false;
-                errorDetails.duplicates.push(kategori);
-
-                // Tampilkan error message
-                const categorySection = document.querySelector(
-                    `[data-category="${kategori}"]`
-                );
-                const errorMessage =
-                    categorySection.querySelector(".error-message");
-                if (errorMessage) {
-                    errorMessage.classList.add("visible");
-                }
+document.querySelectorAll(".job-ranking-group").forEach((group) => {
+    const inputs = group.querySelectorAll(".job-rank-input");
+    group.closest("form").addEventListener("submit", function (event) {
+        const values = new Set();
+        let hasDuplicate = false;
+        let isInvalidRange = false;
+        inputs.forEach((input) => {
+            const value = parseInt(input.value);
+            if (isNaN(value) || value < 1 || value > 12) {
+                isInvalidRange = true;
             }
-
-            // Cek apakah ada peringkat yang belum terisi
-            if (!cekSemuaPeringkatTerisi(kategori)) {
-                valid = false;
-                errorDetails.unfilled.push(kategori);
-
-                // Tampilkan unfill message
-                const categorySection = document.querySelector(
-                    `[data-category="${kategori}"]`
-                );
-                const unfillMessage =
-                    categorySection.querySelector(".unfill-message");
-                if (unfillMessage) {
-                    unfillMessage.classList.add("visible");
-                }
+            if (values.has(value)) {
+                hasDuplicate = true;
             }
+            values.add(value);
         });
 
-        if (!valid) {
-            // Scroll ke kategori pertama yang error
-            const firstErrorCategory =
-                errorDetails.unfilled[0] || errorDetails.duplicates[0];
-            if (firstErrorCategory) {
-                const categoryElement = document.querySelector(
-                    `[data-category="${firstErrorCategory}"]`
-                );
-                if (categoryElement) {
-                    categoryElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
+        if (isInvalidRange) {
+            event.preventDefault();
+            alert(
+                `Error di ${
+                    group.querySelector("h4").textContent
+                }: Harap isi semua pekerjaan dengan angka 1-12.`
+            );
+        } else if (hasDuplicate) {
+            event.preventDefault();
+            alert(
+                `Error di ${
+                    group.querySelector("h4").textContent
+                }: Setiap angka 1-12 hanya boleh digunakan satu kali.`
+            );
+        }
+    });
+});
+
+// Inisialisasi tooltip Bootstrap (diperlukan sekali saja)
+const tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+// ========================================
+// FILTER DROPDOWN TOP 3 BERDASARKAN RANK 1
+// ========================================
+
+/**
+ * Update dropdown top 1/2/3 agar hanya menampilkan pekerjaan yang diberi rank 1
+ */
+function updateTop3Dropdowns() {
+    // Array untuk menyimpan pekerjaan dengan rank 1
+    const rank1Jobs = [];
+
+    // Loop semua kelompok (A-I)
+    document.querySelectorAll(".job-ranking-group").forEach((group) => {
+        const kelompokTitle = group.querySelector("h4").textContent.trim(); // "Kelompok A", "Kelompok B", etc.
+        const inputs = group.querySelectorAll(".job-rank-input");
+
+        // Cari pekerjaan yang diberi rank 1 di kelompok ini
+        inputs.forEach((input) => {
+            if (input.value === "1") {
+                const label = group.querySelector(`label[for="${input.id}"]`);
+                if (label) {
+                    const jobName = label.textContent.trim();
+                    rank1Jobs.push({
+                        kelompok: kelompokTitle,
+                        nama: jobName,
                     });
                 }
             }
-        }
+        });
+    });
 
-        return { valid, errorDetails };
-    }
+    // Update ketiga dropdown (top1, top2, top3)
+    ["top1", "top2", "top3"].forEach((dropdownId) => {
+        const dropdown = document.getElementById(dropdownId);
+        if (!dropdown) return;
 
-    // Validasi top 3 choices
-    function validateTopChoices() {
-        const top1 = document.getElementById("top1").value;
-        const top2 = document.getElementById("top2").value;
-        const top3 = document.getElementById("top3").value;
+        // Simpan nilai yang sedang dipilih
+        const currentValue = dropdown.value;
 
-        if (!top1 || !top2 || !top3) {
-            alert("Harap pilih Top 3 pekerjaan yang paling Anda sukai!");
-            return false;
-        }
+        // Hapus semua option kecuali placeholder
+        dropdown.innerHTML =
+            '<option value="" disabled selected>-- Pilih Pekerjaan --</option>';
 
-        if (top1 === top2 || top1 === top3 || top2 === top3) {
-            alert("Top 3 pekerjaan tidak boleh sama!");
-            return false;
-        }
-
-        return true;
-    }
-
-    // Event listener untuk submit
-    if (submitButton) {
-        submitButton.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            const validation = validateForm();
-            if (!validation.valid) {
-                return false;
+        // Kelompokkan pekerjaan rank 1 berdasarkan kelompok
+        const groupedJobs = {};
+        rank1Jobs.forEach((job) => {
+            if (!groupedJobs[job.kelompok]) {
+                groupedJobs[job.kelompok] = [];
             }
+            groupedJobs[job.kelompok].push(job.nama);
+        });
 
-            if (!validateTopChoices()) {
-                return false;
-            }
+        // Tambahkan optgroup dan option untuk setiap kelompok
+        Object.keys(groupedJobs)
+            .sort()
+            .forEach((kelompok) => {
+                const optgroup = document.createElement("optgroup");
+                optgroup.label = kelompok;
 
-            // Tampilkan konfirmasi dengan SweetAlert jika tersedia
-            if (typeof Swal !== "undefined") {
-                Swal.fire({
-                    title: "Konfirmasi Pengiriman",
-                    text: "Apakah Anda yakin dengan jawaban yang telah diisi?",
-                    icon: "question",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Ya, Kirim!",
-                    cancelButtonText: "Batal",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Siapkan data untuk dikirim
-                        const form = document.querySelector("form");
-                        const hiddenInput = document.createElement("input");
-                        hiddenInput.type = "hidden";
-                        hiddenInput.name = "peringkat";
-                        hiddenInput.value = JSON.stringify(peringkatData);
-                        form.appendChild(hiddenInput);
-
-                        // Submit form
-                        form.submit();
-                    }
+                groupedJobs[kelompok].forEach((jobName) => {
+                    const option = document.createElement("option");
+                    option.value = jobName;
+                    option.textContent = jobName;
+                    optgroup.appendChild(option);
                 });
-            } else {
-                // Fallback tanpa SweetAlert
-                if (
-                    confirm(
-                        "Apakah Anda yakin dengan jawaban yang telah diisi?"
-                    )
-                ) {
-                    const form = document.querySelector("form");
-                    const hiddenInput = document.createElement("input");
-                    hiddenInput.type = "hidden";
-                    hiddenInput.name = "peringkat";
-                    hiddenInput.value = JSON.stringify(peringkatData);
-                    form.appendChild(hiddenInput);
 
-                    form.submit();
-                }
+                dropdown.appendChild(optgroup);
+            });
+
+        // Restore nilai yang dipilih jika masih ada dalam list rank 1
+        if (
+            currentValue &&
+            rank1Jobs.some((job) => job.nama === currentValue)
+        ) {
+            dropdown.value = currentValue;
+        }
+    });
+
+    // Tampilkan pesan jika belum ada pekerjaan dengan rank 1
+    if (rank1Jobs.length === 0) {
+        ["top1", "top2", "top3"].forEach((dropdownId) => {
+            const dropdown = document.getElementById(dropdownId);
+            if (dropdown && dropdown.options.length === 1) {
+                // Hanya ada placeholder
+                dropdown.innerHTML =
+                    '<option value="" disabled selected>-- Berikan rank 1 pada pekerjaan favorit Anda di atas --</option>';
             }
         });
     }
+}
 
-    // Initialize form
-    if (Object.keys(pekerjaanData).length > 0) {
-        initializePeringkatData();
-        renderCategories();
-    } else {
-        categoriesContainer.innerHTML =
-            '<p class="error">Data pekerjaan tidak ditemukan. Pastikan file JSON tersedia.</p>';
-    }
+// Validasi Angka Unik per Kelompok (saat input berubah & kehilangan fokus)
+document.querySelectorAll(".job-ranking-group").forEach((group) => {
+    const inputs = group.querySelectorAll(".job-rank-input");
+
+    inputs.forEach((input) => {
+        // Hapus tooltip saat input mendapatkan fokus lagi
+        input.addEventListener("focus", function () {
+            const tooltip = bootstrap.Tooltip.getInstance(this);
+            if (tooltip) {
+                tooltip.dispose();
+            }
+            this.removeAttribute("data-bs-toggle");
+            this.removeAttribute("data-bs-placement");
+            this.removeAttribute("data-bs-original-title");
+            this.removeAttribute("title");
+            this.classList.remove("is-invalid"); // Hapus border merah
+        });
+
+        // *** PERUBAHAN UTAMA: Gunakan event 'change' bukan 'input' ***
+        input.addEventListener("change", function () {
+            const currentValue = this.value;
+            const tooltipInstance = bootstrap.Tooltip.getInstance(this);
+
+            // Hapus atribut tooltip lama (jika masih ada)
+            this.removeAttribute("data-bs-toggle");
+            this.removeAttribute("data-bs-placement");
+            this.removeAttribute("data-bs-original-title");
+            this.removeAttribute("title");
+            this.classList.remove("is-invalid"); // Hapus border merah
+
+            // Jangan validasi jika input kosong
+            if (currentValue === "") {
+                // Update dropdown meskipun input dikosongkan
+                updateTop3Dropdowns();
+                return;
+            }
+
+            // Batasi nilai antara 1 dan 12 dulu
+            const numericValue = parseInt(currentValue);
+            if (isNaN(numericValue) || numericValue < 1 || numericValue > 12) {
+                this.setAttribute("data-bs-toggle", "tooltip");
+                this.setAttribute("data-bs-placement", "top");
+                this.setAttribute("title", "Masukkan angka 1-12!");
+                const newTooltip = new bootstrap.Tooltip(this);
+                newTooltip.show();
+                this.classList.add("is-invalid");
+                this.value = ""; // Kosongkan jika invalid
+                // Update dropdown setelah input dikosongkan
+                updateTop3Dropdowns();
+                return; // Hentikan validasi duplikat jika range salah
+            }
+
+            // Periksa duplikat HANYA setelah range valid
+            let duplicateFound = false;
+            inputs.forEach((otherInput) => {
+                if (otherInput !== this && otherInput.value === currentValue) {
+                    duplicateFound = true;
+                }
+            });
+
+            if (duplicateFound) {
+                // Tampilkan tooltip error duplikat
+                this.setAttribute("data-bs-toggle", "tooltip");
+                this.setAttribute("data-bs-placement", "top");
+                this.setAttribute(
+                    "title",
+                    `Angka ${currentValue} sudah dipakai!`
+                );
+                const newTooltip = new bootstrap.Tooltip(this);
+                newTooltip.show();
+                this.classList.add("is-invalid"); // Tambah border merah
+                this.value = ""; // Kosongkan input duplikat
+                // Update dropdown setelah input dikosongkan
+                updateTop3Dropdowns();
+            } else {
+                // Jika tidak duplikat dan range valid, update dropdown
+                updateTop3Dropdowns();
+            }
+        });
+    });
+});
+
+// Panggil updateTop3Dropdowns saat halaman pertama kali dimuat
+// untuk handle jika ada nilai default atau setelah validasi error
+document.addEventListener("DOMContentLoaded", function () {
+    updateTop3Dropdowns();
 });
