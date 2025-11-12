@@ -8,26 +8,23 @@
     --gradient-bg: linear-gradient(135deg, var(--primary-color), #384273);
 }
 
-body {
-    background-color: #f5f7fa;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .header-section {
     background: var(--gradient-bg);
     color: white;
     padding: 2rem 0;
-    border-radius: 0 0 20px 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
 
 .profile-card {
     background-color: white;
-    border: none;
     border-radius: 15px;
     overflow: hidden;
     transition: all 0.3s ease;
+}
+
+.profile-card.border {
+    border-color: var(--primary-color) !important;
 }
 
 .profile-card:hover {
@@ -35,31 +32,48 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+.profile-card.h-100 {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-card.h-100 .card-body {
+    flex: 1;
+}
+
 .profile-header {
     background-color: var(--primary-color);
     color: white;
     padding: 1rem;
+    border-bottom: none;
 }
 
 .card {
     border: none;
-    border-radius: 15px;
+    border-radius: 15px !important;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
     transition: all 0.3s ease;
     margin-bottom: 2rem;
+    background-color: white !important;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 .card-header {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--primary-color) !important;
+    color: white !important;
     font-weight: bold;
     padding: 1rem 1.5rem;
+    border-bottom: none !important;
+}
+
+.card-body {
+    background-color: white !important;
+    padding: 1.5rem !important;
 }
 
 .table-header {
@@ -69,8 +83,8 @@ body {
 
 .bar-chart {
     position: relative;
-    height: 300px;
-    margin-bottom: 2rem;
+    height: 280px;
+    margin-bottom: 1rem;
 }
 
 .bar {
@@ -124,41 +138,6 @@ body {
     margin-right: 1rem;
 }
 
-.footer {
-    background: var(--gradient-bg);
-    color: white;
-    padding: 2rem 0;
-    margin-top: 4rem;
-    border-radius: 20px 20px 0 0;
-}
-
-.footer a {
-    color: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-}
-
-.footer a:hover {
-    color: white;
-    text-decoration: none;
-}
-
-.social-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
-    margin-right: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.social-icon:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-}
-
 .btn-action {
     padding: 0.7rem 1.5rem;
     font-weight: 600;
@@ -198,16 +177,42 @@ body {
     background-color: var(--danger-color);
 }
 
-.rank-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    margin-right: 1rem;
+/* Specific styling for colored border cards */
+.card.border,
+.card.border-2 {
+    border-style: solid !important;
+}
+
+.card.border-success,
+.card.border-info,
+.card.border-primary {
+    border-width: 2px !important;
+    border-style: solid !important;
+}
+
+.card.border-success {
+    border-color: var(--bs-success) !important;
+}
+
+.card.border-info {
+    border-color: var(--bs-info) !important;
+}
+
+.card.border-primary {
+    border-color: var(--bs-primary) !important;
+}
+
+/* Card header colors for recommendation cards */
+.card-header.bg-success {
+    background-color: var(--bs-success) !important;
+}
+
+.card-header.bg-info {
+    background-color: var(--bs-info) !important;
+}
+
+.card-header.bg-primary {
+    background-color: var(--bs-primary) !important;
 }
 
 /* Animation */
@@ -224,6 +229,7 @@ body {
 
 .fade-in {
     animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
 }
 
 .animated-item:nth-child(1) {
@@ -240,4 +246,25 @@ body {
 }
 .animated-item:nth-child(5) {
     animation-delay: 0.5s;
+}
+.animated-item:nth-child(6) {
+    animation-delay: 0.6s;
+}
+.animated-item:nth-child(7) {
+    animation-delay: 0.7s;
+}
+.animated-item:nth-child(8) {
+    animation-delay: 0.8s;
+}
+.animated-item:nth-child(9) {
+    animation-delay: 0.9s;
+}
+.animated-item:nth-child(10) {
+    animation-delay: 1s;
+}
+.animated-item:nth-child(11) {
+    animation-delay: 1.1s;
+}
+.animated-item:nth-child(12) {
+    animation-delay: 1.2s;
 }
