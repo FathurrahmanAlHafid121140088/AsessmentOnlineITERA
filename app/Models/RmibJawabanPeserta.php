@@ -7,13 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class RmibJawabanPeserta extends Model
 {
-    use HasFactory;
-
     protected $table = 'rmib_jawaban_peserta';
-    protected $fillable = ['user_id', 'jawaban'];
 
-    public function dataDiri()
+    protected $fillable = [
+        'hasil_id', 
+        'kelompok', 
+        'pekerjaan', 
+        'peringkat'
+    ];
+
+    public function hasil()
     {
-        return $this->belongsTo(KarirDataDiri::class, 'user_id', 'id');
+        return $this->belongsTo(RmibHasilTes::class, 'hasil_id', 'id');
     }
 }
