@@ -664,5 +664,165 @@ class HasilKuesionerCombinedControllerTest extends TestCase
             return true;
         });
     }
+
+    // ================================================
+    // TES UNTUK METHOD showDetail() (Detail Jawaban)
+    // ================================================
+
+    #[Test]
+    public function show_detail_pengguna_belum_login_dialihkan_ke_login(): void
+    {
+        // Akses route detail tanpa login
+        $response = $this->get(route('admin.mental-health.detail', ['id' => 1]));
+        // Harusnya dialihkan ke login
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
+    public function show_detail_data_tidak_ditemukan_error_404(): void
+    {
+        $this->actingAs($this->admin, 'admin');
+
+        // Coba akses ID yang tidak ada
+        $response = $this->get(route('admin.mental-health.detail', ['id' => 999]));
+
+        $response->assertStatus(404);
+    }
+
+    #[Test]
+    public function show_detail_berhasil_menampilkan_data_lengkap(): void
+    {
+        // Buat data lengkap
+        $user = Users::factory()->create(['nim' => '121140088']);
+        $dataDiri = DataDiris::factory()->create([
+            'nim' => '121140088',
+            'nama' => 'John Doe',
+            'program_studi' => 'Teknik Informatika'
+        ]);
+        $hasil = HasilKuesioner::factory()->create([
+            'nim' => '121140088',
+            'total_skor' => 150,
+            'kategori' => 'Sehat'
+        ]);
+
+        $this->actingAs($this->admin, 'admin');
+        $response = $this->get(route('admin.mental-health.detail', ['id' => $hasil->id]));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin-mental-health-detail');
+
+        // Cek data yang dikirim ke view
+        $response->assertViewHas('hasil', function ($viewHasil) use ($hasil) {
+            return $viewHasil->id === $hasil->id;
+        });
+
+        $response->assertViewHas('questions'); // Daftar pertanyaan ada
+        $response->assertViewHas('negativeQuestions'); // Daftar pertanyaan negatif ada
+
+        // Cek konten halaman
+        $response->assertSee('John Doe');
+        $response->assertSee('121140088');
+        $response->assertSee('Teknik Informatika');
+        $response->assertSee('150'); // Total skor
+        $response->assertSee('Sehat'); // Kategori
+    }
+
+    #[Test]
+    public function show_detail_menampilkan_38_pertanyaan(): void
+    {
+        $user = Users::factory()->create(['nim' => '111']);
+        $dataDiri = DataDiris::factory()->create(['nim' => '111', 'nama' => 'Test User']);
+        $hasil = HasilKuesioner::factory()->create(['nim' => '111']);
+
+        $this->actingAs($this->admin, 'admin');
+        $response = $this->get(route('admin.mental-health.detail', ['id' => $hasil->id]));
+
+        $response->assertStatus(200);
+        $response->assertViewHas('questions', function ($questions) {
+            $this->assertCount(38, $questions, "Harusnya ada 38 pertanyaan.");
+            return true;
+        });
+    }
+
+    #[Test]
+    public function show_detail_pertanyaan_negatif_ditandai_dengan_benar(): void
+    {
+        $user = Users::factory()->create(['nim' => '111']);
+        $dataDiri = DataDiris::factory()->create(['nim' => '111', 'nama' => 'Test User']);
+        $hasil = HasilKuesioner::factory()->create(['nim' => '111']);
+
+        $this->actingAs($this->admin, 'admin');
+        $response = $this->get(route('admin.mental-health.detail', ['id' => $hasil->id]));
+
+        $response->assertStatus(200);
+        $response->assertViewHas('negativeQuestions', function ($negatives) {
+            // Daftar pertanyaan negatif sesuai MHI-38 asli (Psychological Distress - 24 items)
+            $expectedNegatives = [2, 3, 8, 9, 11, 13, 14, 15, 16, 18, 19, 20, 21, 24, 25, 27, 28, 29, 30, 32, 33, 35, 36, 38];
+            $this->assertCount(24, $negatives, "Harusnya ada 24 pertanyaan negatif sesuai MHI-38.");
+            $this->assertEquals($expectedNegatives, $negatives, "Daftar pertanyaan negatif harus sesuai.");
+            return true;
+        });
+    }
+
+    #[Test]
+    public function show_detail_info_mahasiswa_urutan_benar(): void
+    {
+        // Test urutan: NIM, Nama, Program Studi, Tanggal Tes
+        $user = Users::factory()->create(['nim' => '121140088']);
+        $dataDiri = DataDiris::factory()->create([
+            'nim' => '121140088',
+            'nama' => 'Budi Santoso',
+            'program_studi' => 'Teknik Elektro'
+        ]);
+        $hasil = HasilKuesioner::factory()->create([
+            'nim' => '121140088',
+            'created_at' => now()
+        ]);
+
+        $this->actingAs($this->admin, 'admin');
+        $response = $this->get(route('admin.mental-health.detail', ['id' => $hasil->id]));
+
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            'NIM',
+            '121140088',
+            'Nama Mahasiswa',
+            'Budi Santoso',
+            'Program Studi',
+            'Teknik Elektro',
+            'Tanggal Tes'
+        ]);
+    }
+
+    #[Test]
+    public function show_detail_tombol_kembali_dan_cetak_ada(): void
+    {
+        $user = Users::factory()->create(['nim' => '111']);
+        $dataDiri = DataDiris::factory()->create(['nim' => '111']);
+        $hasil = HasilKuesioner::factory()->create(['nim' => '111']);
+
+        $this->actingAs($this->admin, 'admin');
+        $response = $this->get(route('admin.mental-health.detail', ['id' => $hasil->id]));
+
+        $response->assertStatus(200);
+        $response->assertSee('Kembali');
+        $response->assertSee('Cetak PDF');
+        $response->assertSee('printDetail()'); // JavaScript function ada
+    }
+
+    #[Test]
+    public function show_detail_title_mengandung_nama_mahasiswa(): void
+    {
+        $user = Users::factory()->create(['nim' => '111']);
+        $dataDiri = DataDiris::factory()->create(['nim' => '111', 'nama' => 'Ahmad Zaki']);
+        $hasil = HasilKuesioner::factory()->create(['nim' => '111']);
+
+        $this->actingAs($this->admin, 'admin');
+        $response = $this->get(route('admin.mental-health.detail', ['id' => $hasil->id]));
+
+        $response->assertStatus(200);
+        $response->assertViewHas('title', 'Detail Jawaban Kuesioner - Ahmad Zaki');
+    }
 }
 

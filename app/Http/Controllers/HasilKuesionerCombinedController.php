@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
 use App\Models\HasilKuesioner;
 use App\Models\DataDiris;
 use App\Models\Users; // <-- Pastikan ini ada
+use App\Models\MentalHealthJawabanDetail;
 use Illuminate\Database\Eloquent\Builder;
 
 class HasilKuesionerCombinedController extends Controller
@@ -290,6 +291,8 @@ class HasilKuesionerCombinedController extends Controller
             Cache::forget('mh.admin.kategori_counts');
             Cache::forget('mh.admin.total_tes');
             Cache::forget('mh.admin.fakultas_stats');
+            // ⚡ CACHING: Invalidate user dashboard cache
+            Cache::forget("mh.user.{$nim}.test_history");
 
             return redirect()->route('admin.home')->with('success', 'Seluruh data mahasiswa dengan NIM ' . $nim . ' berhasil dihapus.');
 
@@ -330,6 +333,74 @@ class HasilKuesionerCombinedController extends Controller
 
         // Panggil class export dengan parameter yang relevan dan trigger unduhan
         return Excel::download(new HasilKuesionerExport($search, $kategori, $sort, $order), $fileName);
+    }
+
+    /**
+     * Tampilkan detail jawaban per pertanyaan untuk satu hasil kuesioner
+     */
+    public function showDetail($id)
+    {
+        $hasil = HasilKuesioner::with(['dataDiri', 'jawabanDetails' => function($query) {
+            $query->orderBy('nomor_soal');
+        }, 'riwayatKeluhans' => function($query) {
+            $query->latest()->limit(1);
+        }])->findOrFail($id);
+
+        // Daftar pertanyaan lengkap (38 pertanyaan) - Sama persis dengan kuesioner
+        $questions = [
+            1 => 'Seberapa bahagia, puas, atau senangkah Anda dengan kehidupan pribadi Anda selama sebulan terakhir?',
+            2 => 'Seberapa sering Anda merasa kesepian selama sebulan terakhir?',
+            3 => 'Seberapa sering Anda merasa gugup atau gelisah ketika dihadapkan pada situasi yang menyenangkan atau tak terduga selama sebulan terakhir?',
+            4 => 'Selama sebulan terakhir, seberapa sering Anda merasa bahwa masa depan terlihat penuh harapan dan menjanjikan?',
+            5 => 'Berapa banyak waktu, selama sebulan terakhir, kehidupan sehari-hari Anda penuh dengan hal-hal yang menarik bagi Anda?',
+            6 => 'Seberapa sering, selama sebulan terakhir, Anda merasa rileks dan bebas dari ketegangan?',
+            7 => 'Selama sebulan terakhir, berapa banyak waktu yang Anda habiskan untuk menikmati hal-hal yang Anda lakukan?',
+            8 => 'Selama sebulan terakhir, pernahkah Anda merasa kehilangan akal sehat, atau kehilangan kendali atas cara Anda bertindak, berbicara, berpikir, merasakan, atau ingatan Anda?',
+            9 => 'Apakah Anda merasa tertekan selama sebulan terakhir?',
+            10 => 'Selama sebulan terakhir, berapa banyak waktu yang Anda gunakan untuk merasa dicintai dan diinginkan?',
+            11 => 'Seberapa sering, selama sebulan terakhir, Anda menjadi orang yang sangat gugup?',
+            12 => 'Ketika Anda bangun di pagi hari, dalam sebulan terakhir ini, kira-kira seberapa sering Anda berharap untuk mendapatkan hari yang menarik?',
+            13 => 'Seberapa sering Anda merasa tegang atau sangat gelisah?',
+            14 => 'Selama sebulan terakhir, apakah Anda memegang kendali penuh atas perilaku, pikiran, emosi, atau perasaan Anda?',
+            15 => 'Selama sebulan terakhir, seberapa sering tangan Anda bergetar ketika mencoba melakukan sesuatu?',
+            16 => 'Selama sebulan terakhir, seberapa sering Anda merasa tidak memiliki sesuatu yang dinantikan?',
+            17 => 'Seberapa sering, selama sebulan terakhir, Anda merasa tenang dan damai?',
+            18 => 'Seberapa sering, selama sebulan terakhir, Anda merasa stabil secara emosional?',
+            19 => 'Seberapa sering, selama sebulan terakhir, Anda merasa murung?',
+            20 => 'Seberapa sering Anda merasa ingin menangis, selama sebulan terakhir?',
+            21 => 'Selama sebulan terakhir, seberapa sering Anda merasa bahwa orang lain akan lebih baik jika Anda mati?',
+            22 => 'Berapa banyak waktu, selama sebulan terakhir, Anda dapat bersantai tanpa kesulitan?',
+            23 => 'Seberapa sering, selama sebulan terakhir, Anda merasa bahwa hubungan cinta Anda, mencintai dan dicintai, terasa utuh dan lengkap?',
+            24 => 'Seberapa sering, selama sebulan terakhir, Anda merasa bahwa tidak ada yang berjalan sesuai dengan yang Anda inginkan?',
+            25 => 'Seberapa sering Anda merasa terganggu oleh rasa gugup, atau "kegelisahan" Anda, selama sebulan terakhir?',
+            26 => 'Selama sebulan terakhir, berapa banyak waktu yang Anda gunakan untuk menjalani petualangan yang luar biasa bagi Anda?',
+            27 => 'Seberapa sering, selama sebulan terakhir, Anda merasa sangat terpuruk sehingga tidak ada yang dapat menghibur Anda?',
+            28 => 'Selama sebulan terakhir, apakah Anda berpikir untuk bunuh diri?',
+            29 => 'Selama sebulan terakhir, berapa kali Anda merasa gelisah, resah, atau tidak sabar?',
+            30 => 'Selama sebulan terakhir, berapa banyak waktu yang Anda habiskan untuk murung atau merenung tentang berbagai hal?',
+            31 => 'Seberapa sering, selama sebulan terakhir, Anda merasa ceria dan gembira?',
+            32 => 'Selama sebulan terakhir, seberapa sering Anda merasa gelisah, kesal, atau bingung?',
+            33 => 'Selama sebulan terakhir, apakah Anda pernah merasa cemas atau khawatir?',
+            34 => 'Selama sebulan terakhir, berapa banyak waktu yang Anda habiskan untuk menjadi orang yang bahagia?',
+            35 => 'Seberapa sering selama sebulan terakhir Anda merasa perlu menenangkan diri?',
+            36 => 'Selama sebulan terakhir, seberapa sering Anda merasa sedih atau sangat terpuruk?',
+            37 => 'Seberapa sering, selama sebulan terakhir, Anda bangun tidur dengan perasaan segar dan beristirahat?',
+            38 => 'Selama sebulan terakhir, apakah Anda pernah mengalami atau merasa berada di bawah tekanan, stres, atau tekanan?'
+        ];
+
+        // Pertanyaan berdasarkan MHI-38 asli
+        // Psychological Distress (24 items) - Negatif
+        $negativeQuestions = [2, 3, 8, 9, 11, 13, 14, 15, 16, 18, 19, 20, 21, 24, 25, 27, 28, 29, 30, 32, 33, 35, 36, 38];
+
+        // Psychological Well-being (14 items) - Positif
+        // Items: 1, 4, 5, 6, 7, 10, 12, 17, 22, 23, 26, 31, 34, 37
+
+        return view('admin-mental-health-detail', [
+            'title' => 'Detail Jawaban Kuesioner - ' . $hasil->dataDiri->nama,
+            'hasil' => $hasil,
+            'questions' => $questions,
+            'negativeQuestions' => $negativeQuestions
+        ]);
     }
 }
 

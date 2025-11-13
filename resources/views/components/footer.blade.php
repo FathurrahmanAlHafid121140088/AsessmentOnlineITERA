@@ -55,7 +55,7 @@
                         <a href="/mental-health" class="animated-link">Mental Health</a>
                     </li>
                     <li>
-                        <a href="/karir-home" class="animated-link">Peminatan Karir</a>
+                        <a href="/karir" class="animated-link">Peminatan Karir</a>
                     </li>
                 </ul>
             </div>

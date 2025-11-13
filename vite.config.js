@@ -41,7 +41,7 @@ export default defineConfig({
                 // ==========================================
                 // Note: Hanya include file JS yang ada di resources/js/
                 // File JS lainnya sudah inline di blade atau di public/js/
-                "resources/js/app.js",
+                "resources/js/app.js"
             ],
             refresh: true,
         }),

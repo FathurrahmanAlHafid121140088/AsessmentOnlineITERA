@@ -186,28 +186,30 @@ class CachePerformanceTest extends TestCase
     }
 
     /**
-     * Test: Deleting user invalidates all caches
+     * Test: Deleting user invalidates all caches including user dashboard cache
      */
     public function test_deleting_user_invalidates_all_caches()
     {
         $dataDiri = DataDiris::factory()->create(['nim' => '123456789']);
         $hasil = HasilKuesioner::factory()->create(['nim' => '123456789']);
 
-        // Create all caches
+        // Create all caches (admin + user dashboard)
         Cache::put('mh.admin.user_stats', ['test' => 'data'], 60);
         Cache::put('mh.admin.kategori_counts', ['test' => 'data'], 60);
         Cache::put('mh.admin.total_tes', 100, 60);
         Cache::put('mh.admin.fakultas_stats', ['test' => 'data'], 60);
+        Cache::put('mh.user.123456789.test_history', ['test' => 'data'], 60);
 
         // Delete user
         $this->actingAs($this->admin, 'admin')
             ->delete(route('admin.delete', $hasil->id));
 
-        // All caches should be cleared
+        // All caches should be cleared (admin + user dashboard)
         $this->assertFalse(Cache::has('mh.admin.user_stats'));
         $this->assertFalse(Cache::has('mh.admin.kategori_counts'));
         $this->assertFalse(Cache::has('mh.admin.total_tes'));
         $this->assertFalse(Cache::has('mh.admin.fakultas_stats'));
+        $this->assertFalse(Cache::has('mh.user.123456789.test_history'));
     }
 
     /**

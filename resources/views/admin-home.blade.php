@@ -24,6 +24,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
+    <style>
+        /* Custom styling for detail button in modal */
+        .btn-detail-jawaban {
+            background-color: #8b5cf6 !important;
+            color: white !important;
+            padding: 10px 18px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3) !important;
+        }
+
+        .btn-detail-jawaban:hover {
+            background-color: #7c3aed !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(139, 92, 246, 0.4) !important;
+            color: white !important;
+        }
+
+        .btn-detail-jawaban:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3) !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -819,14 +852,16 @@
                                             style="display: flex; gap: 10px; align-items: center; justify-content: center;">
                                             <button type="button"
                                                 onclick="openModal('modal-riwayat-{{ $hasil->id }}')"
-                                                class="history-button tooltip-action" {{-- kelas baru + tooltip-action --}}
-                                                style="background-color:#1d4ed8; color:white">
+                                                class="history-button tooltip-action"
+                                                style="background-color:#1d4ed8; color:white"
+                                                title="Riwayat Tes">
                                                 <i class="fas fa-history"></i>
                                             </button>
 
                                             <button type="button" class="print-button tooltip-action"
                                                 style="background-color: green; color:white" onclick="printPDF(this)"
-                                                dusk="print-button-{{ $hasil->id }}">
+                                                dusk="print-button-{{ $hasil->id }}"
+                                                title="Cetak PDF">
                                                 <svg class="svgIcon" viewBox="0 0 384 512" height="1em"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path
@@ -853,8 +888,8 @@
                                 </tr>
                                 <!-- Modal Riwayat -->
                                 <div id="modal-riwayat-{{ $hasil->id }}"
-                                    class="custom-modal"onclick="backdropClose(event, 'modal-riwayat-{{ $hasil->id }}')">
-                                    <div class="custom-modal-content">
+                                    class="custom-modal" onclick="backdropClose(event, 'modal-riwayat-{{ $hasil->id }}')">
+                                    <div class="custom-modal-content" onclick="event.stopPropagation();">
                                         <span class="custom-modal-close"
                                             onclick="closeModal('modal-riwayat-{{ $hasil->id }}')">&times;</span>
                                         <h4 style="text-align: center; font-size: large; padding: 1rem;">Riwayat
@@ -936,6 +971,14 @@
                                                         class="kategori-badge {{ $badgeClass }}">{{ $kategoriLabel }}
                                                     </span>
                                                     <br>
+                                                    <div style="margin-top: 12px;">
+                                                        <a href="{{ route('admin.mental-health.detail', $kuesioner->id) }}"
+                                                           class="btn-detail-jawaban"
+                                                           onclick="event.stopPropagation();">
+                                                            <i class="fas fa-list-alt"></i>
+                                                            <span>Lihat Detail Jawaban</span>
+                                                        </a>
+                                                    </div>
                                                 @endif
 
                                                 @if ($keluhan)

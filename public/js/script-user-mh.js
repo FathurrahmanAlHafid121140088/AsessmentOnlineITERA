@@ -29,7 +29,7 @@ if (menuToggle && sidebar && overlay) {
 const menuItems = document.querySelectorAll(".menu-item");
 menuItems.forEach((item) => {
     item.addEventListener("click", (e) => {
-        e.preventDefault();
+        // Jangan prevent default agar link bisa navigasi
         menuItems.forEach((mi) => mi.classList.remove("active"));
         item.classList.add("active");
 
@@ -42,6 +42,9 @@ menuItems.forEach((item) => {
             icon.classList.remove("fa-times");
             icon.classList.add("fa-bars");
         }
+
+        // Navigasi ke href link
+        window.location.href = item.getAttribute("href");
     });
 });
 

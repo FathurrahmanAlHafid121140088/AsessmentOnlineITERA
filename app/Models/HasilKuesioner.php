@@ -25,9 +25,14 @@ class HasilKuesioner extends Model
     {
         return $this->belongsTo(DataDiris::class, 'nim', 'nim');
     }
-    // App\Models\HasilKuesioner.php
+
     public function riwayatKeluhans()
     {
         return $this->hasMany(RiwayatKeluhans::class, 'nim', 'nim');
+    }
+
+    public function jawabanDetails()
+    {
+        return $this->hasMany(MentalHealthJawabanDetail::class, 'hasil_kuesioner_id');
     }
 }

@@ -3,6 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const quizForm = document.getElementById("quizForm");
     const totalQuestions = 38;
 
+    // ===== Set start time for validity check =====
+    const startTimeField = document.getElementById("start_time");
+    if (startTimeField && !startTimeField.value) {
+        startTimeField.value = Math.floor(Date.now() / 1000); // Unix timestamp in seconds
+    }
+
     const toggleButton = document.getElementById("toggle-sidebar");
     const questionStatusContainer = document.getElementById(
         "question-status-container"
