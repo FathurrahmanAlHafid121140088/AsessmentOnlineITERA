@@ -29,11 +29,11 @@
                 <h4>PPSDM ITERA</h4>
             </div>
             <div class="sidebar-menu">
-                <a href="#" class="menu-item active">
+                <a href="/user/mental-health" class="menu-item active">
                     <i class="fas fa-brain"></i>
                     <span>Mental Health</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="/karir/dashboard" class="menu-item">
                     <i class="fas fa-briefcase"></i>
                     <span>Peminatan Karir</span>
                 </a>

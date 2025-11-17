@@ -1,12 +1,15 @@
 // Toggle (menampilkan/menyembunyikan) search box
 function toggleSearchInput() {
     const searchBox = document.getElementById("searchBox");
-    searchBox.classList.toggle("active");
+    if (searchBox) {
+        searchBox.classList.toggle("active");
+    }
 }
 
 // Optional: sembunyikan search box kalau klik di luar
 document.addEventListener("click", (e) => {
-    if (!searchBox.contains(e.target)) {
+    const searchBox = document.getElementById("searchBox");
+    if (searchBox && !searchBox.contains(e.target)) {
         searchBox.classList.remove("active");
     }
 });
@@ -128,16 +131,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchForm = document.querySelector(".search-form");
     const searchIcon = document.querySelector("#searchIcon");
 
-    searchIcon.addEventListener("click", function (e) {
-        if (
-            window.innerWidth <= 768 &&
-            !searchForm.classList.contains("active")
-        ) {
-            e.preventDefault(); // cegah submit form
-            searchForm.classList.add("active");
-            searchForm.querySelector("input").focus();
-        }
-    });
+    if (searchIcon && searchForm) {
+        searchIcon.addEventListener("click", function (e) {
+            if (
+                window.innerWidth <= 768 &&
+                !searchForm.classList.contains("active")
+            ) {
+                e.preventDefault(); // cegah submit form
+                searchForm.classList.add("active");
+                const input = searchForm.querySelector("input");
+                if (input) {
+                    input.focus();
+                }
+            }
+        });
+    }
 });
 
 // Buka modal

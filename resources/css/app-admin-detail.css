@@ -1,0 +1,263 @@
+/**
+ * Admin Mental Health Detail - CSS
+ * Halaman: admin-mental-health-detail.blade.php
+ * Fitur: Detail Jawaban Kuesioner Mental Health
+ * Update: 13 November 2025
+ */
+
+@import "tailwindcss";
+
+/* ==========================================
+   CUSTOM STYLES FOR DETAIL PAGE
+   ========================================== */
+
+/* Container & Layout */
+.detail-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+}
+
+/* Header Section */
+.detail-header {
+    @apply bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg shadow-lg p-6 mb-8;
+}
+
+.detail-title {
+    @apply text-3xl font-bold mb-2;
+}
+
+.detail-subtitle {
+    @apply text-blue-100 text-sm;
+}
+
+/* Info Cards Grid */
+.info-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8;
+}
+
+.info-card {
+    @apply bg-white rounded-lg shadow-md p-5 border-l-4 border-blue-500 hover:shadow-lg transition-shadow duration-300;
+}
+
+.info-card .label {
+    @apply text-gray-600 text-sm font-medium mb-2 flex items-center gap-2;
+}
+
+.info-card .label .icon {
+    @apply text-blue-500;
+}
+
+.info-card .value {
+    @apply text-gray-900 text-lg font-bold;
+}
+
+/* Summary Card */
+.summary-card {
+    @apply bg-gradient-to-br from-green-50 to-blue-50 rounded-lg shadow-md p-6 mb-8;
+}
+
+.summary-title {
+    @apply text-xl font-bold text-gray-800 mb-4 flex items-center gap-2;
+}
+
+.summary-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.summary-item {
+    @apply flex flex-col;
+}
+
+.summary-label {
+    @apply text-gray-600 text-sm font-medium mb-2;
+}
+
+.summary-value {
+    @apply text-2xl font-bold;
+}
+
+/* Badge Kategori */
+.badge-kategori {
+    @apply inline-block px-4 py-2 rounded-full text-sm font-semibold;
+}
+
+.badge-sangat-sehat {
+    @apply bg-green-500 text-white;
+}
+
+.badge-sehat {
+    @apply bg-blue-500 text-white;
+}
+
+.badge-cukup-sehat {
+    @apply bg-yellow-500 text-white;
+}
+
+.badge-perlu-dukungan {
+    @apply bg-orange-500 text-white;
+}
+
+.badge-perlu-dukungan-intensif {
+    @apply bg-red-500 text-white;
+}
+
+/* Table Container */
+.table-container {
+    @apply bg-white rounded-lg shadow-md overflow-hidden mb-8;
+}
+
+.table-header {
+    @apply bg-gray-50 px-6 py-4 border-b border-gray-200;
+}
+
+.table-title {
+    @apply text-lg font-bold text-gray-800;
+}
+
+/* Responsive Table */
+.table-wrapper {
+    @apply overflow-x-auto;
+}
+
+.detail-table {
+    @apply min-w-full divide-y divide-gray-200;
+}
+
+.detail-table thead {
+    @apply bg-blue-600;
+}
+
+.detail-table thead th {
+    @apply px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider;
+}
+
+.detail-table tbody {
+    @apply bg-white divide-y divide-gray-200;
+}
+
+.detail-table tbody tr {
+    @apply hover:bg-gray-50 transition-colors duration-150;
+}
+
+.detail-table tbody td {
+    @apply px-6 py-4 whitespace-nowrap text-sm;
+}
+
+.detail-table tbody td.question-text {
+    @apply whitespace-normal;
+}
+
+/* Badge Tipe Pertanyaan */
+.badge-tipe {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.badge-positif {
+    @apply bg-green-100 text-green-800 border border-green-300;
+}
+
+.badge-negatif {
+    @apply bg-red-100 text-red-800 border border-red-300;
+}
+
+/* Skor Display */
+.skor-cell {
+    @apply text-center font-bold text-blue-600 text-base;
+}
+
+/* Action Buttons */
+.action-buttons {
+    @apply flex flex-wrap gap-4 justify-between items-center mb-8;
+}
+
+.btn-action {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg;
+}
+
+.btn-back {
+    @apply bg-gray-600 text-white hover:bg-gray-700;
+}
+
+.btn-print {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+.btn-action i {
+    @apply text-lg;
+}
+
+/* Loading State */
+.loading-overlay {
+    @apply fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.loading-spinner {
+    @apply animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .detail-title {
+        @apply text-2xl;
+    }
+
+    .info-grid {
+        @apply grid-cols-1;
+    }
+
+    .summary-grid {
+        @apply grid-cols-1;
+    }
+
+    .action-buttons {
+        @apply flex-col;
+    }
+
+    .btn-action {
+        @apply w-full justify-center;
+    }
+
+    .detail-table thead th {
+        @apply px-3 py-2 text-xs;
+    }
+
+    .detail-table tbody td {
+        @apply px-3 py-3 text-xs;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .btn-action,
+    .action-buttons {
+        @apply hidden;
+    }
+
+    .detail-header {
+        @apply bg-gray-100 text-gray-900;
+    }
+
+    .detail-table {
+        @apply text-xs;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* SweetAlert2 Custom Styles */
+.swal2-container {
+    @apply z-50;
+}

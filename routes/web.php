@@ -51,6 +51,10 @@ Route::middleware([AdminAuth::class])->group(function () {
     Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])
         ->name('statistik.total-users');
 
+    // Detail jawaban kuesioner
+    Route::get('/admin/mental-health/{id}/detail', [HasilKuesionerCombinedController::class, 'showDetail'])
+        ->name('admin.mental-health.detail');
+
     // Hapus hasil
     Route::delete('/admin/mental-health/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
         ->name('admin.delete');

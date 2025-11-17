@@ -4,20 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
+use Illuminate\Support\Facades\DB;
 use App\Models\HasilKuesioner;
+use App\Models\MentalHealthJawabanDetail;
 use App\Http\Requests\StoreHasilKuesionerRequest;
 
 class HasilKuesionerController extends Controller
 {
+
     public function store(StoreHasilKuesionerRequest $request)
     {
         // Data sudah tervalidasi otomatis oleh FormRequest (nim + 38 questions)
         $validated = $request->validated();
 
+        // Collect answers
+        $jawaban = [];
         $totalSkor = 0;
 
         for ($i = 1; $i <= 38; $i++) {
-            $totalSkor += (int) $request->input("question{$i}");
+            $answer = (int) $request->input("question{$i}");
+            $jawaban[] = $answer;
+            $totalSkor += $answer;
         }
 
         // kategori berdasarkan total skor
@@ -29,12 +36,31 @@ class HasilKuesionerController extends Controller
             $totalSkor >= 38 && $totalSkor <= 75 => 'Perlu Dukungan Intensif',
             default => 'Tidak Terdefinisi',
         };
+
         try {
-            HasilKuesioner::create([
+            DB::beginTransaction();
+
+            // Save hasil kuesioner
+            $hasil = HasilKuesioner::create([
                 'nim' => $validated['nim'],
                 'total_skor' => $totalSkor,
                 'kategori' => $kategori,
             ]);
+
+            // Save detailed answers
+            $jawabanDetails = [];
+            for ($i = 1; $i <= 38; $i++) {
+                $jawabanDetails[] = [
+                    'hasil_kuesioner_id' => $hasil->id,
+                    'nomor_soal' => $i,
+                    'skor' => $jawaban[$i - 1],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+            MentalHealthJawabanDetail::insert($jawabanDetails);
+
+            DB::commit();
 
             // ⚡ CACHING: Invalidate all related caches after creating new test
             // 1. Invalidate admin dashboard caches
@@ -45,8 +71,8 @@ class HasilKuesionerController extends Controller
 
             // 2. Invalidate user-specific cache
             Cache::forget("mh.user.{$validated['nim']}.test_history");
-
         } catch (\Exception $e) {
+            DB::rollBack();
             return back()->withErrors([
                 'error' => 'Gagal menyimpan hasil kuesioner: ' . $e->getMessage()
             ]);

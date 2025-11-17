@@ -55,7 +55,8 @@
                     </h2>
                     <form id="quizForm" action="{{ route('mental-health.kuesioner.submit') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="nim" value="{{ session('nim') }}"> @php
+                        <input type="hidden" name="nim" value="{{ session('nim') }}">
+                        <input type="hidden" name="start_time" id="start_time" value=""> @php
                             $questions = [
                                 [
                                     'number' => 1,
