@@ -27,11 +27,13 @@
                 <h4>PPSDM ITERA</h4>
             </div>
             <div class="sidebar-menu">
-                <a href="{{ route('user.mental-health') }}" class="menu-item {{ request()->routeIs('user.mental-health') ? 'active' : '' }}">
+                <a href="{{ route('user.mental-health') }}"
+                    class="menu-item {{ request()->routeIs('user.mental-health') ? 'active' : '' }}">
                     <i class="fas fa-brain"></i>
                     <span>Mental Health</span>
                 </a>
-                <a href="{{ route('karir.dashboard') }}" class="menu-item {{ request()->routeIs('karir.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('karir.dashboard') }}"
+                    class="menu-item {{ request()->routeIs('karir.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-briefcase"></i>
                     <span>Peminatan Karir</span>
                 </a>
@@ -203,16 +205,20 @@
 
                 <!-- Grafik Radar - Profil Minat RMIB -->
                 <section class="chart-section">
-                    <h3 class="chart-title"><i class="fas fa-chart-radar"></i> Profil Minat Peminatan Karir (RMIB)</h3>
+                    <h3 class="chart-title"><i class="fas fa-chart-radar"></i> Profil Minat Peminatan Karir (RMIB)
+                        Terbaru</h3>
 
                     @if (!empty($radarLabels) && !empty($radarData))
                         <!-- Keterangan Cara Membaca Chart -->
-                        <div style="background: #fff7ed; border-left: 4px solid #ea580c; padding: 12px 16px; margin-bottom: 20px; border-radius: 6px;">
+                        <div
+                            style="background: #fff7ed; border-left: 4px solid #ea580c; padding: 12px 16px; margin-bottom: 20px; border-radius: 6px;">
                             <p style="margin: 0; font-size: 14px; color: #666;">
                                 <i class="fas fa-info-circle" style="color: #ea580c;"></i>
                                 <strong>Cara Membaca:</strong>
-                                Area yang <strong>lebih besar/menonjol</strong> menunjukkan <strong>minat yang lebih tinggi</strong>.
-                                Hover pada titik untuk melihat skor detail.
+                                Area yang <strong>lebih besar/menonjol</strong> menunjukkan <strong>minat yang lebih
+                                    tinggi</strong>.
+                                Hover pada titik untuk melihat skor detail. <strong>Klik label kategori</strong> untuk
+                                melihat penjelasan lengkap.
                             </p>
                         </div>
                     @endif
@@ -226,6 +232,16 @@
                         @endif
                     </div>
                 </section>
+
+                <!-- Modal Penjelasan Kategori RMIB -->
+                <div id="categoryModal" class="category-modal">
+                    <div class="category-modal-content">
+                        <span class="category-close">&times;</span>
+                        <div id="categoryModalBody">
+                            <!-- Konten akan diisi via JavaScript -->
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Table -->
                 <div class="table-container">
@@ -245,8 +261,6 @@
                                     <th>Top 1 Minat</th>
                                     <th>Top 2 Minat</th>
                                     <th>Top 3 Minat</th>
-                                    <th>Skor Konsistensi</th>
-                                    <th>Validitas</th>
                                     <th>Detail Hasil</th>
                                 </tr>
                             </thead>
@@ -262,16 +276,6 @@
                                         <td>{{ $tes['top_1'] ?? '-' }}</td>
                                         <td>{{ $tes['top_2'] ?? '-' }}</td>
                                         <td>{{ $tes['top_3'] ?? '-' }}</td>
-                                        <td style="text-align: center">{{ $tes['skor_konsistensi'] ?? '-' }}</td>
-                                        <td style="text-align: center">
-                                            @php
-                                                $validitas = $tes['validitas'] ?? 'Tidak Valid';
-                                                $badgeClass = $validitas == 'Valid' ? 'range-valid' : 'range-invalid';
-                                            @endphp
-                                            <span class="range-badge {{ $badgeClass }}">
-                                                {{ $validitas }}
-                                            </span>
-                                        </td>
                                         <td>
                                             <a href="{{ route('karir.hasil', $tes['id']) }}" class="diagnose-btn">
                                                 <i class="fa-solid fa-eye"></i> Lihat Detail
@@ -280,12 +284,19 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="11" style="text-align: center;">Anda belum pernah mengikuti
+                                        <td colspan="9" style="text-align: center;">Anda belum pernah mengikuti
                                             tes RMIB.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
+
+                        <!-- Button Mulai Tes -->
+                        <div class="button-container">
+                            <a href="{{ route('karir.datadiri.form') }}" class="start-test-btn">
+                                <i class="fas fa-play-circle"></i> Mulai Tes
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -381,7 +392,8 @@
                                 label: function(context) {
                                     const index = context.dataIndex;
                                     const originalScore = originalData[index];
-                                    return 'Skor RMIB: ' + originalScore + ' (Semakin kecil = Semakin diminati)';
+                                    return 'Skor RMIB: ' + originalScore +
+                                        ' (Semakin kecil = Semakin diminati)';
                                 }
                             }
                         }
@@ -424,6 +436,257 @@
             });
         }
     });
+
+    // ===================================
+    // MODAL KATEGORI RMIB
+    // ===================================
+    const categoryData = {
+        'OUT': {
+            name: 'Outdoor',
+            icon: 'fas fa-tree',
+            description: 'Minat terhadap pekerjaan yang berhubungan dengan alam terbuka, pertanian, perkebunan, atau kehidupan di luar ruangan.',
+            characteristics: [
+                'Menyukai aktivitas di luar ruangan',
+                'Tertarik pada pertanian, peternakan, dan kehutanan',
+                'Senang bekerja dengan tanaman dan hewan',
+                'Memiliki kepedulian terhadap lingkungan alam'
+            ],
+            careers: 'Petani, Peternak, Ahli Kehutanan, Arsitek Landscape, Ahli Lingkungan, Park Ranger'
+        },
+        'MECH': {
+            name: 'Mechanical',
+            icon: 'fas fa-cog',
+            description: 'Minat terhadap pekerjaan yang melibatkan mesin, alat-alat mekanik, dan peralatan teknis.',
+            characteristics: [
+                'Tertarik pada cara kerja mesin',
+                'Senang memperbaiki dan merakit barang',
+                'Memiliki kemampuan teknis yang baik',
+                'Menyukai pekerjaan hands-on dengan alat'
+            ],
+            careers: 'Teknisi Mesin, Montir, Insinyur Mekanik, Operator Alat Berat, Ahli Robotika'
+        },
+        'COMP': {
+            name: 'Computational',
+            icon: 'fas fa-calculator',
+            description: 'Minat terhadap pekerjaan yang melibatkan angka, perhitungan, dan analisis data numerik.',
+            characteristics: [
+                'Tertarik pada matematika dan statistik',
+                'Senang bekerja dengan angka dan data',
+                'Teliti dalam perhitungan',
+                'Mampu menganalisis data kuantitatif'
+            ],
+            careers: 'Akuntan, Aktuaris, Analis Keuangan, Data Analyst, Statistician, Auditor'
+        },
+        'SCI': {
+            name: 'Scientific',
+            icon: 'fas fa-flask',
+            description: 'Minat terhadap pekerjaan yang berhubungan dengan sains, penelitian, dan eksperimen ilmiah.',
+            characteristics: [
+                'Ingin tahu dan selalu bertanya',
+                'Senang melakukan penelitian',
+                'Tertarik pada fenomena ilmiah',
+                'Memiliki pemikiran analitis dan sistematis'
+            ],
+            careers: 'Ilmuwan, Peneliti, Ahli Biologi, Kimia, Fisikawan, Dokter Penelitian'
+        },
+        'PERS': {
+            name: 'Personal Contact',
+            icon: 'fas fa-handshake',
+            description: 'Minat terhadap pekerjaan yang melibatkan interaksi langsung dengan orang lain, penjualan, atau pelayanan.',
+            characteristics: [
+                'Senang bertemu dan berbicara dengan orang',
+                'Memiliki kemampuan komunikasi yang baik',
+                'Persuasif dan ramah',
+                'Tertarik membangun relasi'
+            ],
+            careers: 'Sales, Marketing, Customer Service, Public Relations, Event Organizer'
+        },
+        'AETH': {
+            name: 'Aesthetic',
+            icon: 'fas fa-palette',
+            description: 'Minat terhadap pekerjaan yang berhubungan dengan seni, desain, dan keindahan visual.',
+            characteristics: [
+                'Memiliki apresiasi terhadap keindahan',
+                'Kreatif dalam visual dan desain',
+                'Senang mengekspresikan diri melalui seni',
+                'Peka terhadap warna, bentuk, dan komposisi'
+            ],
+            careers: 'Desainer Grafis, Ilustrator, Fotografer, Fashion Designer, Interior Designer'
+        },
+        'LIT': {
+            name: 'Literary',
+            icon: 'fas fa-book',
+            description: 'Minat terhadap pekerjaan yang melibatkan menulis, membaca, dan penggunaan bahasa.',
+            characteristics: [
+                'Senang membaca dan menulis',
+                'Memiliki kemampuan verbal yang kuat',
+                'Kreatif dalam penggunaan kata',
+                'Tertarik pada sastra dan bahasa'
+            ],
+            careers: 'Penulis, Jurnalis, Editor, Copywriter, Content Creator, Pustakawan'
+        },
+        'MUS': {
+            name: 'Musical',
+            icon: 'fas fa-music',
+            description: 'Minat terhadap pekerjaan yang berhubungan dengan musik, suara, dan harmoni.',
+            characteristics: [
+                'Memiliki kepekaan terhadap musik',
+                'Senang mendengarkan dan memainkan musik',
+                'Tertarik pada ritme dan melodi',
+                'Kreatif dalam komposisi musik'
+            ],
+            careers: 'Musisi, Penyanyi, Komposer, Produser Musik, Guru Musik, DJ'
+        },
+        'S.S': {
+            name: 'Social Service',
+            icon: 'fas fa-hands-helping',
+            description: 'Minat terhadap pekerjaan yang melibatkan membantu orang lain dan pelayanan sosial.',
+            characteristics: [
+                'Empati terhadap orang lain',
+                'Ingin membantu menyelesaikan masalah sosial',
+                'Peduli terhadap kesejahteraan masyarakat',
+                'Senang bekerja untuk kepentingan umum'
+            ],
+            careers: 'Pekerja Sosial, Konselor, Psikolog, Guru, Aktivis Sosial, NGO Worker'
+        },
+        'CLER': {
+            name: 'Clerical',
+            icon: 'fas fa-file-alt',
+            description: 'Minat terhadap pekerjaan administratif, organisasi dokumen, dan tugas-tugas kantor.',
+            characteristics: [
+                'Terorganisir dan rapi',
+                'Teliti dalam detail',
+                'Senang bekerja dengan sistem dan prosedur',
+                'Efisien dalam administrasi'
+            ],
+            careers: 'Sekretaris, Staff Administrasi, Office Manager, Data Entry, Resepsionis'
+        },
+        'PRAC': {
+            name: 'Practical',
+            icon: 'fas fa-wrench',
+            description: 'Minat terhadap pekerjaan praktis yang menghasilkan sesuatu yang berguna dan konkret.',
+            characteristics: [
+                'Senang membuat dan membangun sesuatu',
+                'Praktis dalam memecahkan masalah',
+                'Terampil dalam pekerjaan tangan',
+                'Fokus pada hasil yang nyata'
+            ],
+            careers: 'Tukang Kayu, Tukang Listrik, Tukang Batu, Craftsman, Builder'
+        },
+        'MED': {
+            name: 'Medical',
+            icon: 'fas fa-heartbeat',
+            description: 'Minat terhadap pekerjaan yang berhubungan dengan kesehatan, perawatan, dan pengobatan.',
+            characteristics: [
+                'Peduli terhadap kesehatan orang lain',
+                'Tertarik pada ilmu kedokteran',
+                'Senang merawat dan membantu yang sakit',
+                'Memiliki empati dan kesabaran'
+            ],
+            careers: 'Dokter, Perawat, Apoteker, Fisioterapis, Ahli Gizi, Paramedis'
+        }
+    };
+
+    // Fungsi untuk mendapatkan HTML konten modal
+    function getCategoryHTML(categoryCode) {
+        const data = categoryData[categoryCode];
+        if (!data) return '<p>Data kategori tidak tersedia.</p>';
+
+        return `
+            <h3><i class="${data.icon}"></i> ${data.name} <span class="category-badge">${categoryCode}</span></h3>
+            <p>${data.description}</p>
+
+            <h4><i class="fas fa-star"></i> Karakteristik</h4>
+            <ul>
+                ${data.characteristics.map(char => `<li><i class="fas fa-check-circle"></i> ${char}</li>`).join('')}
+            </ul>
+        `;
+    }
+
+    // Modal elements
+    const modal = document.getElementById('categoryModal');
+    const modalBody = document.getElementById('categoryModalBody');
+    const closeBtn = document.querySelector('.category-close');
+
+    // Fungsi untuk menampilkan modal
+    function showCategoryModal(categoryCode) {
+        modalBody.innerHTML = getCategoryHTML(categoryCode);
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    // Fungsi untuk menutup modal
+    function closeCategoryModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+    }
+
+    // Event listener untuk tombol close
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeCategoryModal);
+    }
+
+    // Event listener untuk klik di luar modal
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeCategoryModal();
+        }
+    });
+
+    // Event listener untuk ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+            closeCategoryModal();
+        }
+    });
+
+    // Tambahkan click event pada canvas untuk detect klik pada label
+    const radarCanvas = document.getElementById('rmibRadarChart');
+    if (radarCanvas) {
+        radarCanvas.style.cursor = 'pointer';
+        radarCanvas.addEventListener('click', function(evt) {
+            const chart = Chart.getChart(radarCanvas);
+            if (!chart) return;
+
+            const points = chart.getElementsAtEventForMode(evt, 'nearest', {
+                intersect: true
+            }, true);
+
+            // Jika tidak ada point yang diklik, cek apakah klik pada area label
+            const labels = @json($radarLabels ?? []);
+            const rect = radarCanvas.getBoundingClientRect();
+            const x = evt.clientX - rect.left;
+            const y = evt.clientY - rect.top;
+
+            // Deteksi klik pada label menggunakan posisi relatif
+            // Karena Chart.js tidak memiliki API langsung untuk detect label click,
+            // kita gunakan pendekatan sederhana: jika user klik di dekat tepi canvas
+            const chartArea = chart.chartArea;
+            const centerX = (chartArea.left + chartArea.right) / 2;
+            const centerY = (chartArea.top + chartArea.bottom) / 2;
+            const radius = Math.min(chartArea.right - chartArea.left, chartArea.bottom - chartArea.top) / 2;
+
+            // Hitung jarak dari center
+            const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+
+            // Jika klik di luar radar area (di mana label berada)
+            if (distance > radius * 0.85) {
+                // Hitung angle untuk menentukan label mana yang diklik
+                const angle = Math.atan2(y - centerY, x - centerX);
+                const labelCount = labels.length;
+                const anglePerLabel = (Math.PI * 2) / labelCount;
+
+                // Normalize angle (start from top, clockwise)
+                let normalizedAngle = angle + Math.PI / 2;
+                if (normalizedAngle < 0) normalizedAngle += Math.PI * 2;
+
+                const labelIndex = Math.round(normalizedAngle / anglePerLabel) % labelCount;
+                const categoryCode = labels[labelIndex];
+
+                showCategoryModal(categoryCode);
+            }
+        });
+    }
 </script>
 
 </html>

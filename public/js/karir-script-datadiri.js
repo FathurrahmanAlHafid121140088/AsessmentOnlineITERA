@@ -31,6 +31,8 @@ document
         const radioGroups = [
             { name: "jenis_kelamin", label: "Jenis Kelamin" },
             { name: "fakultas", label: "Fakultas" },
+            { name: "prodi_sesuai_keinginan", label: "Prodi Sesuai Keinginan" },
+            { name: "status_tinggal", label: "Status Tinggal" },
         ];
 
         // ✅ Cek apakah radio group sudah dipilih
@@ -47,10 +49,23 @@ document
         if (missingFields.length > 0) {
             Swal.fire({
                 icon: "error",
-                title: "Data Belum Lengkap",
-                html: `Kolom berikut belum diisi:<br><ul style="text-align:left; list-style: none;">${missingFields
-                    .map((field) => `<li>• ${field}</li>`)
-                    .join("")}</ul>`,
+                title: "Data Belum Lengkap!",
+                html: `<div style="text-align: left;">
+                    <strong style="color: #dc2626;">⚠️ Mohon lengkapi field berikut:</strong><br><br>
+                    <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                        ${missingFields.map((field, index) =>
+                            `<li style="color: #374151; font-weight: 500;">
+                                <span style="color: #dc2626; font-weight: bold;">${index + 1}.</span> ${field}
+                            </li>`
+                        ).join('')}
+                    </ul>
+                    <br><p style="color: #6b7280; font-size: 0.9em; margin-top: 10px;">
+                        💡 <em>Semua field bertanda <span style="color: red;">*</span> wajib diisi</em>
+                    </p>
+                </div>`,
+                confirmButtonText: "OK, Saya Mengerti",
+                confirmButtonColor: "#ea580c",
+                width: "500px"
             });
             return;
         }

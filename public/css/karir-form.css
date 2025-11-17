@@ -1,8 +1,11 @@
 body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     background-image: url("../assets/bg.svg");
+    background-blend-mode: overlay;
     min-height: 100vh;
     padding: 2rem 0;
     position: relative;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body::before {
@@ -37,90 +40,109 @@ body::before {
 
 .card {
     border: none;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    background: #f4f6fd;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    background: #ffffff;
     backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(45deg, #4361ee, #3f37c9);
     padding: 2rem;
     border: none;
+    position: relative;
 }
 
 .card-header h1 {
     font-weight: 700;
-    font-size: 1.75rem;
+    font-size: 2rem;
     margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.card-header p {
+    font-size: 1.1rem;
+    opacity: 0.95;
 }
 
 .card-body {
     padding: 2.5rem;
-    background-color: #f4f6fd;
+    background-color: #ffffff;
 }
 
 .alert-info {
-    background: rgba(102, 126, 234, 0.1);
-    border: 2px solid #667eea;
-    border-radius: 15px;
-    padding: 1.25rem;
-    color: #4c51bf;
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    border: 2px solid #4361ee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: #333;
     font-weight: 500;
     backdrop-filter: blur(5px);
+    font-size: 1.05rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
 .job-ranking-group {
     padding: 1.5rem;
     border: none;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     backdrop-filter: blur(10px);
     height: 100%;
 }
 
 .job-ranking-group:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(67, 97, 238, 0.2);
 }
 
 .job-ranking-group h4 {
     font-weight: 700;
-    color: #667eea;
+    color: #4361ee;
     margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 3px solid #667eea;
-    font-size: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid #4361ee;
+    font-size: 1.4rem;
     text-align: center;
     width: 100%;
+    position: relative;
 }
 
 .job-item {
     display: flex;
     align-items: center;
     margin-bottom: 0.6rem;
-    padding: 0.5rem 0.75rem;
-    background-color: rgba(248, 249, 255, 0.5);
+    padding: 0.75rem 1rem;
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
     border-radius: 10px;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
 .job-item:hover {
-    background-color: rgba(102, 126, 234, 0.1);
-    transform: translateX(3px);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+    background: rgba(67, 97, 238, 0.1);
+    transform: translateX(3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.15);
+    border-color: #4361ee;
 }
 
 .job-item label {
     flex-grow: 1;
     margin-right: 0.75rem;
     margin-bottom: 0;
-    font-weight: 500;
-    color: #2d3748;
-    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.05rem;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .job-item input[type="number"] {
@@ -128,43 +150,60 @@ body::before {
     text-align: center;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
-    padding: 0.4rem;
-    font-weight: 600;
-    color: #667eea;
+    padding: 0.5rem;
+    font-weight: 700;
+    color: #4361ee;
     transition: all 0.3s ease;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
 }
 
 .job-item input[type="number"]:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #4361ee;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     outline: none;
+    background-color: rgba(67, 97, 238, 0.05);
 }
 
 .top-choice-section {
     margin-top: 2rem;
     padding: 2rem;
-    background: rgba(255, 245, 245, 0.95);
-    border-radius: 15px;
-    border: 2px solid #fc8181;
-    box-shadow: 0 8px 24px rgba(252, 129, 129, 0.2);
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    border: 2px solid #4361ee;
+    box-shadow: 0 10px 30px rgba(67, 97, 238, 0.15);
     backdrop-filter: blur(10px);
 }
 
 .top-choice-section h4 {
     font-weight: 700;
-    color: #c53030;
+    color: #4361ee;
     margin-bottom: 1rem;
+    font-size: 1.5rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.top-choice-section h4:after {
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #4361ee, #3f37c9);
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
 }
 
 .top-choice-section .text-muted {
-    color: #975a5e !important;
+    color: #333 !important;
+    font-size: 1.05rem;
 }
 
 .form-label {
     font-weight: 600;
-    color: #2d3748;
+    color: #333;
     margin-bottom: 0.5rem;
+    font-size: 1.05rem;
 }
 
 .form-select,
@@ -173,19 +212,21 @@ body::before {
     border-radius: 12px;
     padding: 0.75rem 1rem;
     transition: all 0.3s ease;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
 }
 
 .form-select:focus,
 .form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #4361ee;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     outline: none;
+    background-color: rgba(67, 97, 238, 0.02);
 }
 
 textarea.form-control {
     resize: vertical;
     min-height: 100px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .job-rank-input.is-invalid {
@@ -194,13 +235,13 @@ textarea.form-control {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(45deg, #4361ee, #3f37c9);
     border: none;
     padding: 1rem 3rem;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    border-radius: 50px;
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -208,12 +249,12 @@ textarea.form-control {
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+    background: linear-gradient(45deg, #3f37c9, #4361ee);
 }
 
 .btn-primary:active {
-    transform: translateY(-1px);
+    transform: translateY(1px);
 }
 
 .mb-4 {
@@ -257,17 +298,22 @@ textarea.form-control {
 
 /* Styling khusus untuk section Pekerjaan Lain */
 .top-choice-section:last-of-type {
-    background: rgba(250, 245, 255, 0.95);
-    border-color: #9f7aea;
+    background: linear-gradient(to right, #f5f7fa, #e9ecef);
+    border-color: #3f37c9;
     backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(63, 55, 201, 0.15);
 }
 
 .top-choice-section:last-of-type h4 {
-    color: #6b46c1;
+    color: #3f37c9;
+}
+
+.top-choice-section:last-of-type h4:after {
+    background: linear-gradient(90deg, #3f37c9, #4361ee);
 }
 
 .top-choice-section:last-of-type .text-muted {
-    color: #805ad5 !important;
+    color: #333 !important;
 }
 
 /* Responsif */
@@ -281,6 +327,14 @@ textarea.form-control {
         padding: 0 1rem;
     }
 
+    .card-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .card-header p {
+        font-size: 1rem;
+    }
+
     .card-body {
         padding: 1.5rem;
     }
@@ -290,28 +344,45 @@ textarea.form-control {
     }
 
     .job-ranking-group h4 {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
 
     .job-item {
-        padding: 0.4rem 0.6rem;
+        padding: 0.6rem 0.8rem;
     }
 
     .job-item label {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
     }
 
     .job-item input[type="number"] {
-        width: 60px;
-        font-size: 0.9rem;
+        width: 65px;
+        font-size: 1rem;
     }
 
     .top-choice-section {
         padding: 1.5rem;
     }
 
+    .top-choice-section h4 {
+        font-size: 1.3rem;
+    }
+
+    .form-label {
+        font-size: 1rem;
+    }
+
+    .form-select,
+    .form-control {
+        font-size: 1rem;
+    }
+
     .btn-primary {
         padding: 0.875rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    .alert-info {
         font-size: 1rem;
     }
 }

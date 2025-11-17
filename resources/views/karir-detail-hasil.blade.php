@@ -201,6 +201,78 @@
                         </tbody>
                     </table>
 
+                    <!-- Validitas Hasil Tes -->
+                    <div class="result-info" style="margin-top: 30px; margin-bottom: 20px;">
+                        @php
+                            $skorKonsistensi = $hasil->skor_konsistensi ?? 0;
+                            $isValid = $skorKonsistensi >= 7;
+                        @endphp
+
+                        <h3 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas {{ $isValid ? 'fa-check-circle' : 'fa-exclamation-triangle' }}"
+                               style="color: {{ $isValid ? '#06d6a0' : '#ef476f' }};"></i>
+                            Validitas Hasil Tes
+                        </h3>
+
+                        <div style="background-color: {{ $isValid ? '#d1fae5' : '#fee2e2' }};
+                                    border-left: 4px solid {{ $isValid ? '#06d6a0' : '#ef476f' }};
+                                    padding: 15px;
+                                    border-radius: 4px;
+                                    margin-bottom: 15px;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <strong style="font-size: 1.1rem;">Skor Konsistensi: {{ $skorKonsistensi }}/10</strong>
+                                <span style="padding: 4px 12px;
+                                             background-color: {{ $isValid ? '#06d6a0' : '#ef476f' }};
+                                             color: white;
+                                             border-radius: 20px;
+                                             font-size: 0.85rem;
+                                             font-weight: bold;">
+                                    {{ $isValid ? 'VALID' : 'TIDAK VALID' }}
+                                </span>
+                            </div>
+
+                            <p style="margin: 10px 0 0 0; color: #555; line-height: 1.6;">
+                                @if ($isValid)
+                                    <strong style="color: #059669;">✓ Hasil tes ini VALID dan dapat dipercaya.</strong><br>
+                                    Peserta menjawab dengan pola yang <strong>konsisten</strong> sepanjang tes.
+                                    Skor konsistensi <strong>≥ 7</strong> menunjukkan bahwa peserta memberikan jawaban yang
+                                    logis dan selaras antar kelompok pekerjaan. Hasil ini mencerminkan minat karir yang sesungguhnya
+                                    dan dapat digunakan sebagai dasar konseling atau pengambilan keputusan karir.
+                                @else
+                                    <strong style="color: #dc2626;">⚠ Hasil tes ini TIDAK VALID dan perlu dievaluasi ulang.</strong><br>
+                                    Peserta menjawab dengan pola yang <strong>tidak konsisten</strong> sepanjang tes.
+                                    Skor konsistensi <strong>&lt; 7</strong> menunjukkan adanya ketidaksesuaian atau kontradiksi
+                                    dalam jawaban antar kelompok pekerjaan. Hal ini bisa disebabkan oleh:
+                                    <ul style="margin: 10px 0 0 20px; color: #555;">
+                                        <li>Peserta tidak serius atau asal-asalan dalam mengisi tes</li>
+                                        <li>Peserta kurang memahami instruksi pengerjaan</li>
+                                        <li>Peserta terburu-buru atau tidak fokus saat mengerjakan</li>
+                                        <li>Peserta mengalami kebingungan dalam menentukan preferensi</li>
+                                    </ul>
+                                    <strong style="color: #dc2626; display: block; margin-top: 10px;">
+                                        Rekomendasi: Peserta disarankan untuk mengulang tes dengan lebih teliti dan fokus.
+                                    </strong>
+                                @endif
+                            </p>
+                        </div>
+
+                        <div style="background-color: #fff7ed;
+                                    border-left: 4px solid #f59e0b;
+                                    padding: 15px;
+                                    border-radius: 4px;">
+                            <h4 style="margin: 0 0 10px 0; color: #92400e; font-size: 1rem;">
+                                <i class="fas fa-info-circle"></i> Tentang Skor Konsistensi
+                            </h4>
+                            <p style="margin: 0; color: #78350f; font-size: 0.9rem; line-height: 1.6;">
+                                Skor konsistensi mengukur seberapa <strong>konsisten</strong> peserta dalam memberikan peringkat
+                                pada pekerjaan-pekerjaan yang sejenis di berbagai kelompok. Tes RMIB memiliki pekerjaan dari
+                                12 kategori yang tersebar di 9 kelompok. Jika peserta konsisten, maka pekerjaan dari kategori
+                                yang sama akan mendapat peringkat yang relatif sama di semua kelompok. Skor konsistensi dihitung
+                                dalam skala 0-10, dengan threshold validitas <strong>≥ 7</strong>.
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="action-buttons">
                         <a href="{{ route('admin.karir.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Kembali ke Dashboard

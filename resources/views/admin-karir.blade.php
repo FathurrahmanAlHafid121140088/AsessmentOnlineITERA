@@ -723,9 +723,8 @@
                                 <th>Program Studi</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Usia</th>
-                                <th>Top 1</th>
-                                <th>Top 2</th>
-                                <th>Top 3</th>
+                                <th>Skor Konsistensi</th>
+                                <th>Validitas</th>
                                 <th>Tanggal Tes</th>
                                 <th style="text-align: center;">Aksi</th>
                             </tr>
@@ -741,14 +740,16 @@
                                     <td>{{ $hasil->karirDataDiri->program_studi ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->karirDataDiri->jenis_kelamin ?? '-' }}</td>
                                     <td>{{ $hasil->karirDataDiri->usia ?? '-' }}</td>
-                                    <td><span
-                                            class="badge bg-success">{{ $kategoriRMIB[$hasil->top_1_pekerjaan] ?? ($hasil->top_1_pekerjaan ?? '-') }}</span>
-                                    </td>
-                                    <td><span
-                                            class="badge bg-info">{{ $kategoriRMIB[$hasil->top_2_pekerjaan] ?? ($hasil->top_2_pekerjaan ?? '-') }}</span>
-                                    </td>
-                                    <td><span
-                                            class="badge bg-warning">{{ $kategoriRMIB[$hasil->top_3_pekerjaan] ?? ($hasil->top_3_pekerjaan ?? '-') }}</span>
+                                    <td style="text-align: center">{{ $hasil->skor_konsistensi ?? '-' }}</td>
+                                    <td style="text-align: center">
+                                        @php
+                                            $skorKonsistensi = $hasil->skor_konsistensi ?? 0;
+                                            $validitas = $skorKonsistensi >= 7 ? 'Valid' : 'Tidak Valid';
+                                            $badgeClass = $validitas == 'Valid' ? 'badge bg-success' : 'badge bg-danger';
+                                        @endphp
+                                        <span class="{{ $badgeClass }}">
+                                            {{ $validitas }}
+                                        </span>
                                     </td>
                                     <td>{{ $hasil->tanggal_pengerjaan ? \Carbon\Carbon::parse($hasil->tanggal_pengerjaan)->locale('id')->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') : '-' }}
                                     </td>
@@ -860,7 +861,7 @@
                                 </div>
                             @empty
                                 <tr>
-                                    <td colspan="12" class="text-center">
+                                    <td colspan="11" class="text-center">
                                         @if (request()->has('search') && request('search'))
                                             <span class="text-danger">Tidak ditemukan hasil untuk:
                                                 <strong>{{ request('search') }}</strong></span>
@@ -933,6 +934,32 @@
             confirmButtonText: "OK"
         });
     @endif
+
+    // ============================================
+    // ANIMASI DONUT CHART
+    // ============================================
+    document.addEventListener("DOMContentLoaded", function() {
+        // Ambil semua segmen donut
+        const donutSegments = document.querySelectorAll(".donut-seg");
+
+        // Fungsi untuk menganimasikan donut chart
+        function animateDonutChart() {
+            donutSegments.forEach((seg) => {
+                const dash = parseFloat(seg.getAttribute("data-dash")) || 0;
+                const gap = parseFloat(seg.getAttribute("data-gap")) || 0;
+                const offset = parseFloat(seg.getAttribute("data-offset")) || 0;
+
+                // Set stroke-dasharray dan stroke-dashoffset untuk animasi
+                setTimeout(() => {
+                    seg.style.strokeDasharray = `${dash} ${gap}`;
+                    seg.style.strokeDashoffset = -offset;
+                }, 100); // Delay sedikit untuk trigger transition
+            });
+        }
+
+        // Jalankan animasi saat halaman dimuat
+        animateDonutChart();
+    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

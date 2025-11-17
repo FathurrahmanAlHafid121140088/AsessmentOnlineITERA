@@ -77,11 +77,13 @@
                         <div>
                             <label class="formbold-form-label">
                                 <i class="fas fa-venus-mars fa-sm"></i> Jenis Kelamin
+                                <span style="color: red;">*</span>
                             </label>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="jenis_kelamin" value="L"
-                                        class="formbold-input-radio" required> Laki-laki
+                                        class="formbold-input-radio" required oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
+                                        oninput="this.setCustomValidity('')"> Laki-laki
                                 </label>
                             </div>
                             <div>
@@ -159,11 +161,13 @@
                     <div class="formbold-mb-3">
                         <label for="fakultas" class="formbold-form-label">
                             <i class="fas fa-university fa-sm"></i> Fakultas
+                            <span style="color: red;">*</span>
                         </label>
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="fakultas" value="FS" class="formbold-input-radio"
-                                    required onchange="updateProdi()"> FS
+                                    required oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
+                                    oninput="this.setCustomValidity('')" onchange="updateProdi()"> FS
                             </label>
                         </div>
 
@@ -212,17 +216,19 @@
                     <div class="formbold-mb-3">
                         <label class="formbold-form-label">
                             <i class="fas fa-question-circle fa-sm"></i> Apakah program studi saat ini yang anda pilih sesuai dengan apa yang anda inginkan?
+                            <span style="color: red;">*</span>
                         </label>
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="prodi_sesuai_keinginan" value="Ya"
-                                    class="formbold-input-radio" required> Ya
+                                    class="formbold-input-radio" required oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
+                                    oninput="this.setCustomValidity('')"> Ya
                             </label>
                         </div>
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="prodi_sesuai_keinginan" value="Tidak"
-                                    class="formbold-input-radio"> Tidak
+                                    class="formbold-input-radio" required> Tidak
                             </label>
                         </div>
                     </div>
@@ -240,17 +246,19 @@
                         <div class="formbold-mb-3">
                             <label for="status_tinggal" class="formbold-form-label">
                                 <i class="fas fa-house-user fa-sm"></i> Status Tinggal
+                                <span style="color: red;">*</span>
                             </label>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="status_tinggal" value="Bersama Orang Tua"
-                                        class="formbold-input-radio" required> Bersama orang tua
+                                        class="formbold-input-radio" required oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
+                                        oninput="this.setCustomValidity('')"> Bersama orang tua
                                 </label>
                             </div>
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="status_tinggal" value="Kost"
-                                        class="formbold-input-radio"> Kost
+                                        class="formbold-input-radio" required> Kost
                                 </label>
                             </div>
                         </div>
@@ -276,6 +284,8 @@
 <!-- Core theme JS-->
 <script src="js/script.js"></script>
 <script src="{{ asset('js/karir-script-datadiri.js') }}"></script>
+
+
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

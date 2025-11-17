@@ -292,11 +292,9 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
         }
         $interpretasi = $scoringService->generateInterpretasi($top3Data);
 
-        // 6. Update hasil tes dengan top 3 kategori, skor konsistensi, dan interpretasi
+        // 6. Update hasil tes dengan skor konsistensi dan interpretasi
+        // CATATAN: top_1/2/3_pekerjaan TIDAK di-update karena sudah berisi nama pekerjaan pilihan user
         $hasilTes->update([
-            'top_1_pekerjaan' => $top3Kategori[0] ?? '', // Update dengan hasil perhitungan RMIB
-            'top_2_pekerjaan' => $top3Kategori[1] ?? '',
-            'top_3_pekerjaan' => $top3Kategori[2] ?? '',
             'skor_konsistensi' => $hasilPerhitungan['skor_konsistensi'],
             'interpretasi' => $interpretasi,
         ]);
