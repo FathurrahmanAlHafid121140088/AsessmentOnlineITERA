@@ -1,4 +1,4 @@
-<?php
+<?php //controller for data diri
 
 namespace App\Http\Controllers;
 

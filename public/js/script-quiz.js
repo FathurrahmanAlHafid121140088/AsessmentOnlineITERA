@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const quizForm = document.getElementById("quizForm");
     const totalQuestions = 38;
 
-    // ===== Set start time for validity check =====
+    // ===== Set start time for validity check ===== javascript
     const startTimeField = document.getElementById("start_time");
     if (startTimeField && !startTimeField.value) {
         startTimeField.value = Math.floor(Date.now() / 1000); // Unix timestamp in seconds
