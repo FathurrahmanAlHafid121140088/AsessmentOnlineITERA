@@ -109,8 +109,13 @@
                     </a>
                 </li>
 
-                <!-- Dropdown Mental Health -->
-                <li class="dropdown">
+                <!-- Dropdown Mental Health - hanya tampil di halaman mental health -->
+                @php
+                    $isMentalHealthPage = request()->is('admin/mental-health*');
+                @endphp
+
+                @if($isMentalHealthPage)
+                <li class="dropdown open">
                     <a href="#" class="dropdown-toggle">
                         <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
                         <i class="fas fa-chevron-down arrow"></i>
@@ -133,6 +138,13 @@
                         </li>
                     </ul>
                 </li>
+                @else
+                <li>
+                    <a href="/admin/mental-health">
+                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                    </a>
+                </li>
+                @endif
 
                 <li>
                     <a href="/admin-home-karir">

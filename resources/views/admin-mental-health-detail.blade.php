@@ -21,395 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Core theme CSS (includes Bootstrap + Navbar + Sidebar)-->
-    @vite(['resources/css/app-admin-dashboard.css', 'resources/css/app-admin-detail.css', 'resources/js/admin-detail.js'])
-
-    <style>
-        /* Container */
-        .detail-container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Header Actions */
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.7rem 1.3rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-back {
-            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-            color: white;
-        }
-
-        .btn-back:hover {
-            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-print {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-        }
-
-        .btn-print:hover {
-            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-        }
-
-        /* Title Section */
-        .title-section {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e3a8a 100%);
-            border-radius: 12px;
-            color: white;
-        }
-
-        .title-section h2 {
-            color: white;
-            margin-bottom: 0.5rem;
-            font-size: 1.75rem;
-        }
-
-        .title-section .date-info {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-        }
-
-        /* Info Cards */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .info-card {
-            padding: 1.2rem;
-            background: white;
-            border-radius: 12px;
-            border-left: 4px solid #3b82f6;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .info-card .icon {
-            color: #3b82f6;
-            margin-right: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .info-card .label {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-bottom: 0.3rem;
-        }
-
-        .info-card .value {
-            font-size: 1.05rem;
-            color: #1f2937;
-            font-weight: 600;
-        }
-
-        /* Summary Cards */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .summary-card {
-            padding: 1.5rem;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .summary-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .summary-card.total {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-        }
-
-        .summary-card.positive {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-        }
-
-        .summary-card.negative {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-        }
-
-        /* Kategori dinamis sesuai dengan dashboard user */
-        .summary-card.category-intensif {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-        }
-
-        .summary-card.category-support {
-            background: linear-gradient(135deg, #ea580c, #c2410c);
-        }
-
-        .summary-card.category-moderate {
-            background: linear-gradient(135deg, #ca8a04, #a16207);
-        }
-
-        .summary-card.category-good {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        }
-
-        .summary-card.category-excellent {
-            background: linear-gradient(135deg, #059669, #047857);
-        }
-
-        .summary-card .icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-        .summary-card h3 {
-            font-size: 2rem;
-            margin: 0.5rem 0;
-            font-weight: 700;
-        }
-
-        .summary-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* Questions Section */
-        .questions-header {
-            margin: 2rem 0 1rem 0;
-            padding: 1rem 1.2rem;
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            border-radius: 10px;
-            border-left: 5px solid #3b82f6;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .questions-header h3 {
-            margin: 0;
-            color: #1f2937;
-            font-size: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-        }
-
-        .question-item {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .question-item:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-        }
-
-        .question-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .question-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-        }
-
-        .question-type-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.4rem 0.85rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-        }
-
-        .badge-positive {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            color: #065f46;
-        }
-
-        .badge-negative {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            color: #991b1b;
-        }
-
-        .question-text {
-            color: #374151;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 0.5rem 0 1rem 0;
-        }
-
-        .answer-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-            border-radius: 10px;
-            border: 2px solid #e5e7eb;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .answer-label {
-            font-weight: 600;
-            color: #4b5563;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .answer-label i {
-            color: #3b82f6;
-        }
-
-        .answer-score {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .score-badge {
-            font-size: 1.6rem;
-            font-weight: 700;
-            padding: 0.6rem 1.2rem;
-            border-radius: 10px;
-            background: white;
-            border: 3px solid;
-            min-width: 70px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .question-item.positive .score-badge {
-            color: #059669;
-            border-color: #059669;
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-        }
-
-        .question-item.negative .score-badge {
-            color: #dc2626;
-            border-color: #dc2626;
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-        }
-
-        /* Print Styles */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            .detail-container,
-            .detail-container * {
-                visibility: visible;
-            }
-
-            .detail-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-
-            .btn-action,
-            .header-actions,
-            header,
-            .sidebar {
-                display: none !important;
-            }
-
-            .question-item {
-                page-break-inside: avoid;
-            }
-        }
-
-        /* No Print Class */
-        .no-print {
-            display: block;
-        }
-
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .detail-container {
-                padding: 1rem;
-            }
-
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    @vite(['resources/css/app-admin-dashboard.css', 'resources/css/app-admin-detail.css', 'resources/css/admin-mental-health-detail.css', 'resources/js/admin-detail.js'])
 </head>
 
 <body>
@@ -418,7 +30,7 @@
             <i class="fas fa-bars"></i>
         </div>
         <div class="header-title" style="color: white">
-            <h2>Detail Jawaban Kuesioner</h2>
+            <h2>Detail Jawaban Mental Health</h2>
         </div>
         <div class="user-wrapper">
             <div class="account-group">
@@ -460,8 +72,13 @@
                     </a>
                 </li>
 
-                <!-- Dropdown Mental Health -->
-                <li class="dropdown">
+                <!-- Dropdown Mental Health - hanya tampil di halaman mental health -->
+                @php
+                    $isMentalHealthPage = request()->is('admin/mental-health*');
+                @endphp
+
+                @if($isMentalHealthPage)
+                <li class="dropdown open">
                     <a href="#" class="dropdown-toggle">
                         <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
                         <i class="fas fa-chevron-down arrow"></i>
@@ -484,6 +101,13 @@
                         </li>
                     </ul>
                 </li>
+                @else
+                <li>
+                    <a href="/admin/mental-health">
+                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                    </a>
+                </li>
+                @endif
 
                 <li>
                     <a href="/admin-home-karir">
@@ -552,99 +176,54 @@
                 </div>
 
                 <!-- Keluhan Section -->
-                @if($hasil->riwayatKeluhans->isNotEmpty())
-                <div style="margin-bottom: 1.5rem;">
-                    <!-- Header Keluhan -->
-                    <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-                                padding: 0.75rem 1.2rem;
-                                border-radius: 10px 10px 0 0;
-                                margin-bottom: 0;">
-                        <h4 style="margin: 0;
-                                   color: white;
-                                   font-size: 1rem;
-                                   font-weight: 600;
-                                   display: flex;
-                                   align-items: center;
-                                   gap: 0.5rem;">
-                            <i class="fas fa-notes-medical"></i>
-                            Informasi Keluhan
-                        </h4>
-                    </div>
+                @if ($hasil->riwayatKeluhans->isNotEmpty())
+                    <div class="keluhan-section">
+                        <!-- Header Keluhan -->
+                        <div class="keluhan-header">
+                            <h4>
+                                <i class="fas fa-notes-medical"></i>
+                                Informasi Keluhan
+                            </h4>
+                        </div>
 
-                    <!-- Content Keluhan -->
-                    <div style="background: white;
-                                border: 2px solid #f59e0b;
-                                border-top: none;
-                                border-radius: 0 0 12px 12px;
-                                padding: 1.5rem;
-                                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
-                        <div style="display: grid;
-                                    grid-template-columns: 1fr;
-                                    gap: 1.2rem;">
-                            <!-- Keluhan Text -->
-                            <div>
-                                <div style="display: flex;
-                                            align-items: center;
-                                            gap: 0.5rem;
-                                            margin-bottom: 0.5rem;">
-                                    <i class="fas fa-exclamation-circle" style="color: #f59e0b; font-size: 1rem;"></i>
-                                    <span style="font-size: 0.85rem;
-                                                 color: #6b7280;
-                                                 font-weight: 600;
-                                                 text-transform: uppercase;
-                                                 letter-spacing: 0.5px;">
-                                        Keluhan
-                                    </span>
+                        <!-- Content Keluhan -->
+                        <div class="keluhan-content">
+                            <div class="keluhan-grid">
+                                <!-- Keluhan Text -->
+                                <div>
+                                    <div class="keluhan-item-label">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <span>Keluhan</span>
+                                    </div>
+                                    <div class="keluhan-text">
+                                        {{ $hasil->riwayatKeluhans->first()->keluhan ?? 'Tidak ada keluhan' }}
+                                    </div>
                                 </div>
-                                <div style="font-size: 1rem;
-                                            color: #1f2937;
-                                            line-height: 1.6;
-                                            padding: 0.75rem 1rem;
-                                            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-                                            border-left: 4px solid #f59e0b;
-                                            border-radius: 6px;">
-                                    {{ $hasil->riwayatKeluhans->first()->keluhan ?? 'Tidak ada keluhan' }}
-                                </div>
-                            </div>
 
-                            <!-- Lama Keluhan -->
-                            <div>
-                                <div style="display: flex;
-                                            align-items: center;
-                                            gap: 0.5rem;
-                                            margin-bottom: 0.5rem;">
-                                    <i class="fas fa-clock" style="color: #f59e0b; font-size: 1rem;"></i>
-                                    <span style="font-size: 0.85rem;
-                                                 color: #6b7280;
-                                                 font-weight: 600;
-                                                 text-transform: uppercase;
-                                                 letter-spacing: 0.5px;">
-                                        Lama Keluhan
-                                    </span>
-                                </div>
-                                <div style="font-size: 1.1rem;
-                                            color: #1f2937;
-                                            font-weight: 700;
-                                            padding: 0.75rem 1rem;
-                                            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-                                            border-left: 4px solid #f59e0b;
-                                            border-radius: 6px;
-                                            display: inline-block;
-                                            min-width: 150px;">
-                                    @php
-                                        $lamaKeluhanValue = $hasil->riwayatKeluhans->first()->lama_keluhan ?? '-';
-                                        // Tambahkan 'Bulan' jika belum ada kata 'bulan' (case-insensitive)
-                                        if ($lamaKeluhanValue !== '-' && !preg_match('/bulan/i', $lamaKeluhanValue)) {
-                                            $lamaKeluhanValue .= ' Bulan';
-                                        }
-                                    @endphp
-                                    <i class="fas fa-hourglass-half" style="color: #f59e0b; margin-right: 0.5rem;"></i>
-                                    {{ $lamaKeluhanValue }}
+                                <!-- Lama Keluhan -->
+                                <div>
+                                    <div class="keluhan-item-label">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Lama Keluhan</span>
+                                    </div>
+                                    <div class="keluhan-duration">
+                                        @php
+                                            $lamaKeluhanValue = $hasil->riwayatKeluhans->first()->lama_keluhan ?? '-';
+                                            // Tambahkan 'Bulan' jika belum ada kata 'bulan' (case-insensitive)
+                                            if (
+                                                $lamaKeluhanValue !== '-' &&
+                                                !preg_match('/bulan/i', $lamaKeluhanValue)
+                                            ) {
+                                                $lamaKeluhanValue .= ' Bulan';
+                                            }
+                                        @endphp
+                                        <i class="fas fa-hourglass-half"></i>
+                                        {{ $lamaKeluhanValue }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endif
 
                 <!-- Summary Cards -->
@@ -653,18 +232,6 @@
                         <div class="icon"><i class="fas fa-chart-line"></i></div>
                         <h3>{{ $hasil->total_skor }}</h3>
                         <p>Total Skor</p>
-                    </div>
-
-                    <div class="summary-card positive">
-                        <div class="icon"><i class="fas fa-smile"></i></div>
-                        <h3>{{ $hasil->jawabanDetails->whereNotIn('nomor_soal', $negativeQuestions)->count() }}</h3>
-                        <p>Pertanyaan Positif</p>
-                    </div>
-
-                    <div class="summary-card negative">
-                        <div class="icon"><i class="fas fa-frown"></i></div>
-                        <h3>{{ $hasil->jawabanDetails->whereIn('nomor_soal', $negativeQuestions)->count() }}</h3>
-                        <p>Pertanyaan Negatif</p>
                     </div>
 
                     @php
@@ -689,7 +256,7 @@
                     @endphp
                     <div class="summary-card {{ $kategoriClass }}">
                         <div class="icon"><i class="{{ $kategoriIcon }}"></i></div>
-                        <h3 style="font-size: 1.2rem;">{{ $hasil->kategori }}</h3>
+                        <h3>{{ $hasil->kategori }}</h3>
                         <p>Kategori Mental Health</p>
                     </div>
                 </div>
@@ -770,8 +337,8 @@
                 const doc = new jsPDF('p', 'mm', 'a4');
 
                 // Data dari Blade
-                const nama = "{{ $hasil->dataDiri->nama ?? 'Tidak Ada Data' }}";
                 const nim = "{{ $hasil->nim }}";
+                const nama = "{{ $hasil->dataDiri->nama ?? 'Tidak Ada Data' }}";
                 const prodi = "{{ $hasil->dataDiri->program_studi ?? 'Tidak Ada Data' }}";
                 const tanggalTes =
                     "{{ \Carbon\Carbon::parse($hasil->created_at)->locale('id')->setTimezone('Asia/Jakarta')->translatedFormat('l, d F Y') }}";
@@ -789,152 +356,218 @@
                 @endphp
                 const lamaKeluhan = "{{ $lamaKeluhanPDF }}";
 
-                let yPos = 20;
+                let yPos = 15;
 
                 // Header
-                doc.setFontSize(18);
+                doc.setFontSize(16);
                 doc.setFont(undefined, 'bold');
                 doc.text('Hasil Test Mental Health RMHI-38', 105, yPos, {
                     align: 'center'
                 });
 
-                yPos += 7;
+                yPos += 6;
                 doc.setFontSize(10);
                 doc.setFont(undefined, 'normal');
                 doc.text(tanggal + ' WIB', 105, yPos, {
                     align: 'center'
                 });
 
-                yPos += 10;
+                yPos += 8;
                 doc.setLineWidth(0.5);
                 doc.line(20, yPos, 190, yPos);
 
-                yPos += 8;
+                yPos += 7;
 
-                // Info Mahasiswa
+                // Info Mahasiswa - 2 kolom
                 doc.setFontSize(11);
                 doc.setFont(undefined, 'bold');
                 doc.text('Informasi Mahasiswa', 20, yPos);
-                yPos += 7;
+                yPos += 6;
 
-                doc.setFontSize(10);
+                doc.setFontSize(9);
+                // Kolom kiri - posisi value sejajar
+                const leftLabelX = 20;
+                const leftColonX = 40; // Posisi titik dua kolom kiri
+                const leftValueX = 43; // Posisi value kolom kiri
+
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 NIM', leftLabelX, yPos);
+                doc.text(':', leftColonX, yPos);
                 doc.setFont(undefined, 'normal');
-                // Menggunakan bullet point yang kompatibel
-                doc.text('\u2022 NIM: ' + nim, 20, yPos);
-                yPos += 6;
-                doc.text('\u2022 Nama: ' + nama, 20, yPos);
-                yPos += 6;
-                doc.text('\u2022 Program Studi: ' + prodi, 20, yPos);
-                yPos += 6;
-                doc.text('\u2022 Tanggal Tes: ' + tanggalTes, 20, yPos);
-                yPos += 10;
+                doc.text(nim, leftValueX, yPos);
 
-                // Summary
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 Nama', leftLabelX, yPos + 5);
+                doc.text(':', leftColonX, yPos + 5);
+                doc.setFont(undefined, 'normal');
+                doc.text(nama, leftValueX, yPos + 5);
+
+                // Kolom kanan - posisi value sejajar
+                const rightLabelX = 110; // Posisi X untuk label kolom kanan
+                const rightColonX = 145; // Posisi titik dua kolom kanan
+                const rightValueX = 148; // Posisi X untuk value kolom kanan
+
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 Prodi', rightLabelX, yPos);
+                doc.text(':', rightColonX, yPos);
+                doc.setFont(undefined, 'normal');
+                doc.text(prodi, rightValueX, yPos);
+
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 Tanggal Tes', rightLabelX, yPos + 5);
+                doc.text(':', rightColonX, yPos + 5);
+                doc.setFont(undefined, 'normal');
+                doc.text(tanggalTes, rightValueX, yPos + 5);
+                yPos += 12;
+
+                // Summary - format kolom vertikal dengan alignment konsisten
                 doc.setFontSize(11);
                 doc.setFont(undefined, 'bold');
                 doc.text('Ringkasan Hasil', 20, yPos);
-                yPos += 7;
+                yPos += 6;
 
-                doc.setFontSize(10);
+                doc.setFontSize(9);
+                const summaryLabelX = 20;
+                const summaryColonX = 59; // Posisi titik dua ringkasan
+                const summaryValueX = 62; // Posisi X untuk semua value di ringkasan
+
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 Total Skor', summaryLabelX, yPos);
+                doc.text(':', summaryColonX, yPos);
                 doc.setFont(undefined, 'normal');
-                doc.text('\u2022 Total Skor: ' + totalSkor, 20, yPos);
-                yPos += 6;
-                doc.text('\u2022 Kategori: ' + kategori, 20, yPos);
-                yPos += 6;
+                doc.text(String(totalSkor), summaryValueX, yPos);
+                yPos += 5;
 
-                // Keluhan (dengan text wrapping untuk teks panjang)
-                const keluhanLines = doc.splitTextToSize('\u2022 Keluhan: ' + keluhan, 170);
-                doc.text(keluhanLines, 20, yPos);
-                yPos += (keluhanLines.length * 6);
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 Kategori', summaryLabelX, yPos);
+                doc.text(':', summaryColonX, yPos);
+                doc.setFont(undefined, 'normal');
+                doc.text(kategori, summaryValueX, yPos);
+                yPos += 5;
 
-                doc.text('\u2022 Lama Keluhan: ' + lamaKeluhan, 20, yPos);
-                yPos += 10;
+                // Keluhan dengan text wrapping
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 Keluhan', summaryLabelX, yPos);
+                doc.text(':', summaryColonX, yPos);
+                doc.setFont(undefined, 'normal');
+                const keluhanLines = doc.splitTextToSize(keluhan, 132);
+                doc.text(keluhanLines, summaryValueX, yPos);
+                yPos += (keluhanLines.length * 5);
 
-                // Prepare table data
-                const tableData = [];
+                doc.setFont(undefined, 'bold');
+                doc.text('\u2022 Lama Keluhan', summaryLabelX, yPos);
+                doc.text(':', summaryColonX, yPos);
+                doc.setFont(undefined, 'normal');
+                doc.text(lamaKeluhan, summaryValueX, yPos);
+                yPos += 9;
+
+                // Prepare table data - hanya No, Tipe, Skor
+                const allData = [];
                 @foreach ($hasil->jawabanDetails->sortBy('nomor_soal') as $jawaban)
                     @php
                         $isNegative = in_array($jawaban->nomor_soal, $negativeQuestions);
-                        $type = $isNegative ? 'Negatif' : 'Positif';
-                        $questionText = $questions[$jawaban->nomor_soal] ?? 'Pertanyaan tidak ditemukan';
-                        // Escape karakter khusus untuk JavaScript
-                        $questionText = addslashes($questionText);
+                        $type = $isNegative ? 'N' : 'P'; // N = Negatif, P = Positif
                     @endphp
-                    tableData.push([
-                        '{{ $jawaban->nomor_soal }}',
-                        '{{ $type }}',
-                        {!! json_encode($questionText) !!},
-                        '{{ $jawaban->skor }}'
-                    ]);
+                    allData.push({
+                        no: '{{ $jawaban->nomor_soal }}',
+                        type: '{{ $type }}',
+                        skor: '{{ $jawaban->skor }}',
+                        isNegative: {{ $isNegative ? 'true' : 'false' }}
+                    });
                 @endforeach
 
-                // Add table
-                // Hitung margin kiri-kanan agar tabel berada di tengah
-                // Lebar halaman A4 = 210mm, Total lebar kolom = 165mm (12+20+118+15)
-                // Margin kiri-kanan = (210 - 165) / 2 = 22.5mm
-                const tableWidth = 165; // Total lebar kolom
-                const pageWidth = 210; // Lebar halaman A4
-                const marginLeftRight = (pageWidth - tableWidth) / 2;
+                // Buat 4 tabel side-by-side (1-10, 11-20, 21-30, 31-38)
+                const columnWidth = 43; // Lebar setiap kolom tabel
+                const startX = 20;
+                const spacing = 2; // Jarak antar kolom
 
-                doc.autoTable({
-                    startY: yPos,
-                    head: [
-                        ['No.', 'Tipe', 'Pertanyaan', 'Skor']
-                    ],
-                    body: tableData,
-                    theme: 'grid',
-                    headStyles: {
-                        fillColor: [59, 130, 246],
-                        textColor: 255,
-                        fontSize: 9,
-                        fontStyle: 'bold',
-                        halign: 'center', // Semua header rata tengah
-                        valign: 'middle'
-                    },
-                    bodyStyles: {
-                        fontSize: 8,
-                        cellPadding: 3
-                    },
-                    columnStyles: {
-                        0: {
-                            cellWidth: 12,
-                            halign: 'center'
-                        },
-                        1: {
-                            cellWidth: 20,
-                            halign: 'center'
-                        },
-                        2: {
-                            cellWidth: 118
-                        },
-                        3: {
-                            cellWidth: 15,
-                            halign: 'center'
-                        }
-                    },
-                    didParseCell: function(data) {
-                        if (data.section === 'body' && data.column.index === 1) {
-                            if (data.cell.raw === 'Positif') {
-                                data.cell.styles.textColor = [5, 150, 105];
-                                data.cell.styles.fontStyle = 'bold';
-                            } else if (data.cell.raw === 'Negatif') {
-                                data.cell.styles.textColor = [220, 38, 38];
-                                data.cell.styles.fontStyle = 'bold';
-                            }
-                        }
-                        if (data.section === 'body' && data.column.index === 3) {
-                            data.cell.styles.fontStyle = 'bold';
-                            data.cell.styles.fontSize = 9;
-                        }
-                    },
-                    margin: {
-                        left: marginLeftRight,
-                        right: marginLeftRight
+                // Posisi X untuk setiap kolom
+                const positions = [
+                    startX,
+                    startX + columnWidth + spacing,
+                    startX + (columnWidth + spacing) * 2,
+                    startX + (columnWidth + spacing) * 3
+                ];
+
+                // Header untuk semua kolom
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.text('Detail Jawaban Per Pertanyaan', 20, yPos);
+                yPos += 7;
+
+                // Buat 4 tabel
+                for (let col = 0; col < 4; col++) {
+                    const startIndex = col * 10;
+                    const endIndex = Math.min(startIndex + 10, allData.length);
+                    const tableData = [];
+
+                    for (let i = startIndex; i < endIndex; i++) {
+                        tableData.push([
+                            allData[i].no,
+                            allData[i].type,
+                            allData[i].skor
+                        ]);
                     }
-                });
 
-                // Tambahkan watermark di semua halaman (kanan bawah)
-                const pageCount = doc.internal.getNumberOfPages();
+                    if (tableData.length > 0) {
+                        doc.autoTable({
+                            startY: yPos,
+                            head: [
+                                ['No', 'Tipe', 'Skor']
+                            ],
+                            body: tableData,
+                            theme: 'grid',
+                            headStyles: {
+                                fillColor: [147, 51, 234], // Warna ungu
+                                textColor: 255,
+                                fontSize: 8,
+                                fontStyle: 'bold',
+                                halign: 'center',
+                                valign: 'middle',
+                                cellPadding: 2
+                            },
+                            bodyStyles: {
+                                fontSize: 8,
+                                cellPadding: 1.8,
+                                halign: 'center',
+                                minCellHeight: 5
+                            },
+                            columnStyles: {
+                                0: {
+                                    cellWidth: 10
+                                },
+                                1: {
+                                    cellWidth: 13
+                                },
+                                2: {
+                                    cellWidth: 20
+                                }
+                            },
+                            didParseCell: function(data) {
+                                if (data.section === 'body' && data.column.index === 1) {
+                                    const rowIndex = startIndex + data.row.index;
+                                    if (allData[rowIndex].isNegative) {
+                                        data.cell.styles.textColor = [220, 38, 38]; // Merah
+                                        data.cell.styles.fontStyle = 'bold';
+                                    } else {
+                                        data.cell.styles.textColor = [5, 150, 105]; // Hijau
+                                        data.cell.styles.fontStyle = 'bold';
+                                    }
+                                }
+                                if (data.section === 'body' && data.column.index === 2) {
+                                    data.cell.styles.fontStyle = 'bold';
+                                }
+                            },
+                            margin: {
+                                left: positions[col]
+                            },
+                            tableWidth: columnWidth,
+                            pageBreak: 'avoid'
+                        });
+                    }
+                }
+
+                // Tambahkan watermark di halaman pertama saja (kanan bawah)
                 const pdfPageWidth = doc.internal.pageSize.getWidth();
                 const pageHeight = doc.internal.pageSize.getHeight();
 
@@ -953,24 +586,20 @@
                 });
                 const timestampCetak = `${tanggalCetak} - ${waktuCetak} WIB`;
 
-                for (let i = 1; i <= pageCount; i++) {
-                    doc.setPage(i);
+                // Watermark teks kecil di kanan bawah
+                doc.setFontSize(6);
+                doc.setTextColor(150, 150, 150); // Abu-abu
+                doc.setFont(undefined, 'italic');
 
-                    // Watermark teks kecil di kanan bawah
-                    doc.setFontSize(8);
-                    doc.setTextColor(150, 150, 150); // Abu-abu
-                    doc.setFont(undefined, 'italic');
+                // Baris 1: Generated by ANALOGY - ITERA (8mm dari bawah)
+                doc.text('Generated by ANALOGY - ITERA', pdfPageWidth - 10, pageHeight - 8, {
+                    align: 'right'
+                });
 
-                    // Baris 1: Generated by ANALOGY - ITERA (5mm dari bawah)
-                    doc.text('Generated by ANALOGY - ITERA', pdfPageWidth - 10, pageHeight - 10, {
-                        align: 'right'
-                    });
-
-                    // Baris 2: Timestamp cetak (2mm di bawah baris 1)
-                    doc.text(`Dicetak: ${timestampCetak}`, pdfPageWidth - 10, pageHeight - 5, {
-                        align: 'right'
-                    });
-                }
+                // Baris 2: Timestamp cetak (4mm dari bawah)
+                doc.text(`Dicetak: ${timestampCetak}`, pdfPageWidth - 10, pageHeight - 4, {
+                    align: 'right'
+                });
 
                 // Save PDF
                 doc.save('Detail-Jawaban-' + nim + '-' + new Date().getTime() + '.pdf');
