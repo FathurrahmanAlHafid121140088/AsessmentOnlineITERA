@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head> //asddassadasd
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
@@ -23,7 +23,7 @@
 <body>
     <x-navbar></x-navbar>
 
-    <!-- Tombol untuk memunculkan kembali sidebar -->
+    <!-- Tombol untuk memunculkan kembali sidebardasadsadads -->
     <div id="show-sidebar" class="show-button">
         <i class="fas fa-chevron-right"></i>
     </div>
