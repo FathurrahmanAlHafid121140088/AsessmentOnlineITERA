@@ -529,3 +529,48 @@ function getKelompokFromGroup(group) {
     if (!header) return "";
     return header.textContent.split("\n")[0].trim();
 }
+
+// ========================================
+// SCROLL ARROWS FUNCTIONALITY
+// ========================================
+document.addEventListener("DOMContentLoaded", function () {
+    const btnUp = document.getElementById("scroll-up");
+    const btnDown = document.getElementById("scroll-down");
+
+    // Scroll ke atas
+    btnUp?.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Scroll ke bawah
+    btnDown?.addEventListener("click", function () {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+        });
+    });
+
+    // Tampilkan/sembunyikan tombol berdasarkan posisi scroll
+    window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const fullHeight = document.documentElement.scrollHeight;
+
+        // Tombol atas muncul jika sudah scroll > 200px
+        if (scrollY > 200) {
+            btnUp?.classList.add("visible");
+        } else {
+            btnUp?.classList.remove("visible");
+        }
+
+        // Tombol bawah muncul jika belum di paling bawah
+        if (scrollY + windowHeight < fullHeight - 100) {
+            btnDown?.classList.add("visible");
+        } else {
+            btnDown?.classList.remove("visible");
+        }
+    });
+
+    // Trigger scroll event on page load to set initial visibility
+    window.dispatchEvent(new Event("scroll"));
+});

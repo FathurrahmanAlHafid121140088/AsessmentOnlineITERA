@@ -8,6 +8,8 @@
     {{-- Pastikan CSS Bootstrap atau styling form Anda dimuat --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/karir-form.css') }}" rel="stylesheet">
+    <!-- Font Awesome icons -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -21,12 +23,32 @@
             </div>
             <div class="card-body">
                 <div class="alert alert-info" role="alert">
-                    <p class="mb-0">
-                        Berikut adalah 9 kelompok pekerjaan. Berikan **peringkat 1 sampai 12** pada setiap pekerjaan di
-                        masing-masing kelompok.
-                        **Peringkat 1** untuk pekerjaan yang paling Anda sukai, dan **peringkat 12** untuk yang paling
-                        tidak disukai.
-                        **Setiap angka (1-12) hanya boleh digunakan satu kali per kelompok.**
+                    <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Petunjuk Pengerjaan</h5>
+                    <hr>
+                    <p class="mb-2">
+                        <strong>Berikut adalah 9 kelompok pekerjaan. Berikan peringkat 1 sampai 12 pada setiap
+                            pekerjaan di masing-masing kelompok.
+                            Peringkat 1 untuk pekerjaan yang paling Anda sukai, dan
+                            peringkat 12 untuk yang paling tidak disukai.
+                            Setiap angka (1-12) hanya boleh digunakan satu kali per kelompok.</strong>
+                    </p>
+                    <hr>
+                    <p class="mb-2">
+                        <i class="fas fa-note text-danger me-1"></i>
+                        <strong>Penting: Tes ini mengukur tingkat kesukaan Anda terhadap suatu
+                            pekerjaan,
+                            terlepas dari pertimbangan gaji, beban kerja, tingkat kesulitan, atau faktor eksternal
+                            lainnya.
+                            Pilihlah berdasarkan minat dan ketertarikan murni Anda terhadap pekerjaan
+                            tersebut.</strong>
+                    </p>
+                    <hr>
+                    <p class="mb-0 ">
+                        <i class="fas fa-clock me-1"></i>
+                        <strong>Tidak perlu terburu-buru dalam mengerjakan tes ini. Luangkan waktu untuk
+                            mempertimbangkan setiap pilihan dengan baik.
+                            Sangat disarankan untuk mengerjakan dengan serius agar mendapatkan hasil
+                            interpretasi yang akurat dan sesuai dengan minat Anda yang sebenarnya.</strong>
                     </p>
                 </div>
 
@@ -148,6 +170,16 @@
                 </form>
             </div>
         </div>
+    </div>
+
+    <!-- Arrow Scroll Button -->
+    <div id="scroll-arrows">
+        <button id="scroll-up" title="Scroll ke Atas">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button id="scroll-down" title="Scroll ke Bawah">
+            <i class="fas fa-arrow-down"></i>
+        </button>
     </div>
 
     {{-- Load JS Bootstrap jika diperlukan --}}
