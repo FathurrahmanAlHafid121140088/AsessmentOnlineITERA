@@ -89,10 +89,6 @@
                                     </optgroup>
                                 @endforeach
                             </select>
-                            <label for="top1_alasan" class="form-label mt-2 small text-muted">Jelaskan alasan Anda
-                                memilih pekerjaan ini:</label>
-                            <textarea name="top1_alasan" id="top1_alasan" class="form-control" rows="3"
-                                placeholder="Tulis alasan atau minat Anda terhadap pekerjaan ini..."></textarea>
                         </div>
                         <div class="mb-4">
                             <label for="top2" class="form-label fw-bold">Pilihan Peringkat 2:</label>
@@ -110,10 +106,6 @@
                                     </optgroup>
                                 @endforeach
                             </select>
-                            <label for="top2_alasan" class="form-label mt-2 small text-muted">Jelaskan alasan Anda
-                                memilih pekerjaan ini:</label>
-                            <textarea name="top2_alasan" id="top2_alasan" class="form-control" rows="3"
-                                placeholder="Tulis alasan atau minat Anda terhadap pekerjaan ini..."></textarea>
                         </div>
                         <div class="mb-4">
                             <label for="top3" class="form-label fw-bold">Pilihan Peringkat 3:</label>
@@ -131,10 +123,6 @@
                                     </optgroup>
                                 @endforeach
                             </select>
-                            <label for="top3_alasan" class="form-label mt-2 small text-muted">Jelaskan alasan Anda
-                                memilih pekerjaan ini:</label>
-                            <textarea name="top3_alasan" id="top3_alasan" class="form-control" rows="3"
-                                placeholder="Tulis alasan atau minat Anda terhadap pekerjaan ini..."></textarea>
                         </div>
                     </div>
 
@@ -142,18 +130,12 @@
                     <div class="top-choice-section mt-4">
                         <h4 class="mb-3">Pekerjaan Lain yang Anda Minati</h4>
                         <p class="text-muted small">Jika ada pekerjaan lain yang Anda minati namun tidak terdapat dalam
-                            daftar di atas, silakan tuliskan di bawah ini beserta alasan Anda.</p>
+                            daftar di atas, silakan tuliskan di bawah ini.</p>
 
                         <div class="mb-3">
                             <label for="pekerjaan_lain" class="form-label fw-bold">Nama Pekerjaan Lain:</label>
                             <input type="text" name="pekerjaan_lain" id="pekerjaan_lain" class="form-control"
                                 placeholder="Contoh: Data Scientist, UX Designer, dll.">
-                        </div>
-                        <div class="mb-3">
-                            <label for="pekerjaan_lain_alasan" class="form-label">Jelaskan alasan minat Anda terhadap
-                                pekerjaan ini:</label>
-                            <textarea name="pekerjaan_lain_alasan" id="pekerjaan_lain_alasan" class="form-control" rows="4"
-                                placeholder="Tulis alasan atau minat Anda terhadap pekerjaan ini..."></textarea>
                         </div>
                     </div>
 

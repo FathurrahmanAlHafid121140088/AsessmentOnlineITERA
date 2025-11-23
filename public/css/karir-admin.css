@@ -181,6 +181,32 @@ body {
     font-weight: 500;
 }
 
+/* Cell diagonal (home position) - warna kuning */
+.cell-diagonal {
+    background-color: #fef3c7 !important;
+    font-weight: 600;
+    color: #92400e;
+}
+
+/* Warna untuk cell RANK berdasarkan peringkat */
+.rank-1 {
+    background-color: #dcfce7 !important;
+    color: #166534;
+    font-weight: 700;
+}
+
+.rank-2 {
+    background-color: #fef08a !important;
+    color: #854d0e;
+    font-weight: 600;
+}
+
+.rank-3 {
+    background-color: #fed7aa !important;
+    color: #9a3412;
+    font-weight: 600;
+}
+
 .top-rank {
     background-color: #e7f5ff;
     font-weight: 600;
@@ -246,6 +272,19 @@ body {
     margin-bottom: 20px;
 }
 
+/* Elemen khusus print - sembunyikan di layar */
+.print-only {
+    display: none !important;
+}
+
+.print-table-header {
+    display: none;
+}
+
+.print-doc-title {
+    display: none;
+}
+
 .peserta-info {
     margin-bottom: 25px;
     padding: 15px;
@@ -273,7 +312,7 @@ body {
 
 .info-label {
     font-size: 0.85rem;
-    color: var(--gray);
+    color: blue;
     margin-bottom: 4px;
 }
 
@@ -344,20 +383,193 @@ body {
     .peserta-info-grid {
         grid-template-columns: 1fr;
     }
+
+    /* ========================================
+       RESPONSIVE RMIB TABLE - HORIZONTAL SCROLL
+       ======================================== */
+
+    /* Wrapper untuk horizontal scroll */
+    .rmib-table-wrapper {
+        position: relative;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Indikator scroll hint */
+    .rmib-table-wrapper::before {
+        content: "⟵ Geser tabel ke kiri dan kanan ⟶";
+        display: block;
+        text-align: center;
+        padding: 10px;
+        background: linear-gradient(135deg, #4361ee, #3a86ff);
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 8px 8px 0 0;
+        position: sticky;
+        left: 0;
+        z-index: 5;
+    }
+
+    /* Custom scrollbar */
+    .rmib-table-wrapper::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .rmib-table-wrapper::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .rmib-table-wrapper::-webkit-scrollbar-thumb {
+        background: #4361ee;
+        border-radius: 4px;
+    }
+
+    .rmib-table-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #3a86ff;
+    }
+
+    /* Tabel tetap struktur normal */
+    .rmib-table {
+        width: max-content;
+        min-width: 100%;
+        font-size: 0.75rem;
+        margin: 0;
+    }
+
+    .rmib-table thead th {
+        padding: 8px 6px;
+        font-size: 0.7rem;
+        white-space: nowrap;
+    }
+
+    .rmib-table tbody td {
+        padding: 8px 6px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+
+    /* Kolom KATEGORI lebih lebar */
+    .rmib-table .kategori-column {
+        min-width: 160px;
+        max-width: 180px;
+        font-size: 0.75rem;
+    }
+
+    /* Info peserta responsive */
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background: #f9fafb;
+        border-radius: 8px;
+    }
+
+    .info-label {
+        font-size: 0.85rem;
+    }
+
+    .info-value {
+        text-align: right;
+        font-size: 0.85rem;
+    }
+
+    /* Chart responsive */
+    .chart-container {
+        height: 300px !important;
+        margin: 15px 0;
+    }
+
+    /* Tabs responsive */
+    .tabs {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .tab {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 140px;
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    /* Action buttons stack vertical */
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Mobile extra small */
+@media screen and (max-width: 480px) {
+    .rmib-table-wrapper::before {
+        font-size: 0.75rem;
+        padding: 8px;
+    }
+
+    .rmib-table {
+        font-size: 0.7rem;
+    }
+
+    .rmib-table thead th {
+        padding: 6px 4px;
+        font-size: 0.65rem;
+    }
+
+    .rmib-table tbody td {
+        padding: 6px 4px;
+        font-size: 0.7rem;
+    }
+
+    .rmib-table .kategori-column {
+        min-width: 140px;
+        max-width: 160px;
+        font-size: 0.7rem;
+    }
+
+    .chart-container {
+        height: 250px !important;
+    }
+
+    .tab {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+
+    .info-label,
+    .info-value {
+        font-size: 0.8rem;
+    }
 }
 
 /* ========================================
    PRINT STYLES - Optimized for A4 Paper
+   Urutan sesuai tampilan asli:
+   1. Judul "Hasil Tes RMIB"
+   2. Info Peserta
+   3. Top 3 Pekerjaan
+   4. Perhitungan Hasil Tes
+   5. Chart
+   6. Tabel RMIB
    ======================================== */
 @media print {
     /* Reset page margins */
     @page {
-        size: A4 landscape;
-        margin: 0.6cm;
+        size: A4 portrait;
+        margin: 1cm;
     }
 
     /* Hide unnecessary elements */
-    .header,
     .tabs,
     button,
     .btn,
@@ -368,156 +580,278 @@ body {
         display: none !important;
     }
 
+    /* Show print-only elements */
+    .print-only {
+        display: block !important;
+    }
+
+    /* Print doc title - pojok kanan atas */
+    .print-doc-title {
+        display: block !important;
+        position: fixed !important;
+        top: 0.3cm !important;
+        right: 0.5cm !important;
+        font-size: 9pt !important;
+        color: #666 !important;
+        font-style: italic !important;
+        z-index: 1000 !important;
+    }
+
     /* Body and main container */
     body {
         background: white !important;
         color: black !important;
         margin: 0;
         padding: 0;
+        font-size: 10pt !important;
     }
 
     .main-content {
         width: 100% !important;
         max-width: 100% !important;
-        margin: 0 auto !important;
-        padding: 0.3cm 0.4cm !important;
+        margin: 0 !important;
+        padding: 0 !important;
         box-sizing: border-box !important;
     }
 
     .content-area {
         width: 100% !important;
         max-width: 100% !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
         padding: 0 !important;
         box-sizing: border-box !important;
+        box-shadow: none !important;
     }
 
-    /* Ensure all child elements respect container width */
-    .result-section,
-    .peserta-info,
-    .rmib-table,
-    table {
-        box-sizing: border-box !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+    /* Header - tampilkan judul */
+    .header {
+        display: block !important;
+        margin-bottom: 0.5cm !important;
+        padding-bottom: 0.3cm !important;
+        border-bottom: 2px solid #4361ee !important;
+    }
+
+    .header h1 {
+        font-size: 16pt !important;
+        color: #333 !important;
+        text-align: center !important;
+        margin: 0 !important;
     }
 
     /* Info sections */
     .peserta-info {
         page-break-inside: avoid;
-        margin-bottom: 0.25cm !important;
-        padding: 0.25cm !important;
+        margin-bottom: 0.4cm !important;
+        padding: 0.4cm !important;
         border: 1px solid #ddd !important;
+        border-left: 4px solid #4361ee !important;
+        background-color: #f8f9fa !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
     .peserta-info h3 {
-        font-size: 10pt !important;
-        margin-bottom: 0.15cm !important;
+        font-size: 11pt !important;
+        margin-bottom: 0.3cm !important;
+        color: #333 !important;
+        border-bottom: 1px solid #ddd !important;
+        padding-bottom: 0.15cm !important;
     }
 
     .peserta-info-grid {
+        display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.15cm !important;
+        gap: 0.3cm !important;
     }
 
     .info-item {
-        margin-bottom: 0.08cm !important;
-    }
-
-    .info-label,
-    .info-value {
-        font-size: 8pt !important;
-    }
-
-    /* Result section */
-    .result-section {
-        page-break-inside: avoid;
-        margin: 0.2cm 0 !important;
-        padding: 0.15cm 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
+        margin-bottom: 0.1cm !important;
+    }
+
+    .info-label {
+        font-size: 8pt !important;
+        color: #4361ee !important;
+        margin-bottom: 2px !important;
+        font-weight: 600 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .info-value {
+        font-size: 9pt !important;
+        color: #333 !important;
+        font-weight: 500 !important;
+    }
+
+    /* Result section - tetap urutan normal */
+    .result-section {
+        margin: 0.4cm 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
     }
 
     .result-section h2 {
-        font-size: 10pt !important;
-        margin-bottom: 0.15cm !important;
-        margin-left: 0 !important;
-        order: 1 !important;
+        font-size: 12pt !important;
+        margin-bottom: 0.3cm !important;
+        color: #333 !important;
+        border-bottom: 1px solid #ddd !important;
+        padding-bottom: 0.15cm !important;
+    }
+
+    .result-section h2 i {
+        color: #4361ee !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
     .result-info {
-        font-size: 7pt !important;
-        margin-bottom: 0.2cm !important;
-        margin-left: 0 !important;
-        padding: 0.15cm !important;
-        order: 2 !important;
+        font-size: 9pt !important;
+        margin-bottom: 0.4cm !important;
+        padding: 0.3cm !important;
+        background-color: #e7f5ff !important;
+        border-left: 4px solid #4361ee !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
-    /* Chart container - tampilkan di halaman 1 (order 3) */
+    /* Chart container - ukuran lebih besar untuk mengisi halaman 1 */
     .chart-container {
-        max-width: 600px !important;
         width: 100% !important;
-        height: 280px !important;
-        margin: 0.2cm 0 !important;
+        height: 320px !important;
+        margin: 0.5cm 0 0.3cm 0 !important;
         padding: 0 !important;
         page-break-inside: avoid;
-        order: 3 !important;
     }
 
-    /* Table optimization - pindah ke halaman 2 (order 4) */
-    .rmib-table {
-        width: 75% !important;
-        max-width: 75% !important;
-        font-size: 7pt !important;
-        border-collapse: collapse !important;
-        margin: 0.3cm 0 !important;
+    .chart-container canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Table wrapper - mulai di halaman 2 */
+    .rmib-table-wrapper {
+        width: 100% !important;
+        overflow: visible !important;
+        margin: 0 !important;
         padding: 0 !important;
-        page-break-before: always !important;
+        page-break-before: always !important; /* Pastikan mulai di halaman baru */
+    }
+
+    .rmib-table-wrapper::before {
+        display: none !important;
+    }
+
+    /* Judul untuk halaman 2 (tabel) - hanya tampil saat print */
+    .print-table-header {
+        display: block !important;
+        font-size: 14pt !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        margin: 0 0 0.5cm 0 !important;
+        padding-bottom: 0.3cm !important;
+        color: #333 !important;
+        border-bottom: 2px solid #4361ee !important;
+    }
+
+    /* Table optimization */
+    .rmib-table {
+        width: 100% !important;
+        font-size: 9pt !important;
+        border-collapse: collapse !important;
+        margin: 0 !important;
         page-break-inside: avoid;
-        table-layout: auto !important;
-        order: 4 !important;
+        table-layout: fixed !important;
     }
 
     .rmib-table th,
     .rmib-table td {
-        padding: 3px 4px !important;
-        font-size: 7pt !important;
+        padding: 5px 4px !important;
+        font-size: 8pt !important;
         border: 1px solid #333 !important;
         text-align: center !important;
-        overflow: hidden !important;
-        line-height: 1.3 !important;
-        white-space: nowrap !important;
+        line-height: 1.4 !important;
     }
 
     .rmib-table th {
         background-color: #f0f0f0 !important;
         font-weight: bold !important;
-        font-size: 7pt !important;
+        font-size: 8pt !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        padding: 4px 5px !important;
     }
 
+    /* Kolom No */
+    .rmib-table th:first-child,
+    .rmib-table td:first-child {
+        width: 25px !important;
+    }
+
+    /* Kolom Kategori */
     .rmib-table .kategori-column {
-        font-size: 6.5pt !important;
-        width: auto !important;
-        min-width: 80px !important;
-        max-width: 120px !important;
+        font-size: 7pt !important;
+        width: 130px !important;
         text-align: left !important;
         word-wrap: break-word !important;
         white-space: normal !important;
         line-height: 1.3 !important;
-        padding: 3px 4px !important;
+        padding: 4px 6px !important;
     }
 
-    /* Kolom angka A-I, SUM, RANK */
-    .rmib-table th:not(.kategori-column),
-    .rmib-table td:not(.kategori-column) {
-        width: auto !important;
-        min-width: 22px !important;
-        padding: 3px 4px !important;
+    /* Kolom A-I */
+    .rmib-table th:nth-child(n+3):nth-child(-n+11),
+    .rmib-table td:nth-child(n+3):nth-child(-n+11) {
+        width: 28px !important;
+        min-width: 28px !important;
+    }
+
+    /* Kolom SUM */
+    .rmib-table th:nth-child(12),
+    .rmib-table td:nth-child(12) {
+        width: 35px !important;
+        font-weight: 600 !important;
+    }
+
+    /* Kolom RANK */
+    .rmib-table th:nth-child(13),
+    .rmib-table td:nth-child(13) {
+        width: 35px !important;
+        font-weight: bold !important;
+    }
+
+    /* Cell diagonal untuk print */
+    .rmib-table .cell-diagonal {
+        background-color: #fef3c7 !important;
+        font-weight: 600 !important;
+        color: #92400e !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Rank cells untuk print */
+    .rmib-table .rank-1 {
+        background-color: #dcfce7 !important;
+        color: #166534 !important;
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .rmib-table .rank-2 {
+        background-color: #fef08a !important;
+        color: #854d0e !important;
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .rmib-table .rank-3 {
+        background-color: #fed7aa !important;
+        color: #9a3412 !important;
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
     /* Highlight colors for print */
@@ -534,58 +868,49 @@ body {
         print-color-adjust: exact !important;
     }
 
-    /* Ensure no page breaks in critical sections */
+    /* Page break controls */
     h2, h3, h4 {
         page-break-after: avoid !important;
     }
 
-    table, figure, .chart-container {
+    .peserta-info,
+    .result-section,
+    .chart-container {
         page-break-inside: avoid !important;
-    }
-
-    /* Validitas section styling for print */
-    .result-info h3 {
-        font-size: 9pt !important;
-        margin-bottom: 0.12cm !important;
-    }
-
-    .result-info div {
-        font-size: 7pt !important;
-        padding: 0.15cm !important;
-        margin-bottom: 0.15cm !important;
-    }
-
-    .result-info ul {
-        margin: 0.1cm 0 0 0.3cm !important;
-        font-size: 6.5pt !important;
-    }
-
-    .result-info ul li {
-        margin-bottom: 0.05cm !important;
-    }
-
-    .result-info p {
-        font-size: 7pt !important;
-        line-height: 1.3 !important;
-    }
-
-    .result-info strong {
-        font-size: 7pt !important;
-    }
-
-    .result-info span {
-        font-size: 6.5pt !important;
-        padding: 2px 6px !important;
-    }
-
-    .result-info h4 {
-        font-size: 8pt !important;
-        margin-bottom: 0.08cm !important;
     }
 
     /* Remove shadows and unnecessary decorations */
     * {
         box-shadow: none !important;
         text-shadow: none !important;
+    }
+
+    /* Links color for print */
+    a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
+    /* Chart image untuk print */
+    .chart-image-print {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        display: block !important;
+    }
+
+    /* Sembunyikan canvas saat print jika ada image */
+    .canvas-original {
+        display: none !important;
+    }
+
+    /* Footer untuk print */
+    .print-footer {
+        margin-top: 0.5cm !important;
+        padding-top: 0.3cm !important;
+        border-top: 1px solid #ddd !important;
+        font-size: 8pt !important;
+        color: #666 !important;
+        text-align: center !important;
     }
 }

@@ -77,40 +77,40 @@
                     $isMentalHealthPage = request()->is('admin/mental-health*');
                 @endphp
 
-                @if($isMentalHealthPage)
-                <li class="dropdown open">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
-                        <i class="fas fa-chevron-down arrow"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/admin/mental-health">
-                                <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/mental-health/provinsi">
-                                <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/mental-health/program-studi">
-                                <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if ($isMentalHealthPage)
+                    <li class="dropdown open">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/mental-health">
+                                    <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/mental-health/provinsi">
+                                    <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/mental-health/program-studi">
+                                    <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @else
-                <li>
-                    <a href="/admin/mental-health">
-                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
-                    </a>
-                </li>
+                    <li>
+                        <a href="/admin/mental-health">
+                            <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                        </a>
+                    </li>
                 @endif
 
                 <li>
-                    <a href="/admin-home-karir">
+                    <a href="/admin/admin-karir">
                         <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
                     </a>
                 </li>

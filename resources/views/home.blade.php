@@ -185,7 +185,7 @@
                             <p class="text-muted text-center">Metode RMIB (Rothwell-Miller Interest Blank) adalah instrumen asesmen minat karir yang membantu mengidentifikasi preferensi Anda terhadap 12 kategori pekerjaan. Dengan mengurutkan berbagai jenis pekerjaan berdasarkan minat, Anda akan mendapatkan gambaran jelas tentang jalur karir yang paling sesuai dengan kepribadian dan minat alami Anda.</p>
                         </div>
                         <div class="text-center mt-auto pt-3">
-                            <a class="btn btn-primary btn-xl text-uppercase" href="/karir">Tes Sekarang!</a>
+                            <a class="btn btn-primary btn-xl text-uppercase" href="{{ route('karir.home') }}">Tes Sekarang!</a>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,8 @@
 </head>
 
 <body>
+    <!-- Elemen khusus print - pojok kanan atas -->
+    <div class="print-doc-title">Rincian Hasil Tes</div>
 
     <div class="main-content">
         <div class="header">
@@ -58,6 +60,18 @@
                             <span class="info-label">Program Studi</span>
                             <span
                                 class="info-value">{{ $hasil->karirDataDiri->program_studi ?? 'Tidak Ada Data' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Jenis Kelamin</span>
+                            <span class="info-value">
+                                @if($hasil->karirDataDiri->jenis_kelamin == 'L')
+                                    Laki-laki
+                                @elseif($hasil->karirDataDiri->jenis_kelamin == 'P')
+                                    Perempuan
+                                @else
+                                    -
+                                @endif
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -114,35 +128,6 @@
                         @endif
                     </div>
 
-                    @if ($hasil->top_1_alasan || $hasil->top_2_alasan || $hasil->top_3_alasan || $hasil->pekerjaan_lain_alasan)
-                        <div style="margin-top: 15px;">
-                            <h4 style="font-size: 14px; color: #666; margin-bottom: 10px;">Alasan Pemilihan:</h4>
-                            @if ($hasil->top_1_alasan)
-                                <div style="margin-bottom: 10px;">
-                                    <strong style="color: #4361ee;">Pilihan 1:</strong>
-                                    <p style="margin: 5px 0 0 0; color: #555;">{{ $hasil->top_1_alasan }}</p>
-                                </div>
-                            @endif
-                            @if ($hasil->top_2_alasan)
-                                <div style="margin-bottom: 10px;">
-                                    <strong style="color: #4361ee;">Pilihan 2:</strong>
-                                    <p style="margin: 5px 0 0 0; color: #555;">{{ $hasil->top_2_alasan }}</p>
-                                </div>
-                            @endif
-                            @if ($hasil->top_3_alasan)
-                                <div style="margin-bottom: 10px;">
-                                    <strong style="color: #4361ee;">Pilihan 3:</strong>
-                                    <p style="margin: 5px 0 0 0; color: #555;">{{ $hasil->top_3_alasan }}</p>
-                                </div>
-                            @endif
-                            @if ($hasil->pekerjaan_lain_alasan)
-                                <div style="margin-bottom: 10px;">
-                                    <strong style="color: #4361ee;">Pekerjaan Lain:</strong>
-                                    <p style="margin: 5px 0 0 0; color: #555;">{{ $hasil->pekerjaan_lain_alasan }}</p>
-                                </div>
-                            @endif
-                        </div>
-                    @endif
                 </div>
 
                 <div class="result-section">
@@ -158,9 +143,12 @@
 
                     <div class="chart-container" id="chartContainer"></div>
 
-                    <table class="rmib-table">
+                    <div class="rmib-table-wrapper">
+                        <h2 class="print-table-header">Tabel Perhitungan RMIB - {{ $hasil->karirDataDiri->nama ?? 'Peserta' }}</h2>
+                        <table class="rmib-table">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>KATEGORI</th>
                                 <th>A</th>
                                 <th>B</th>
@@ -178,106 +166,45 @@
                         <tbody>
                             @foreach ($hasilLengkap as $index => $item)
                                 @php
-                                    // Tentukan apakah row ini adalah top 3
-                                    $isTop3 = $item['rank'] <= 3;
-                                    $isTop1 = $item['rank'] == 1;
-                                    $rowClass = '';
-                                    if ($isTop1) {
-                                        $rowClass = 'highlight top-rank';
-                                    } elseif ($isTop3) {
-                                        $rowClass = 'top-rank';
+                                    // Tentukan class untuk cell RANK berdasarkan peringkat
+                                    $rankClass = '';
+                                    if ($item['rank'] == 1) {
+                                        $rankClass = 'rank-1';
+                                    } elseif ($item['rank'] == 2) {
+                                        $rankClass = 'rank-2';
+                                    } elseif ($item['rank'] == 3) {
+                                        $rankClass = 'rank-3';
                                     }
+
+                                    // Posisi diagonal (home position) hanya untuk kategori 1-9 (OUT sampai S.S)
+                                    // Kategori 10-12 (CLER, PRAC, MED) tidak ada indikator diagonal
+                                    $diagonalKlusterIndex = $index < 9 ? $index : -1;
                                 @endphp
-                                <tr class="{{ $rowClass }}">
-                                    <td class="kategori-column">{{ $index + 1 }}. {{ $item['singkatan'] }}
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td class="kategori-column">{{ $item['singkatan'] }}
                                         ({{ $item['kategori'] }})</td>
-                                    @foreach ($matrixData['kluster_urutan'] as $kluster)
-                                        <td>{{ $item['matrix_row'][$kluster] }}</td>
+                                    @foreach ($matrixData['kluster_urutan'] as $klusterIndex => $kluster)
+                                        @php
+                                            // Cek apakah cell ini adalah posisi diagonal (home position)
+                                            $isDiagonal = ($klusterIndex == $diagonalKlusterIndex);
+                                            $cellClass = $isDiagonal ? 'cell-diagonal' : '';
+                                        @endphp
+                                        <td class="{{ $cellClass }}">{{ $item['matrix_row'][$kluster] }}</td>
                                     @endforeach
                                     <td>{{ $item['sum'] }}</td>
-                                    <td>{{ $item['rank'] }}</td>
+                                    <td class="{{ $rankClass }}">{{ $item['rank'] }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table>
-
-                    <!-- Validitas Hasil Tes -->
-                    <div class="result-info" style="margin-top: 30px; margin-bottom: 20px;">
-                        @php
-                            $skorKonsistensi = $hasil->skor_konsistensi ?? 0;
-                            $isValid = $skorKonsistensi >= 7;
-                        @endphp
-
-                        <h3 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas {{ $isValid ? 'fa-check-circle' : 'fa-exclamation-triangle' }}"
-                               style="color: {{ $isValid ? '#06d6a0' : '#ef476f' }};"></i>
-                            Validitas Hasil Tes
-                        </h3>
-
-                        <div style="background-color: {{ $isValid ? '#d1fae5' : '#fee2e2' }};
-                                    border-left: 4px solid {{ $isValid ? '#06d6a0' : '#ef476f' }};
-                                    padding: 15px;
-                                    border-radius: 4px;
-                                    margin-bottom: 15px;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                <strong style="font-size: 1.1rem;">Skor Konsistensi: {{ $skorKonsistensi }}/10</strong>
-                                <span style="padding: 4px 12px;
-                                             background-color: {{ $isValid ? '#06d6a0' : '#ef476f' }};
-                                             color: white;
-                                             border-radius: 20px;
-                                             font-size: 0.85rem;
-                                             font-weight: bold;">
-                                    {{ $isValid ? 'VALID' : 'TIDAK VALID' }}
-                                </span>
-                            </div>
-
-                            <p style="margin: 10px 0 0 0; color: #555; line-height: 1.6;">
-                                @if ($isValid)
-                                    <strong style="color: #059669;">✓ Hasil tes ini VALID dan dapat dipercaya.</strong><br>
-                                    Peserta menjawab dengan pola yang <strong>konsisten</strong> sepanjang tes.
-                                    Skor konsistensi <strong>≥ 7</strong> menunjukkan bahwa peserta memberikan jawaban yang
-                                    logis dan selaras antar kelompok pekerjaan. Hasil ini mencerminkan minat karir yang sesungguhnya
-                                    dan dapat digunakan sebagai dasar konseling atau pengambilan keputusan karir.
-                                @else
-                                    <strong style="color: #dc2626;">⚠ Hasil tes ini TIDAK VALID dan perlu dievaluasi ulang.</strong><br>
-                                    Peserta menjawab dengan pola yang <strong>tidak konsisten</strong> sepanjang tes.
-                                    Skor konsistensi <strong>&lt; 7</strong> menunjukkan adanya ketidaksesuaian atau kontradiksi
-                                    dalam jawaban antar kelompok pekerjaan. Hal ini bisa disebabkan oleh:
-                                    <ul style="margin: 10px 0 0 20px; color: #555;">
-                                        <li>Peserta tidak serius atau asal-asalan dalam mengisi tes</li>
-                                        <li>Peserta kurang memahami instruksi pengerjaan</li>
-                                        <li>Peserta terburu-buru atau tidak fokus saat mengerjakan</li>
-                                        <li>Peserta mengalami kebingungan dalam menentukan preferensi</li>
-                                    </ul>
-                                    <strong style="color: #dc2626; display: block; margin-top: 10px;">
-                                        Rekomendasi: Peserta disarankan untuk mengulang tes dengan lebih teliti dan fokus.
-                                    </strong>
-                                @endif
-                            </p>
-                        </div>
-
-                        <div style="background-color: #fff7ed;
-                                    border-left: 4px solid #f59e0b;
-                                    padding: 15px;
-                                    border-radius: 4px;">
-                            <h4 style="margin: 0 0 10px 0; color: #92400e; font-size: 1rem;">
-                                <i class="fas fa-info-circle"></i> Tentang Skor Konsistensi
-                            </h4>
-                            <p style="margin: 0; color: #78350f; font-size: 0.9rem; line-height: 1.6;">
-                                Skor konsistensi mengukur seberapa <strong>konsisten</strong> peserta dalam memberikan peringkat
-                                pada pekerjaan-pekerjaan yang sejenis di berbagai kelompok. Tes RMIB memiliki pekerjaan dari
-                                12 kategori yang tersebar di 9 kelompok. Jika peserta konsisten, maka pekerjaan dari kategori
-                                yang sama akan mendapat peringkat yang relatif sama di semua kelompok. Skor konsistensi dihitung
-                                dalam skala 0-10, dengan threshold validitas <strong>≥ 7</strong>.
-                            </p>
-                        </div>
+                        </table>
                     </div>
 
                     <div class="action-buttons">
                         <a href="{{ route('admin.karir.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
                         </a>
-                        <button class="btn btn-primary" onclick="window.print()">
+                        <button class="btn btn-primary" onclick="cetakHasil()">
                             <i class="fas fa-print"></i> Cetak Hasil
                         </button>
                     </div>
@@ -395,6 +322,47 @@
                     });
                 }
             });
+
+            // Fungsi untuk cetak hasil dengan chart yang benar
+            function cetakHasil() {
+                // Ambil canvas chart
+                const chartContainer = document.getElementById('chartContainer');
+                const canvas = chartContainer.querySelector('canvas');
+
+                if (canvas) {
+                    // Konversi canvas ke image untuk print
+                    const imageUrl = canvas.toDataURL('image/png', 1.0);
+
+                    // Buat image element
+                    const img = document.createElement('img');
+                    img.src = imageUrl;
+                    img.style.width = '100%';
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                    img.className = 'chart-image-print';
+
+                    // Simpan canvas asli dan sembunyikan saat print
+                    canvas.style.display = 'none';
+                    canvas.classList.add('canvas-original');
+
+                    // Tambahkan image ke container
+                    chartContainer.appendChild(img);
+
+                    // Cetak setelah image dimuat
+                    img.onload = function() {
+                        window.print();
+
+                        // Kembalikan canvas dan hapus image setelah print
+                        setTimeout(function() {
+                            canvas.style.display = 'block';
+                            img.remove();
+                        }, 1000);
+                    };
+                } else {
+                    // Jika tidak ada canvas, langsung print
+                    window.print();
+                }
+            }
         </script>
 </body>
 

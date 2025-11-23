@@ -16,7 +16,7 @@
             <ul class="navbar-nav ms-auto py-4 py-lg-0 text-uppercase">
                 <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="/mental-health">Mental Health</a></li>
-                <li class="nav-item"><a class="nav-link" href="/karir">Peminatan Karir</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('karir.home') }}">Peminatan Karir</a></li>
                 @auth
                     {{-- JIKA SUDAH LOGIN --}}
                     <li class="nav-item">

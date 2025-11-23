@@ -10,8 +10,10 @@ use App\Services\RmibScoringService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Models\RmibPekerjaan;
 use Carbon\Carbon;
+use App\Http\Requests\StoreRmibJawabanRequest;
 
 
 class KarirController extends Controller
@@ -86,11 +88,6 @@ class KarirController extends Controller
                 'top_1' => $hasil->top_1_pekerjaan,
                 'top_2' => $hasil->top_2_pekerjaan,
                 'top_3' => $hasil->top_3_pekerjaan,
-                'skor_konsistensi' => $hasil->skor_konsistensi,
-                // Threshold validitas: >= 7 (dari skala 0-10)
-                // Skor 7-10 = Konsistensi tinggi (Valid)
-                // Skor 0-6 = Konsistensi rendah (Tidak Valid)
-                'validitas' => $hasil->skor_konsistensi >= 7 ? 'Valid' : 'Tidak Valid',
             ];
         });
 
@@ -213,21 +210,30 @@ public function showTesForm(KarirDataDiri $data_diri)
     }
 
     // 4. Simpan Jawaban RMIB
-public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
+public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $data_diri) {
+    // Validasi sudah dilakukan di StoreRmibJawabanRequest
+    // Data sudah di-sanitize di prepareForValidation()
+
+    // Log successful validation
+    Log::info('RMIB submission validated successfully', [
+        'user_id' => auth()->id(),
+        'user_email' => auth()->user()->email,
+        'data_diri_id' => $data_diri->id,
+        'ip_address' => $request->ip(),
+        'timestamp' => now()->toDateTimeString(),
+    ]);
+
     DB::beginTransaction();
     try {
         // 1. Buat record Hasil Tes awal (untuk mendapatkan ID)
+        // Data sudah ter-sanitize dari prepareForValidation()
         $hasilTes = RmibHasilTes::create([
             'karir_data_diri_id' => $data_diri->id, // Foreign key yang benar
             'tanggal_pengerjaan' => Carbon::now(),
-            'top_1_pekerjaan'    => $request->input('top1'),
-            'top_1_alasan'       => $request->input('top1_alasan'),
-            'top_2_pekerjaan'    => $request->input('top2'),
-            'top_2_alasan'       => $request->input('top2_alasan'),
-            'top_3_pekerjaan'    => $request->input('top3'),
-            'top_3_alasan'       => $request->input('top3_alasan'),
-            'pekerjaan_lain'     => $request->input('pekerjaan_lain'),
-            'pekerjaan_lain_alasan' => $request->input('pekerjaan_lain_alasan'),
+            'top_1_pekerjaan'    => $request->validated()['top1'],
+            'top_2_pekerjaan'    => $request->validated()['top2'],
+            'top_3_pekerjaan'    => $request->validated()['top3'],
+            'pekerjaan_lain'     => $request->validated()['pekerjaan_lain'] ?? null,
             // Skor & interpretasi akan di-update nanti
         ]);
 
@@ -236,32 +242,20 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
         $now = Carbon::now(); // Waktu saat ini untuk timestamp
 
         // 3. Loop data dari request untuk membangun array
-        foreach ($request->input('jawaban', []) as $kelompok => $pekerjaanList) {
-            if (is_array($pekerjaanList)) {
-                foreach ($pekerjaanList as $pekerjaan => $peringkat) {
-                    
-                    // Validasi ringan: pastikan peringkat adalah angka 1-12
-                    $peringkatInt = filter_var($peringkat, FILTER_VALIDATE_INT, [
-                        'options' => ['min_range' => 1, 'max_range' => 12]
-                    ]);
+        // Data sudah divalidasi, jadi tidak perlu validasi ulang
+        $validatedData = $request->validated();
 
-                    if ($peringkatInt !== false) {
-                        // Tambahkan data ke array, jangan langsung create()
-                        $jawabanToInsert[] = [
-                            'hasil_id'  => $hasilTes->id, // ID dari hasil tes yang baru dibuat
-                            'kelompok'  => $kelompok,
-                            'pekerjaan' => $pekerjaan,
-                            'peringkat' => $peringkatInt,
-                            'created_at'=> $now, // Tambahkan timestamp manual
-                            'updated_at'=> $now, // Tambahkan timestamp manual
-                        ];
-                    } else {
-                        // Jika ada peringkat tidak valid, catat di log
-                        Log::warning("Peringkat tidak valid diterima: K:{$kelompok}, P:{$pekerjaan}, R:{$peringkat}");
-                        // Anda bisa juga melempar exception di sini jika ingin membatalkan
-                        // throw new \InvalidArgumentException("Peringkat tidak valid.");
-                    }
-                }
+        foreach ($validatedData['jawaban'] as $kelompok => $pekerjaanList) {
+            foreach ($pekerjaanList as $pekerjaan => $peringkat) {
+                // Data sudah pasti valid karena sudah melalui Form Request validation
+                $jawabanToInsert[] = [
+                    'hasil_id'  => $hasilTes->id,
+                    'kelompok'  => $kelompok,
+                    'pekerjaan' => $pekerjaan,
+                    'peringkat' => $peringkat,
+                    'created_at'=> $now,
+                    'updated_at'=> $now,
+                ];
             }
         }
 
@@ -292,22 +286,48 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
         }
         $interpretasi = $scoringService->generateInterpretasi($top3Data);
 
-        // 6. Update hasil tes dengan skor konsistensi dan interpretasi
+        // 6. Update hasil tes dengan interpretasi
         // CATATAN: top_1/2/3_pekerjaan TIDAK di-update karena sudah berisi nama pekerjaan pilihan user
         $hasilTes->update([
-            'skor_konsistensi' => $hasilPerhitungan['skor_konsistensi'],
             'interpretasi' => $interpretasi,
         ]);
 
         DB::commit(); // Simpan semua perubahan ke database
 
+        // Clear cache karena data baru sudah disimpan
+        $this->clearKarirStatsCache();
+
+        // Log successful submission
+        Log::info('RMIB submission saved successfully', [
+            'user_id' => auth()->id(),
+            'user_email' => auth()->user()->email,
+            'hasil_tes_id' => $hasilTes->id,
+            'data_diri_id' => $data_diri->id,
+            'ip_address' => $request->ip(),
+            'timestamp' => now()->toDateTimeString(),
+        ]);
+
         // 6. Redirect ke halaman hasil
-        return redirect()->route('karir.hasil', $hasilTes->id);
+        return redirect()->route('karir.hasil', $hasilTes->id)
+            ->with('success', 'Jawaban Anda berhasil disimpan!');
 
     } catch (\Exception $e) {
         DB::rollBack(); // Batalkan semua jika ada error
-        Log::error('Error saat menyimpan jawaban RMIB: ' . $e->getMessage() . ' - Trace: ' . $e->getTraceAsString());
-        return back()->withErrors(['msg' => 'Terjadi kesalahan sistem saat menyimpan jawaban. Silakan coba lagi.']);
+
+        // Log error dengan detail lengkap untuk debugging
+        Log::error('Error saat menyimpan jawaban RMIB', [
+            'user_id' => auth()->id(),
+            'user_email' => auth()->user()->email,
+            'data_diri_id' => $data_diri->id,
+            'error_message' => $e->getMessage(),
+            'error_trace' => $e->getTraceAsString(),
+            'ip_address' => $request->ip(),
+            'timestamp' => now()->toDateTimeString(),
+        ]);
+
+        return back()
+            ->withErrors(['msg' => 'Terjadi kesalahan sistem saat menyimpan jawaban. Silakan coba lagi.'])
+            ->withInput();
     }
 }
 
@@ -383,19 +403,39 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
     // 1. Daftar semua peserta
     public function adminIndex()
     {
-        // Ambil hasil tes terbaru per NIM
-        $latestIds = DB::table('rmib_hasil_tes')
-            ->select('karir_data_diri_id', DB::raw('MAX(id) as max_id'))
-            ->groupBy('karir_data_diri_id')
-            ->pluck('max_id');
+        // Ambil hasil tes terbaru per NIM menggunakan Window Function (Optimized)
+        // Window function lebih efisien daripada GROUP BY + MAX untuk "get latest per group"
+        $latestIds = DB::table(DB::raw('(
+            SELECT id,
+                   ROW_NUMBER() OVER (PARTITION BY karir_data_diri_id ORDER BY id DESC) as rn
+            FROM rmib_hasil_tes
+        ) as ranked'))
+            ->where('rn', 1)
+            ->pluck('id');
 
-        // Query hasil tes dengan search
-        $query = RmibHasilTes::with(['karirDataDiri', 'karirDataDiri.hasilTes'])
-            ->whereIn('id', $latestIds);
+        // Query hasil tes dengan Eager Loading (Optimized - Fix N+1 Problem)
+        $query = RmibHasilTes::with([
+            'karirDataDiri:id,nim,nama,program_studi,fakultas,jenis_kelamin,email,usia,provinsi,alamat,asal_sekolah,status_tinggal,prodi_sesuai_keinginan'
+        ])
+        ->whereIn('id', $latestIds);
 
-        // Search functionality
+        // Search functionality dengan sanitasi
         if (request('search')) {
             $search = request('search');
+
+            // Sanitize search input
+            $search = trim($search);
+            $search = htmlspecialchars($search, ENT_QUOTES, 'UTF-8');
+            $search = substr($search, 0, 100); // Limit length
+
+            // Log search activity
+            Log::info('Admin search in karir index', [
+                'admin_id' => auth()->id(),
+                'search_query' => $search,
+                'ip_address' => request()->ip(),
+                'timestamp' => now()->toDateTimeString(),
+            ]);
+
             $query->whereHas('karirDataDiri', function($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                   ->orWhere('nim', 'like', "%{$search}%")
@@ -409,11 +449,22 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
             ->paginate(request('limit', 10))
             ->appends(request()->query());
 
-        // Statistik
-        $totalUsers = KarirDataDiri::count();
-        $totalTes = RmibHasilTes::count();
-        $totalLaki = KarirDataDiri::where('jenis_kelamin', 'L')->count();
-        $totalPerempuan = KarirDataDiri::where('jenis_kelamin', 'P')->count();
+        // Statistik dengan Caching (1 hour cache)
+        $totalUsers = Cache::remember('karir_stats_total_users', 3600, function () {
+            return KarirDataDiri::count();
+        });
+
+        $totalTes = Cache::remember('karir_stats_total_tes', 3600, function () {
+            return RmibHasilTes::count();
+        });
+
+        $totalLaki = Cache::remember('karir_stats_total_laki', 3600, function () {
+            return KarirDataDiri::where('jenis_kelamin', 'L')->count();
+        });
+
+        $totalPerempuan = Cache::remember('karir_stats_total_perempuan', 3600, function () {
+            return KarirDataDiri::where('jenis_kelamin', 'P')->count();
+        });
 
         // Hitung jumlah per kategori RMIB (top 1)
         $kategoriRMIB = [
@@ -431,16 +482,21 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
             'Medical' => 'Medical (Me)',
         ];
 
-        $kategoriCounts = [];
-        foreach (array_keys($kategoriRMIB) as $kategori) {
-            $kategoriCounts[$kategori] = RmibHasilTes::where('top_1_pekerjaan', $kategori)->count();
-        }
+        $kategoriCounts = Cache::remember('karir_stats_kategori_counts', 3600, function () use ($kategoriRMIB) {
+            $counts = [];
+            foreach (array_keys($kategoriRMIB) as $kategori) {
+                $counts[$kategori] = RmibHasilTes::where('top_1_pekerjaan', $kategori)->count();
+            }
+            return $counts;
+        });
 
-        // Distribusi Fakultas
-        $fakultasCount = KarirDataDiri::select('fakultas', DB::raw('count(*) as total'))
-            ->groupBy('fakultas')
-            ->pluck('total', 'fakultas')
-            ->toArray();
+        // Distribusi Fakultas dengan Caching
+        $fakultasCount = Cache::remember('karir_stats_fakultas_count', 3600, function () {
+            return KarirDataDiri::select('fakultas', DB::raw('count(*) as total'))
+                ->groupBy('fakultas')
+                ->pluck('total', 'fakultas')
+                ->toArray();
+        });
 
         $totalFakultas = array_sum($fakultasCount);
         $fakultasPersen = [];
@@ -454,24 +510,30 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
             'FTI' => '#4cc9f0',
         ];
 
-        // Data untuk chart Status Tinggal
-        $statusTinggalCounts = [
-            'Kost' => KarirDataDiri::where('status_tinggal', 'Kost')->count(),
-            'Bersama Orang Tua' => KarirDataDiri::where('status_tinggal', 'Bersama Orang Tua')->count(),
-        ];
+        // Data untuk chart Status Tinggal dengan Caching
+        $statusTinggalCounts = Cache::remember('karir_stats_status_tinggal', 3600, function () {
+            return [
+                'Kost' => KarirDataDiri::where('status_tinggal', 'Kost')->count(),
+                'Bersama Orang Tua' => KarirDataDiri::where('status_tinggal', 'Bersama Orang Tua')->count(),
+            ];
+        });
 
-        // Data untuk chart Prodi Sesuai Keinginan
-        $prodiSesuaiCounts = [
-            'Ya' => KarirDataDiri::where('prodi_sesuai_keinginan', 'Ya')->count(),
-            'Tidak' => KarirDataDiri::where('prodi_sesuai_keinginan', 'Tidak')->count(),
-        ];
+        // Data untuk chart Prodi Sesuai Keinginan dengan Caching
+        $prodiSesuaiCounts = Cache::remember('karir_stats_prodi_sesuai', 3600, function () {
+            return [
+                'Ya' => KarirDataDiri::where('prodi_sesuai_keinginan', 'Ya')->count(),
+                'Tidak' => KarirDataDiri::where('prodi_sesuai_keinginan', 'Tidak')->count(),
+            ];
+        });
 
-        // Data untuk chart Asal Sekolah
-        $asalSekolahCounts = [
-            'SMA' => KarirDataDiri::where('asal_sekolah', 'SMA')->count(),
-            'SMK' => KarirDataDiri::where('asal_sekolah', 'SMK')->count(),
-            'Boarding School' => KarirDataDiri::where('asal_sekolah', 'Boarding School')->count(),
-        ];
+        // Data untuk chart Asal Sekolah dengan Caching
+        $asalSekolahCounts = Cache::remember('karir_stats_asal_sekolah', 3600, function () {
+            return [
+                'SMA' => KarirDataDiri::where('asal_sekolah', 'SMA')->count(),
+                'SMK' => KarirDataDiri::where('asal_sekolah', 'SMK')->count(),
+                'Boarding School' => KarirDataDiri::where('asal_sekolah', 'Boarding School')->count(),
+            ];
+        });
 
         // Kirim ke view admin-karir.blade.php
         return view('admin-karir', compact(
@@ -510,7 +572,7 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
         // Get deskripsi kategori untuk tampilan
         $deskripsiKategori = $scoringService->getDeskripsiKategori();
 
-        // Gabungkan data untuk ditampilkan di view
+        // Gabungkan data untuk ditampilkan di view (urutan FIXED sesuai standar RMIB)
         $hasilLengkap = [];
         foreach ($matrixData['kategori_urutan'] as $kategori) {
             $hasilLengkap[] = [
@@ -523,13 +585,14 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
             ];
         }
 
-        // Urutkan berdasarkan peringkat untuk mendapatkan top 3
-        usort($hasilLengkap, function ($a, $b) {
+        // Buat salinan untuk diurutkan (untuk mendapatkan top 3)
+        $hasilSorted = $hasilLengkap;
+        usort($hasilSorted, function ($a, $b) {
             return $a['rank'] <=> $b['rank'];
         });
 
-        // Ambil top 3
-        $top3 = array_slice($hasilLengkap, 0, 3);
+        // Ambil top 3 dari hasil yang sudah diurutkan
+        $top3 = array_slice($hasilSorted, 0, 3);
 
         // Ambil kategori untuk top 1, 2, 3 pekerjaan yang dipilih user
         // Handle kedua kasus: data baru (nama pekerjaan) dan data lama (kategori saja)
@@ -656,7 +719,14 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
     // 4. Export ke Excel
     public function exportExcel()
     {
+        // Mengambil hanya 1 data terbaru per NIM (berdasarkan ID terbesar per NIM)
         $hasilTes = RmibHasilTes::with('karirDataDiri')
+            ->whereIn('id', function ($query) {
+                $query->selectRaw('MAX(rht.id)')
+                    ->from('rmib_hasil_tes as rht')
+                    ->join('karir_data_diri as kdd', 'rht.karir_data_diri_id', '=', 'kdd.id')
+                    ->groupBy('kdd.nim');
+            })
             ->orderBy('tanggal_pengerjaan', 'desc')
             ->get();
 
@@ -666,5 +736,206 @@ public function storeJawaban(Request $request, KarirDataDiri $data_diri) {
             new \App\Exports\KarirExport($hasilTes),
             $filename
         );
+    }
+
+    // 5. Data Provinsi - Halaman khusus untuk melihat data provinsi
+    public function adminProvinsi()
+    {
+        // Daftar provinsi di Indonesia
+        $daftarProvinsi = [
+            'Aceh',
+            'Sumatera Utara',
+            'Sumatera Barat',
+            'Riau',
+            'Kepulauan Riau',
+            'Jambi',
+            'Bengkulu',
+            'Kepulauan Bangka Belitung',
+            'Sumatera Selatan',
+            'Lampung',
+            'Banten',
+            'DKI Jakarta',
+            'Jawa Barat',
+            'Jawa Tengah',
+            'DI Yogyakarta',
+            'Jawa Timur',
+            'Bali',
+            'Nusa Tenggara Barat',
+            'Nusa Tenggara Timur',
+            'Kalimantan Barat',
+            'Kalimantan Tengah',
+            'Kalimantan Selatan',
+            'Kalimantan Timur',
+            'Kalimantan Utara',
+            'Sulawesi Utara',
+            'Sulawesi Tengah',
+            'Sulawesi Selatan',
+            'Sulawesi Tenggara',
+            'Gorontalo',
+            'Sulawesi Barat',
+            'Maluku',
+            'Maluku Utara',
+            'Papua',
+            'Papua Barat',
+            'Papua Selatan',
+            'Papua Tengah',
+            'Papua Pegunungan',
+            'Papua Barat Daya',
+        ];
+
+        // Hitung jumlah peserta per provinsi dengan single query (Optimized)
+        // Menggunakan GROUP BY lebih efisien daripada loop + count()
+        $totalUsers = KarirDataDiri::count();
+
+        $provinsiCounts = KarirDataDiri::select('provinsi', DB::raw('count(*) as jumlah'))
+            ->groupBy('provinsi')
+            ->pluck('jumlah', 'provinsi')
+            ->toArray();
+
+        $provinsiData = [];
+        foreach ($daftarProvinsi as $provinsi) {
+            $jumlah = $provinsiCounts[$provinsi] ?? 0;
+            $persentase = $totalUsers > 0 ? round(($jumlah / $totalUsers) * 100, 1) : 0;
+
+            $provinsiData[] = [
+                'nama' => $provinsi,
+                'jumlah' => $jumlah,
+                'persentase' => $persentase,
+            ];
+        }
+
+        // Urutkan berdasarkan jumlah (descending)
+        usort($provinsiData, function ($a, $b) {
+            return $b['jumlah'] <=> $a['jumlah'];
+        });
+
+        return view('admin-karir-provinsi', compact('provinsiData', 'totalUsers'));
+    }
+
+    // 6. Data Program Studi - Halaman khusus untuk melihat data program studi
+    public function adminProgramStudi()
+    {
+        // Daftar program studi per fakultas
+        $prodiPerFakultas = [
+            'FS' => [
+                'Fisika',
+                'Matematika',
+                'Biologi',
+                'Kimia',
+                'Farmasi',
+                'Sains Data',
+                'Sains Aktuaria',
+                'Sains Lingkungan Kelautan',
+                'Sains Atmosfer dan Keplanetan',
+                'Magister Fisika',
+            ],
+            'FTIK' => [
+                'Perencanaan Wilayah dan Kota',
+                'Teknik Geomatika',
+                'Teknik Sipil',
+                'Arsitektur',
+                'Teknik Lingkungan',
+                'Teknik Kelautan',
+                'Desain Komunikasi Visual',
+                'Arsitektur Lanskap',
+                'Teknik Perkeretaapian',
+                'Rekayasa Tata Kelola Air Terpadu',
+                'Pariwisata',
+            ],
+            'FTI' => [
+                'Teknik Elektro',
+                'Teknik Fisika',
+                'Teknik Informatika',
+                'Teknik Geologi',
+                'Teknik Geofisika',
+                'Teknik Mesin',
+                'Teknik Kimia',
+                'Teknik Material',
+                'Teknik Sistem Energi',
+                'Teknik Industri',
+                'Teknik Telekomunikasi',
+                'Teknik Biomedis',
+                'Teknik Biosistem',
+                'Teknik Pertambangan',
+                'Teknologi Industri Pertanian',
+                'Teknologi Pangan',
+                'Rekayasa Kehutanan',
+                'Rekayasa Kosmetik',
+                'Rekayasa Minyak dan Gas',
+                'Rekayasa Instrumentasi dan Automasi',
+                'Rekayasa Keolahragaan',
+            ],
+        ];
+
+        // Hitung jumlah peserta per program studi dengan single query (Optimized)
+        // Menggunakan GROUP BY lebih efisien daripada nested loop + count()
+        $totalUsers = KarirDataDiri::count();
+
+        $prodiCounts = KarirDataDiri::select('program_studi', DB::raw('count(*) as jumlah'))
+            ->groupBy('program_studi')
+            ->pluck('jumlah', 'program_studi')
+            ->toArray();
+
+        $prodiData = [];
+        foreach ($prodiPerFakultas as $fakultas => $prodiList) {
+            foreach ($prodiList as $prodi) {
+                $jumlah = $prodiCounts[$prodi] ?? 0;
+                $persentase = $totalUsers > 0 ? round(($jumlah / $totalUsers) * 100, 1) : 0;
+
+                $prodiData[] = [
+                    'fakultas' => $fakultas,
+                    'nama' => $prodi,
+                    'jumlah' => $jumlah,
+                    'persentase' => $persentase,
+                ];
+            }
+        }
+
+        // Urutkan berdasarkan jumlah (descending)
+        usort($prodiData, function ($a, $b) {
+            return $b['jumlah'] <=> $a['jumlah'];
+        });
+
+        // Hitung statistik per fakultas dengan single query (Optimized)
+        $fakultasCounts = KarirDataDiri::select('fakultas', DB::raw('count(*) as jumlah'))
+            ->groupBy('fakultas')
+            ->pluck('jumlah', 'fakultas')
+            ->toArray();
+
+        $fakultasStats = [];
+        foreach (['FS', 'FTIK', 'FTI'] as $fak) {
+            $jumlah = $fakultasCounts[$fak] ?? 0;
+            $fakultasStats[$fak] = [
+                'jumlah' => $jumlah,
+                'persentase' => $totalUsers > 0 ? round(($jumlah / $totalUsers) * 100, 1) : 0,
+            ];
+        }
+
+        return view('admin-karir-program-studi', compact('prodiData', 'totalUsers', 'fakultasStats', 'prodiPerFakultas'));
+    }
+
+    // ========================
+    // HELPER METHODS
+    // ========================
+
+    /**
+     * Clear all RMIB statistics cache
+     * Call this method when new data is inserted or updated
+     */
+    private function clearKarirStatsCache(): void
+    {
+        Cache::forget('karir_stats_total_users');
+        Cache::forget('karir_stats_total_tes');
+        Cache::forget('karir_stats_total_laki');
+        Cache::forget('karir_stats_total_perempuan');
+        Cache::forget('karir_stats_kategori_counts');
+        Cache::forget('karir_stats_fakultas_count');
+        Cache::forget('karir_stats_status_tinggal');
+        Cache::forget('karir_stats_prodi_sesuai');
+        Cache::forget('karir_stats_asal_sekolah');
+
+        Log::info('RMIB statistics cache cleared', [
+            'cleared_at' => now()->toDateTimeString(),
+        ]);
     }
 }

@@ -61,7 +61,7 @@ class RmibScoringService
             }
         }
 
-        // Langkah 4: Perhitungan Peringkat dengan Aturan +0.5
+        // Langkah 4: Perhitungan Peringkat (tie-breaker: urutan alfabet)
         $skorPeringkat = $this->hitungPeringkatDenganTies($skorKategori);
 
         // Langkah 5: Perhitungan Skor Konsistensi
@@ -76,56 +76,43 @@ class RmibScoringService
     }
 
     /**
-     * Hitung peringkat dengan aturan +0.5 untuk ties
+     * Hitung peringkat dengan tie-breaker alfabet
      *
      * Aturan:
      * - Kategori dengan skor terkecil = peringkat tertinggi (paling diminati)
-     * - Jika beberapa kategori memiliki skor sama, semua dapat peringkat dasar + 0.5
+     * - Jika beberapa kategori memiliki skor sama, urutan ditentukan berdasarkan alfabet nama kategori
+     * - Peringkat berupa bilangan bulat (tanpa desimal 0.5)
      *
      * @param array $skorKategori
      * @return array
      */
     protected function hitungPeringkatDenganTies($skorKategori)
     {
-        // Urutkan berdasarkan skor (ascending - skor kecil = minat tinggi)
-        asort($skorKategori);
-
-        $peringkat = [];
-        $currentRank = 1;
-        $previousScore = null;
-        $tiedCategories = [];
-
+        // Konversi ke array dengan key untuk sorting
+        $dataToSort = [];
         foreach ($skorKategori as $kategori => $skor) {
-            if ($previousScore === null || $skor != $previousScore) {
-                // Jika ada kategori tied sebelumnya, beri mereka peringkat tengah
-                if (count($tiedCategories) > 1) {
-                    $avgRank = ($currentRank - count($tiedCategories) + $currentRank - 1) / 2;
-                    foreach ($tiedCategories as $tiedCat) {
-                        $peringkat[$tiedCat] = $avgRank;
-                    }
-                } elseif (count($tiedCategories) == 1) {
-                    $peringkat[$tiedCategories[0]] = $currentRank - 1;
-                }
-
-                // Reset tied categories
-                $tiedCategories = [$kategori];
-                $previousScore = $skor;
-            } else {
-                // Skor sama dengan sebelumnya (tied)
-                $tiedCategories[] = $kategori;
-            }
-
-            $currentRank++;
+            $dataToSort[] = [
+                'kategori' => $kategori,
+                'skor' => $skor,
+            ];
         }
 
-        // Handle kategori tied terakhir
-        if (count($tiedCategories) > 1) {
-            $avgRank = ($currentRank - count($tiedCategories) + $currentRank - 1) / 2;
-            foreach ($tiedCategories as $tiedCat) {
-                $peringkat[$tiedCat] = $avgRank;
+        // Urutkan berdasarkan: 1) skor (ascending), 2) nama kategori (alphabetically)
+        usort($dataToSort, function ($a, $b) {
+            // Pertama, bandingkan skor (ascending - skor kecil = minat tinggi)
+            if ($a['skor'] != $b['skor']) {
+                return $a['skor'] <=> $b['skor'];
             }
-        } elseif (count($tiedCategories) == 1) {
-            $peringkat[$tiedCategories[0]] = $currentRank - 1;
+            // Jika skor sama, bandingkan nama kategori (alphabetically)
+            return strcmp($a['kategori'], $b['kategori']);
+        });
+
+        // Berikan peringkat berurutan
+        $peringkat = [];
+        $rank = 1;
+        foreach ($dataToSort as $item) {
+            $peringkat[$item['kategori']] = $rank;
+            $rank++;
         }
 
         return $peringkat;
@@ -354,7 +341,7 @@ class RmibScoringService
             $sum[$kategori] = array_sum($matrix[$kategori]);
         }
 
-        // 8. Hitung RANK dengan aturan ties (+0.5)
+        // 8. Hitung RANK (tie-breaker: urutan alfabet kategori)
         $rank = $this->hitungPeringkatDenganTies($sum);
 
         // 9. Hitung persentase (normalisasi dari SUM)

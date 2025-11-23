@@ -82,7 +82,12 @@
                     </a>
                 </li>
 
-                <!-- Dropdown Mental Health -->
+                <!-- Dropdown Mental Health - hide di halaman peminatan karir -->
+                @php
+                    $isKarirPage = request()->is('admin/peminatan-karir*') || request()->is('admin/admin-karir*') || request()->is('admin/karir*');
+                @endphp
+
+                @if(!$isKarirPage)
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">
                         <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
@@ -106,11 +111,37 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="active">
-                    <a href="{{ route('admin.karir.index') }}">
-                        <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
+                @else
+                <li>
+                    <a href="{{ route('admin.home') }}">
+                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
                     </a>
+                </li>
+                @endif
+
+                <!-- Dropdown Peminatan Karir -->
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('admin.karir.index') }}">
+                                <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/peminatan-karir/provinsi') }}">
+                                <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/peminatan-karir/program-studi') }}">
+                                <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -192,51 +223,58 @@
                             <h4>Status Tinggal</h4>
                         </div>
 
-                        <div class="donut-wrap">
-                            <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
-                                <!-- Ring background -->
-                                <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
-                                </circle>
+                        @if($totalStatusTinggal > 0)
+                            <div class="donut-wrap">
+                                <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
+                                    <!-- Ring background -->
+                                    <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
+                                    </circle>
 
-                                {{-- Segmen: urutan warna mengikuti legenda --}}
-                                @php
-                                    // mapping warna per label
-                                    $colorMapStatusTinggal = [
-                                        'Kost' => '--c-kost',
-                                        'Bersama Orang Tua' => '--c-orangtua',
-                                    ];
-                                @endphp
+                                    {{-- Segmen: urutan warna mengikuti legenda --}}
+                                    @php
+                                        // mapping warna per label
+                                        $colorMapStatusTinggal = [
+                                            'Kost' => '--c-kost',
+                                            'Bersama Orang Tua' => '--c-orangtua',
+                                        ];
+                                    @endphp
 
-                                @foreach ($segmentsStatusTinggal as $seg)
-                                    <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
-                                        style="
-                        --seg-color: var({{ $colorMapStatusTinggal[$seg['label']] ?? '--c-kost' }});
-                    "
-                                        data-dash="{{ $seg['dash'] }}" data-gap="{{ $circ - $seg['dash'] }}"
-                                        data-offset="{{ $seg['offset'] }}"></circle>
-                                @endforeach
-                            </svg>
+                                    @foreach ($segmentsStatusTinggal as $seg)
+                                        <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
+                                            style="
+                            --seg-color: var({{ $colorMapStatusTinggal[$seg['label']] ?? '--c-kost' }});
+                        "
+                                            data-dash="{{ $seg['dash'] }}" data-gap="{{ $circ - $seg['dash'] }}"
+                                            data-offset="{{ $seg['offset'] }}"></circle>
+                                    @endforeach
+                                </svg>
 
-                            <div class="donut-center">
-                                <div class="donut-total">{{ $totalStatusTinggal }}</div>
-                                <div class="donut-sub">mahasiswa</div>
+                                <div class="donut-center">
+                                    <div class="donut-total">{{ $totalStatusTinggal }}</div>
+                                    <div class="donut-sub">mahasiswa</div>
+                                </div>
                             </div>
-                        </div>
 
-                        <ul class="donut-legend">
-                            <li>
-                                <span class="dot" style="background: var(--c-kost)"></span>
-                                <span class="label">Kost</span>
-                                <span class="count">{{ $statusTinggalCounts['Kost'] }} Mahasiswa
-                                    ({{ $pctStatusTinggal($statusTinggalCounts['Kost']) }}%)</span>
-                            </li>
-                            <li>
-                                <span class="dot" style="background: var(--c-orangtua)"></span>
-                                <span class="label">Bersama Orang Tua</span>
-                                <span class="count">{{ $statusTinggalCounts['Bersama Orang Tua'] }} Mahasiswa
-                                    ({{ $pctStatusTinggal($statusTinggalCounts['Bersama Orang Tua']) }}%)</span>
-                            </li>
-                        </ul>
+                            <ul class="donut-legend">
+                                <li>
+                                    <span class="dot" style="background: var(--c-kost)"></span>
+                                    <span class="label">Kost</span>
+                                    <span class="count">{{ $statusTinggalCounts['Kost'] }} Mahasiswa
+                                        ({{ $pctStatusTinggal($statusTinggalCounts['Kost']) }}%)</span>
+                                </li>
+                                <li>
+                                    <span class="dot" style="background: var(--c-orangtua)"></span>
+                                    <span class="label">Bersama Orang Tua</span>
+                                    <span class="count">{{ $statusTinggalCounts['Bersama Orang Tua'] }} Mahasiswa
+                                        ({{ $pctStatusTinggal($statusTinggalCounts['Bersama Orang Tua']) }}%)</span>
+                                </li>
+                            </ul>
+                        @else
+                            <div style="text-align: center; padding: 40px 20px; color: #94a3b8;">
+                                <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
+                                <p style="margin: 0; font-style: italic;">Belum ada data status tinggal</p>
+                            </div>
+                        @endif
                     </div>
 
                     {{-- Donut: Prodi Sesuai Keinginan --}}
@@ -268,51 +306,58 @@
                             <h4>Prodi Sesuai Keinginan</h4>
                         </div>
 
-                        <div class="donut-wrap">
-                            <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
-                                <!-- Ring background -->
-                                <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
-                                </circle>
+                        @if($totalProdiSesuai > 0)
+                            <div class="donut-wrap">
+                                <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
+                                    <!-- Ring background -->
+                                    <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
+                                    </circle>
 
-                                {{-- Segmen: urutan warna mengikuti legenda --}}
-                                @php
-                                    // mapping warna per label
-                                    $colorMapProdiSesuai = [
-                                        'Ya' => '--c-ya',
-                                        'Tidak' => '--c-tidak',
-                                    ];
-                                @endphp
+                                    {{-- Segmen: urutan warna mengikuti legenda --}}
+                                    @php
+                                        // mapping warna per label
+                                        $colorMapProdiSesuai = [
+                                            'Ya' => '--c-ya',
+                                            'Tidak' => '--c-tidak',
+                                        ];
+                                    @endphp
 
-                                @foreach ($segmentsProdiSesuai as $seg)
-                                    <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
-                                        style="
-                        --seg-color: var({{ $colorMapProdiSesuai[$seg['label']] ?? '--c-ya' }});
-                    "
-                                        data-dash="{{ $seg['dash'] }}" data-gap="{{ $circ - $seg['dash'] }}"
-                                        data-offset="{{ $seg['offset'] }}"></circle>
-                                @endforeach
-                            </svg>
+                                    @foreach ($segmentsProdiSesuai as $seg)
+                                        <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
+                                            style="
+                            --seg-color: var({{ $colorMapProdiSesuai[$seg['label']] ?? '--c-ya' }});
+                        "
+                                            data-dash="{{ $seg['dash'] }}" data-gap="{{ $circ - $seg['dash'] }}"
+                                            data-offset="{{ $seg['offset'] }}"></circle>
+                                    @endforeach
+                                </svg>
 
-                            <div class="donut-center">
-                                <div class="donut-total">{{ $totalProdiSesuai }}</div>
-                                <div class="donut-sub">mahasiswa</div>
+                                <div class="donut-center">
+                                    <div class="donut-total">{{ $totalProdiSesuai }}</div>
+                                    <div class="donut-sub">mahasiswa</div>
+                                </div>
                             </div>
-                        </div>
 
-                        <ul class="donut-legend">
-                            <li>
-                                <span class="dot" style="background: var(--c-ya)"></span>
-                                <span class="label">Ya</span>
-                                <span class="count">{{ $prodiSesuaiCounts['Ya'] }} Mahasiswa
-                                    ({{ $pctProdiSesuai($prodiSesuaiCounts['Ya']) }}%)</span>
-                            </li>
-                            <li>
-                                <span class="dot" style="background: var(--c-tidak)"></span>
-                                <span class="label">Tidak</span>
-                                <span class="count">{{ $prodiSesuaiCounts['Tidak'] }} Mahasiswa
-                                    ({{ $pctProdiSesuai($prodiSesuaiCounts['Tidak']) }}%)</span>
-                            </li>
-                        </ul>
+                            <ul class="donut-legend">
+                                <li>
+                                    <span class="dot" style="background: var(--c-ya)"></span>
+                                    <span class="label">Ya</span>
+                                    <span class="count">{{ $prodiSesuaiCounts['Ya'] }} Mahasiswa
+                                        ({{ $pctProdiSesuai($prodiSesuaiCounts['Ya']) }}%)</span>
+                                </li>
+                                <li>
+                                    <span class="dot" style="background: var(--c-tidak)"></span>
+                                    <span class="label">Tidak</span>
+                                    <span class="count">{{ $prodiSesuaiCounts['Tidak'] }} Mahasiswa
+                                        ({{ $pctProdiSesuai($prodiSesuaiCounts['Tidak']) }}%)</span>
+                                </li>
+                            </ul>
+                        @else
+                            <div style="text-align: center; padding: 40px 20px; color: #94a3b8;">
+                                <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
+                                <p style="margin: 0; font-style: italic;">Belum ada data prodi sesuai keinginan</p>
+                            </div>
+                        @endif
                     </div>
                     <div class="charts-prodi">
                         <div class="chart-header">
@@ -389,58 +434,65 @@
                             <h4>Asal Sekolah</h4>
                         </div>
 
-                        <div class="donut-wrap">
-                            <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
-                                <!-- Ring background -->
-                                <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
-                                </circle>
+                        @if($totalAsal > 0)
+                            <div class="donut-wrap">
+                                <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
+                                    <!-- Ring background -->
+                                    <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
+                                    </circle>
 
-                                {{-- Segmen: urutan warna mengikuti legenda --}}
-                                @php
-                                    // mapping warna per label
-                                    $colorMap = [
-                                        'SMA' => '--c-sma',
-                                        'SMK' => '--c-smk',
-                                        'Boarding School' => '--c-boarding',
-                                    ];
-                                @endphp
+                                    {{-- Segmen: urutan warna mengikuti legenda --}}
+                                    @php
+                                        // mapping warna per label
+                                        $colorMap = [
+                                            'SMA' => '--c-sma',
+                                            'SMK' => '--c-smk',
+                                            'Boarding School' => '--c-boarding',
+                                        ];
+                                    @endphp
 
-                                @foreach ($segments as $seg)
-                                    <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
-                                        style="
-                        --seg-color: var({{ $colorMap[$seg['label']] ?? '--c-sma' }});
-                    "
-                                        data-dash="{{ $seg['dash'] }}" data-gap="{{ $circ - $seg['dash'] }}"
-                                        data-offset="{{ $seg['offset'] }}"></circle>
-                                @endforeach
-                            </svg>
+                                    @foreach ($segments as $seg)
+                                        <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
+                                            style="
+                            --seg-color: var({{ $colorMap[$seg['label']] ?? '--c-sma' }});
+                        "
+                                            data-dash="{{ $seg['dash'] }}" data-gap="{{ $circ - $seg['dash'] }}"
+                                            data-offset="{{ $seg['offset'] }}"></circle>
+                                    @endforeach
+                                </svg>
 
-                            <div class="donut-center">
-                                <div class="donut-total">{{ $totalUsers }}</div>
-                                <div class="donut-sub">mahasiswa</div>
+                                <div class="donut-center">
+                                    <div class="donut-total">{{ $totalUsers }}</div>
+                                    <div class="donut-sub">mahasiswa</div>
+                                </div>
                             </div>
-                        </div>
 
-                        <ul class="donut-legend">
-                            <li>
-                                <span class="dot" style="background: var(--c-sma)"></span>
-                                <span class="label">SMA</span>
-                                <span class="count">{{ $asalCounts['SMA'] }} Mahasiswa
-                                    ({{ $pct($asalCounts['SMA']) }}%)</span>
-                            </li>
-                            <li>
-                                <span class="dot" style="background: var(--c-smk)"></span>
-                                <span class="label">SMK</span>
-                                <span class="count">{{ $asalCounts['SMK'] }} Mahasiswa
-                                    ({{ $pct($asalCounts['SMK']) }}%)</span>
-                            </li>
-                            <li>
-                                <span class="dot" style="background: var(--c-boarding)"></span>
-                                <span class="label">Boarding School</span>
-                                <span class="count">{{ $asalCounts['Boarding School'] }} Mahasiswa
-                                    ({{ $pct($asalCounts['Boarding School']) }}%)</span>
-                            </li>
-                        </ul>
+                            <ul class="donut-legend">
+                                <li>
+                                    <span class="dot" style="background: var(--c-sma)"></span>
+                                    <span class="label">SMA</span>
+                                    <span class="count">{{ $asalCounts['SMA'] }} Mahasiswa
+                                        ({{ $pct($asalCounts['SMA']) }}%)</span>
+                                </li>
+                                <li>
+                                    <span class="dot" style="background: var(--c-smk)"></span>
+                                    <span class="label">SMK</span>
+                                    <span class="count">{{ $asalCounts['SMK'] }} Mahasiswa
+                                        ({{ $pct($asalCounts['SMK']) }}%)</span>
+                                </li>
+                                <li>
+                                    <span class="dot" style="background: var(--c-boarding)"></span>
+                                    <span class="label">Boarding School</span>
+                                    <span class="count">{{ $asalCounts['Boarding School'] }} Mahasiswa
+                                        ({{ $pct($asalCounts['Boarding School']) }}%)</span>
+                                </li>
+                            </ul>
+                        @else
+                            <div style="text-align: center; padding: 40px 20px; color: #94a3b8;">
+                                <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
+                                <p style="margin: 0; font-style: italic;">Belum ada data asal sekolah</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -721,10 +773,14 @@
                                 <th>Nama</th>
                                 <th>Fakultas</th>
                                 <th>Program Studi</th>
+                                <th>Prodi Sesuai Keinginan</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Usia</th>
-                                <th>Skor Konsistensi</th>
-                                <th>Validitas</th>
+                                <th>Provinsi</th>
+                                <th>Alamat</th>
+                                <th>Email</th>
+                                <th>Asal Sekolah</th>
+                                <th>Status Tinggal</th>
                                 <th>Tanggal Tes</th>
                                 <th style="text-align: center;">Aksi</th>
                             </tr>
@@ -738,19 +794,14 @@
                                     <td>{{ $hasil->karirDataDiri->nama ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->karirDataDiri->fakultas ?? 'Tidak Ada Data' }}</td>
                                     <td>{{ $hasil->karirDataDiri->program_studi ?? 'Tidak Ada Data' }}</td>
+                                    <td>{{ $hasil->karirDataDiri->prodi_sesuai_keinginan ?? '-' }}</td>
                                     <td>{{ $hasil->karirDataDiri->jenis_kelamin ?? '-' }}</td>
                                     <td>{{ $hasil->karirDataDiri->usia ?? '-' }}</td>
-                                    <td style="text-align: center">{{ $hasil->skor_konsistensi ?? '-' }}</td>
-                                    <td style="text-align: center">
-                                        @php
-                                            $skorKonsistensi = $hasil->skor_konsistensi ?? 0;
-                                            $validitas = $skorKonsistensi >= 7 ? 'Valid' : 'Tidak Valid';
-                                            $badgeClass = $validitas == 'Valid' ? 'badge bg-success' : 'badge bg-danger';
-                                        @endphp
-                                        <span class="{{ $badgeClass }}">
-                                            {{ $validitas }}
-                                        </span>
-                                    </td>
+                                    <td>{{ $hasil->karirDataDiri->provinsi ?? '-' }}</td>
+                                    <td>{{ $hasil->karirDataDiri->alamat ?? '-' }}</td>
+                                    <td>{{ $hasil->karirDataDiri->email ?? '-' }}</td>
+                                    <td>{{ $hasil->karirDataDiri->asal_sekolah ?? '-' }}</td>
+                                    <td>{{ $hasil->karirDataDiri->status_tinggal ?? '-' }}</td>
                                     <td>{{ $hasil->tanggal_pengerjaan ? \Carbon\Carbon::parse($hasil->tanggal_pengerjaan)->locale('id')->setTimezone('Asia/Jakarta')->translatedFormat('l, d M Y - H:i') : '-' }}
                                     </td>
                                     <td>
@@ -861,7 +912,7 @@
                                 </div>
                             @empty
                                 <tr>
-                                    <td colspan="11" class="text-center">
+                                    <td colspan="15" class="text-center">
                                         @if (request()->has('search') && request('search'))
                                             <span class="text-danger">Tidak ditemukan hasil untuk:
                                                 <strong>{{ request('search') }}</strong></span>

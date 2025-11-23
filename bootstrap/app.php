@@ -11,9 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Daftarkan middleware 'guest' di sini
+        // Daftarkan middleware 'guest' dan 'check.karir.home' di sini
         $middleware->alias([
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'check.karir.home' => \App\Http\Middleware\CheckKarirHomeAccess::class,
         ]);
 
         // ... middleware lain yang mungkin sudah ada

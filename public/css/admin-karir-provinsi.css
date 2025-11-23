@@ -847,7 +847,8 @@ header {
     background-color: var(--white);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    margin: 0px 20px 20px 20px;
+    margin: 0px 0px 20px 0px;
+    max-width: 100%;
 }
 
 .table {
@@ -855,27 +856,7 @@ header {
     padding: 5px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Scrollbar styling for table */
-.table::-webkit-scrollbar {
-    height: 8px;
-}
-
-.table::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.table::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-.table::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    max-width: 100%;
 }
 
 .table-header {
@@ -994,7 +975,7 @@ header {
 /* Table Elements */
 table {
     width: 100%;
-    min-width: 1400px; /* Ensure table doesn't get cut off with 15 columns */
+    min-width: auto; /* Let table size based on content */
     border-collapse: collapse;
     font-size: 0.78rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1863,6 +1844,25 @@ tbody tr:nth-child(even) {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         border-radius: 8px;
+    }
+
+    /* Scrollbar styling for table on mobile */
+    .table::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .table::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .table::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .table::-webkit-scrollbar-thumb:hover {
+        background: #555;
     }
 
     /* Table styling for mobile */

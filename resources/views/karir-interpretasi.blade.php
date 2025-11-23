@@ -295,7 +295,7 @@
             </div>
             <div class="card-body">
                 @php
-                    // Mapping kekuatan dan area pengembangan berdasarkan kategori
+                    // Mapping kekuatan berdasarkan kategori
                     $insightsMap = [
                         'Outdoor' => [
                             'kekuatan' => [
@@ -303,12 +303,6 @@
                                 'Kemampuan beradaptasi dengan kondisi lapangan',
                                 'Ketahanan fisik dan mental yang baik',
                                 'Kemandirian dan kemampuan bekerja di lingkungan terbuka',
-                            ],
-                            'pengembangan' => [
-                                'Keterampilan administratif dan clerical',
-                                'Kemampuan bekerja di lingkungan indoor yang terstruktur',
-                                'Keterampilan teknologi komputer',
-                                'Kemampuan analisis data dan perhitungan',
                             ],
                         ],
                         'Mechanical' => [
@@ -318,12 +312,6 @@
                                 'Pemikiran logis dan sistematis',
                                 'Kemampuan perbaikan dan maintenance peralatan',
                             ],
-                            'pengembangan' => [
-                                'Keterampilan interpersonal dan komunikasi',
-                                'Kemampuan artistik dan estetika',
-                                'Keterampilan menulis dan literasi',
-                                'Kepekaan sosial dan empati',
-                            ],
                         ],
                         'Computational' => [
                             'kekuatan' => [
@@ -331,12 +319,6 @@
                                 'Ketelitian dalam bekerja dengan data dan angka',
                                 'Pemikiran logis dan terstruktur',
                                 'Kemampuan problem-solving berbasis data',
-                            ],
-                            'pengembangan' => [
-                                'Keterampilan komunikasi interpersonal',
-                                'Kreativitas dan inovasi',
-                                'Kemampuan bekerja di lingkungan outdoor',
-                                'Keterampilan praktis manual',
                             ],
                         ],
                         'Scientific' => [
@@ -346,12 +328,6 @@
                                 'Pemikiran kritis dan sistematis',
                                 'Kemampuan observasi dan pemecahan masalah ilmiah',
                             ],
-                            'pengembangan' => [
-                                'Keterampilan interpersonal dan networking',
-                                'Kemampuan persuasi dan penjualan',
-                                'Keterampilan artistik dan estetika',
-                                'Kemampuan bekerja di bidang administrasi',
-                            ],
                         ],
                         'Personal Contact' => [
                             'kekuatan' => [
@@ -359,12 +335,6 @@
                                 'Empati dan pemahaman terhadap orang lain',
                                 'Kemampuan membangun relasi dan networking',
                                 'Kepercayaan diri dalam berinteraksi dengan banyak orang',
-                            ],
-                            'pengembangan' => [
-                                'Keterampilan teknis dan analitis',
-                                'Kemampuan bekerja secara mandiri',
-                                'Keterampilan penelitian dan riset mendalam',
-                                'Kemampuan bekerja dengan mesin dan teknologi',
                             ],
                         ],
                         'Aesthetic' => [
@@ -374,12 +344,6 @@
                                 'Kemampuan ekspresi visual dan artistik',
                                 'Apresiasi tinggi terhadap seni dan budaya',
                             ],
-                            'pengembangan' => [
-                                'Keterampilan matematis dan komputasional',
-                                'Kemampuan teknis dan mekanis',
-                                'Keterampilan analisis data',
-                                'Kemampuan bekerja dengan sistem terstruktur',
-                            ],
                         ],
                         'Literary' => [
                             'kekuatan' => [
@@ -387,12 +351,6 @@
                                 'Apresiasi terhadap bahasa dan literatur',
                                 'Kemampuan komunikasi tertulis yang baik',
                                 'Kreativitas dalam penyampaian narasi dan cerita',
-                            ],
-                            'pengembangan' => [
-                                'Keterampilan numerik dan matematis',
-                                'Kemampuan teknis dan mekanis',
-                                'Keterampilan praktis hands-on',
-                                'Kemampuan bekerja dengan alat dan mesin',
                             ],
                         ],
                         'Musical' => [
@@ -402,12 +360,6 @@
                                 'Apresiasi tinggi terhadap seni musikal',
                                 'Kreativitas dalam menciptakan atau menginterpretasi musik',
                             ],
-                            'pengembangan' => [
-                                'Keterampilan administratif dan clerical',
-                                'Kemampuan analisis data dan statistik',
-                                'Keterampilan teknis non-musikal',
-                                'Kemampuan bekerja di bidang outdoor',
-                            ],
                         ],
                         'Social Service' => [
                             'kekuatan' => [
@@ -415,12 +367,6 @@
                                 'Empati dan kemampuan memahami masalah sosial',
                                 'Kemampuan membantu dan memberdayakan orang lain',
                                 'Komitmen terhadap keadilan sosial dan kemanusiaan',
-                            ],
-                            'pengembangan' => [
-                                'Keterampilan teknis dan mekanis',
-                                'Kemampuan bekerja dengan angka dan data',
-                                'Keterampilan praktis manual',
-                                'Kemampuan bekerja di lingkungan kompetitif',
                             ],
                         ],
                         'Clerical' => [
@@ -430,12 +376,6 @@
                                 'Keterampilan administratif yang baik',
                                 'Kemampuan bekerja dengan sistem terstruktur',
                             ],
-                            'pengembangan' => [
-                                'Kreativitas dan inovasi',
-                                'Keterampilan interpersonal dan networking',
-                                'Kemampuan bekerja di lingkungan dinamis',
-                                'Keterampilan outdoor dan petualangan',
-                            ],
                         ],
                         'Practical' => [
                             'kekuatan' => [
@@ -443,12 +383,6 @@
                                 'Kemampuan menghasilkan karya nyata dan konkret',
                                 'Keahlian dalam pekerjaan manual',
                                 'Kemampuan melihat hasil langsung dari pekerjaan',
-                            ],
-                            'pengembangan' => [
-                                'Keterampilan teoritis dan konseptual',
-                                'Kemampuan analisis dan riset',
-                                'Keterampilan komunikasi dan presentasi',
-                                'Kemampuan bekerja dengan abstraksi',
                             ],
                         ],
                         'Medical' => [
@@ -458,12 +392,6 @@
                                 'Minat pada ilmu kesehatan dan kedokteran',
                                 'Kesiapan membantu dalam situasi kritis',
                             ],
-                            'pengembangan' => [
-                                'Keterampilan administratif non-medis',
-                                'Kemampuan bekerja di bidang kreatif',
-                                'Keterampilan mekanis dan teknologi',
-                                'Kemampuan bekerja di lingkungan outdoor',
-                            ],
                         ],
                     ];
 
@@ -471,7 +399,6 @@
                     $topKategori = $top3[0]['kategori'];
                     $insights = $insightsMap[$topKategori] ?? [
                         'kekuatan' => ['Kemampuan sesuai minat Anda'],
-                        'pengembangan' => ['Area yang dapat dikembangkan'],
                     ];
                 @endphp
 
@@ -482,22 +409,12 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h5 class="text-success"><i class="fas fa-plus-circle me-2"></i>Kekuatan Anda</h5>
                         <ul class="list-unstyled">
                             @foreach ($insights['kekuatan'] as $kekuatan)
                                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>{{ $kekuatan }}
                                 </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h5 class="text-warning"><i class="fas fa-exclamation-triangle me-2"></i>Area Pengembangan
-                        </h5>
-                        <ul class="list-unstyled">
-                            @foreach ($insights['pengembangan'] as $area)
-                                <li class="mb-2"><i
-                                        class="fas fa-arrow-up text-warning me-2"></i>{{ $area }}</li>
                             @endforeach
                         </ul>
                     </div>
@@ -531,25 +448,74 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .bar-chart {
-                flex-direction: column;
+                flex-direction: row !important;
                 height: auto;
-                align-items: center !important;
+                align-items: flex-end !important;
+                justify-content: space-around !important;
+                gap: 10px;
+                padding: 20px 10px;
             }
 
-            .bar-chart .mx-4 {
-                margin: 10px 0 !important;
+            .bar-chart .mx-3 {
+                margin: 0 5px !important;
+                flex: 1;
+                max-width: 100px;
+            }
+
+            .bar-chart .d-flex {
+                width: 100%;
             }
 
             .bar {
-                width: 200px;
-                height: 40px !important;
-                border-radius: 20px;
+                width: 100% !important;
+                min-height: 80px !important;
+                max-height: 200px !important;
+                border-radius: 8px 8px 0 0;
+            }
+
+            .score-value {
+                font-size: 1rem !important;
             }
 
             .bar-label {
-                width: auto !important;
-                padding: 5px 15px;
-                margin-top: 5px;
+                width: 100% !important;
+                padding: 8px 4px !important;
+                margin-top: 8px;
+                font-size: 0.75rem !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            /* Adjust card body padding */
+            .card-body {
+                padding: 1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bar-chart {
+                gap: 5px;
+                padding: 15px 5px;
+            }
+
+            .bar-chart .mx-3 {
+                margin: 0 3px !important;
+                max-width: 90px;
+            }
+
+            .bar {
+                min-height: 60px !important;
+                max-height: 150px !important;
+            }
+
+            .score-value {
+                font-size: 0.9rem !important;
+            }
+
+            .bar-label {
+                font-size: 0.7rem !important;
+                padding: 6px 2px !important;
             }
         }
     </style>

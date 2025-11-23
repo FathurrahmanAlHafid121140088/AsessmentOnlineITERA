@@ -95,12 +95,14 @@
 
                 <div class="stats-counter">
                     <div class="stat-item">
-                        <span class="stat-number" id="career-assessments">0</span>
-                        <span class="stat-label">Assessment Aktif</span>
+                        <span class="stat-number" id="career-users"
+                            data-target="{{ $totalKarirUsers }}">{{ $totalKarirUsers }}</span>
+                        <span class="stat-label">Total Pengguna</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number" id="career-users">0</span>
-                        <span class="stat-label">Pengguna</span>
+                        <span class="stat-number" id="career-assessments"
+                            data-target="{{ $totalKarirTes }}">{{ $totalKarirTes }}</span>
+                        <span class="stat-label">Jumlah Tes Masuk</span>
                     </div>
                 </div>
             </div>
