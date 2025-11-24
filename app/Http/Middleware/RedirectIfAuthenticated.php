@@ -20,8 +20,12 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                // Jika sudah login, redirect ke home dengan pesan flash
-                return redirect('/home')->with('success', 'Anda sudah login!');
+                // Redirect berdasarkan guard yang digunakan
+                if ($guard === 'admin') {
+                    return redirect('/admin/mental-health')->with('success', 'Anda sudah login sebagai admin!');
+                }
+                // Untuk guard web atau null (user biasa)
+                return redirect('/user/mental-health')->with('success', 'Anda sudah login!');
             }
         }
 

@@ -398,6 +398,7 @@ class HasilKuesionerCombinedController extends Controller
         return view('admin-mental-health-detail', [
             'title' => 'Detail Jawaban Kuesioner - ' . $hasil->dataDiri->nama,
             'hasil' => $hasil,
+            'jawabanDetails' => $hasil->jawabanDetails, // Tambahkan ini
             'questions' => $questions,
             'negativeQuestions' => $negativeQuestions
         ]);

@@ -1,0 +1,14 @@
+# Mapping untuk perbaikan bahasa (umum → Indonesia, teknis → tetap English)
+user experience → pengalaman pengguna
+users → pengguna
+load → memuat
+loading → pemuatan  
+implement → menerapkan
+implementation → penerapan
+flow → alur
+feedback → umpan balik
+request → permintaan
+response → respons
+secure → aman
+security → keamanan
+feature → fitur

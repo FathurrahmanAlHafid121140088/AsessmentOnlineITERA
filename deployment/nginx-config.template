@@ -1,0 +1,225 @@
+# ============================================================================
+# Nginx Configuration Template untuk Laravel Assessment Online
+# ============================================================================
+#
+# CARA PAKAI:
+# 1. Copy file ini ke /etc/nginx/sites-available/
+#    sudo cp nginx-config.template /etc/nginx/sites-available/assessment.kampus.ac.id
+#
+# 2. Edit dengan domain dan path yang sesuai
+#    sudo nano /etc/nginx/sites-available/assessment.kampus.ac.id
+#
+# 3. Enable site
+#    sudo ln -s /etc/nginx/sites-available/assessment.kampus.ac.id \
+#               /etc/nginx/sites-enabled/
+#
+# 4. Test configuration
+#    sudo nginx -t
+#
+# 5. Reload Nginx
+#    sudo systemctl reload nginx
+#
+# ============================================================================
+
+# HTTP Server Block (Port 80)
+server {
+    # ========================================
+    # Basic Configuration
+    # ========================================
+
+    # Port yang didengarkan (80 untuk HTTP)
+    listen 80;
+    listen [::]:80;
+
+    # Domain name
+    # GANTI: assessment.kampus.ac.id dengan domain Anda
+    server_name assessment.kampus.ac.id www.assessment.kampus.ac.id;
+
+    # Root directory (Laravel public folder)
+    # GANTI: /var/www/AsessmentOnline dengan path project Anda
+    root /var/www/AsessmentOnline/public;
+
+    # Index files
+    index index.php index.html index.htm;
+
+    # Charset
+    charset utf-8;
+
+    # ========================================
+    # Logging
+    # ========================================
+
+    access_log /var/log/nginx/assessment-access.log;
+    error_log /var/log/nginx/assessment-error.log;
+
+    # ========================================
+    # Laravel Routing
+    # ========================================
+
+    # Main location block untuk handle Laravel routing
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # ========================================
+    # PHP-FPM Configuration
+    # ========================================
+
+    # Handle PHP files
+    location ~ \.php$ {
+        # PHP-FPM socket
+        # Pastikan path socket sesuai dengan versi PHP Anda
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+
+        # Timeouts (untuk form panjang/upload besar)
+        fastcgi_read_timeout 300;
+        fastcgi_send_timeout 300;
+
+        # Buffer settings
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 256 16k;
+        fastcgi_busy_buffers_size 256k;
+        fastcgi_temp_file_write_size 256k;
+    }
+
+    # ========================================
+    # Static Assets Caching
+    # ========================================
+
+    # Cache static assets (images, css, js, fonts)
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot|otf|webp)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+        log_not_found off;
+    }
+
+    # Vite build assets (versioned, cache aggressively)
+    location ~* ^/build/.*\.(js|css|map)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    # ========================================
+    # Security
+    # ========================================
+
+    # Deny access to hidden files (except .well-known for SSL)
+    location ~ /\.(?!well-known).* {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+    # Deny access to sensitive files
+    location ~ /\.(env|git|gitignore|gitattributes) {
+        deny all;
+        return 404;
+    }
+
+    # Deny access to vendor directory
+    location ~ /vendor/ {
+        deny all;
+        return 404;
+    }
+
+    # Deny access to storage directory
+    location ~ /storage/ {
+        deny all;
+        return 404;
+    }
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+
+    # ========================================
+    # Upload & Client Settings
+    # ========================================
+
+    # Max upload size (untuk Excel export/import)
+    client_max_body_size 20M;
+    client_body_buffer_size 128k;
+
+    # Timeouts
+    client_body_timeout 60s;
+    client_header_timeout 60s;
+    send_timeout 60s;
+
+    # ========================================
+    # Gzip Compression
+    # ========================================
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_comp_level 6;
+    gzip_types
+        text/plain
+        text/css
+        text/xml
+        text/javascript
+        application/json
+        application/javascript
+        application/xml+rss
+        application/rss+xml
+        image/svg+xml;
+
+    # ========================================
+    # Favicon & Robots
+    # ========================================
+
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location = /robots.txt {
+        access_log off;
+        log_not_found off;
+    }
+}
+
+# ============================================================================
+# HTTPS Configuration (Optional - Jika sudah ada SSL)
+# ============================================================================
+# Uncomment block di bawah jika sudah install SSL certificate
+
+# server {
+#     listen 443 ssl http2;
+#     listen [::]:443 ssl http2;
+#
+#     server_name assessment.kampus.ac.id www.assessment.kampus.ac.id;
+#
+#     root /var/www/AsessmentOnline/public;
+#     index index.php index.html;
+#
+#     # SSL Certificate (Let's Encrypt)
+#     # GANTI path certificate sesuai domain Anda
+#     ssl_certificate /etc/letsencrypt/live/assessment.kampus.ac.id/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/assessment.kampus.ac.id/privkey.pem;
+#
+#     # SSL Configuration
+#     ssl_protocols TLSv1.2 TLSv1.3;
+#     ssl_ciphers HIGH:!aNULL:!MD5;
+#     ssl_prefer_server_ciphers on;
+#     ssl_session_cache shared:SSL:10m;
+#     ssl_session_timeout 10m;
+#
+#     # ... (copy semua location blocks dari HTTP config di atas)
+# }
+
+# Redirect HTTP to HTTPS (jika sudah pakai SSL)
+# server {
+#     listen 80;
+#     listen [::]:80;
+#     server_name assessment.kampus.ac.id www.assessment.kampus.ac.id;
+#     return 301 https://$server_name$request_uri;
+# }

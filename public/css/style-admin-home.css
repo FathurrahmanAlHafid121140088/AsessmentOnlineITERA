@@ -2039,6 +2039,54 @@ th i {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* ========== TOMBOL DETAIL JAWABAN ========== */
+.detail-button {
+    width: 32px; /* sama dengan tombol lainnya */
+    height: 32px; /* sama dengan tombol lainnya */
+    border: none;
+    border-radius: 50%;
+    background-color: #8b5cf6; /* purple */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1); /* sama dengan tombol lainnya */
+    font-size: 0.85rem; /* sama dengan tombol lainnya */
+    text-decoration: none; /* untuk tag <a> */
+}
+
+.detail-button:hover {
+    transform: scale(1.1); /* sama dengan history-button hover */
+    box-shadow: 2px 2px 8px rgba(139, 92, 246, 0.25); /* efek purple */
+}
+
+.detail-button::after {
+    content: "lihat jawaban"; /* tooltip text */
+    position: absolute;
+    top: -70%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #8b5cf6; /* warna sesuai tombol */
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.detail-button:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
 .print-button:hover {
     transform: translateY(-3px);
     box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.18);
@@ -2046,6 +2094,10 @@ th i {
 .history-button:hover {
     transform: translateY(-3px);
     box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.18);
+}
+.detail-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 6px 14px rgba(139, 92, 246, 0.35);
 }
 .delete-button:hover {
     transform: translateY(-3px);
@@ -2060,6 +2112,7 @@ th i {
 @media (max-width: 480px) {
     .history-button,
     .print-button,
+    .detail-button,
     .delete-button {
         width: 32px;
         height: 32px;
@@ -2068,6 +2121,7 @@ th i {
 
     .history-button svg,
     .print-button svg,
+    .detail-button svg,
     .delete-button svg,
     .history-button i {
         font-size: 0.8rem; /* ikon fontawesome */

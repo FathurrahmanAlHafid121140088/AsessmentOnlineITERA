@@ -469,3 +469,334 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Extra Small Devices */
+@media (max-width: 480px) {
+    .detail-container {
+        padding: 0.75rem;
+        margin: 1rem auto;
+    }
+
+    /* Header Actions */
+    .btn-action {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.7rem;
+        gap: 0.3rem;
+    }
+
+    /* Title Section */
+    .title-section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .title-section h2 {
+        font-size: 1rem;
+    }
+
+    .title-section .date-info {
+        font-size: 0.65rem;
+    }
+
+    /* Info Cards */
+    .info-card {
+        padding: 0.8rem;
+    }
+
+    .info-card .icon {
+        font-size: 0.85rem;
+    }
+
+    .info-card .label {
+        font-size: 0.65rem;
+    }
+
+    .info-card .value {
+        font-size: 0.75rem;
+    }
+
+    /* Summary Cards */
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .summary-card {
+        padding: 1rem;
+    }
+
+    .summary-card .icon {
+        font-size: 1.1rem;
+    }
+
+    .summary-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .summary-card p {
+        font-size: 0.65rem;
+    }
+
+    /* Keluhan Section */
+    .keluhan-header {
+        padding: 0.6rem 0.9rem;
+    }
+
+    .keluhan-header h4 {
+        font-size: 0.75rem;
+    }
+
+    .keluhan-content {
+        padding: 1rem;
+    }
+
+    .keluhan-item-label span {
+        font-size: 0.65rem;
+    }
+
+    .keluhan-item-label i {
+        font-size: 0.8rem;
+    }
+
+    .keluhan-text {
+        font-size: 0.75rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .keluhan-duration {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.8rem;
+        min-width: 120px;
+    }
+
+    /* Questions Section */
+    .questions-header {
+        padding: 0.75rem 1rem;
+        margin: 1.5rem 0 0.75rem 0;
+    }
+
+    .questions-header h3 {
+        font-size: 0.85rem;
+    }
+
+    /* Question Item */
+    .question-item {
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .question-number {
+        padding: 0.35rem 0.7rem;
+        font-size: 0.7rem;
+    }
+
+    .question-type-badge {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.6rem;
+    }
+
+    .question-text {
+        font-size: 0.7rem;
+        line-height: 1.5;
+        margin: 0.4rem 0 0.75rem 0;
+    }
+
+    .question-text i {
+        font-size: 0.6rem !important;
+    }
+
+    /* Answer Box */
+    .answer-box {
+        padding: 0.8rem;
+        flex-direction: column;
+        gap: 0.6rem;
+        align-items: flex-start;
+    }
+
+    .answer-label {
+        font-size: 0.7rem;
+    }
+
+    .answer-label i {
+        font-size: 0.8rem;
+    }
+
+    .answer-score {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .answer-score span {
+        font-size: 0.7rem;
+    }
+
+    .score-badge {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+        min-width: 50px;
+    }
+}
+
+/* Ultra Small Devices */
+@media (max-width: 400px) {
+    .detail-container {
+        padding: 0.5rem;
+        margin: 0.75rem auto;
+    }
+
+    /* Header Actions */
+    .header-actions {
+        gap: 0.5rem;
+    }
+
+    .btn-action {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.65rem;
+        gap: 0.3rem;
+    }
+
+    /* Title Section */
+    .title-section {
+        padding: 0.85rem;
+        margin-bottom: 1rem;
+    }
+
+    .title-section h2 {
+        font-size: 0.9rem;
+    }
+
+    .title-section .date-info {
+        font-size: 0.6rem;
+    }
+
+    /* Info Cards */
+    .info-card {
+        padding: 0.7rem;
+    }
+
+    .info-card .icon {
+        font-size: 0.8rem;
+    }
+
+    .info-card .label {
+        font-size: 0.6rem;
+    }
+
+    .info-card .value {
+        font-size: 0.7rem;
+    }
+
+    /* Summary Cards */
+    .summary-card {
+        padding: 0.85rem;
+    }
+
+    .summary-card .icon {
+        font-size: 1rem;
+    }
+
+    .summary-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .summary-card p {
+        font-size: 0.6rem;
+    }
+
+    /* Keluhan Section */
+    .keluhan-header {
+        padding: 0.55rem 0.8rem;
+    }
+
+    .keluhan-header h4 {
+        font-size: 0.7rem;
+    }
+
+    .keluhan-content {
+        padding: 0.85rem;
+    }
+
+    .keluhan-item-label span {
+        font-size: 0.6rem;
+    }
+
+    .keluhan-item-label i {
+        font-size: 0.75rem;
+    }
+
+    .keluhan-text {
+        font-size: 0.7rem;
+        padding: 0.55rem 0.7rem;
+    }
+
+    .keluhan-duration {
+        font-size: 0.75rem;
+        padding: 0.55rem 0.7rem;
+        min-width: 110px;
+    }
+
+    /* Questions Section */
+    .questions-header {
+        padding: 0.65rem 0.9rem;
+        margin: 1.25rem 0 0.6rem 0;
+    }
+
+    .questions-header h3 {
+        font-size: 0.75rem;
+    }
+
+    /* Question Item */
+    .question-item {
+        padding: 0.85rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .question-header {
+        gap: 0.5rem;
+    }
+
+    .question-number {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.65rem;
+    }
+
+    .question-type-badge {
+        padding: 0.25rem 0.55rem;
+        font-size: 0.55rem;
+    }
+
+    .question-text {
+        font-size: 0.65rem;
+        line-height: 1.45;
+        margin: 0.35rem 0 0.65rem 0;
+    }
+
+    .question-text i {
+        font-size: 0.55rem !important;
+    }
+
+    /* Answer Box */
+    .answer-box {
+        padding: 0.7rem;
+        gap: 0.5rem;
+    }
+
+    .answer-label {
+        font-size: 0.65rem;
+    }
+
+    .answer-label i {
+        font-size: 0.75rem;
+    }
+
+    .answer-score span {
+        font-size: 0.65rem;
+    }
+
+    .score-badge {
+        font-size: 0.9rem;
+        padding: 0.35rem 0.7rem;
+        min-width: 48px;
+        border-width: 2px;
+    }
+}

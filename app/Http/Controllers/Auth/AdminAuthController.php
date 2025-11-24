@@ -25,13 +25,13 @@ class AdminAuthController extends Controller
         // cek login dengan guard admin
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin'); // arahkan ke dashboard admin
+            return redirect()->intended('/admin'); // arahkan ke halaman admin selection
         }
 
         // kalau gagal login
         return redirect()->back()
             ->withInput($request->only('email')) // biar email tetap keisi
-            ->with('error', 'Email atau password salah!');
+            ->withErrors(['email' => 'Email atau password salah!']);
     }
 
     public function logout(Request $request)

@@ -26,6 +26,8 @@ export default defineConfig({
                 // 3. Admin Pages
                 "resources/css/app-admin.css", // admin.blade.php (login)
                 "resources/css/app-admin-dashboard.css", // admin-home.blade.php
+                "resources/css/app-admin-detail.css", // admin-mental-health-detail.blade.php (NEW)
+                "resources/css/admin-mental-health-detail.css", // admin-mental-health-detail.blade.php (detail styles)
 
                 // 4. User Dashboard (user-mental-health)
                 "resources/css/app-user-dashboard.css",
@@ -41,7 +43,8 @@ export default defineConfig({
                 // ==========================================
                 // Note: Hanya include file JS yang ada di resources/js/
                 // File JS lainnya sudah inline di blade atau di public/js/
-                "resources/js/app.js"
+                "resources/js/app.js",
+                "resources/js/admin-detail.js" // admin-mental-health-detail.blade.php (NEW)
             ],
             refresh: true,
         }),

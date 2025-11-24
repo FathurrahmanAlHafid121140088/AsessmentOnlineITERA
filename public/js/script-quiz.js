@@ -15,10 +15,18 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     const showSidebarButton = document.getElementById("show-sidebar");
 
-    // ===== Hide sidebar on load without animation =====
+    // ===== Hide sidebar on load (hanya di mobile) =====
     if (questionStatusContainer && showSidebarButton) {
-        questionStatusContainer.classList.add("collapsed", "no-transition");
-        showSidebarButton.style.display = "block";
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+            questionStatusContainer.classList.add("collapsed", "no-transition");
+            showSidebarButton.style.display = "block";
+        } else {
+            // Di desktop, sidebar tetap terbuka
+            questionStatusContainer.classList.remove("collapsed");
+            showSidebarButton.style.display = "none";
+        }
 
         // Aktifkan kembali transisi setelah beberapa milidetik
         setTimeout(() => {
@@ -167,8 +175,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ===== Klik luar sidebar untuk menutup sidebar =====
+    // ===== Klik luar sidebar untuk menutup sidebar (hanya di mobile) =====
     document.addEventListener("click", function (event) {
+        const isMobile = window.innerWidth <= 768;
+
+        // Hanya auto-close di mobile
+        if (!isMobile) return;
+
         const isInsideSidebar = questionStatusContainer.contains(event.target);
         const isToggleButton = toggleButton?.contains(event.target);
         const isShowButton = showSidebarButton?.contains(event.target);
@@ -181,6 +194,20 @@ document.addEventListener("DOMContentLoaded", function () {
         ) {
             questionStatusContainer.classList.add("collapsed");
             showSidebarButton.style.display = "block";
+        }
+    });
+
+    // ===== Handle window resize - update sidebar behavior =====
+    window.addEventListener("resize", function () {
+        const isMobile = window.innerWidth <= 768;
+
+        if (!isMobile) {
+            // Di desktop, sidebar selalu terbuka
+            questionStatusContainer.classList.remove("collapsed");
+            showSidebarButton.style.display = "none";
+        } else {
+            // Di mobile, biarkan user yang mengontrol sidebar
+            // (tidak auto-show atau auto-hide saat resize)
         }
     });
 });

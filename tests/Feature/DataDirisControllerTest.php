@@ -295,5 +295,93 @@ class DataDirisControllerTest extends TestCase
         $response->assertRedirect(route('mental-health.kuesioner'));
     }
 
+    /**
+     * Pf-30: Menguji pengaturan session (nim, nama, program_studi) setelah submit
+     */
+    #[Test]
+    public function test_pengaturan_session_setelah_submit_data_diri()
+    {
+        $user = Users::factory()->create(['nim' => '987654321']);
+        Auth::login($user);
+
+        $data = $this->dataValid();
+        $data['nama'] = 'Test Session User';
+        $data['program_studi'] = 'Sistem Informasi';
+
+        $response = $this->post(route('mental-health.store-data-diri'), $data);
+
+        // Verifikasi session berisi nim, nama, dan program_studi
+        $response->assertSessionHas('nim', '987654321');
+        $response->assertSessionHas('nama', 'Test Session User');
+        $response->assertSessionHas('program_studi', 'Sistem Informasi');
+
+        // Verifikasi session menggunakan session helper
+        $this->assertEquals('987654321', session('nim'));
+        $this->assertEquals('Test Session User', session('nama'));
+        $this->assertEquals('Sistem Informasi', session('program_studi'));
+    }
+
+    /**
+     * Pf-31: Menguji redirect ke halaman kuesioner setelah berhasil submit
+     */
+    #[Test]
+    public function test_redirect_ke_halaman_kuesioner_setelah_berhasil_submit()
+    {
+        $user = Users::factory()->create();
+        Auth::login($user);
+
+        $data = $this->dataValid();
+
+        $response = $this->post(route('mental-health.store-data-diri'), $data);
+
+        // Verifikasi redirect ke halaman kuesioner
+        $response->assertRedirect(route('mental-health.kuesioner'));
+        $response->assertStatus(302);
+
+        // Verifikasi pesan sukses
+        $response->assertSessionHas('success', 'Data berhasil disimpan.');
+    }
+
+    /**
+     * Pf-29: Menguji penyimpanan riwayat keluhan baru setiap submit
+     */
+    #[Test]
+    public function test_penyimpanan_riwayat_keluhan_baru_setiap_submit()
+    {
+        $user = Users::factory()->create();
+        Auth::login($user);
+
+        // Submit pertama
+        $data1 = $this->dataValid();
+        $data1['keluhan'] = 'Keluhan pertama';
+        $data1['lama_keluhan'] = '1 Bulan';
+
+        $this->post(route('mental-health.store-data-diri'), $data1);
+
+        // Verifikasi keluhan pertama tersimpan
+        $this->assertDatabaseHas('riwayat_keluhans', [
+            'nim' => $user->nim,
+            'keluhan' => 'Keluhan pertama',
+            'lama_keluhan' => '1 Bulan'
+        ]);
+
+        // Submit kedua dengan keluhan berbeda
+        $data2 = $this->dataValid();
+        $data2['keluhan'] = 'Keluhan kedua';
+        $data2['lama_keluhan'] = '2 Bulan';
+
+        $this->post(route('mental-health.store-data-diri'), $data2);
+
+        // Verifikasi keluhan kedua juga tersimpan (tidak overwrite)
+        $this->assertDatabaseHas('riwayat_keluhans', [
+            'nim' => $user->nim,
+            'keluhan' => 'Keluhan kedua',
+            'lama_keluhan' => '2 Bulan'
+        ]);
+
+        // Verifikasi ada 2 riwayat keluhan untuk user ini
+        $this->assertEquals(2, RiwayatKeluhans::where('nim', $user->nim)->count());
+    }
+
 }
 

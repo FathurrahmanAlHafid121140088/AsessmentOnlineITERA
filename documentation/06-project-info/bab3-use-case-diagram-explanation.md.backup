@@ -1,0 +1,290 @@
+# BAB 3 - PENJELASAN USE CASE DIAGRAM
+# Platform Assessment Online ITERA
+
+**Tanggal:** 21 November 2025
+**Versi:** 1.0
+**Sistem:** Mental Health Assessment - Institut Teknologi Sumatera
+
+---
+
+## Daftar Isi
+
+1. [Pendahuluan](#1-pendahuluan)
+2. [Penjelasan Use Case Diagram Autentikasi](#2-penjelasan-use-case-diagram-autentikasi)
+3. [Penjelasan Use Case Diagram Mental Health](#3-penjelasan-use-case-diagram-mental-health)
+4. [Analisis Aktor dalam Sistem](#4-analisis-aktor-dalam-sistem)
+5. [Analisis Relasi Antar Use Case](#5-analisis-relasi-antar-use-case)
+
+---
+
+## 1. Pendahuluan
+
+### 1.1 Tujuan Dokumen
+
+Dokumen ini menyediakan penjelasan naratif dan deskriptif untuk setiap use case diagram yang ada dalam sistem Assessment Online ITERA. Use case diagram merupakan representasi visual yang menggambarkan interaksi antara aktor (pengguna sistem) dengan fungsionalitas yang disediakan oleh sistem. Melalui dokumen ini, pembaca akan memahami bagaimana setiap aktor berinteraksi dengan sistem, fungsi apa saja yang dapat diakses, serta bagaimana relasi antar fungsi tersebut bekerja.
+
+### 1.2 Struktur Penjelasan
+
+Penjelasan use case diagram dibagi menjadi dua bagian utama berdasarkan domain fungsional sistem:
+
+1. **Use Case Diagram Autentikasi** - Menjelaskan proses login dan logout untuk pengguna mahasiswa dan administrator
+2. **Use Case Diagram Mental Health** - Menjelaskan fitur-fitur asesmen kesehatan mental untuk pengguna mahasiswa dan administrator
+
+Setiap use case dijelaskan dalam bentuk paragraf naratif yang mudah dipahami, dengan fokus pada alur kerja dan interaksi yang terjadi dalam sistem.
+
+---
+
+## 2. Penjelasan Use Case Diagram Autentikasi
+
+### 2.1 Gambaran Umum Sistem Autentikasi
+
+Sistem Assessment Online ITERA mengimplementasikan dua mekanisme autentikasi yang terpisah untuk menjamin keamanan dan fleksibilitas akses. Mekanisme pertama adalah autentikasi menggunakan Google OAuth yang dikhususkan untuk mahasiswa ITERA, sedangkan mekanisme kedua menggunakan kombinasi email dan kata sandi yang diperuntukkan bagi administrator sistem. Pemisahan ini dilakukan untuk menyesuaikan dengan karakteristik dan kebutuhan keamanan masing-masing jenis pengguna.
+
+Diagram use case autentikasi menggambarkan tiga aktor utama yang terlibat: Pengguna (Mahasiswa), Administrator, dan Server Google OAuth sebagai sistem eksternal. Mahasiswa berinteraksi dengan sistem melalui proses login yang terintegrasi dengan akun Google ITERA mereka, sementara administrator menggunakan kredensial khusus yang telah didaftarkan sebelumnya dalam sistem.
+
+### 2.2 Proses Autentikasi Pengguna Mahasiswa
+
+Ketika seorang mahasiswa ingin mengakses sistem Assessment Online, langkah pertama yang harus dilakukan adalah melakukan autentikasi menggunakan akun Google ITERA mereka. Proses ini dimulai ketika mahasiswa mengakses halaman masuk (UC2: Mengakses Halaman Masuk) dan memilih opsi untuk masuk dengan Google OAuth (UC1: Masuk dengan Google OAuth). Sistem kemudian secara otomatis mengarahkan mahasiswa ke Server Google OAuth (UC7: Mengarahkan ke Google OAuth) untuk melakukan verifikasi identitas.
+
+Setelah mahasiswa berhasil melakukan autentikasi di Google dan memberikan izin akses, Server Google OAuth akan mengirimkan data pengguna kembali ke sistem. Pada tahap ini, sistem melakukan serangkaian validasi penting. Pertama, sistem memvalidasi bahwa email yang digunakan sesuai dengan format email mahasiswa ITERA (UC8: Memvalidasi Email ITERA), yaitu mengikuti pola `{NIM}@student.itera.ac.id` dengan NIM yang terdiri dari 9 digit angka.
+
+Jika validasi email berhasil, sistem akan mengekstrak NIM dari alamat email tersebut (UC9: Mengekstrak NIM dari Email). NIM ini kemudian digunakan sebagai primary key untuk identifikasi mahasiswa dalam sistem. Selanjutnya, sistem akan memeriksa apakah akun mahasiswa tersebut sudah terdaftar atau belum. Jika belum terdaftar, sistem akan membuat akun baru (UC10: Membuat/Memperbarui Akun Pengguna), namun jika sudah ada, sistem akan memperbarui informasi akun dengan data terbaru dari Google.
+
+Bersamaan dengan pembuatan atau pembaruan akun pengguna, sistem juga akan membuat atau memperbarui data diri mahasiswa (UC11: Membuat/Memperbarui Data Diri) yang berisi informasi dasar seperti nama dan email. Langkah terakhir dalam proses autentikasi adalah pembuatan token sesi (UC12: Membuat Token Sesi) yang berfungsi untuk menjaga status login mahasiswa selama mereka berinteraksi dengan sistem. Token sesi ini memiliki masa berlaku selama 120 menit sejak aktivitas terakhir.
+
+### 2.3 Proses Autentikasi Administrator
+
+Administrator sistem menggunakan mekanisme autentikasi yang berbeda dengan mahasiswa. Ketika administrator ingin mengakses dashboard admin, mereka harus melakukan login menggunakan kombinasi email dan kata sandi (UC4: Masuk dengan Email/Kata Sandi). Tidak seperti mahasiswa yang menggunakan OAuth, administrator memasukkan kredensial mereka secara langsung ke dalam formulir login yang disediakan sistem.
+
+Sistem kemudian melakukan validasi kredensial (UC13: Memvalidasi Kredensial) dengan mencocokkan email dan kata sandi yang dimasukkan dengan data yang tersimpan dalam database. Kata sandi yang tersimpan dalam database telah di-hash menggunakan algoritma bcrypt untuk menjamin keamanan. Jika validasi berhasil, sistem akan membuat token sesi baru (UC12: Membuat Token Sesi) untuk administrator tersebut.
+
+Fitur khusus yang dimiliki oleh autentikasi administrator adalah validasi batas waktu sesi (UC6: Validasi Batas Waktu Sesi). Fitur ini memastikan bahwa administrator akan secara otomatis dikeluarkan dari sistem jika tidak melakukan aktivitas apapun selama 30 menit. Mekanisme ini diterapkan untuk meningkatkan keamanan sistem, mengingat administrator memiliki akses penuh terhadap data sensitif mahasiswa. Proses validasi batas waktu ini dipicu (trigger) setiap kali administrator melakukan login, dan akan terus memonitor aktivitas administrator selama sesi berlangsung (UC16: Memeriksa Waktu Aktivitas Terakhir). Jika batas waktu terlampaui, sistem akan otomatis mengeluarkan administrator (UC17: Keluar Otomatis Setelah 30 Menit).
+
+### 2.4 Proses Keluar dari Sistem
+
+Baik mahasiswa maupun administrator dapat mengakhiri sesi mereka dengan melakukan logout dari sistem. Mahasiswa melakukan logout melalui UC3 (Keluar dari Sistem - Pengguna), sementara administrator melalui UC5 (Keluar dari Sistem - Admin). Meskipun menggunakan use case yang berbeda, proses logout pada dasarnya sama untuk kedua jenis pengguna.
+
+Ketika pengguna memilih untuk logout, sistem akan melakukan dua operasi penting. Pertama, sistem menghapus sesi aktif (UC14: Menghapus Sesi Aktif) yang mencakup penghapusan token sesi dari server dan penghapusan cookie sesi dari browser pengguna. Kedua, sistem akan membuat token CSRF baru (UC15: Membuat Token CSRF Baru) untuk mencegah serangan CSRF (Cross-Site Request Forgery) pada sesi berikutnya. Setelah proses logout selesai, pengguna akan diarahkan kembali ke halaman login dan tidak dapat mengakses halaman-halaman yang memerlukan autentikasi tanpa melakukan login ulang.
+
+### 2.5 Integrasi dengan Google OAuth
+
+Salah satu komponen penting dalam sistem autentikasi adalah integrasi dengan Server Google OAuth sebagai sistem eksternal. Server Google OAuth berperan sebagai identity provider yang memverifikasi identitas mahasiswa. Ketika mahasiswa memilih untuk login dengan Google, sistem melakukan komunikasi (communicate) dengan Server Google OAuth melalui protokol OAuth 2.0.
+
+Alur komunikasi dimulai ketika sistem mengarahkan mahasiswa ke halaman login Google (UC7). Mahasiswa kemudian memasukkan kredensial Google mereka dan memberikan izin kepada aplikasi Assessment Online untuk mengakses informasi profil dasar mereka. Setelah mahasiswa memberikan izin, Google akan mengirimkan callback ke sistem Assessment Online yang berisi authorization code. Sistem kemudian menukar authorization code ini dengan access token yang digunakan untuk mengambil informasi profil mahasiswa, termasuk email dan nama.
+
+Penggunaan Google OAuth memberikan beberapa keuntungan signifikan. Pertama, mahasiswa tidak perlu mengingat password baru karena mereka menggunakan akun Google ITERA yang sudah mereka miliki. Kedua, keamanan login menjadi tanggung jawab Google yang memiliki sistem keamanan tingkat enterprise. Ketiga, proses login menjadi lebih cepat dan mudah karena mahasiswa yang sudah login ke Google dapat langsung masuk ke sistem Assessment Online tanpa perlu memasukkan kredensial kembali (Single Sign-On).
+
+---
+
+## 3. Penjelasan Use Case Diagram Mental Health
+
+### 3.1 Gambaran Umum Fitur Mental Health
+
+Sistem Assessment Online ITERA menyediakan fitur komprehensif untuk asesmen kesehatan mental mahasiswa menggunakan instrumen MHI-38 (Mental Health Inventory-38). Fitur ini dirancang untuk memfasilitasi dua jenis pengguna dengan kebutuhan yang berbeda: mahasiswa yang menggunakan sistem untuk melakukan self-assessment kesehatan mental mereka, dan administrator yang menggunakan sistem untuk memonitor dan mengelola data kesehatan mental seluruh mahasiswa.
+
+Use case diagram Mental Health menggambarkan interaksi antara Pengguna (Mahasiswa) dan Administrator dengan berbagai fungsionalitas sistem. Mahasiswa memiliki akses ke fitur-fitur yang bersifat personal seperti mengisi kuesioner, melihat hasil tes pribadi, dan memonitor progres kesehatan mental mereka dari waktu ke waktu. Sementara itu, administrator memiliki akses ke fitur-fitur administratif seperti melihat statistik global, mencari dan menyaring data mahasiswa, mengekspor data untuk analisis lebih lanjut, dan mengelola data mahasiswa.
+
+### 3.2 Fitur untuk Pengguna Mahasiswa
+
+#### 3.2.1 Mengakses Informasi dan Masuk ke Sistem
+
+Perjalanan mahasiswa dalam menggunakan sistem dimulai dari mengakses informasi tentang kesehatan mental (UC1: Melihat Informasi Kesehatan Mental). Pada tahap ini, mahasiswa dapat membaca penjelasan tentang pentingnya kesehatan mental, informasi tentang instrumen MHI-38 yang digunakan, dan gambaran umum tentang proses asesmen yang akan mereka jalani. Informasi ini penting untuk memberikan pemahaman kepada mahasiswa tentang tujuan dan manfaat dari asesmen kesehatan mental.
+
+Setelah memahami informasi yang disediakan, mahasiswa perlu melakukan login ke sistem (UC2: Masuk ke Sistem) menggunakan akun Google ITERA mereka. Proses login ini merupakan gateway yang harus dilalui sebelum mahasiswa dapat mengakses fitur-fitur asesmen. Tanpa melakukan login, mahasiswa hanya dapat melihat informasi umum tetapi tidak dapat melakukan tes atau melihat hasil asesmen pribadi mereka.
+
+#### 3.2.2 Dashboard dan Monitoring Personal
+
+Setelah berhasil login, mahasiswa akan diarahkan ke dashboard pribadi mereka (UC3: Melihat Dashboard Pengguna). Dashboard ini berfungsi sebagai pusat kontrol personal dimana mahasiswa dapat melihat ringkasan statistik asesmen mereka. Informasi yang ditampilkan di dashboard mencakup jumlah total tes yang pernah diambil, kategori kesehatan mental terkini, dan akses cepat ke riwayat tes serta grafik progres.
+
+Dashboard pengguna mengimplementasikan mekanisme caching (UC21: Memperbarui Cache) untuk meningkatkan kecepatan loading. Data dashboard disimpan sementara dalam cache dengan durasi 5 menit, sehingga jika mahasiswa mengakses dashboard beberapa kali dalam periode tersebut, data akan diambil dari cache tanpa perlu query database berulang kali. Cache akan diperbarui secara otomatis ketika mahasiswa menyelesaikan tes baru atau ketika masa berlaku cache habis.
+
+Fitur melihat riwayat tes (UC7: Melihat Riwayat Tes) memungkinkan mahasiswa untuk melihat semua tes yang pernah mereka kerjakan dalam bentuk tabel kronologis. Setiap entry dalam riwayat menampilkan tanggal pengerjaan, total skor yang diperoleh, dan kategori kesehatan mental yang ditentukan berdasarkan skor tersebut. Mahasiswa dapat mengklik setiap entry untuk melihat detail lengkap hasil tes tersebut.
+
+Grafik progres (UC8: Melihat Grafik Progres) memberikan visualisasi perubahan skor kesehatan mental mahasiswa dari waktu ke waktu. Grafik ini sangat berguna untuk melihat tren kesehatan mental, apakah mengalami peningkatan, penurunan, atau relatif stabil. Visualisasi ini membantu mahasiswa dan konselor untuk memahami pola perubahan kesehatan mental dan mengidentifikasi periode-periode kritis yang mungkin memerlukan intervensi.
+
+#### 3.2.3 Proses Pengisian Data dan Kuesioner
+
+Sebelum dapat mengerjakan kuesioner MHI-38, mahasiswa diwajibkan untuk melengkapi data diri mereka terlebih dahulu (UC4: Mengisi Data Diri). Data diri ini mencakup informasi demografis seperti nama lengkap, NIM, jenis kelamin, usia, fakultas, program studi, asal sekolah, provinsi asal, alamat, dan status tempat tinggal. Selain data demografis, mahasiswa juga diminta untuk mengisi riwayat keluhan yang mencakup deskripsi keluhan yang dialami, durasi keluhan, riwayat konsultasi sebelumnya, dan riwayat tes psikologi sebelumnya.
+
+Pengisian data diri ini penting untuk beberapa alasan. Pertama, data demografis akan digunakan untuk analisis statistik agregat yang membantu institusi memahami pola kesehatan mental berdasarkan berbagai variabel demografis. Kedua, data riwayat keluhan memberikan konteks penting bagi konselor jika mahasiswa perlu dirujuk untuk konseling lebih lanjut. Ketiga, kelengkapan data memastikan bahwa hasil asesmen dapat dikaitkan dengan informasi personal yang lengkap.
+
+Proses pengisian data diri mengimplementasikan validasi yang ketat (UC17: Memvalidasi Data) untuk memastikan bahwa semua field yang bersifat required telah diisi dan data yang dimasukkan sesuai dengan format yang diharapkan. Misalnya, alamat email harus dalam format email yang valid, usia harus berupa angka dalam rentang yang masuk akal, dan NIM harus sesuai dengan format NIM ITERA. Jika validasi gagal, sistem akan menampilkan pesan error yang spesifik mengenai field mana yang bermasalah dan apa yang perlu diperbaiki.
+
+Setelah data diri lengkap dan valid, data akan disimpan ke database (UC20: Menyimpan ke Basis Data). Jika mahasiswa sebelumnya sudah pernah mengisi data diri, sistem akan melakukan update terhadap data yang sudah ada, sehingga mahasiswa tidak perlu mengisi ulang semua informasi dari awal di tes berikutnya. Mahasiswa cukup memverifikasi dan memperbarui informasi yang mungkin telah berubah.
+
+#### 3.2.4 Mengerjakan Kuesioner MHI-38
+
+Setelah data diri lengkap, mahasiswa dapat melanjutkan ke tahap mengerjakan kuesioner MHI-38 (UC5: Mengisi Kuesioner MHI-38). Kuesioner ini terdiri dari 38 pertanyaan yang masing-masing harus dijawab menggunakan skala Likert 1-6, dimana 1 menunjukkan "Tidak Pernah" dan 6 menunjukkan "Selalu". Pertanyaan-pertanyaan dalam kuesioner dirancang untuk mengukur berbagai dimensi kesehatan mental seperti kecemasan, depresi, kehilangan kontrol emosi, dan kesejahteraan psikologis secara umum.
+
+Interface pengisian kuesioner dirancang user-friendly dengan menampilkan progress indicator yang menunjukkan berapa banyak pertanyaan yang sudah dijawab dari total 38 pertanyaan. Fitur ini membantu mahasiswa untuk mengetahui seberapa jauh mereka telah menyelesaikan kuesioner dan memotivasi mereka untuk menyelesaikan seluruh pertanyaan.
+
+Sistem memiliki dependency yang jelas dimana UC5 (Mengisi Kuesioner) requires UC4 (Mengisi Data Diri) telah diselesaikan terlebih dahulu. Jika mahasiswa mencoba mengakses halaman kuesioner tanpa melengkapi data diri, sistem akan secara otomatis mengarahkan mereka kembali ke halaman pengisian data diri. Dependency ini diperlukan untuk memastikan integritas data dan kelengkapan informasi yang terkait dengan setiap hasil asesmen.
+
+Ketika mahasiswa mengirimkan jawaban kuesioner, sistem melakukan beberapa proses penting secara berurutan. Pertama, sistem memvalidasi kelengkapan jawaban (UC17: Memvalidasi Data) untuk memastikan bahwa semua 38 pertanyaan telah dijawab. Jika ada pertanyaan yang terlewat, sistem akan menampilkan pesan error dan menunjukkan pertanyaan mana yang belum dijawab.
+
+Setelah validasi berhasil, sistem melakukan perhitungan total skor (UC18: Menghitung Total Skor) dengan menjumlahkan semua nilai jawaban dari 38 pertanyaan. Total skor ini memiliki rentang minimum 38 (jika semua pertanyaan dijawab 1) hingga maksimum 228 (jika semua pertanyaan dijawab 6). Namun dalam implementasi aktual, kategori tertinggi hanya sampai skor 226.
+
+Berdasarkan total skor yang diperoleh, sistem kemudian menentukan kategori kesehatan mental mahasiswa (UC19: Menentukan Kategori Kesehatan Mental). Terdapat lima kategori yang didefinisikan: "Sangat Sehat" (skor 190-226), "Sehat" (skor 152-189), "Cukup Sehat" (skor 114-151), "Perlu Dukungan" (skor 76-113), dan "Perlu Dukungan Intensif" (skor 38-75). Kategorisasi ini membantu untuk memberikan interpretasi yang mudah dipahami terhadap skor numerik yang diperoleh.
+
+Hasil asesmen yang mencakup total skor, kategori, dan jawaban untuk setiap pertanyaan kemudian disimpan ke database (UC20: Menyimpan ke Basis Data). Penyimpanan ini penting tidak hanya untuk memberikan hasil kepada mahasiswa, tetapi juga untuk keperluan monitoring jangka panjang dan analisis statistik. Setelah penyimpanan berhasil, sistem memperbarui cache (UC21: Memperbarui Cache) untuk memastikan bahwa dashboard mahasiswa akan menampilkan informasi terbaru pada akses berikutnya.
+
+#### 3.2.5 Melihat Hasil Tes
+
+Setelah menyelesaikan kuesioner, mahasiswa dapat melihat hasil tes mereka (UC6: Melihat Hasil Tes). UC6 memiliki dependency terhadap UC5, yang berarti mahasiswa hanya dapat melihat hasil tes setelah mereka menyelesaikan pengisian kuesioner. Halaman hasil tes menampilkan informasi komprehensif tentang asesmen yang baru saja diselesaikan.
+
+Informasi yang ditampilkan mencakup total skor yang diperoleh, kategori kesehatan mental yang ditentukan berdasarkan skor tersebut, visualisasi grafik yang menunjukkan posisi skor mahasiswa dalam spektrum kategori, penjelasan detail tentang arti dari kategori yang diperoleh, dan rekomendasi tindak lanjut berdasarkan kategori.
+
+Untuk mahasiswa yang mendapatkan kategori "Perlu Dukungan" atau "Perlu Dukungan Intensif", sistem akan menampilkan informasi kontak layanan konseling yang tersedia di kampus beserta anjuran untuk segera melakukan konsultasi dengan konselor profesional. Untuk mahasiswa dengan kategori yang lebih baik, sistem menampilkan tips-tips untuk menjaga kesehatan mental dan motivasi untuk tetap menjaga well-being psikologis mereka.
+
+### 3.3 Fitur untuk Administrator
+
+#### 3.3.1 Dashboard dan Statistik Global
+
+Administrator mengakses sistem melalui proses login khusus (UC9: Masuk sebagai Admin) yang terpisah dari login mahasiswa. Setelah login, administrator diarahkan ke dashboard admin (UC10: Melihat Dashboard Admin) yang menampilkan statistik global dari seluruh data asesmen kesehatan mental di institusi.
+
+Dashboard admin mengimplementasikan caching dengan TTL (Time To Live) yang lebih singkat dibandingkan dashboard mahasiswa, yaitu hanya 1 menit. Hal ini dilakukan karena data pada dashboard admin bersifat agregat dan perlu lebih sering diperbarui untuk mencerminkan kondisi terkini. Cache yang lebih singkat memastikan bahwa administrator selalu melihat data yang relatif up-to-date tanpa perlu menunggu cache expire yang terlalu lama.
+
+Fitur melihat statistik (UC14: Melihat Statistik) menampilkan berbagai metrik penting seperti total mahasiswa yang telah mengikuti asesmen, total tes yang telah diselesaikan, distribusi mahasiswa berdasarkan gender, distribusi berdasarkan fakultas, top 5 asal sekolah dengan jumlah peserta terbanyak, dan distribusi kategori kesehatan mental. Statistik ini sangat penting untuk institutional decision making dan perencanaan program kesehatan mental kampus.
+
+#### 3.3.2 Pencarian dan Penyaringan Data
+
+Administrator memiliki kemampuan untuk mencari data mahasiswa (UC11: Mencari Data Mahasiswa) menggunakan sistem pencarian yang canggih. Pencarian dapat dilakukan berdasarkan 11 field yang berbeda: NIM, nama, jenis kelamin, provinsi, alamat, fakultas, program studi, asal sekolah, status tinggal, email, dan kategori kesehatan mental. Sistem pencarian menggunakan algoritma fuzzy matching yang dapat mencocokkan pencarian partial, sehingga administrator tidak perlu mengetik kata kunci yang exact match.
+
+Fitur menyaring data berdasarkan kategori (UC12: Filter Data Berdasarkan Kategori) memungkinkan administrator untuk memfokuskan perhatian pada kelompok mahasiswa dengan kategori kesehatan mental tertentu. Misalnya, administrator dapat memfilter hanya mahasiswa dengan kategori "Perlu Dukungan Intensif" untuk dapat melakukan intervensi prioritas terhadap kelompok mahasiswa yang paling memerlukan bantuan.
+
+Fitur mengurutkan data (UC13: Mengurutkan Data) memberikan fleksibilitas dalam mengorganisir tampilan data. Administrator dapat mengurutkan data berdasarkan berbagai kolom seperti tanggal tes (untuk melihat tes terbaru atau terlama), total skor (untuk mengidentifikasi mahasiswa dengan skor tertinggi atau terendah), nama (alfabetis), NIM (numerik), atau fakultas. Pengurutan dapat dilakukan secara ascending atau descending sesuai kebutuhan analisis.
+
+#### 3.3.3 Melihat Detail Jawaban Kuesioner
+
+Fitur yang ditambahkan pada update terbaru adalah kemampuan administrator untuk melihat detail jawaban kuesioner mahasiswa (UC17_NEW: Melihat Detail Jawaban Kuesioner). Fitur ini sangat berguna untuk keperluan konseling atau analisis mendalam terhadap pola jawaban mahasiswa. Administrator dapat melihat seluruh 38 pertanyaan beserta jawaban spesifik yang diberikan oleh mahasiswa untuk setiap pertanyaan.
+
+Dalam implementasi fitur ini, sistem mengambil daftar 38 pertanyaan (UC22_NEW: Mengambil 38 Pertanyaan) yang sama persis dengan pertanyaan yang dijawab mahasiswa saat mengerjakan kuesioner. Konsistensi ini penting untuk memastikan bahwa detail jawaban yang ditampilkan dapat dipahami dengan benar oleh administrator.
+
+Sistem juga menentukan tipe pertanyaan (UC23_NEW: Menentukan Tipe Pertanyaan Positif/Negatif) untuk setiap pertanyaan. Dalam instrumen MHI-38, terdapat pertanyaan positif dan pertanyaan negatif. Pertanyaan positif adalah pertanyaan dimana jawaban dengan skor tinggi mengindikasikan kesehatan mental yang baik, sedangkan pertanyaan negatif adalah pertanyaan dimana jawaban dengan skor tinggi justru mengindikasikan masalah kesehatan mental. Penandaan tipe pertanyaan ini membantu administrator untuk menginterpretasikan jawaban dengan benar.
+
+Pada halaman detail jawaban, setiap pertanyaan ditampilkan dengan badge yang menunjukkan tipe pertanyaan (positif berwarna hijau, negatif berwarna merah). Badge visual ini memudahkan administrator untuk dengan cepat mengidentifikasi kategori pertanyaan tanpa perlu mengingat nomor pertanyaan mana yang positif dan mana yang negatif. Terdapat 20 pertanyaan bertipe negatif (nomor: 2, 3, 8, 9, 10, 12, 14, 15, 17, 19, 20, 21, 22, 24, 26, 28, 30, 32, 35, 37) dan 18 pertanyaan bertipe positif (sisanya).
+
+#### 3.3.4 Ekspor Detail Jawaban ke PDF
+
+Melengkapi fitur detail jawaban, administrator juga dapat mengekspor detail jawaban ke format PDF (UC18_NEW: Mengekspor Detail Jawaban ke PDF). Fitur ekspor ini memiliki relasi extend terhadap fitur melihat detail jawaban, yang berarti ekspor PDF dapat diakses dari halaman detail jawaban tetapi bersifat opsional.
+
+Proses generate PDF menggunakan library jsPDF di sisi client dan melibatkan beberapa proses include. Pertama, sistem mengambil 38 pertanyaan yang sama (UC22_NEW) untuk ditampilkan dalam PDF. Kedua, sistem menentukan tipe pertanyaan (UC23_NEW) untuk memberikan label yang sesuai pada setiap pertanyaan dalam PDF. Ketiga, sistem generate PDF dengan watermark (UC24_NEW: Generate PDF dengan Watermark) yang menampilkan text "Generated by ANALOGY - ITERA" di pojok kanan bawah setiap halaman.
+
+Watermark ini penting untuk beberapa alasan. Pertama, memberikan identitas bahwa dokumen ini adalah output resmi dari sistem Assessment Online ITERA. Kedua, mencegah penyalahgunaan atau duplikasi dokumen tanpa pengetahuan institusi. Ketiga, memberikan branding terhadap dokumen yang dicetak.
+
+PDF yang dihasilkan memiliki format yang rapi dan profesional dengan header yang jelas, informasi mahasiswa yang lengkap (NIM, nama, program studi, tanggal tes), ringkasan hasil (total skor dan kategori), dan tabel lengkap 38 pertanyaan dengan tipe dan jawaban. Format tabel dalam PDF menggunakan styling yang konsisten dengan badge tipe pertanyaan yang sama seperti di halaman web (positif hijau bold, negatif merah bold), serta kolom skor yang di-bold untuk menekankan jawaban mahasiswa.
+
+#### 3.3.5 Ekspor Data ke Excel
+
+Untuk keperluan analisis data lebih lanjut atau pelaporan, administrator dapat mengekspor data mahasiswa ke format Excel (UC15: Mengekspor Data ke Excel). Fitur ekspor ini memiliki relasi extend terhadap UC11 (Mencari Data Mahasiswa) dan UC12 (Filter Data Berdasarkan Kategori), yang berarti ekspor Excel akan merespect filter dan pencarian yang sedang aktif di dashboard admin.
+
+Misalnya, jika administrator melakukan pencarian untuk mahasiswa dari Fakultas Teknik dengan kategori "Perlu Dukungan Intensif", maka file Excel yang dihasilkan hanya akan berisi data mahasiswa yang sesuai dengan kriteria tersebut, bukan seluruh data mahasiswa. Fitur ini sangat berguna untuk membuat laporan yang spesifik dan targeted.
+
+File Excel yang dihasilkan berisi 16 kolom data yang komprehensif: nomor urut, tanggal pengerjaan tes, NIM, nama lengkap, fakultas, program studi, jenis kelamin, usia, provinsi asal, alamat lengkap, email, asal sekolah, status tempat tinggal, jumlah total tes yang pernah diambil, kategori kesehatan mental terakhir, dan skor terakhir. File Excel ini diformat dengan rapi termasuk header yang di-bold, kolom yang di-autosize sesuai content, border pada tabel, dan frozen pane pada baris pertama agar header tetap terlihat saat scrolling.
+
+#### 3.3.6 Menghapus Data Mahasiswa
+
+Administrator memiliki kemampuan untuk menghapus data mahasiswa (UC16: Menghapus Data Mahasiswa) jika diperlukan, misalnya atas permintaan mahasiswa yang bersangkutan atau karena alasan privasi. Proses penghapusan data menggunakan mekanisme cascade delete yang memastikan semua data terkait dengan mahasiswa tersebut dihapus secara konsisten dari database.
+
+Ketika administrator menghapus seorang mahasiswa, sistem akan menghapus data dari empat tabel secara berurutan: pertama riwayat keluhan, kedua hasil kuesioner (termasuk semua tes yang pernah dikerjakan), ketiga data diri, dan terakhir akun pengguna jika ada. Penghapusan cascade ini diimplementasikan baik di level aplikasi maupun di level database (foreign key dengan ON DELETE CASCADE) untuk redundansi dan konsistensi.
+
+Setelah proses penghapusan berhasil, sistem akan menghapus cache terkait untuk memastikan bahwa statistik dan data yang ditampilkan di dashboard admin diperbarui dan tidak lagi menampilkan mahasiswa yang telah dihapus. Proses penghapusan juga dilengkapi dengan konfirmasi ganda untuk mencegah penghapusan data yang tidak disengaja, mengingat operasi delete bersifat permanent dan tidak dapat di-undo.
+
+---
+
+## 4. Analisis Aktor dalam Sistem
+
+### 4.1 Pengguna Mahasiswa
+
+Pengguna mahasiswa merupakan aktor utama yang menjadi target pengguna sistem Assessment Online. Mahasiswa berinteraksi dengan sistem untuk keperluan self-assessment kesehatan mental mereka. Karakteristik interaksi mahasiswa dengan sistem adalah bersifat personal dan fokus pada data pribadi mereka sendiri. Mahasiswa tidak memiliki akses untuk melihat data mahasiswa lain, menjaga privasi dan kerahasiaan informasi kesehatan mental masing-masing individu.
+
+Motivasi mahasiswa menggunakan sistem ini bervariasi. Beberapa mahasiswa mungkin menggunakan sistem karena kebutuhan voluntary untuk mengetahui kondisi kesehatan mental mereka. Mahasiswa lain mungkin menggunakan sistem karena anjuran dari konselor atau dosen wali yang concern terhadap kesejahteraan psikologis mereka. Ada juga kemungkinan penggunaan sistem sebagai bagian dari program screening kesehatan mental yang dilakukan oleh institusi.
+
+Kemampuan dan hak akses yang dimiliki mahasiswa mencakup: melakukan autentikasi menggunakan Google OAuth, mengisi dan memperbarui data diri, mengerjakan kuesioner MHI-38 berkali-kali untuk memonitor progres, melihat hasil tes personal dengan interpretasi dan rekomendasi, melihat riwayat semua tes yang pernah dikerjakan, dan memonitor progres kesehatan mental melalui grafik trend skor dari waktu ke waktu.
+
+### 4.2 Administrator
+
+Administrator merupakan aktor yang memiliki peran managerial dan supervisory dalam sistem. Administrator dapat berupa staff dari unit layanan bimbingan dan konseling, psikolog institusi, atau personel IT yang ditunjuk oleh institusi untuk mengelola sistem assessment. Berbeda dengan mahasiswa yang fokus pada data personal, administrator memiliki akses ke data agregat seluruh mahasiswa serta kemampuan untuk melakukan operasi administratif.
+
+Tanggung jawab utama administrator mencakup: monitoring kesehatan mental mahasiswa secara global melalui statistik dan distribusi kategori, mengidentifikasi mahasiswa yang memerlukan intervensi prioritas berdasarkan kategori asesmen, melakukan analisis data untuk keperluan institutional decision making dan perencanaan program, mengekspor data untuk pelaporan atau analisis lebih lanjut menggunakan tools eksternal, serta mengelola data mahasiswa termasuk viewing detail dan deletion jika diperlukan.
+
+Kemampuan dan hak akses administrator mencakup semua yang disebutkan di atas plus kemampuan khusus seperti: melihat detail jawaban kuesioner per mahasiswa untuk keperluan konseling mendalam, mengekspor detail jawaban ke PDF untuk dokumentasi atau referensi konseling, melakukan pencarian dan filtering data dengan berbagai kriteria, dan menghapus data mahasiswa dengan mekanisme cascade delete.
+
+Karena administrator memiliki akses ke data sensitif mahasiswa, sistem menerapkan session timeout otomatis 30 menit untuk memastikan bahwa jika administrator meninggalkan komputer tanpa logout, sistem akan otomatis mengamankan akses dengan melakukan logout otomatis.
+
+### 4.3 Server Google OAuth
+
+Server Google OAuth merupakan aktor eksternal yang berperan sebagai identity provider dalam proses autentikasi mahasiswa. Meskipun bukan pengguna aktif sistem, Server Google OAuth memiliki peran krusial dalam menjamin keamanan dan kemudahan proses login mahasiswa.
+
+Google OAuth menyediakan protokol standar OAuth 2.0 yang secure dan widely adopted. Ketika mahasiswa memilih login dengan Google, sistem Assessment Online tidak pernah menerima atau menyimpan password Google mahasiswa. Yang diterima hanya access token yang dapat digunakan untuk mengambil informasi profil dasar seperti nama dan email. Token ini memiliki masa berlaku terbatas dan dapat di-revoke kapan saja oleh pengguna dari Google Account Settings mereka.
+
+Interaksi antara sistem Assessment Online dengan Server Google OAuth melibatkan beberapa round-trip HTTP requests yang mengikuti OAuth 2.0 authorization code flow. Flow ini dimulai dengan redirect authorization request, dilanjutkan dengan user consent di Google, kemudian callback dengan authorization code, dan diakhiri dengan token exchange untuk mendapatkan access token dan user information. Seluruh komunikasi ini menggunakan HTTPS untuk menjamin keamanan data yang ditransmisikan.
+
+---
+
+## 5. Analisis Relasi Antar Use Case
+
+### 5.1 Relasi Include
+
+Relasi include merepresentasikan situasi dimana sebuah use case secara otomatis dan selalu memerlukan use case lain untuk dieksekusi. Dalam sistem Assessment Online, relasi include banyak digunakan untuk merepresentasikan proses-proses sistem yang harus terjadi sebagai bagian dari use case utama.
+
+Contoh jelas dari relasi include adalah UC1 (Masuk dengan Google OAuth) yang include beberapa use case sistem: UC7 (Mengarahkan ke Google OAuth), UC8 (Memvalidasi Email ITERA), UC9 (Mengekstrak NIM dari Email), UC10 (Membuat/Memperbarui Akun Pengguna), UC11 (Membuat/Memperbarui Data Diri), dan UC12 (Membuat Token Sesi). Setiap kali mahasiswa melakukan login dengan Google OAuth, seluruh proses yang di-include ini akan dieksekusi dalam sequence yang sudah ditentukan.
+
+Relasi include juga terlihat dalam UC5 (Mengisi Kuesioner MHI-38) yang include UC17 (Memvalidasi Data), UC18 (Menghitung Total Skor), UC19 (Menentukan Kategori Kesehatan Mental), UC20 (Menyimpan ke Basis Data), dan UC21 (Memperbarui Cache). Sequence ini memastikan bahwa setiap kali mahasiswa submit kuesioner, sistem melakukan validasi, perhitungan, kategorisasi, penyimpanan, dan cache update secara konsisten dan reliable.
+
+Pada fitur detail jawaban yang baru (UC17_NEW dan UC18_NEW), kedua use case ini include UC22_NEW (Mengambil 38 Pertanyaan) dan UC23_NEW (Menentukan Tipe Pertanyaan). Ini memastikan bahwa baik pada saat menampilkan detail di web maupun mengekspor ke PDF, data pertanyaan dan tipe yang digunakan konsisten dan sama.
+
+### 5.2 Relasi Extend
+
+Relasi extend merepresentasikan situasi dimana sebuah use case dapat memperluas fungsionalitas use case lain secara opsional, tidak selalu harus terjadi. Dalam sistem Assessment Online, relasi extend digunakan untuk fitur-fitur yang bersifat conditional atau optional.
+
+Contoh signifikan dari relasi extend adalah UC15 (Mengekspor Data ke Excel) yang extend UC11 (Mencari Data Mahasiswa) dan UC12 (Filter Data Berdasarkan Kategori). Administrator dapat melakukan pencarian atau filtering tanpa harus melakukan ekspor. Namun jika administrator memilih untuk ekspor, maka ekspor tersebut akan extend fungsionalitas search dan filter dengan mengikuti kriteria yang sedang aktif.
+
+Relasi extend juga terlihat pada UC6 (Validasi Batas Waktu Sesi) yang extend UC17 (Keluar Otomatis Setelah 30 Menit). Validasi session timeout adalah proses yang terus berjalan, namun logout otomatis hanya terjadi secara conditional jika timeout threshold terlampaui. Jika administrator masih aktif, logout otomatis tidak terjadi.
+
+Pada fitur baru, UC18_NEW (Mengekspor Detail Jawaban ke PDF) extend UC17_NEW (Melihat Detail Jawaban Kuesioner). Administrator dapat melihat detail jawaban tanpa harus mengekspor ke PDF. Ekspor PDF adalah fitur tambahan yang optional, yang hanya digunakan jika administrator memerlukan dokumentasi tercetak dari detail jawaban.
+
+### 5.3 Relasi Requires
+
+Relasi requires (atau precondition) merepresentasikan dependency dimana sebuah use case memerlukan use case lain diselesaikan terlebih dahulu sebelum dapat dieksekusi. Relasi ini berbeda dengan include karena bersifat temporal - use case yang di-require harus selesai duluan secara waktu, bukan dieksekusi bersamaan.
+
+Contoh paling jelas adalah UC5 (Mengisi Kuesioner MHI-38) requires UC4 (Mengisi Data Diri). Mahasiswa harus melengkapi data diri terlebih dahulu sebelum dapat mengerjakan kuesioner. Jika mahasiswa mencoba mengakses halaman kuesioner tanpa melengkapi data diri, sistem akan redirect mereka kembali ke halaman data diri. Requirement ini memastikan bahwa setiap hasil kuesioner selalu terasosiasi dengan data demografis yang lengkap.
+
+Demikian juga, UC6 (Melihat Hasil Tes) requires UC5 (Mengisi Kuesioner MHI-38). Mahasiswa tidak dapat melihat hasil tes jika mereka belum mengerjakan kuesioner. Ini adalah logical dependency karena hasil tes hanya exist setelah kuesioner dikerjakan dan diproses oleh sistem.
+
+### 5.4 Relasi Communicate
+
+Relasi communicate merepresentasikan interaksi antara sistem dengan aktor eksternal atau sistem eksternal. Dalam use case diagram autentikasi, terdapat relasi communicate antara UC7 (Mengarahkan ke Google OAuth) dengan aktor Server Google OAuth.
+
+Komunikasi ini adalah two-way communication dimana sistem Assessment Online mengirimkan authorization request ke Google OAuth, dan Google OAuth mengirimkan callback dengan authorization code kembali ke sistem. Komunikasi ini terjadi melalui HTTP redirects dan mengikuti spesifikasi protokol OAuth 2.0.
+
+Relasi communicate juga implisit terjadi pada callback process dimana Google OAuth mengirimkan data user kembali ke sistem (represented by the arrow from Google to UC8: Memvalidasi Email ITERA). Pada tahap ini, sistem menerima data dari Google dan memulai proses validasi dan user account creation.
+
+### 5.5 Relasi Trigger
+
+Relasi trigger merepresentasikan situasi dimana sebuah use case memicu dimulainya monitoring atau proses lain yang berjalan secara background. Dalam diagram autentikasi, UC4 (Masuk dengan Email/Kata Sandi) trigger UC6 (Validasi Batas Waktu Sesi).
+
+Ketika administrator berhasil login, proses login tersebut trigger dimulainya monitoring session timeout. Monitoring ini berjalan secara passive di background dan akan check waktu aktivitas terakhir administrator pada setiap HTTP request. Jika threshold 30 menit terlampaui, monitoring ini trigger UC17 (Keluar Otomatis Setelah 30 Menit).
+
+Relasi trigger ini berbeda dengan include karena proses yang di-trigger tidak langsung selesai saat itu juga, melainkan menjadi proses yang terus berjalan selama session aktif. Monitoring akan berhenti ketika administrator logout atau ketika session timeout terjadi.
+
+---
+
+## Kesimpulan
+
+Use case diagram dalam sistem Assessment Online ITERA memberikan gambaran komprehensif tentang interaksi antara pengguna (mahasiswa dan administrator) dengan fungsionalitas sistem. Diagram autentikasi menunjukkan mekanisme dual authentication yang mengakomodasi kebutuhan berbeda dari mahasiswa (Google OAuth) dan administrator (email/password dengan session timeout). Diagram mental health menunjukkan fitur-fitur asesmen yang lengkap mulai dari pengisian data, pengerjaan kuesioner, melihat hasil, hingga fitur administratif yang canggih.
+
+Relasi antar use case (include, extend, requires, communicate, trigger) menunjukkan bahwa sistem dirancang dengan memperhatikan modularitas, reusability, dan logical flow. Setiap use case memiliki tanggung jawab yang jelas dan terdefinisi dengan baik, sehingga memudahkan implementasi, testing, dan maintenance sistem.
+
+Pemisahan fitur antara pengguna mahasiswa dan administrator mencerminkan prinsip separation of concerns dan least privilege, dimana setiap aktor hanya memiliki akses ke fitur yang relevan dengan peran mereka. Hal ini tidak hanya meningkatkan keamanan sistem, tetapi juga meningkatkan usability karena interface yang ditampilkan ke setiap aktor fokus dan tidak membingungkan dengan fitur-fitur yang tidak relevan.
+
+---
+
+**Tanggal Pembuatan:** 21 November 2025
+**Versi Dokumen:** 1.0
+**Status:** Final
+**Institut Teknologi Sumatera (ITERA)**
+
+---
+
+**END OF DOCUMENT**

@@ -422,6 +422,26 @@ input[type="radio"].form-check-input:checked::before {
 }
 
 /* ========================
+   💻 DESKTOP MODE - Sidebar Always Visible
+   ======================== */
+@media (min-width: 769px) {
+    /* Sidebar selalu tampil di desktop */
+    #question-status-container {
+        transform: translateX(0) !important;
+    }
+
+    /* Tombol show tidak ditampilkan di desktop */
+    #show-sidebar {
+        display: none !important;
+    }
+
+    /* Pastikan konten kuesioner tidak tertutup sidebar */
+    .container {
+        margin-right: 280px; /* sesuaikan dengan lebar sidebar */
+    }
+}
+
+/* ========================
    📱 RESPONSIVE SIDEBAR MOBILE
    ======================== */
 @media (max-width: 768px) {

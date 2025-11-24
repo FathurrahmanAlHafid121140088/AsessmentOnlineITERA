@@ -378,6 +378,25 @@ document.addEventListener("DOMContentLoaded", function () {
             parent.classList.toggle("open");
         });
     });
+
+    // Handle account dropdown toggle
+    const accountToggle = document.querySelector(".account-toggle");
+    const accountDropdown = document.querySelector(".account-dropdown");
+
+    if (accountToggle && accountDropdown) {
+        accountToggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            accountDropdown.classList.toggle("show");
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+            if (!accountToggle.contains(e.target) && !accountDropdown.contains(e.target)) {
+                accountDropdown.classList.remove("show");
+            }
+        });
+    }
 });
 
 // Switch tampilan: chart prodi, chart provinsi, atau tabel
