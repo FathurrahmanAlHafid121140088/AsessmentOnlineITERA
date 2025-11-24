@@ -77,40 +77,40 @@
                     $isMentalHealthPage = request()->is('admin/mental-health*');
                 @endphp
 
-                @if($isMentalHealthPage)
-                <li class="dropdown open">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
-                        <i class="fas fa-chevron-down arrow"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/admin/mental-health">
-                                <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/mental-health/provinsi">
-                                <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/mental-health/program-studi">
-                                <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if ($isMentalHealthPage)
+                    <li class="dropdown open">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/mental-health">
+                                    <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/mental-health/provinsi">
+                                    <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/mental-health/program-studi">
+                                    <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @else
-                <li>
-                    <a href="/admin/mental-health">
-                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
-                    </a>
-                </li>
+                    <li>
+                        <a href="/admin/mental-health">
+                            <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                        </a>
+                    </li>
                 @endif
 
                 <li>
-                    <a href="/admin-home-karir">
+                    <a href="">
                         <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
                     </a>
                 </li>
@@ -567,10 +567,6 @@
                     }
                 }
 
-                // Tambahkan watermark di halaman pertama saja (kanan bawah)
-                const pdfPageWidth = doc.internal.pageSize.getWidth();
-                const pageHeight = doc.internal.pageSize.getHeight();
-
                 // Generate timestamp saat cetak
                 const now = new Date();
                 const tanggalCetak = now.toLocaleDateString('id-ID', {
@@ -586,20 +582,32 @@
                 });
                 const timestampCetak = `${tanggalCetak} - ${waktuCetak} WIB`;
 
-                // Watermark teks kecil di kanan bawah
-                doc.setFontSize(6);
-                doc.setTextColor(150, 150, 150); // Abu-abu
+                // Dapatkan posisi Y terakhir dari tabel terakhir yang dibuat
+                const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : yPos;
+
+                // Tambahkan watermark di bawah kiri tabel
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const leftMargin = 20; // Margin kiri sama dengan margin tabel
+
+                // Posisi watermark: 20mm di bawah tabel terakhir (spacing lebih besar)
+                let watermarkY = finalY + 20;
+
+                // Jika watermark terlalu dekat dengan batas bawah, pindah ke halaman baru
+                if (watermarkY > pageHeight - 25) {
+                    doc.addPage();
+                    watermarkY = 20; // Posisi di halaman baru
+                }
+
+                // Watermark teks di kiri bawah setelah tabel
+                doc.setFontSize(7);
+                doc.setTextColor(120, 120, 120); // Abu-abu medium
                 doc.setFont(undefined, 'italic');
 
-                // Baris 1: Generated by ANALOGY - ITERA (8mm dari bawah)
-                doc.text('Generated by ANALOGY - ITERA', pdfPageWidth - 10, pageHeight - 8, {
-                    align: 'right'
-                });
+                // Baris 1: Generated by ANALOGY - ITERA
+                doc.text('Generated by ANALOGY - ITERA', leftMargin, watermarkY);
 
-                // Baris 2: Timestamp cetak (4mm dari bawah)
-                doc.text(`Dicetak: ${timestampCetak}`, pdfPageWidth - 10, pageHeight - 4, {
-                    align: 'right'
-                });
+                // Baris 2: Timestamp cetak (5mm di bawah baris 1)
+                doc.text(`Dicetak: ${timestampCetak}`, leftMargin, watermarkY + 5);
 
                 // Save PDF
                 doc.save('Detail-Jawaban-' + nim + '-' + new Date().getTime() + '.pdf');

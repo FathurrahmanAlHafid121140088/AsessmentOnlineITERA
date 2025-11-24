@@ -64,7 +64,6 @@
                 </div>
             </div>
         </div>
-
     </header>
 
     <div class="container">
@@ -82,33 +81,15 @@
                     </a>
                 </li>
 
-                <!-- Dropdown Mental Health -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">
+                <!-- Mental Health - tanpa dropdown karena bukan halaman mental health -->
+                <li>
+                    <a href="{{ route('admin.home') }}">
                         <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
-                        <i class="fas fa-chevron-down arrow"></i>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ route('admin.home') }}">
-                                <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/admin/mental-health/provinsi') }}">
-                                <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/admin/mental-health/program-studi') }}">
-                                <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
                 <li class="active">
-                    <a href="{{ route('admin.karir.index') }}">
+                    <a href="">
                         <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
                     </a>
                 </li>
@@ -745,7 +726,8 @@
                                         @php
                                             $skorKonsistensi = $hasil->skor_konsistensi ?? 0;
                                             $validitas = $skorKonsistensi >= 7 ? 'Valid' : 'Tidak Valid';
-                                            $badgeClass = $validitas == 'Valid' ? 'badge bg-success' : 'badge bg-danger';
+                                            $badgeClass =
+                                                $validitas == 'Valid' ? 'badge bg-success' : 'badge bg-danger';
                                         @endphp
                                         <span class="{{ $badgeClass }}">
                                             {{ $validitas }}
@@ -883,7 +865,8 @@
                         @foreach (request()->query() as $key => $value)
                             @if (is_array($value))
                                 @foreach ($value as $val)
-                                    <input type="hidden" name="{{ $key }}[]" value="{{ $val }}">
+                                    <input type="hidden" name="{{ $key }}[]"
+                                        value="{{ $val }}">
                                 @endforeach
                             @else
                                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">

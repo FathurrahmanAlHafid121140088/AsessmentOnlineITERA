@@ -114,36 +114,36 @@
                     $isMentalHealthPage = request()->is('admin/mental-health*');
                 @endphp
 
-                @if($isMentalHealthPage)
-                <li class="dropdown open">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
-                        <i class="fas fa-chevron-down arrow"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/admin/mental-health">
-                                <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/mental-health/provinsi">
-                                <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/mental-health/program-studi">
-                                <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if ($isMentalHealthPage)
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/mental-health">
+                                    <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/mental-health/provinsi">
+                                    <i class="fas fa-map-marker-alt" style="margin-right: 0.8rem;"></i> Data Provinsi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/mental-health/program-studi">
+                                    <i class="fas fa-university" style="margin-right: 0.8rem;"></i> Data Program Studi
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @else
-                <li>
-                    <a href="/admin/mental-health">
-                        <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
-                    </a>
-                </li>
+                    <li>
+                        <a href="/admin/mental-health">
+                            <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
+                        </a>
+                    </li>
                 @endif
 
                 <li>
@@ -865,21 +865,21 @@
                                             <button type="button"
                                                 onclick="openModal('modal-riwayat-{{ $hasil->id }}')"
                                                 class="history-button tooltip-action"
-                                                style="background-color:#1d4ed8; color:white"
-                                                title="Riwayat Tes">
+                                                style="background-color:#1d4ed8; color:white" title="Riwayat Tes">
                                                 <i class="fas fa-history"></i>
                                             </button>
 
-                                            <button type="button" class="print-button tooltip-action"
-                                                style="background-color: green; color:white" onclick="printPDF(this)"
-                                                dusk="print-button-{{ $hasil->id }}"
-                                                title="Cetak PDF">
-                                                <svg class="svgIcon" viewBox="0 0 384 512" height="1em"
-                                                    xmlns="http://www.w3.org/2000/svg">
+                                            <a href="{{ route('admin.mental-health.detail', $hasil->id) }}"
+                                                class="detail-button tooltip-action"
+                                                style="background-color: #8b5cf6; color:white"
+                                                dusk="detail-button-{{ $hasil->id }}"
+                                                title="Detail Jawaban">
+                                                <svg class="svgIcon" viewBox="0 0 576 512" height="1em" width="1em"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                                     <path
-                                                        d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
+                                                        d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
                                                 </svg>
-                                            </button>
+                                            </a>
                                             <button type="button" style="background-color: red"
                                                 class="delete-button" onclick="confirmDelete({{ $hasil->id }})"
                                                 dusk="delete-button-{{ $hasil->id }}" title="Hapus">
@@ -899,8 +899,8 @@
                                     </td>
                                 </tr>
                                 <!-- Modal Riwayat -->
-                                <div id="modal-riwayat-{{ $hasil->id }}"
-                                    class="custom-modal" onclick="backdropClose(event, 'modal-riwayat-{{ $hasil->id }}')">
+                                <div id="modal-riwayat-{{ $hasil->id }}" class="custom-modal"
+                                    onclick="backdropClose(event, 'modal-riwayat-{{ $hasil->id }}')">
                                     <div class="custom-modal-content" onclick="event.stopPropagation();">
                                         <span class="custom-modal-close"
                                             onclick="closeModal('modal-riwayat-{{ $hasil->id }}')">&times;</span>
@@ -985,8 +985,8 @@
                                                     <br>
                                                     <div style="margin-top: 12px;">
                                                         <a href="{{ route('admin.mental-health.detail', $kuesioner->id) }}"
-                                                           class="btn-detail-jawaban"
-                                                           onclick="event.stopPropagation();">
+                                                            class="btn-detail-jawaban"
+                                                            onclick="event.stopPropagation();">
                                                             <i class="fas fa-list-alt"></i>
                                                             <span>Lihat Detail Jawaban</span>
                                                         </a>
