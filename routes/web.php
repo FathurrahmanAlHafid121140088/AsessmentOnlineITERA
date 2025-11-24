@@ -60,12 +60,20 @@ Route::middleware([AdminAuth::class])->group(function () {
         ->name('admin.delete');
 
     Route::get('/admin', function () {
+        // Data Mental Health
         $totalUsers = \App\Models\HasilKuesioner::distinct('nim')->count('nim');
         $totalTes = \App\Models\HasilKuesioner::count();
+
+        // Data Peminatan Karir
+        $totalKarirUsers = \App\Models\KarirDataDiri::count();
+        $totalKarirTes = \App\Models\RmibHasilTes::count();
+
         return view('Admin', [
             'title' => 'Admin',
             'totalUsers' => $totalUsers,
             'totalTes' => $totalTes,
+            'totalKarirUsers' => $totalKarirUsers,
+            'totalKarirTes' => $totalKarirTes,
         ]);
     });
 
@@ -90,7 +98,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Rute untuk menampilkan dan mengirim kuesioner
-    Route::get('/mental-health/kuesioner', function () {
+    Route::get('/mental-health/kuesioner', function () {       
         // Data 'nim' tidak perlu lagi dikirim dari sini, karena bisa diakses
         // langsung di view atau controller menggunakan Auth::user()->nim
         return view('kuesioner', [
@@ -127,21 +135,28 @@ Route::get('/mental-health', function () {
 })->name('mental-health.index');
 
 // =========================================================================
-// KARIR ROUTES (TES PEMINATAN KARIR RMIB) - WAJIB LOGIN
+// KARIR ROUTES (TES PEMINATAN KARIR RMIB)
 // =========================================================================
 
-Route::prefix('karir')->name('karir.')->middleware(['auth'])->group(function () {
+// Halaman home karir (info page - TIDAK PERLU LOGIN) -> GET /karir
+// User bisa melihat informasi tentang tes RMIB sebelum login
+Route::get('/karir', function () {
+    // Set session flag bahwa user sudah mengunjungi karir-home
+    session()->put('visited_karir_home', true);
+    return view('karir-home');
+})->name('karir.home');
 
-    // Halaman home karir (dashboard setelah login) -> GET /karir
-    Route::get('/', function () {
-        return view('karir-home');
-    })->name('home');
+// KARIR ROUTES YANG MEMERLUKAN LOGIN
+Route::prefix('karir')->name('karir.')->middleware(['auth'])->group(function () {
 
     // Dashboard user peminatan karir -> GET /karir/dashboard
     Route::get('/dashboard', [KarirController::class, 'userDashboard'])->name('dashboard');
 
     // Menampilkan form data diri -> GET /karir/data-diri
-    Route::get('/data-diri', [KarirController::class, 'showDataDiri'])->name('datadiri.form');
+    // Middleware 'check.karir.home' memastikan user sudah mengunjungi karir.home terlebih dahulu
+    Route::get('/data-diri', [KarirController::class, 'showDataDiri'])
+        ->middleware('check.karir.home')
+        ->name('datadiri.form');
 
     // Menyimpan data diri dari form -> POST /karir/data-diri
     Route::post('/data-diri', [KarirController::class, 'storeDataDiri'])->name('datadiri.store');
@@ -163,14 +178,20 @@ Route::prefix('karir')->name('karir.')->middleware(['auth'])->group(function () 
 
 Route::middleware([AdminAuth::class])->group(function () {
 
-    // Halaman utama admin karir (daftar peserta) -> GET /admin-home-karir
-    Route::get('/admin-home-karir', [KarirController::class, 'adminIndex'])->name('admin.karir.index');
+    // Halaman utama admin karir (daftar peserta) -> GET /admin/admin-karir
+    Route::get('/admin/admin-karir', [KarirController::class, 'adminIndex'])->name('admin.karir.index');
 
     // Halaman detail hasil peserta -> GET /admin/karir/detail/{hasil_tes}
     Route::get('/admin/karir/detail/{hasil_tes}', [KarirController::class, 'adminDetail'])->name('admin.karir.detail');
 
     // Halaman list pekerjaan RMIB -> GET /admin/karir/list-pekerjaan/{hasil_tes}
     Route::get('/admin/karir/list-pekerjaan/{hasil_tes}', [KarirController::class, 'adminListPekerjaan'])->name('admin.karir.list-pekerjaan');
+
+    // Halaman Data Provinsi -> GET /admin/peminatan-karir/provinsi
+    Route::get('/admin/peminatan-karir/provinsi', [KarirController::class, 'adminProvinsi'])->name('admin.karir.provinsi');
+
+    // Halaman Data Program Studi -> GET /admin/peminatan-karir/program-studi
+    Route::get('/admin/peminatan-karir/program-studi', [KarirController::class, 'adminProgramStudi'])->name('admin.karir.program-studi');
 
     // Hapus hasil tes -> DELETE /admin/karir/{hasil_tes}
     Route::delete('/admin/karir/{hasil_tes}', [KarirController::class, 'destroy'])->name('admin.karir.delete');

@@ -44,6 +44,7 @@ class KarirExport implements FromCollection, WithHeadings, WithMapping, WithStyl
             'Nama',
             'Fakultas',
             'Program Studi',
+            'Prodi Sesuai Keinginan',
             'Jenis Kelamin',
             'Usia',
             'Provinsi',
@@ -51,11 +52,9 @@ class KarirExport implements FromCollection, WithHeadings, WithMapping, WithStyl
             'Email',
             'Asal Sekolah',
             'Status Tinggal',
-            'Prodi Sesuai Keinginan',
-            'Top 1 Pekerjaan',
-            'Top 2 Pekerjaan',
-            'Top 3 Pekerjaan',
-            'Interpretasi',
+            'Top 1' ,
+            'Top 2 ',
+            'Top 3 ',
         ];
     }
 
@@ -64,22 +63,6 @@ class KarirExport implements FromCollection, WithHeadings, WithMapping, WithStyl
      */
     public function map($hasil): array
     {
-        // Mapping kategori RMIB ke format lengkap
-        $kategoriRMIB = [
-            'Outdoor' => 'Outdoor (O)',
-            'Mechanical' => 'Mechanical (M)',
-            'Computational' => 'Computational (C)',
-            'Scientific' => 'Scientific (S)',
-            'Personal Contact' => 'Personal Contact (P)',
-            'Aesthetic' => 'Aesthetic (A)',
-            'Literary' => 'Literary (L)',
-            'Musical' => 'Musical (Mu)',
-            'Social Service' => 'Social Service (SS)',
-            'Clerical' => 'Clerical (Cl)',
-            'Practical' => 'Practical (Pr)',
-            'Medical' => 'Medical (Me)',
-        ];
-
         return [
             ++$this->rowNumber,
             $hasil->tanggal_pengerjaan ? \Carbon\Carbon::parse($hasil->tanggal_pengerjaan)->setTimezone('Asia/Jakarta')->format('d-m-Y H:i:s') : 'N/A',
@@ -87,6 +70,7 @@ class KarirExport implements FromCollection, WithHeadings, WithMapping, WithStyl
             $hasil->karirDataDiri->nama ?? 'N/A',
             $hasil->karirDataDiri->fakultas ?? 'N/A',
             $hasil->karirDataDiri->program_studi ?? 'N/A',
+            $hasil->karirDataDiri->prodi_sesuai_keinginan ?? 'N/A',
             $hasil->karirDataDiri->jenis_kelamin ?? 'N/A',
             $hasil->karirDataDiri->usia ?? 'N/A',
             $hasil->karirDataDiri->provinsi ?? 'N/A',
@@ -94,11 +78,9 @@ class KarirExport implements FromCollection, WithHeadings, WithMapping, WithStyl
             $hasil->karirDataDiri->email ?? 'N/A',
             $hasil->karirDataDiri->asal_sekolah ?? 'N/A',
             $hasil->karirDataDiri->status_tinggal ?? 'N/A',
-            $hasil->karirDataDiri->prodi_sesuai_keinginan ?? 'N/A',
-            $kategoriRMIB[$hasil->top_1_pekerjaan] ?? $hasil->top_1_pekerjaan ?? 'N/A',
-            $kategoriRMIB[$hasil->top_2_pekerjaan] ?? $hasil->top_2_pekerjaan ?? 'N/A',
-            $kategoriRMIB[$hasil->top_3_pekerjaan] ?? $hasil->top_3_pekerjaan ?? 'N/A',
-            $hasil->interpretasi ?? 'N/A',
+            $hasil->top_1_pekerjaan ?? 'N/A',
+            $hasil->top_2_pekerjaan ?? 'N/A',
+            $hasil->top_3_pekerjaan ?? 'N/A',
         ];
     }
 

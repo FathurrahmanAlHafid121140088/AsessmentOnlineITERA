@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Model;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,5 +26,18 @@ class AppServiceProvider extends ServiceProvider
         // Register Model Observers untuk auto cache invalidation
         \App\Models\HasilKuesioner::observe(\App\Observers\HasilKuesionerObserver::class);
         \App\Models\DataDiris::observe(\App\Observers\DataDirisObserver::class);
+
+        // ========================================
+        // PERFORMANCE: Prevent Lazy Loading (N+1 Detection)
+        // ========================================
+        // Throw exception ketika ada lazy loading di development
+        // Ini memaksa developer untuk selalu menggunakan eager loading
+        Model::preventLazyLoading(!app()->isProduction());
+
+        // Prevent silently discarding attributes (keamanan data)
+        Model::preventSilentlyDiscardingAttributes(!app()->isProduction());
+
+        // Prevent accessing missing attributes (bug detection)
+        Model::preventAccessingMissingAttributes(!app()->isProduction());
     }
 }

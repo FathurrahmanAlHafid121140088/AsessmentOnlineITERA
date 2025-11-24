@@ -110,7 +110,7 @@
                 @endif
 
                 <li>
-                    <a href="">
+                    <a href="/admin/admin-karir">
                         <i class="fas fa-briefcase" style="margin-right: 1rem;"></i> Peminatan Karir
                     </a>
                 </li>

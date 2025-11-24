@@ -23,14 +23,9 @@ class RmibHasilTes extends Model
         'karir_data_diri_id',
         'tanggal_pengerjaan',
         'top_1_pekerjaan',
-        'top_1_alasan',
         'top_2_pekerjaan',
-        'top_2_alasan',
         'top_3_pekerjaan',
-        'top_3_alasan',
         'pekerjaan_lain',
-        'pekerjaan_lain_alasan',
-        'skor_konsistensi',
         'interpretasi',
     ];
 

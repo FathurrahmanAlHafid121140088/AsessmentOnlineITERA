@@ -576,7 +576,7 @@
         'MED': {
             name: 'Medical',
             icon: 'fas fa-heartbeat',
-            description: 'Minat terhadap pekerjaan yang berhubungan dengan kesehatan, perawatan, dan pengobatan.',
+            description: 'Tertarik pada ilmu kedokteran dan kesehatan. Minat terhadap pekerjaan yang berhubungan dengan kesehatan, perawatan, dan pengobatan.',
             characteristics: [
                 'Peduli terhadap kesehatan orang lain',
                 'Tertarik pada ilmu kedokteran',
