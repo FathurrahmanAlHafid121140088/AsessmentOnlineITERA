@@ -25,7 +25,7 @@ class AdminAuthController extends Controller
         // cek login dengan guard admin
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin'); // arahkan ke halaman admin selection
+            return redirect()->intended(route('admin.home')); // arahkan ke halaman admin home
         }
 
         // kalau gagal login
@@ -39,6 +39,6 @@ class AdminAuthController extends Controller
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login')->with('success', 'Anda berhasil logout.');
+        return redirect()->route('login')->with('success', 'Anda berhasil logout.');
     }
 }

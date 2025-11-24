@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Users;
-// use App\Models\Admin; // Hapus atau sesuaikan jika Anda menggunakan model Admin
+use App\Models\Admin;
 use App\Models\DataDiris;
 use App\Models\HasilKuesioner;
 use App\Models\RiwayatKeluhans;
@@ -22,17 +22,17 @@ class HasilKuesionerCombinedControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $admin; // Ubah nama variabel jika lebih sesuai
+    protected $admin;
 
     /**
      * Setup environment untuk setiap tes.
-     * Membuat pengguna (admin) dan login.
+     * Membuat admin dan login.
      */
     protected function setUp(): void
     {
         parent::setUp();
-        // Buat pengguna biasa saja, karena kolom 'is_admin' tidak ada.
-        $this->admin = Users::factory()->create();
+        // Buat admin menggunakan Admin model
+        $this->admin = Admin::factory()->create();
     }
 
     // ================================================

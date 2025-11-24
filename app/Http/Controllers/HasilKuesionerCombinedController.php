@@ -132,6 +132,13 @@ class HasilKuesionerCombinedController extends Controller
         // 6. Ambil data dengan Pagination (Hanya 1 query utama untuk data tabel)
         $hasilKuesioners = $query->paginate($limit)->withQueryString();
 
+        // ⚡ EAGER LOADING: Load relasi untuk menghindari lazy loading di view/test
+        $hasilKuesioners->load([
+            'dataDiri.hasilKuesioners',
+            'dataDiri.riwayatKeluhans',
+            'riwayatKeluhans'
+        ]);
+
         // ✅ PERUBAHAN: Tambahkan status pesan pencarian (hanya untuk request awal, bukan paginasi)
         $searchMessage = null;
         // Pesan hanya akan muncul jika ada parameter 'search' DAN BUKAN dari klik paginasi (selain halaman 1)

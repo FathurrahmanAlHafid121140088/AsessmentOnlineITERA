@@ -20,6 +20,7 @@ class AdminFactory extends Factory
             'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => bcrypt('password123'),
+            'remember_token' => \Illuminate\Support\Str::random(10),
         ];
     }
 }
