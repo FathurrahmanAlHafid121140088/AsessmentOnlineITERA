@@ -25,7 +25,18 @@
       "Bash(php:*)",
       "Bash(where:*)",
       "Bash(gh:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(findstr:*)",
+      "Bash(curl:*)",
+      "Bash(powershell -Command \"Get-Content ''C:\\laragon\\bin\\php\\php-8.3.16-Win32-vs16-x64\\php.ini'' | Select-Object -Last 20\")",
+      "Bash(echo:*)",
+      "Bash(powershell -Command \"(Get-Content ''C:\\laragon\\bin\\php\\php-8.3.16-Win32-vs16-x64\\php.ini'' | Measure-Object -Line).Lines\")",
+      "Bash(Select-String -Pattern \"Tests:|Duration:|app\\|%\")",
+      "Bash(powershell -Command \"Get-Content coverage_report.txt | Select-String -Pattern ''Tests:|Duration:|app\\\\|───|PASS|FAIL'' | Select-Object -Last 50\")",
+      "Bash(powershell -Command \"Get-Content coverage_report.txt | Select-String -Pattern ''app\\\\'' -Context 0,0\")",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

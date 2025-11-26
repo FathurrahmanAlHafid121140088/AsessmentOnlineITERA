@@ -97,7 +97,7 @@
                             alt="..." /></div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="subheading">4️⃣ Dapatkan Hasil Instan</h4>
+                            <h4 class="subheading">4️⃣ Dapatkan Hasil Cepat dan Mudah Dipahami</h4>
                         </div>
                         <div class="timeline-body">
                             <p class="text-muted">Hasil otomatis ditampilkan setelah tes selesai.
@@ -182,10 +182,15 @@
                         <p class="text-center mb-2">Temukan pekerjaan yang sesuai dengan bakat dan kepribadian Anda.
                         </p>
                         <div class="flex-grow-1">
-                            <p class="text-muted text-center">Metode RMIB (Rothwell-Miller Interest Blank) adalah instrumen asesmen minat karir yang membantu mengidentifikasi preferensi Anda terhadap 12 kategori pekerjaan. Dengan mengurutkan berbagai jenis pekerjaan berdasarkan minat, Anda akan mendapatkan gambaran jelas tentang jalur karir yang paling sesuai dengan kepribadian dan minat alami Anda.</p>
+                            <p class="text-muted text-center">Metode RMIB (Rothwell-Miller Interest Blank) adalah
+                                instrumen asesmen minat karir yang membantu mengidentifikasi preferensi Anda terhadap 12
+                                kategori pekerjaan. Dengan mengurutkan berbagai jenis pekerjaan berdasarkan minat, Anda
+                                akan mendapatkan gambaran jelas tentang jalur karir yang paling sesuai dengan
+                                kepribadian dan minat alami Anda.</p>
                         </div>
                         <div class="text-center mt-auto pt-3">
-                            <a class="btn btn-primary btn-xl text-uppercase" href="{{ route('karir.home') }}">Tes Sekarang!</a>
+                            <a class="btn btn-primary btn-xl text-uppercase" href="{{ route('karir.home') }}">Tes
+                                Sekarang!</a>
                         </div>
                     </div>
                 </div>

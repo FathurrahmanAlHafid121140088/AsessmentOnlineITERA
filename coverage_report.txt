@@ -1,0 +1,375 @@
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ExampleTest[39m
+  [32;1m✓[39;22m[90m [39m[90mthat true is true[39m[90m                                                                                           [39m [90m0.20s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Models\DataDirisTest[39m
+  [32;1m✓[39;22m[90m [39m[90mmodel uses nim as primary key[39m[90m                                                                               [39m [90m2.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmodel has correct fillable attributes[39m[90m                                                                       [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhas many riwayat keluhans[39m[90m                                                                                   [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhas many hasil kuesioners[39m[90m                                                                                   [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhas one latest hasil kuesioner[39m[90m                                                                              [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmodel can be created with valid data[39m[90m                                                                        [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mscope search filters by keyword[39m[90m                                                                             [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mscope search returns all when no keyword[39m[90m                                                                    [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan update data diri[39m[90m                                                                                        [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan delete data diri[39m[90m                                                                                        [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan filter by fakultas[39m[90m                                                                                      [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan filter by jenis kelamin[39m[90m                                                                                 [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan filter by asal sekolah[39m[90m                                                                                  [39m [90m0.10s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Models\HasilKuesionerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mmodel has correct fillable attributes[39m[90m                                                                       [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmodel uses correct table[39m[90m                                                                                    [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbelongs to data diri[39m[90m                                                                                        [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhas many riwayat keluhans[39m[90m                                                                                   [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmodel can be created with valid data[39m[90m                                                                        [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan get latest result by nim[39m[90m                                                                                [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan count total tests by nim[39m[90m                                                                                [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan get distinct nims[39m[90m                                                                                       [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan group by kategori[39m[90m                                                                                       [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mtimestamps are automatically managed[39m[90m                                                                        [39m [90m1.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan delete hasil kuesioner[39m[90m                                                                                  [39m [90m0.11s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Models\RiwayatKeluhansTest[39m
+  [32;1m✓[39;22m[90m [39m[90mmodel uses correct table[39m[90m                                                                                    [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmodel has correct fillable attributes[39m[90m                                                                       [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmodel can be created with valid data[39m[90m                                                                        [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan get latest keluhan by nim[39m[90m                                                                               [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan count riwayat by nim[39m[90m                                                                                    [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan filter by pernah konsul[39m[90m                                                                                 [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan update riwayat[39m[90m                                                                                          [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcan delete riwayat[39m[90m                                                                                          [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mtimestamps are automatically managed[39m[90m                                                                        [39m [90m0.10s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminAuthTest[39m
+  [32;1m✓[39;22m[90m [39m[90mlogin admin dengan kredensial valid[39m[90m                                                                         [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogin admin dengan email tidak valid[39m[90m                                                                        [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogin admin dengan password salah[39m[90m                                                                           [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogin admin dengan field email kosong[39m[90m                                                                       [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogin admin dengan field password kosong[39m[90m                                                                    [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mvalidasi format email harus valid[39m[90m                                                                           [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mregenerasi session setelah login berhasil[39m[90m                                                                   [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mredirect ke halaman admin setelah login berhasil[39m[90m                                                            [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpesan error saat gagal login[39m[90m                                                                                [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogout admin dengan invalidasi session[39m[90m                                                                      [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mredirect ke login setelah logout[39m[90m                                                                            [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mguest middleware redirect user sudah login[39m[90m                                                                  [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin auth middleware untuk route admin[39m[90m                                                                     [39m [90m0.26s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminCetakPdfTest[39m
+  [32;1m✓[39;22m[90m [39m[90mgenerate pdf detail jawaban dengan data valid[39m[90m                                                               [39m [90m0.34s[39m  
+  [32;1m✓[39;22m[90m [39m[90mkonten pdf berisi header info mahasiswa dan tabel jawaban[39m[90m                                                   [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90mwatermark generated by analogy itera pada pdf[39m[90m                                                               [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90mformat tabel pdf dengan 38 pertanyaan lengkap[39m[90m                                                               [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpdf hanya bisa diakses oleh admin terautentikasi[39m[90m                                                            [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpdf tidak bisa digenerate untuk data tidak ada[39m[90m                                                              [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdata mahasiswa lengkap tersedia untuk header pdf[39m[90m                                                            [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mklasifikasi item positif negatif tersedia untuk pdf[39m[90m                                                         [39m [90m0.27s[39m  
+  [32;1m✓[39;22m[90m [39m[90mtimestamp tanggal tersedia untuk footer pdf[39m[90m                                                                 [39m [90m0.29s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminDashboardCompleteTest[39m
+  [32;1m✓[39;22m[90m [39m[90madmin can access dashboard[39m[90m                                                                                  [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mguest cannot access admin dashboard[39m[90m                                                                         [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdashboard shows correct statistics[39m[90m                                                                          [39m [90m0.30s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpagination works correctly[39m[90m                                                                                  [39m [90m0.74s[39m  
+  [32;1m✓[39;22m[90m [39m[90msearch functionality[39m[90m                                                                                        [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mfilter by kategori[39m[90m                                                                                          [39m [90m0.27s[39m  
+  [32;1m✓[39;22m[90m [39m[90msort functionality[39m[90m                                                                                          [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelete functionality[39m[90m                                                                                        [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelete invalidates cache[39m[90m                                                                                    [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport to excel[39m[90m                                                                                             [39m [90m0.41s[39m  
+  [32;1m✓[39;22m[90m [39m[90mkategori counts displayed correctly[39m[90m                                                                         [39m [90m0.30s[39m  
+  [32;1m✓[39;22m[90m [39m[90mfakultas statistics displayed correctly[39m[90m                                                                     [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90mjumlah tes per mahasiswa calculated correctly[39m[90m                                                               [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly latest test per student shown[39m[90m                                                                          [39m [90m0.35s[39m  
+  [32;1m✓[39;22m[90m [39m[90masal sekolah statistics calculated correctly[39m[90m                                                                [39m [90m0.35s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcache is used for statistics[39m[90m                                                                                [39m [90m0.42s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminDetailJawabanTest[39m
+  [32;1m✓[39;22m[90m [39m[90mtampilan 38 pertanyaan dengan jawaban mahasiswa[39m[90m                                                             [39m [90m0.39s[39m  
+  [32;1m✓[39;22m[90m [39m[90midentifikasi item negatif[39m[90m                                                                                   [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90midentifikasi item positif[39m[90m                                                                                   [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90mtampilan informasi data diri lengkap mahasiswa[39m[90m                                                              [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90makses detail dengan id tidak valid[39m[90m                                                                          [39m [90m0.24s[39m  
+  [32;1m✓[39;22m[90m [39m[90makses detail tanpa login admin[39m[90m                                                                              [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdetail jawaban urut berdasarkan nomor soal[39m[90m                                                                  [39m [90m0.30s[39m  
+  [32;1m✓[39;22m[90m [39m[90msemua 38 jawaban harus ada[39m[90m                                                                                  [39m [90m0.27s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrelasi hasil kuesioner dengan detail jawaban[39m[90m                                                                [39m [90m0.51s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AuthControllerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mredirect ke google[39m[90m                                                                                          [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback buat user baru[39m[90m                                                                                     [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback update user lama[39m[90m                                                                                   [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback gagal email salah[39m[90m                                                                                  [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback gagal exception[39m[90m                                                                                    [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback gagal dengan email staff itera[39m[90m                                                                     [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback berhasil dengan berbagai format nim[39m[90m                                                                [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback gagal dengan email yahoo[39m[90m                                                                           [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback gagal dengan email outlook[39m[90m                                                                         [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback gagal dengan domain typo[39m[90m                                                                           [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallback gagal dengan email tanpa domain[39m[90m                                                                    [39m [90m0.10s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\CachePerformanceTest[39m
+  [32;1m✓[39;22m[90m [39m[90madmin dashboard statistics are cached[39m[90m                                                                       [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcache persists across multiple requests[39m[90m                                                                     [39m [90m0.41s[39m  
+  [32;1m✓[39;22m[90m [39m[90msubmitting kuesioner invalidates admin cache[39m[90m                                                                [39m [90m0.27s[39m  
+  [32;1m✓[39;22m[90m [39m[90msubmitting data diri invalidates specific caches[39m[90m                                                            [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90muser dashboard cache is per user[39m[90m                                                                            [39m [90m0.34s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcache ttl is respected[39m[90m                                                                                      [39m [90m2.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdeleting user invalidates all caches[39m[90m                                                                        [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmultiple users submitting doesnt conflict caches[39m[90m                                                            [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcache helps reduce database queries[39m[90m                                                                         [39m [90m0.41s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\DashboardControllerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mpengguna tidak login[39m[90m                                                                                        [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpengguna login tanpa riwayat tes[39m[90m                                                                            [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpengguna login dengan riwayat tes[39m[90m                                                                           [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpengguna dengan banyak riwayat tes[39m[90m                                                                          [39m [90m0.34s[39m  
+  [32;1m✓[39;22m[90m [39m[90mchart dengan progres menurun[39m[90m                                                                                [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpengguna dengan tes tanpa keluhan[39m[90m                                                                           [39m [90m0.28s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\DataDirisControllerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mform create pengguna belum login[39m[90m                                                                            [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mform create pengguna login tanpa data diri[39m[90m                                                                  [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mform create pengguna login dengan data diri[39m[90m                                                                 [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mform store pengguna belum login[39m[90m                                                                             [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mform store data valid data diri baru[39m[90m                                                                        [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mform store data valid update data diri[39m[90m                                                                      [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mform store validasi usia minimum[39m[90m                                                                            [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mform store validasi usia maksimum[39m[90m                                                                           [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpengaturan session setelah submit data diri[39m[90m                                                                 [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mredirect ke halaman kuesioner setelah berhasil submit[39m[90m                                                       [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpenyimpanan riwayat keluhan baru setiap submit[39m[90m                                                              [39m [90m0.14s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\ExportFunctionalityTest[39m
+  [32;1m✓[39;22m[90m [39m[90mexport returns downloadable file[39m[90m                                                                            [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport filename contains date[39m[90m                                                                               [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport respects search filters[39m[90m                                                                              [39m [90m0.21s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport respects kategori filter[39m[90m                                                                             [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport works with large dataset[39m[90m                                                                             [39m [90m2.47s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport requires authentication[39m[90m                                                                              [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport respects sort parameters[39m[90m                                                                             [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport handles empty data[39m[90m                                                                                   [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport file has correct mime type[39m[90m                                                                           [39m [90m0.26s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\HasilKuesionerCombinedControllerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mindex pengguna belum login dialihkan ke login[39m[90m                                                               [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex admin login data kosong berhasil dimuat[39m[90m                                                               [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex hanya menampilkan hasil tes terakhir per mahasiswa[39m[90m                                                    [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex paginasi berfungsi sesuai limit[39m[90m                                                                       [39m [90m0.45s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex filter kategori berfungsi[39m[90m                                                                             [39m [90m0.30s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex sort berdasarkan nama asc berfungsi[39m[90m                                                                   [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex pencarian berdasarkan nama berfungsi[39m[90m                                                                  [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex pencarian berdasarkan aturan khusus fakultas berfungsi[39m[90m                                                [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex pencarian tidak ditemukan menampilkan hasil kosong[39m[90m                                                    [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex statistik dihitung dengan benar[39m[90m                                                                       [39m [90m0.27s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdestroy pengguna belum login dialihkan ke login[39m[90m                                                             [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdestroy data tidak ditemukan redirect dengan error[39m[90m                                                          [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdestroy data berhasil dihapus[39m[90m                                                                               [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport excel pengguna belum login dialihkan ke login[39m[90m                                                        [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport excel dipicu dengan benar[39m[90m                                                                            [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex filter kombinasi kategori dan search berfungsi[39m[90m                                                        [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex sort berdasarkan nim desc berfungsi[39m[90m                                                                   [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex sort berdasarkan tanggal desc berfungsi[39m[90m                                                               [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex paginasi halaman kedua berfungsi[39m[90m                                                                      [39m [90m0.55s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex statistik dengan semua kategori sama[39m[90m                                                                  [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex pencarian case insensitive berfungsi[39m[90m                                                                  [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex filter kategori tidak ada hasil kosong[39m[90m                                                                [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex kombinasi filter sort search sekaligus[39m[90m                                                                [39m [90m0.34s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdestroy hapus mahasiswa dengan multiple hasil tes[39m[90m                                                           [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport excel dengan data kosong[39m[90m                                                                             [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexport excel dengan filter kategori[39m[90m                                                                         [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex pencarian berdasarkan nim berfungsi[39m[90m                                                                   [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex pencarian berdasarkan program studi berfungsi[39m[90m                                                         [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail pengguna belum login dialihkan ke login[39m[90m                                                         [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail data tidak ditemukan error 404[39m[90m                                                                  [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail berhasil menampilkan data lengkap[39m[90m                                                               [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail menampilkan 38 pertanyaan[39m[90m                                                                       [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail pertanyaan negatif ditandai dengan benar[39m[90m                                                        [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail info mahasiswa urutan benar[39m[90m                                                                     [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail tombol kembali dan cetak ada[39m[90m                                                                    [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mshow detail title mengandung nama mahasiswa[39m[90m                                                                 [39m [90m0.17s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\HasilKuesionerControllerTest[39m
+  [32;1m✓[39;22m[90m [39m[90msimpan kuesioner kategori sangat sehat[39m[90m                                                                      [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90msimpan kuesioner kategori sehat[39m[90m                                                                             [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90msimpan kuesioner kategori cukup sehat[39m[90m                                                                       [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90msimpan kuesioner kategori perlu dukungan[39m[90m                                                                    [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90msimpan kuesioner kategori perlu dukungan intensif[39m[90m                                                           [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90msimpan kuesioner kategori tidak terdefinisi[39m[90m                                                                 [39m [90m0.24s[39m  
+  [32;1m✓[39;22m[90m [39m[90mnim tersimpan di session[39m[90m                                                                                    [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mtampilkan hasil dengan nim di session[39m[90m                                                                       [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mredirect jika nim tidak ada di session[39m[90m                                                                      [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mredirect jika data hasil tidak ditemukan[39m[90m                                                                    [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmenampilkan data hasil terbaru[39m[90m                                                                              [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbatas minimal skor kategori[39m[90m                                                                                 [39m [90m0.52s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbatas maksimal skor kategori[39m[90m                                                                                [39m [90m0.50s[39m  
+  [32;1m✓[39;22m[90m [39m[90mkonversi input string ke integer[39m[90m                                                                            [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90msubmit multiple kuesioner nim sama[39m[90m                                                                          [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mskor dengan variasi jawaban[39m[90m                                                                                 [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mnim session tersimpan setelah submit[39m[90m                                                                        [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mredirect setelah submit berhasil[39m[90m                                                                            [39m [90m0.18s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\KuesionerValidationTest[39m
+  [32;1m✓[39;22m[90m [39m[90mvalidasi batas minimum nilai 1[39m[90m                                                                              [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90mvalidasi batas maksimum nilai 6[39m[90m                                                                             [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpenyimpanan detail jawaban per nomor soal[39m[90m                                                                   [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdetail jawaban tersimpan dengan hasil kuesioner id benar[39m[90m                                                    [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdetail jawaban tersimpan dengan nomor soal berurutan[39m[90m                                                        [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmultiple submit menyimpan detail jawaban terpisah[39m[90m                                                           [39m [90m0.26s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\MentalHealthWorkflowIntegrationTest[39m
+  [32;1m✓[39;22m[90m [39m[90mcomplete user workflow[39m[90m                                                                                      [39m [90m0.55s[39m  
+  [32;1m✓[39;22m[90m [39m[90muser takes multiple tests over time[39m[90m                                                                         [39m [90m0.55s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin complete workflow[39m[90m                                                                                     [39m [90m0.73s[39m  
+  [32;1m✓[39;22m[90m [39m[90mupdate data diri workflow[39m[90m                                                                                   [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mfull workflow with cache invalidation[39m[90m                                                                       [39m [90m0.44s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmultiple students same workflow[39m[90m                                                                             [39m [90m0.77s[39m  
+  [32;1m✓[39;22m[90m [39m[90merror handling in workflow[39m[90m                                                                                  [39m [90m0.16s[39m  
+
+=== MATRIX TEST RESULTS ===
+Matrix Structure:
+  Outdoor: A=1, B=1
+  Mechanical: A=2, B=12
+  Computational: A=3, B=11
+  Scientific: A=4, B=10
+  Personal Contact: A=5, B=9
+  Aesthetic: A=6, B=8
+  Literary: A=7, B=7
+  Musical: A=8, B=6
+  Social Service: A=9, B=5
+  Clerical: A=10, B=4
+  Practical: A=11, B=3
+  Medical: A=12, B=2
+
+SUM Scores:
+  Outdoor: 2
+  Mechanical: 14
+  Computational: 14
+  Scientific: 14
+  Personal Contact: 14
+  Aesthetic: 14
+  Literary: 14
+  Musical: 14
+  Social Service: 14
+  Clerical: 14
+  Practical: 14
+  Medical: 14
+
+RANK:
+  Outdoor: 1
+  Aesthetic: 2
+  Clerical: 3
+  Computational: 4
+  Literary: 5
+  Mechanical: 6
+  Medical: 7
+  Musical: 8
+  Personal Contact: 9
+  Practical: 10
+  Scientific: 11
+  Social Service: 12
+
+=== FULL SCORING TEST RESULTS ===
+Consistency Score: 1/10
+
+Category Scores:
+  Outdoor: Score=69, Rank=11
+  Mechanical: Score=66, Rank=10
+  Computational: Score=63, Rank=8
+  Scientific: Score=60, Rank=7
+  Personal Contact: Score=57, Rank=6
+  Aesthetic: Score=54, Rank=4
+  Literary: Score=51, Rank=3
+  Musical: Score=48, Rank=2
+  Social Service: Score=45, Rank=1
+  Clerical: Score=54, Rank=5
+  Practical: Score=63, Rank=9
+  Medical: Score=72, Rank=12
+
+=== CIRCULAR SHIFT VERIFICATION ===
+Cluster A Matrix Values (should match expected ranking 1-12):
+  ✓ Outdoor: Expected=1, Actual=1
+  ✓ Mechanical: Expected=2, Actual=2
+  ✓ Computational: Expected=3, Actual=3
+  ✓ Scientific: Expected=4, Actual=4
+  ✓ Personal Contact: Expected=5, Actual=5
+  ✓ Aesthetic: Expected=6, Actual=6
+  ✓ Literary: Expected=7, Actual=7
+  ✓ Musical: Expected=8, Actual=8
+  ✓ Social Service: Expected=9, Actual=9
+  ✓ Clerical: Expected=10, Actual=10
+  ✓ Practical: Expected=11, Actual=11
+  ✓ Medical: Expected=12, Actual=12
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\RmibScoringTest[39m
+  [32;1m✓[39;22m[90m [39m[90mpekerjaan ordering maintains circular shift[39m[90m                                                                 [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmatrix generation with sample data[39m[90m                                                                          [39m [90m1.57s[39m  
+  [32;1m✓[39;22m[90m [39m[90mfull scoring with all clusters[39m[90m                                                                              [39m [90m1.79s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcircular shift pattern in matrix[39m[90m                                                                            [39m [90m1.58s[39m  
+
+  [90mTests:[39m    [32;1m198 passed[39;22m[90m (1002 assertions)[39m
+  [90mDuration:[39m [39m55.85s[39m
+
+  Console/Commands\CheckValidityStatus [90m..........................................................................[39m [31m0.0%[39m  
+  Console/Commands\RecalculateRmibResults [90m.......................................................................[39m [31m0.0%[39m  
+  Exports\HasilKuesionerExport [90m................................................................[39m [33m76, 82, 88, 94[39m[33m [39m[90m/[39m[33m 95.7%[39m  
+  Exports\KarirExport [90m...........................................................................................[39m [31m0.0%[39m  
+  Http/Controllers\AdminsController [90m.............................................................................[39m [31m0.0%[39m  
+  Http/Controllers\AuthController [90m.........................................................................[39m [33m71[39m[33m [39m[90m/[39m[33m 96.7%[39m  
+  Http/Controllers/Auth\AdminAuthController [90m...........................................................[39m [33m13..14[39m[33m [39m[90m/[39m[33m 87.5%[39m  
+  Http/Controllers/Auth\AuthController [90m........................................................................[39m [32m100.0%[39m  
+  Http/Controllers\Controller [90m.................................................................................[39m [32m100.0%[39m  
+  Http/Controllers\DashboardController [90m........................................................................[39m [32m100.0%[39m  
+  Http/Controllers\DataDirisController [90m................................................................[39m [33m87..92[39m[33m [39m[90m/[39m[33m 89.1%[39m  
+  Http/Controllers\HasilKuesionerCombinedController [90m.................................................[39m [33m306..323[39m[33m [39m[90m/[39m[33m 97.2%[39m  
+  Http/Controllers\HasilKuesionerController [90m...................................................................[39m [32m100.0%[39m  
+  Http/Controllers\HasilKuesionerPaginationController [90m...........................................................[39m [31m0.0%[39m  
+  Http/Controllers\KarirController [90m..............................................................................[39m [31m0.0%[39m  
+  Http/Controllers\RiwayatKeluhansController [90m....................................................................[39m [31m0.0%[39m  
+  Http/Controllers\SearchController [90m.............................................................................[39m [31m0.0%[39m  
+  Http/Controllers\StatistikController [90m..........................................................................[39m [31m0.0%[39m  
+  Http/Controllers\UsersController [90m..............................................................................[39m [31m0.0%[39m  
+  Http/Middleware\AdminAuth [90m...........................................................................[39m [33m23..28[39m[33m [39m[90m/[39m[33m 58.3%[39m  
+  Http/Middleware\CheckKarirHomeAccess [90m..........................................................................[39m [31m0.0%[39m  
+  Http/Middleware\CheckNimSession [90m...............................................................................[39m [31m0.0%[39m  
+  Http/Middleware\RedirectIfAuthenticated [90m.................................................................[39m [33m25[39m[33m [39m[90m/[39m[33m 85.7%[39m  
+  Http/Middleware\VerifyCsrfToken [90m...............................................................................[39m [31m0.0%[39m  
+  Http/Requests\StoreDataDiriRequest [90m..........................................................................[39m [32m100.0%[39m  
+  Http/Requests\StoreHasilKuesionerRequest [90m....................................................................[39m [32m100.0%[39m  
+  Http/Requests\StoreRmibJawabanRequest [90m.........................................................................[39m [31m0.0%[39m  
+  Models\Admin [90m................................................................................................[39m [32m100.0%[39m  
+  Models\DataDiris [90m........................................................................................[39m [33m52[39m[33m [39m[90m/[39m[33m 97.0%[39m  
+  Models\HasilKuesioner [90m.......................................................................................[39m [32m100.0%[39m  
+  Models\Jawaban [90m................................................................................................[39m [31m0.0%[39m  
+  Models\JawabansDetails [90m........................................................................................[39m [31m0.0%[39m  
+  Models\KarirDataDiri [90m..........................................................................................[39m [31m0.0%[39m  
+  Models\MentalHealthJawabanDetail [90m..............................................................................[39m [31m0.0%[39m  
+  Models\RiwayatKeluhans [90m........................................................................................[39m [31m0.0%[39m  
+  Models\RmibHasilTes [90m...........................................................................................[39m [31m0.0%[39m  
+  Models\RmibJawabanPeserta [90m.....................................................................................[39m [31m0.0%[39m  
+  Models\RmibPekerjaan [90m........................................................................................[39m [32m100.0%[39m  
+  Models\Users [90m................................................................................................[39m [32m100.0%[39m  
+  Observers\DataDirisObserver [90m.........................................................................[39m [33m39..47[39m[33m [39m[90m/[39m[33m 71.4%[39m  
+  Observers\HasilKuesionerObserver [90m....................................................................[39m [33m42..52[39m[33m [39m[90m/[39m[33m 73.3%[39m  
+  Providers\AppServiceProvider [90m................................................................................[39m [32m100.0%[39m  
+  Services\RmibScoringService [90m........................................................[39m [33m170..190, 307, 188..249[39m[33m [39m[90m/[39m[33m 63.5%[39m  
+  View/Components\Footer [90m......................................................................................[39m [32m100.0%[39m  
+  View/Components\Layout [90m........................................................................................[39m [31m0.0%[39m  
+  View/Components\NamaComponent [90m.................................................................................[39m [31m0.0%[39m  
+  View/Components\Navbar [90m......................................................................................[39m [32m100.0%[39m  
+  View/Components\option [90m........................................................................................[39m [31m0.0%[39m  
+  View/Components\optionA [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionC [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionD [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionE [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionF [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionG [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionH [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionI [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionJ [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionK [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionL [90m.......................................................................................[39m [31m0.0%[39m  
+  View/Components\optionb [90m.......................................................................................[39m [31m0.0%[39m  
+  [90m────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+                                                                                                         [1mTotal: 38.9 %[22m  
