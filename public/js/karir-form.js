@@ -44,26 +44,22 @@ function initializeForm() {
         // Add progress indicator to group header
         addProgressIndicator(group, kelompok);
 
-        // Add event listeners to all inputs in this group
-        const inputs = group.querySelectorAll(".job-rank-input");
-        inputs.forEach((input) => {
-            // Real-time validation on change
-            input.addEventListener("change", function () {
-                handleInputChange(this, group, kelompok);
+        // Add event listeners to all dropdowns in this group
+        const dropdowns = group.querySelectorAll(".job-rank-input");
+        dropdowns.forEach((dropdown) => {
+            // Real-time validation and auto-disable on change
+            dropdown.addEventListener("change", function () {
+                handleDropdownChange(this, group, kelompok);
             });
 
             // Clear error on focus
-            input.addEventListener("focus", function () {
+            dropdown.addEventListener("focus", function () {
                 clearInputError(this);
             });
-
-            // Prevent non-numeric input
-            input.addEventListener("keypress", function (e) {
-                if (!/[0-9]/.test(e.key)) {
-                    e.preventDefault();
-                }
-            });
         });
+
+        // Initialize disabled options for this group
+        updateDisabledOptions(group);
     });
 
     // Add validation for Top 1/2/3 dropdowns
@@ -186,57 +182,70 @@ function updateProgressIndicator(group, kelompok) {
 }
 
 // ========================================
-// INPUT VALIDATION
+// DROPDOWN VALIDATION & AUTO-DISABLE
 // ========================================
 
 /**
- * Handle input change event
+ * Handle dropdown change event
  */
-function handleInputChange(input, group, kelompok) {
-    const currentValue = input.value.trim();
-
+function handleDropdownChange(dropdown, group, kelompok) {
     // Clear previous error
-    clearInputError(input);
+    clearInputError(dropdown);
 
-    // Skip validation if empty
-    if (currentValue === "") {
-        updateProgressIndicator(group, kelompok);
-        updateTop3Dropdowns();
-        return;
+    // Update disabled options for all dropdowns in this group
+    updateDisabledOptions(group);
+
+    // Mark dropdown as valid if has value
+    if (dropdown.value !== "") {
+        dropdown.classList.add("is-valid");
+        dropdown.classList.remove("is-invalid");
+    } else {
+        dropdown.classList.remove("is-valid");
     }
 
-    // Validate range (1-12)
-    const numericValue = parseInt(currentValue);
-    if (isNaN(numericValue) || numericValue < 1 || numericValue > 12) {
-        showInputError(input, "Masukkan angka 1-12!");
-        input.value = "";
-        updateProgressIndicator(group, kelompok);
-        updateTop3Dropdowns();
-        return;
-    }
+    // Update progress indicator
+    updateProgressIndicator(group, kelompok);
 
-    // Validate uniqueness
-    const inputs = group.querySelectorAll(".job-rank-input");
-    let duplicateFound = false;
+    // Update Top 3 dropdowns
+    updateTop3Dropdowns();
+}
 
-    inputs.forEach((otherInput) => {
-        if (otherInput !== input && otherInput.value === currentValue) {
-            duplicateFound = true;
+/**
+ * Update disabled options for all dropdowns in a group
+ * Disables options that are already selected by other dropdowns
+ */
+function updateDisabledOptions(group) {
+    const dropdowns = group.querySelectorAll(".job-rank-input");
+
+    // Collect all selected values in this group
+    const selectedValues = new Set();
+    dropdowns.forEach((dropdown) => {
+        if (dropdown.value !== "") {
+            selectedValues.add(dropdown.value);
         }
     });
 
-    if (duplicateFound) {
-        showInputError(input, `Angka ${currentValue} sudah dipakai!`);
-        input.value = "";
-        updateProgressIndicator(group, kelompok);
-        updateTop3Dropdowns();
-        return;
-    }
+    // Update each dropdown's options
+    dropdowns.forEach((dropdown) => {
+        const currentValue = dropdown.value;
+        const options = dropdown.querySelectorAll("option");
 
-    // Mark input as valid
-    input.classList.add("is-valid");
-    updateProgressIndicator(group, kelompok);
-    updateTop3Dropdowns();
+        options.forEach((option) => {
+            if (option.value === "") {
+                // Keep placeholder enabled
+                option.disabled = false;
+            } else if (option.value === currentValue) {
+                // Keep current selection enabled
+                option.disabled = false;
+            } else if (selectedValues.has(option.value)) {
+                // Disable if selected by another dropdown
+                option.disabled = true;
+            } else {
+                // Enable if not selected anywhere
+                option.disabled = false;
+            }
+        });
+    });
 }
 
 /**

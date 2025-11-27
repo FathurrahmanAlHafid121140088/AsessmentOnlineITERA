@@ -78,11 +78,15 @@
                                             class="form-label">
                                             {{ $pekerjaan }}
                                         </label>
-                                        <input type="number" class="form-control form-control-sm job-rank-input"
-                                            {{-- Gunakan $kelompokHuruf di ID dan Name --}}
+                                        <select class="form-select form-select-sm job-rank-input"
                                             id="rank_{{ $kelompokHuruf }}_{{ $loop->parent->index }}_{{ $loop->index }}"
-                                            name="jawaban[{{ $kelompokHuruf }}][{{ $pekerjaan }}]" min="1"
-                                            max="12" required placeholder="1-12">
+                                            name="jawaban[{{ $kelompokHuruf }}][{{ $pekerjaan }}]"
+                                            data-kelompok="{{ $kelompokHuruf }}" required>
+                                            <option value="">--</option>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
+                                        </select>
                                     </div>
                                 @endforeach
                             </div>
