@@ -1,0 +1,106 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║         QUICK REFERENCE: CITATION MAPPING IN PENJELASAN FILE                   ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+📌 UNIT TESTING REFERENCES (UT-1 hingga UT-5)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[UT-1] → Ref #1 (2025) - "Software Testing Evolution"
+        URL: https://www.icck.org/article/abs/jse.2025.246843
+        Digunakan untuk: Definisi unit testing, safety net, refactoring
+
+[UT-2] → Ref #3 (2025) - "LLMs and Prompting for Unit Test Generation"
+        DOI: 10.1145/3691620.3695330
+        Digunakan untuk: Verifikasi output-input, kalimat teknis
+
+[UT-3] → Ref #2 (2024) - "Software Testing With Large Language Models"
+        DOI: 10.1109/TSE.2024.3368208
+        Digunakan untuk: Tanggung jawab developer dalam testing
+
+[UT-4] → Ref #4 (2022) - "Beyond Accuracy: Empirical Study on Unit Testing"
+        DOI: 10.1145/3638245
+        Digunakan untuk: Deteksi bug awal, mengurangi biaya
+
+[UT-5] → Ref #5 (2025) - "Assertions in software testing"
+        DOI: 10.1007/s10009-025-00794-1
+        Digunakan untuk: Assertions dan best practices
+
+
+📌 INTEGRATION TESTING REFERENCES (IT-1 hingga IT-4)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[IT-1] → Ref #1 (2022) - "Integration testing for robotic systems"
+        DOI: 10.1007/s11219-020-09535-w
+        Digunakan untuk: Integrasi modul, bug detection
+
+[IT-2] → Ref #2 (2024) - "Automated system for integration testing"
+        DOI: 10.1007/s13272-023-00709-3
+        Digunakan untuk: Definisi integration, strategi bottom-up/top-down
+
+[IT-3] → Ref #3 (2024) - "A Roadmap for Software Testing in AI-Powered Era"
+        DOI: 10.1145/3709355
+        Digunakan untuk: Masalah saat integrasi modul
+
+[IT-4] → Ref #4 (2024) - "Integration of Testing Tools with Visual GUI"
+        DOI: 10.29121/shodhkosh.v5.i1.2024.2313
+        Digunakan untuk: Memastikan subsistem berfungsi baik
+
+
+📌 FEATURE TESTING REFERENCES (FT-1 hingga FT-5)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[FT-1] → Ref #1 (2023) - "Software Testing Techniques and Tools: A Review"
+        DOI: 10.33899/edusj.2023.137480.1305
+        Digunakan untuk: Definisi feature testing
+
+[FT-2] → Ref #2 (2024) - "Software product line testing"
+        DOI: 10.1007/s10664-024-10516-x
+        Digunakan untuk: Alur lengkap UI-logic-database
+
+[FT-3] → Ref #3 (2022) - "Evolution of software testing strategies"
+        DOI: 10.1109/ACCESS.2022.3213878
+        Digunakan untuk: Keterlibatan tim QA-developer-analyst
+
+[FT-4] → Ref #4 (2023) - "Impact of Test-Driven Development on Quality"
+        Digunakan untuk: Manual dan otomatis testing, skenario
+
+[FT-5] → Ref #5 (2024) - "The Future of Software Testing"
+        URL: https://ijisem.com/journal/index.php/ijisem/article/view/285
+        Digunakan untuk: Mengurangi risiko production
+
+
+📌 CODE COVERAGE REFERENCES (CC-1 hingga CC-6)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[CC-1] → Ref #1 (2024) - "Empirical Study on Code Coverage of Performance Testing"
+        DOI: 10.1145/3661167.3661196
+        Digunakan untuk: Definisi code coverage
+
+[CC-2] → Ref #2 (2024) - "Productive Coverage: Improving Actionability"
+        DOI: 10.1145/3639477.3639733
+        Digunakan untuk: Jenis-jenis coverage, tujuan coverage, monitoring
+
+[CC-3] → Ref #3 (2023) - "Code Coverage Criteria for Asynchronous Programs"
+        URL: https://2023.esec-fse.org/details/fse-2023-research-papers/51/...
+        Digunakan untuk: Coverage tinggi bukan jaminan bebas bug
+
+[CC-4] → Ref #4 (2024) - "Advancing Code Coverage with LLMs"
+        DOI: 10.1145/3748505
+        Digunakan untuk: Program analysis dan measurement
+
+[CC-5] → Ref #5 (2025) - "Code coverage related to source code features"
+        DOI: 10.1007/s10664-025-10712-3
+        Digunakan untuk: Target standard industri 70-80%
+
+[CC-6] → Ref #6 (2020) - "Statement frequency coverage"
+        ScienceDirect
+        Digunakan untuk: Effectiveness assessment
+
+
+════════════════════════════════════════════════════════════════════════════════
+
+TOTAL REFERENSI: 20 jurnal dari tahun 2020-2025
+TOTAL CITATIONS INLINE: 25+ referensi dalam paragraf
+STATUS: ✅ READY FOR THESIS/SKRIPSI
+
+════════════════════════════════════════════════════════════════════════════════
