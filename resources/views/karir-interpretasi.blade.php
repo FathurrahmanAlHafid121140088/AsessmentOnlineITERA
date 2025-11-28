@@ -197,11 +197,33 @@
                 <!-- Interpretations List -->
                 <div class="mt-3">
                     @foreach ($top3 as $item)
+                        @php
+                            // Mapping deskripsi kategori
+                            $kategoriDeskripsi = [
+                                'Outdoor' => 'Aktivitas pekerjaan dilakukan di luar, di udara terbuka, tidak berhubungan dengan hal-hal yang sifatnya rutin.',
+                                'Mechanical' => 'Pekerjaan yang berhubungan dengan mesin, alat mekanik, dll.',
+                                'Computational' => 'Pekerjaan yang berhubungan dengan angka-angka.',
+                                'Scientific' => 'Pekerjaan yang menyangkut aktivitas analisa, penyelidikan, penelitian, eksperimen kimia, dan ilmu pengetahuan lainnya.',
+                                'Personal Contact' => 'Pekerjaan yang berhubungan dengan manusia, diskusi, membujuk, bergaul, dan kontak dengan orang lain.',
+                                'Aesthetic' => 'Pekerjaan yang berhubungan dengan hal seni dan menciptakan sesuatu.',
+                                'Literary' => 'Pekerjaan yang berhubungan dengan buku, membaca, dan mengarang.',
+                                'Musical' => 'Memainkan musik, apresiasi, dan sebagainya yang berkaitan dengan musik.',
+                                'Social Service' => 'Pekerjaan yang berkaitan dengan pelayanan terhadap kepentingan masyarakat, kesejahteraan umum, membimbing, menasehati, memahami, melayani, dan sebagainya.',
+                                'Clerical' => 'Pekerjaan yang menuntut ketepatan, ketelitian, dan kerapihan.',
+                                'Practical' => 'Pekerjaan yang memerlukan ketrampilan, praktek, dan karya pertukangan.',
+                                'Medical' => 'Pekerjaan yang berhubungan dengan pengobatan, perawatan penyakit, penyembuhan dalam hal yang berkaitan dengan medis dan biologis.',
+                            ];
+
+                            $deskripsiKategori = $kategoriDeskripsi[$item['kategori']] ?? '';
+                        @endphp
                         <div class="interpretation-item animated-item fade-in">
                             <div class="d-flex align-items-center mb-3">
                                 <span class="interpretation-label">{{ $item['singkatan'] }}</span>
                                 <h5 class="mb-0">{{ $item['nama'] }}</h5>
                             </div>
+                            @if($deskripsiKategori)
+                                <p class="mb-2"><strong>{{ $deskripsiKategori }}</strong></p>
+                            @endif
                             <p class="mb-0">{{ $item['deskripsi'] }}</p>
                         </div>
                     @endforeach

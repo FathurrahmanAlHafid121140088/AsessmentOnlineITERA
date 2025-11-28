@@ -145,23 +145,38 @@ body::before {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.job-item input[type="number"] {
-    width: 70px;
+/* Dropdown ranking dalam job-item */
+.job-item .job-rank-input {
+    width: 80px;
     text-align: center;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
-    padding: 0.5rem;
+    padding: 0.4rem 0.5rem;
     font-weight: 700;
     color: #4361ee;
     transition: all 0.3s ease;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #fff;
 }
 
-.job-item input[type="number"]:focus {
+.job-item .job-rank-input:focus {
     border-color: #4361ee;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     outline: none;
     background-color: rgba(67, 97, 238, 0.05);
+}
+
+/* Styling untuk disabled options dalam dropdown */
+.job-item .job-rank-input option:disabled {
+    color: #ccc;
+    background-color: #f5f5f5;
+}
+
+/* Styling untuk option yang dipilih */
+.job-item .job-rank-input option:not(:disabled) {
+    color: #4361ee;
+    font-weight: 600;
 }
 
 .top-choice-section {
@@ -346,16 +361,19 @@ textarea.form-control {
     font-weight: 600;
 }
 
-/* Valid Input Styling */
+/* Valid Input Styling - tanpa checkmark icon */
 .job-rank-input.is-valid {
     border-color: #48bb78 !important;
     box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.15) !important;
     background-color: rgba(72, 187, 120, 0.05);
+    background-image: none !important; /* Hapus checkmark Bootstrap */
+    padding-right: 0.5rem !important; /* Reset padding karena tidak ada icon */
 }
 
 .job-rank-input.is-valid:focus {
     border-color: #48bb78 !important;
     box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.25) !important;
+    background-image: none !important;
 }
 
 /* Invalid Dropdown Styling */
@@ -454,9 +472,10 @@ textarea.form-control {
         font-size: 0.95rem;
     }
 
-    .job-item input[type="number"] {
-        width: 65px;
-        font-size: 1rem;
+    .job-item .job-rank-input {
+        width: 70px;
+        font-size: 0.9rem;
+        padding: 0.35rem 0.4rem;
     }
 
     .top-choice-section {
