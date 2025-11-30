@@ -97,10 +97,7 @@ class KarirController extends Controller
             'jumlahTesSelesai' => $jumlahTesSelesai,
             'kategoriTerakhir' => $kategoriTerakhir,
             'riwayatTes' => $riwayatTes,
-            'radarData' => [
-                'labels' => $radarLabels,
-                'values' => $radarData
-            ],
+            'radarData' => $radarData,
             'radarLabels' => $radarLabels
         ]);
     }

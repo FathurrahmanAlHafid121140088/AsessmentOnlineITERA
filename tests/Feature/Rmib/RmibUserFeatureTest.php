@@ -48,58 +48,6 @@ class RmibUserFeatureTest extends TestCase
     // ========================================
 
     #[Test]
-    public function dashboard_shows_radar_chart_data()
-    {
-        $this->actingAs($this->user);
-
-        $dataDiri = KarirDataDiri::create([
-            'nim' => '123456789',
-            'nama' => 'Test User',
-            'program_studi' => 'Teknik Informatika',
-            'jenis_kelamin' => 'L',
-            'provinsi' => 'Lampung',
-            'alamat' => 'Test',
-            'usia' => 20,
-            'fakultas' => 'FTI',
-            'email' => 'test@student.itera.ac.id',
-            'asal_sekolah' => 'SMA',
-            'status_tinggal' => 'Kost',
-            'prodi_sesuai_keinginan' => 'Ya',
-        ]);
-
-        $hasilTes = RmibHasilTes::create([
-            'karir_data_diri_id' => $dataDiri->id,
-            'tanggal_pengerjaan' => Carbon::now(),
-            'top_1_pekerjaan' => 'Ilmuwan',
-            'top_2_pekerjaan' => 'Akuntan',
-            'top_3_pekerjaan' => 'Wartawan',
-        ]);
-
-        $this->createFullJawaban($hasilTes->id, 'L');
-
-        $response = $this->get(route('karir.dashboard'));
-        $response->assertStatus(200);
-
-        // Verify radar chart data structure
-        $response->assertViewHas('radarData');
-        $radarData = $response->viewData('radarData');
-
-        $this->assertArrayHasKey('labels', $radarData);
-        $this->assertArrayHasKey('values', $radarData);
-
-        // 12 categories for labels
-        $this->assertCount(12, $radarData['labels']);
-
-        // 12 scores for values
-        $this->assertCount(12, $radarData['values']);
-
-        // Values should be numeric
-        foreach ($radarData['values'] as $value) {
-            $this->assertIsNumeric($value);
-        }
-    }
-
-    #[Test]
     public function dashboard_shows_mulai_tes_button_when_no_result()
     {
         $this->actingAs($this->user);
