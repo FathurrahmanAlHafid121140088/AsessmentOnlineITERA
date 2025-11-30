@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +40,10 @@ class AppServiceProvider extends ServiceProvider
 
         // Prevent accessing missing attributes (bug detection)
         Model::preventAccessingMissingAttributes(!app()->isProduction());
+
+        // Force HTTPS in production (Railway fix)
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
