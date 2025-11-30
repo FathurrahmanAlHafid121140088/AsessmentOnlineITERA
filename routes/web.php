@@ -43,9 +43,13 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 // Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
 Route::middleware([AdminAuth::class])->group(function () {
-    // Dashboard + hasil kuesioner + search + pagination
-    Route::get('/admin/mental-health', [HasilKuesionerCombinedController::class, 'index'])
+    // Dashboard Admin Utama - Mental Health Admin (daftar hasil kuesioner + search + pagination)
+    Route::get('/admin', [HasilKuesionerCombinedController::class, 'index'])
         ->name('admin.home');
+
+    // Halaman Mental Health Admin (alias untuk admin.home untuk backward compatibility)
+    Route::get('/admin/mental-health', [HasilKuesionerCombinedController::class, 'index'])
+        ->name('admin.mental-health');
 
     // Statistik total users
     Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])
@@ -58,24 +62,6 @@ Route::middleware([AdminAuth::class])->group(function () {
     // Hapus hasil
     Route::delete('/admin/mental-health/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
         ->name('admin.delete');
-
-    Route::get('/admin', function () {
-        // Data Mental Health
-        $totalUsers = \App\Models\HasilKuesioner::distinct('nim')->count('nim');
-        $totalTes = \App\Models\HasilKuesioner::count();
-
-        // Data Peminatan Karir
-        $totalKarirUsers = \App\Models\KarirDataDiri::count();
-        $totalKarirTes = \App\Models\RmibHasilTes::count();
-
-        return view('Admin', [
-            'title' => 'Admin',
-            'totalUsers' => $totalUsers,
-            'totalTes' => $totalTes,
-            'totalKarirUsers' => $totalKarirUsers,
-            'totalKarirTes' => $totalKarirTes,
-        ]);
-    });
 
     // Export Excel
     Route::get('/admin/mental-health/export', [App\Http\Controllers\HasilKuesionerCombinedController::class, 'exportExcel'])

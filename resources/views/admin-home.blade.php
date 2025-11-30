@@ -697,7 +697,7 @@
                         <div class="left-controls">
                             {{-- Form Limit --}}
                             {{-- Form Limit --}}
-                            <form method="GET" action="{{ route('admin.home') }}" class="limit-form">
+                            <form method="GET" action="{{ route('admin.mental-health') }}" class="limit-form">
                                 <label for="limit" class="limit-label">Tampilkan:</label>
 
                                 <div class="limit-actions">
@@ -725,7 +725,7 @@
 
 
                             {{-- Form Kategori --}}
-                            <form method="GET" action="{{ route('admin.home') }}" class="category-form">
+                            <form method="GET" action="{{ route('admin.mental-health') }}" class="category-form">
                                 <div class="category-wrapper">
                                     <label for="kategori">Filter Kategori:</label>
                                     <div class="category-controls">
@@ -753,7 +753,7 @@
                         </div>
                         {{-- Search Box --}}
                         <div class="right-controls">
-                            <form action="{{ route('admin.home') }}" method="GET" class="search-form">
+                            <form action="{{ route('admin.mental-health') }}" method="GET" class="search-form">
                                 <input type="text" name="search" placeholder="Cari data..."
                                     value="{{ request('search') }}">
 

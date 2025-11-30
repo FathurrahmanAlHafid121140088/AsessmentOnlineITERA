@@ -122,7 +122,7 @@
             <div class="detail-container">
                 <!-- Header Actions -->
                 <div class="header-actions no-print">
-                    <a href="{{ route('admin.home') }}" class="btn-action btn-back">
+                    <a href="{{ route('admin.mental-health') }}" class="btn-action btn-back">
                         <i class="fas fa-arrow-left"></i>
                         Kembali
                     </a>

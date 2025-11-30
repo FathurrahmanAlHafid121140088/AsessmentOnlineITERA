@@ -36,7 +36,9 @@
       "Bash(Select-String -Pattern \"Tests:|Duration:|app\\|%\")",
       "Bash(powershell -Command \"Get-Content coverage_report.txt | Select-String -Pattern ''Tests:|Duration:|app\\\\|───|PASS|FAIL'' | Select-Object -Last 50\")",
       "Bash(powershell -Command \"Get-Content coverage_report.txt | Select-String -Pattern ''app\\\\'' -Context 0,0\")",
-      "WebSearch"
+      "WebSearch",
+      "Bash(powershell:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
