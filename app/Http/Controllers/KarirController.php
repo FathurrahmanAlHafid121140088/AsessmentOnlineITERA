@@ -97,10 +97,7 @@ class KarirController extends Controller
             'jumlahTesSelesai' => $jumlahTesSelesai,
             'kategoriTerakhir' => $kategoriTerakhir,
             'riwayatTes' => $riwayatTes,
-            'radarData' => [
-                'labels' => $radarLabels,
-                'values' => $radarData
-            ],
+            'radarData' => $radarData,
             'radarLabels' => $radarLabels
         ]);
     }
@@ -108,37 +105,37 @@ class KarirController extends Controller
     // 1. Form Data Diri
 // app/Http/Controllers/KarirController.php
 
-public function showDataDiri()
-{
-    // 1. Ambil email user yang login
-    $email = Auth::user()->email;
-    
-    // 2. Gunakan regex untuk mencari 9 digit NIM
-    preg_match('/\d{9}/', $email, $matches);
-    
-    // 3. Ambil hasil pencarian, jika tidak ada, beri nilai kosong
-    $nim = $matches[0] ?? '';
+    public function showDataDiri()
+    {
+        // 1. Ambil email user yang login
+        $email = Auth::user()->email;
 
-    // 4. Kirim HANYA variabel $nim ke view
-    return view('karir-datadiri', ['nim' => $nim]);
-}
+        // 2. Gunakan regex untuk mencari 9 digit NIM
+        preg_match('/\d{9}/', $email, $matches);
+
+        // 3. Ambil hasil pencarian, jika tidak ada, beri nilai kosong
+        $nim = $matches[0] ?? '';
+
+        // 4. Kirim HANYA variabel $nim ke view
+        return view('karir-datadiri', ['nim' => $nim]);
+    }
 
     // 2. Simpan Data Diri
-public function storeDataDiri(Request $request)
+    public function storeDataDiri(Request $request)
     {
         // 1. Validasi semua input form
         $validatedData = $request->validate([
-            'nim'                    => 'nullable|string|size:9', // Validasi NIM jika dikirim
-            'nama'                   => 'required|string|max:255',
-            'program_studi'          => 'required|string|max:255',
-            'jenis_kelamin'          => 'required|in:L,P', // Harus L atau P
-            'provinsi'               => 'required|string|max:255',
-            'alamat'                 => 'required|string',
-            'usia'                   => 'required|integer|min:1|regex:/^[0-9]+$/', // Hanya angka, tidak boleh e, koma, dll
-            'fakultas'               => 'required|string|max:255',
-            'email'                  => 'required|email|max:255',
-            'asal_sekolah'           => 'required|string|max:255',
-            'status_tinggal'         => 'required|string|max:255',
+            'nim' => 'nullable|string|size:9', // Validasi NIM jika dikirim
+            'nama' => 'required|string|max:255',
+            'program_studi' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:L,P', // Harus L atau P
+            'provinsi' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'usia' => 'required|integer|min:1|regex:/^[0-9]+$/', // Hanya angka, tidak boleh e, koma, dll
+            'fakultas' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'asal_sekolah' => 'required|string|max:255',
+            'status_tinggal' => 'required|string|max:255',
             'prodi_sesuai_keinginan' => 'required|in:Ya,Tidak',
         ]);
 
@@ -163,35 +160,35 @@ public function storeDataDiri(Request $request)
     }
     // app/Http/Controllers/KarirController.php
 
-/**
- * Menampilkan halaman form tes RMIB.
- * Menerima data diri peserta melalui Route Model Binding.
- */
-public function showTesForm(KarirDataDiri $data_diri)
-{
-    // dd($data_diri); // Pastikan tidak ada dd() di sini lagi
-    $gender = $data_diri->jenis_kelamin;
+    /**
+     * Menampilkan halaman form tes RMIB.
+     * Menerima data diri peserta melalui Route Model Binding.
+     */
+    public function showTesForm(KarirDataDiri $data_diri)
+    {
+        // dd($data_diri); // Pastikan tidak ada dd() di sini lagi
+        $gender = $data_diri->jenis_kelamin;
 
-    $pekerjaanDb = RmibPekerjaan::where('gender', $gender)
-                                ->orderBy('kelompok')
-                                ->orderBy('id') // PENTING! Urutan sesuai circular shift di seeder
-                                ->get();
+        $pekerjaanDb = RmibPekerjaan::where('gender', $gender)
+            ->orderBy('kelompok')
+            ->orderBy('id') // PENTING! Urutan sesuai circular shift di seeder
+            ->get();
 
-    $pekerjaanData = $pekerjaanDb->groupBy('kelompok')
-                                ->map(function ($kelompok) {
-                                    return $kelompok->pluck('nama_pekerjaan');
-                                })
-                                ->values()
-                                ->toArray();
+        $pekerjaanData = $pekerjaanDb->groupBy('kelompok')
+            ->map(function ($kelompok) {
+                return $kelompok->pluck('nama_pekerjaan');
+            })
+            ->values()
+            ->toArray();
 
-    return view('karir-form', [
-        'dataDiri'             => $data_diri,
-        'gender'               => $gender,
-        'pekerjaanPerKelompok' => $pekerjaanData, // Kirim data yang sudah dikelompokkan
-        'clusters'             => $pekerjaanData, // Alias untuk testing
-        'semuaPekerjaan'       => $pekerjaanDb->pluck('nama_pekerjaan') // Kirim daftar flat
-    ]);
-}
+        return view('karir-form', [
+            'dataDiri' => $data_diri,
+            'gender' => $gender,
+            'pekerjaanPerKelompok' => $pekerjaanData, // Kirim data yang sudah dikelompokkan
+            'clusters' => $pekerjaanData, // Alias untuk testing
+            'semuaPekerjaan' => $pekerjaanDb->pluck('nama_pekerjaan') // Kirim daftar flat
+        ]);
+    }
 
     public function form($id)
     {
@@ -208,133 +205,134 @@ public function showTesForm(KarirDataDiri $data_diri)
         $pekerjaan = json_decode(file_get_contents($jsonPath), true);
 
         return view('karir-form', [
-            'dataDiri'  => $dataDiri,
-            'gender'    => $gender,
+            'dataDiri' => $dataDiri,
+            'gender' => $gender,
             'pekerjaan' => $pekerjaan
         ]);
     }
 
     // 4. Simpan Jawaban RMIB
-public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $data_diri) {
-    // Validasi sudah dilakukan di StoreRmibJawabanRequest
-    // Data sudah di-sanitize di prepareForValidation()
+    public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $data_diri)
+    {
+        // Validasi sudah dilakukan di StoreRmibJawabanRequest
+        // Data sudah di-sanitize di prepareForValidation()
 
-    // Log successful validation
-    Log::info('RMIB submission validated successfully', [
-        'user_id' => auth()->id(),
-        'user_email' => auth()->user()->email,
-        'data_diri_id' => $data_diri->id,
-        'ip_address' => $request->ip(),
-        'timestamp' => now()->toDateTimeString(),
-    ]);
-
-    DB::beginTransaction();
-    try {
-        // 1. Buat record Hasil Tes awal (untuk mendapatkan ID)
-        // Data sudah ter-sanitize dari prepareForValidation()
-        $hasilTes = RmibHasilTes::create([
-            'karir_data_diri_id' => $data_diri->id, // Foreign key yang benar
-            'tanggal_pengerjaan' => Carbon::now(),
-            'top_1_pekerjaan'    => $request->validated()['top1'],
-            'top_2_pekerjaan'    => $request->validated()['top2'],
-            'top_3_pekerjaan'    => $request->validated()['top3'],
-            'pekerjaan_lain'     => $request->validated()['pekerjaan_lain'] ?? null,
-            // Skor & interpretasi akan di-update nanti
+        // Log successful validation
+        Log::info('RMIB submission validated successfully', [
+            'user_id' => auth()->id(),
+            'user_email' => auth()->user()->email,
+            'data_diri_id' => $data_diri->id,
+            'ip_address' => $request->ip(),
+            'timestamp' => now()->toDateTimeString(),
         ]);
 
-        // 2. Siapkan array kosong untuk menampung semua jawaban
-        $jawabanToInsert = [];
-        $now = Carbon::now(); // Waktu saat ini untuk timestamp
+        DB::beginTransaction();
+        try {
+            // 1. Buat record Hasil Tes awal (untuk mendapatkan ID)
+            // Data sudah ter-sanitize dari prepareForValidation()
+            $hasilTes = RmibHasilTes::create([
+                'karir_data_diri_id' => $data_diri->id, // Foreign key yang benar
+                'tanggal_pengerjaan' => Carbon::now(),
+                'top_1_pekerjaan' => $request->validated()['top1'],
+                'top_2_pekerjaan' => $request->validated()['top2'],
+                'top_3_pekerjaan' => $request->validated()['top3'],
+                'pekerjaan_lain' => $request->validated()['pekerjaan_lain'] ?? null,
+                // Skor & interpretasi akan di-update nanti
+            ]);
 
-        // 3. Loop data dari request untuk membangun array
-        // Data sudah divalidasi, jadi tidak perlu validasi ulang
-        $validatedData = $request->validated();
+            // 2. Siapkan array kosong untuk menampung semua jawaban
+            $jawabanToInsert = [];
+            $now = Carbon::now(); // Waktu saat ini untuk timestamp
 
-        foreach ($validatedData['jawaban'] as $kelompok => $pekerjaanList) {
-            foreach ($pekerjaanList as $pekerjaan => $peringkat) {
-                // Data sudah pasti valid karena sudah melalui Form Request validation
-                $jawabanToInsert[] = [
-                    'hasil_id'  => $hasilTes->id,
-                    'kelompok'  => $kelompok,
-                    'pekerjaan' => $pekerjaan,
-                    'peringkat' => $peringkat,
-                    'created_at'=> $now,
-                    'updated_at'=> $now,
-                ];
+            // 3. Loop data dari request untuk membangun array
+            // Data sudah divalidasi, jadi tidak perlu validasi ulang
+            $validatedData = $request->validated();
+
+            foreach ($validatedData['jawaban'] as $kelompok => $pekerjaanList) {
+                foreach ($pekerjaanList as $pekerjaan => $peringkat) {
+                    // Data sudah pasti valid karena sudah melalui Form Request validation
+                    $jawabanToInsert[] = [
+                        'hasil_id' => $hasilTes->id,
+                        'kelompok' => $kelompok,
+                        'pekerjaan' => $pekerjaan,
+                        'peringkat' => $peringkat,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                }
             }
+
+            // 4. Lakukan SATU kali kueri INSERT untuk semua jawaban
+            if (!empty($jawabanToInsert)) {
+                RmibJawabanPeserta::insert($jawabanToInsert); // Ini adalah 'bulk insert'
+            } else {
+                // Jika tidak ada jawaban valid sama sekali, batalkan
+                throw new \InvalidArgumentException("Tidak ada data jawaban valid yang diterima.");
+            }
+
+            // 5. Panggil service untuk hitung skor RMIB
+            $scoringService = new \App\Services\RmibScoringService();
+            $hasilPerhitungan = $scoringService->hitungSemuaSkor($hasilTes->id, $data_diri->jenis_kelamin);
+
+            // Ambil top 3 kategori berdasarkan peringkat
+            $skorKategori = $hasilPerhitungan['skor_kategori'];
+            $peringkat = $hasilPerhitungan['peringkat'];
+
+            // Urutkan kategori berdasarkan peringkat (ascending)
+            asort($peringkat);
+            $top3Kategori = array_slice(array_keys($peringkat), 0, 3, true);
+
+            // Generate interpretasi
+            $top3Data = [];
+            foreach ($top3Kategori as $kategori) {
+                $top3Data[$kategori] = $skorKategori[$kategori];
+            }
+            $interpretasi = $scoringService->generateInterpretasi($top3Data);
+
+            // 6. Update hasil tes dengan interpretasi
+            // CATATAN: top_1/2/3_pekerjaan TIDAK di-update karena sudah berisi nama pekerjaan pilihan user
+            $hasilTes->update([
+                'interpretasi' => $interpretasi,
+            ]);
+
+            DB::commit(); // Simpan semua perubahan ke database
+
+            // Clear cache karena data baru sudah disimpan
+            $this->clearKarirStatsCache();
+
+            // Log successful submission
+            Log::info('RMIB submission saved successfully', [
+                'user_id' => auth()->id(),
+                'user_email' => auth()->user()->email,
+                'hasil_tes_id' => $hasilTes->id,
+                'data_diri_id' => $data_diri->id,
+                'ip_address' => $request->ip(),
+                'timestamp' => now()->toDateTimeString(),
+            ]);
+
+            // 6. Redirect ke halaman hasil
+            return redirect()->route('karir.hasil', $hasilTes->id)
+                ->with('success', 'Jawaban Anda berhasil disimpan!');
+
+        } catch (\Exception $e) {
+            DB::rollBack(); // Batalkan semua jika ada error
+
+            // Log error dengan detail lengkap untuk debugging
+            Log::error('Error saat menyimpan jawaban RMIB', [
+                'user_id' => auth()->id(),
+                'user_email' => auth()->user()->email,
+                'data_diri_id' => $data_diri->id,
+                'error_message' => $e->getMessage(),
+                'error_trace' => $e->getTraceAsString(),
+                'ip_address' => $request->ip(),
+                'timestamp' => now()->toDateTimeString(),
+            ]);
+
+            return back()
+                ->withErrors(['msg' => 'Terjadi kesalahan sistem saat menyimpan jawaban. Silakan coba lagi.'])
+                ->withInput();
         }
-
-        // 4. Lakukan SATU kali kueri INSERT untuk semua jawaban
-        if (!empty($jawabanToInsert)) {
-            RmibJawabanPeserta::insert($jawabanToInsert); // Ini adalah 'bulk insert'
-        } else {
-             // Jika tidak ada jawaban valid sama sekali, batalkan
-             throw new \InvalidArgumentException("Tidak ada data jawaban valid yang diterima.");
-        }
-
-        // 5. Panggil service untuk hitung skor RMIB
-        $scoringService = new \App\Services\RmibScoringService();
-        $hasilPerhitungan = $scoringService->hitungSemuaSkor($hasilTes->id, $data_diri->jenis_kelamin);
-
-        // Ambil top 3 kategori berdasarkan peringkat
-        $skorKategori = $hasilPerhitungan['skor_kategori'];
-        $peringkat = $hasilPerhitungan['peringkat'];
-
-        // Urutkan kategori berdasarkan peringkat (ascending)
-        asort($peringkat);
-        $top3Kategori = array_slice(array_keys($peringkat), 0, 3, true);
-
-        // Generate interpretasi
-        $top3Data = [];
-        foreach ($top3Kategori as $kategori) {
-            $top3Data[$kategori] = $skorKategori[$kategori];
-        }
-        $interpretasi = $scoringService->generateInterpretasi($top3Data);
-
-        // 6. Update hasil tes dengan interpretasi
-        // CATATAN: top_1/2/3_pekerjaan TIDAK di-update karena sudah berisi nama pekerjaan pilihan user
-        $hasilTes->update([
-            'interpretasi' => $interpretasi,
-        ]);
-
-        DB::commit(); // Simpan semua perubahan ke database
-
-        // Clear cache karena data baru sudah disimpan
-        $this->clearKarirStatsCache();
-
-        // Log successful submission
-        Log::info('RMIB submission saved successfully', [
-            'user_id' => auth()->id(),
-            'user_email' => auth()->user()->email,
-            'hasil_tes_id' => $hasilTes->id,
-            'data_diri_id' => $data_diri->id,
-            'ip_address' => $request->ip(),
-            'timestamp' => now()->toDateTimeString(),
-        ]);
-
-        // 6. Redirect ke halaman hasil
-        return redirect()->route('karir.hasil', $hasilTes->id)
-            ->with('success', 'Jawaban Anda berhasil disimpan!');
-
-    } catch (\Exception $e) {
-        DB::rollBack(); // Batalkan semua jika ada error
-
-        // Log error dengan detail lengkap untuk debugging
-        Log::error('Error saat menyimpan jawaban RMIB', [
-            'user_id' => auth()->id(),
-            'user_email' => auth()->user()->email,
-            'data_diri_id' => $data_diri->id,
-            'error_message' => $e->getMessage(),
-            'error_trace' => $e->getTraceAsString(),
-            'ip_address' => $request->ip(),
-            'timestamp' => now()->toDateTimeString(),
-        ]);
-
-        return back()
-            ->withErrors(['msg' => 'Terjadi kesalahan sistem saat menyimpan jawaban. Silakan coba lagi.'])
-            ->withInput();
     }
-}
 
     // 5. Halaman Interpretasi User
     public function showInterpretasi($hasil_tes)
@@ -362,7 +360,7 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
         }
 
         // Urutkan berdasarkan peringkat dengan tie-breaking
-        usort($hasilLengkap, function($a, $b) {
+        usort($hasilLengkap, function ($a, $b) {
             // 1. Prioritas utama: peringkat (ascending)
             $rankComparison = $a['peringkat'] <=> $b['peringkat'];
             if ($rankComparison !== 0) {
@@ -424,7 +422,7 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
             'karirDataDiri:id,nim,nama,program_studi,fakultas,jenis_kelamin,email,usia,provinsi,alamat,asal_sekolah,status_tinggal,prodi_sesuai_keinginan',
             'karirDataDiri.hasilTes'
         ])
-        ->whereIn('id', $latestIds);
+            ->whereIn('id', $latestIds);
 
         // Search functionality dengan sanitasi
         if (request('search')) {
@@ -443,19 +441,19 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
                 'timestamp' => now()->toDateTimeString(),
             ]);
 
-            $query->whereHas('karirDataDiri', function($q) use ($search) {
+            $query->whereHas('karirDataDiri', function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
-                  ->orWhere('nim', 'like', "%{$search}%")
-                  ->orWhere('program_studi', 'like', "%{$search}%")
-                  ->orWhere('fakultas', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('nim', 'like', "%{$search}%")
+                    ->orWhere('program_studi', 'like', "%{$search}%")
+                    ->orWhere('fakultas', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
         // Filter by program studi
         if (request('prodi')) {
             $prodi = request('prodi');
-            $query->whereHas('karirDataDiri', function($q) use ($prodi) {
+            $query->whereHas('karirDataDiri', function ($q) use ($prodi) {
                 $q->where('program_studi', $prodi);
             });
         }
@@ -463,7 +461,7 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
         // Filter by provinsi
         if (request('provinsi')) {
             $provinsi = request('provinsi');
-            $query->whereHas('karirDataDiri', function($q) use ($provinsi) {
+            $query->whereHas('karirDataDiri', function ($q) use ($provinsi) {
                 $q->where('provinsi', $provinsi);
             });
         }
@@ -657,10 +655,10 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
             'top3Pekerjaan',
             'top3Kategori'
         ))->with([
-            'matrix' => $matrixData['matrix'],
-            'sum' => $matrixData['sum'],
-            'rank' => $matrixData['rank']
-        ]);
+                    'matrix' => $matrixData['matrix'],
+                    'sum' => $matrixData['sum'],
+                    'rank' => $matrixData['rank']
+                ]);
     }
 
     /**
