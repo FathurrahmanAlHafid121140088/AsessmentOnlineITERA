@@ -16,7 +16,33 @@ use App\Http\Controllers\DashboardController; // <-- Jangan lupa tambahkan ini d
 use App\Http\Controllers\AuthController;
 
 
+use Illuminate\Support\Facades\Artisan;
 
+// --- HAPUS ROUTE INI SETELAH SELESAI ---
+Route::get('/jalur-rahasia-db', function () {
+    // 1. Jalankan Migrasi
+    Artisan::call('migrate', ['--force' => true]);
+    $hasilMigrasi = Artisan::output();
+
+    // 2. Jalankan Seeder Admin
+    Artisan::call('db:seed', [
+        '--class' => 'AdminSeeder',
+        '--force' => true
+    ]);
+    $hasilSeedAdmin = Artisan::output();
+
+    // 3. Jalankan Seeder Pekerjaan
+    Artisan::call('db:seed', [
+        '--class' => 'RmibPekerjaanSeeder',
+        '--force' => true
+    ]);
+    $hasilSeedPekerjaan = Artisan::output();
+
+    return "<h1>DATABASE SUKSES!</h1><br>" .
+        "<strong>Migrasi:</strong><br><pre>$hasilMigrasi</pre><br>" .
+        "<strong>Seed Admin:</strong><br><pre>$hasilSeedAdmin</pre><br>" .
+        "<strong>Seed Pekerjaan:</strong><br><pre>$hasilSeedPekerjaan</pre>";
+});
 // Beranda/Home
 Route::get('/', function () {
     return view('home', ['title' => 'Home']);
@@ -43,9 +69,13 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
 // Route khusus admin yang hanya bisa diakses setelah login sebagai admin:
 Route::middleware([AdminAuth::class])->group(function () {
-    // Dashboard + hasil kuesioner + search + pagination
-    Route::get('/admin/mental-health', [HasilKuesionerCombinedController::class, 'index'])
+    // Dashboard Admin Utama - Mental Health Admin (daftar hasil kuesioner + search + pagination)
+    Route::get('/admin', [HasilKuesionerCombinedController::class, 'index'])
         ->name('admin.home');
+
+    // Halaman Mental Health Admin (alias untuk admin.home untuk backward compatibility)
+    Route::get('/admin/mental-health', [HasilKuesionerCombinedController::class, 'index'])
+        ->name('admin.mental-health');
 
     // Statistik total users
     Route::get('/statistik/total-users', [StatistikController::class, 'totalUsers'])
@@ -58,24 +88,6 @@ Route::middleware([AdminAuth::class])->group(function () {
     // Hapus hasil
     Route::delete('/admin/mental-health/{id}', [HasilKuesionerCombinedController::class, 'destroy'])
         ->name('admin.delete');
-
-    Route::get('/admin', function () {
-        // Data Mental Health
-        $totalUsers = \App\Models\HasilKuesioner::distinct('nim')->count('nim');
-        $totalTes = \App\Models\HasilKuesioner::count();
-
-        // Data Peminatan Karir
-        $totalKarirUsers = \App\Models\KarirDataDiri::count();
-        $totalKarirTes = \App\Models\RmibHasilTes::count();
-
-        return view('Admin', [
-            'title' => 'Admin',
-            'totalUsers' => $totalUsers,
-            'totalTes' => $totalTes,
-            'totalKarirUsers' => $totalKarirUsers,
-            'totalKarirTes' => $totalKarirTes,
-        ]);
-    });
 
     // Export Excel
     Route::get('/admin/mental-health/export', [App\Http\Controllers\HasilKuesionerCombinedController::class, 'exportExcel'])
@@ -98,7 +110,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Rute untuk menampilkan dan mengirim kuesioner
-    Route::get('/mental-health/kuesioner', function () {       
+    Route::get('/mental-health/kuesioner', function () {
         // Data 'nim' tidak perlu lagi dikirim dari sini, karena bisa diakses
         // langsung di view atau controller menggunakan Auth::user()->nim
         return view('kuesioner', [

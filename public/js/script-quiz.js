@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const box = document.createElement("button");
         box.className = "question-btn";
         box.dataset.question = i;
-        box.innerHTML = `<span>${i}</span><span class="status">❌</span>`;
+        box.innerHTML = `<span>${i}</span><span class="status"><i class="fas fa-times"></i></span>`;
         box.style.cursor = "pointer";
 
         // Klik nomor -> scroll ke soal
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
         questionGrid.appendChild(box);
     }
 
-    // ===== Update status indikator soal (✅ atau ❌) =====
+    // ===== Update status indikator soal (Font Awesome icons) =====
     function updateStatus() {
         for (let i = 1; i <= totalQuestions; i++) {
             const answered = document.querySelector(
@@ -143,12 +143,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (btn && status) {
                 if (answered) {
-                    status.textContent = "✅"; // soal terjawab
+                    // Soal terjawab - icon check
+                    status.innerHTML = '<i class="fas fa-check"></i>';
                     status.style.color = "white";
                     btn.classList.add("answered");
                 } else {
-                    status.textContent = "❌"; // soal belum dijawab
-                    status.style.color = "red";
+                    // Soal belum dijawab - icon times (X)
+                    status.innerHTML = '<i class="fas fa-times"></i>';
+                    status.style.color = "#ff4d4d";
                     btn.classList.remove("answered");
                 }
             }
@@ -164,7 +166,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (toggleButton && questionStatusContainer) {
         toggleButton.addEventListener("click", function () {
             questionStatusContainer.classList.add("collapsed"); // sembunyikan sidebar
-            showSidebarButton.style.display = "block"; // tampilkan tombol show
+            if (showSidebarButton) {
+                showSidebarButton.style.display = "block"; // tampilkan tombol show
+            }
         });
     }
 
@@ -202,9 +206,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const isMobile = window.innerWidth <= 768;
 
         if (!isMobile) {
-            // Di desktop, sidebar selalu terbuka
-            questionStatusContainer.classList.remove("collapsed");
-            showSidebarButton.style.display = "none";
+            // Di desktop, jika sidebar tersembunyi, tampilkan tombol show
+            if (questionStatusContainer.classList.contains("collapsed")) {
+                if (showSidebarButton) {
+                    showSidebarButton.style.display = "block";
+                }
+            } else {
+                // Jika sidebar terbuka, sembunyikan tombol show
+                if (showSidebarButton) {
+                    showSidebarButton.style.display = "none";
+                }
+            }
         } else {
             // Di mobile, biarkan user yang mengontrol sidebar
             // (tidak auto-show atau auto-hide saat resize)

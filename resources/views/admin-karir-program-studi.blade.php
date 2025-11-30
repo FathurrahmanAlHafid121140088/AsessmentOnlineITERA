@@ -93,7 +93,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{ route('admin.home') }}">
+                                <a href="{{ route('admin.mental-health') }}">
                                     <i class="fas fa-tachometer-alt" style="margin-right: 0.8rem;"></i> Dashboard
                                 </a>
                             </li>
@@ -111,7 +111,7 @@
                     </li>
                 @else
                     <li>
-                        <a href="{{ route('admin.home') }}">
+                        <a href="{{ route('admin.mental-health') }}">
                             <i class="fas fa-brain" style="margin-right: 1rem;"></i> Mental Health
                         </a>
                     </li>

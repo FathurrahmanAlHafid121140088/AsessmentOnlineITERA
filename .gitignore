@@ -9,6 +9,7 @@
 .env
 .env.backup
 .env.production
+.env.railway
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -22,3 +23,6 @@ yarn-error.log
 /.vscode
 /.zed
 nul
+
+# Railway
+.railway

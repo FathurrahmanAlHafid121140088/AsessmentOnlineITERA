@@ -247,10 +247,11 @@ input[type="radio"].form-check-input:checked::before {
 #show-sidebar {
     position: fixed;
     top: 50%;
+    left: 0; /* posisi di kiri layar */
     transform: translateY(-50%);
     background-color: #4f46e5;
     padding: 12px 14px;
-    border-radius: 0 8px 8px 0; /* ✅ sudut kiri bulat */
+    border-radius: 0 8px 8px 0; /* sudut kanan bulat */
     color: white;
     font-size: 1rem;
     z-index: 1000;
@@ -277,13 +278,13 @@ input[type="radio"].form-check-input:checked::before {
 #question-status-container {
     position: fixed;
     top: 9rem;
-    right: 0;
+    left: 0;
     width: 260px;
     height: 100vh;
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
     z-index: 999;
     transition: transform 0.3s ease-in-out;
     transform: translateX(0); /* default tampil */
@@ -294,7 +295,7 @@ input[type="radio"].form-check-input:checked::before {
 }
 
 #question-status-container.collapsed {
-    transform: translateX(-110%); /* keluar dari viewport */
+    transform: translateX(-100%); /* geser ke kiri keluar viewport */
 }
 
 /* Nonaktifkan transisi saat awal load */
@@ -337,9 +338,26 @@ input[type="radio"].form-check-input:checked::before {
     color: white !important;
 }
 
-/* Status (✅ / ❌) tetap tampil rapi */
+/* Status icon Font Awesome */
 .question-btn .status {
     font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-btn .status i {
+    font-size: 12px;
+}
+
+/* Icon check untuk soal terjawab */
+.question-btn.answered .status i {
+    color: white;
+}
+
+/* Icon times untuk soal belum dijawab */
+.question-btn:not(.answered) .status i {
+    color: #ff4d4d;
 }
 
 .question-btn:hover {
@@ -425,19 +443,37 @@ input[type="radio"].form-check-input:checked::before {
    💻 DESKTOP MODE - Sidebar Always Visible
    ======================== */
 @media (min-width: 769px) {
-    /* Sidebar selalu tampil di desktop */
+    /* Sidebar di desktop */
     #question-status-container {
-        transform: translateX(0) !important;
+        transform: translateX(0);
     }
 
-    /* Tombol show tidak ditampilkan di desktop */
-    #show-sidebar {
-        display: none !important;
+    /* Konten container quiz di tengah dengan ruang untuk sidebar */
+    body > .container {
+        width: calc(100% - 280px); /* lebar dikurangi sidebar */
+        margin-left: 160px; /* offset untuk sidebar di kiri */
+        margin-right: 0;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        transition: width 0.3s ease, margin-left 0.3s ease;
     }
 
-    /* Pastikan konten kuesioner tidak tertutup sidebar */
-    .container {
-        margin-right: 280px; /* sesuaikan dengan lebar sidebar */
+    /* Center konten di dalam area yang tersedia */
+    body > .container .row.justify-content-center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Saat sidebar collapsed (tersembunyi), konten kembali center fullwidth */
+    #question-status-container.collapsed ~ body > .container {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    /* Perbesar lebar kolom quiz agar tidak terlalu sempit */
+    .col-md-8.col-lg-7.quiz {
+        max-width: 65% !important; /* dari 58.33% (col-lg-7) menjadi 70% */
+        flex: 0 0 85%;
     }
 }
 
@@ -446,10 +482,10 @@ input[type="radio"].form-check-input:checked::before {
    ======================== */
 @media (max-width: 768px) {
     .status-container {
-        padding: 10px 10px 10px 10px; /* ruang ekstra untuk tombol panah */
+        padding: 8px; /* padding lebih kecil */
     }
     #question-status-container {
-        width: 180px !important;
+        width: 150px !important; /* lebih kecil dari 180px */
         height: calc(100vh - 100px);
     }
     .form-check-label {
@@ -463,38 +499,47 @@ input[type="radio"].form-check-input:checked::before {
     }
 
     .sidebar-title {
-        font-size: 18px !important;
-        padding: 12px 16px !important;
+        font-size: 14px !important; /* lebih kecil */
+        padding: 8px 12px !important; /* padding lebih kecil */
     }
 
     #question-grid {
-        padding: 12px !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
+        padding: 8px !important; /* padding lebih kecil */
+        grid-template-columns: repeat(2, 1fr) !important; /* tetap 2 kolom */
+        gap: 6px !important; /* gap lebih kecil */
     }
 
     .question-btn {
-        font-size: 13px !important;
-        padding: 6px !important;
+        font-size: 11px !important; /* font lebih kecil */
+        padding: 4px !important; /* padding lebih kecil */
+        min-height: 35px; /* minimum height agar tetap klik-able */
     }
 
     .question-btn .status {
-        font-size: 11px;
+        font-size: 10px; /* icon status lebih kecil */
+    }
+
+    .question-btn .status i {
+        font-size: 10px; /* icon Font Awesome lebih kecil di mobile */
+    }
+
+    #toggle-sidebar {
+        padding: 10px 0; /* padding tombol toggle lebih kecil */
     }
 
     #toggle-sidebar span {
-        display: none;
+        display: none; /* sembunyikan text */
     }
 
     #toggle-sidebar i {
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
     }
 
-    /* Tombol show di kanan layar, lebih kecil */
+    /* Tombol show di kiri layar, lebih kecil */
     #show-sidebar {
-        padding: 10px 12px !important;
-        font-size: 0.9rem;
-        border-radius: 6px 0 0 6px;
+        padding: 8px 10px !important;
+        font-size: 0.85rem;
+        border-radius: 0 6px 6px 0;
     }
 }
 
