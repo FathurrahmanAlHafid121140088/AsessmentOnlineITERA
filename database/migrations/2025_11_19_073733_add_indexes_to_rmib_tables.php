@@ -168,12 +168,27 @@ return new class extends Migration
 
     /**
      * Check if index exists on a table
+     * Support both MySQL and SQLite
      */
     private function indexExists(string $table, string $index): bool
     {
         $connection = Schema::getConnection();
-        $database = $connection->getDatabaseName();
+        $driver = $connection->getDriverName();
 
+        if ($driver === 'sqlite') {
+            $result = $connection->select(
+                "SELECT COUNT(*) as count
+                 FROM sqlite_master
+                 WHERE type = 'index'
+                 AND name = ?",
+                [$index]
+            );
+
+            return $result[0]->count > 0;
+        }
+
+        // MySQL
+        $database = $connection->getDatabaseName();
         $result = $connection->select(
             "SELECT COUNT(*) as count
              FROM information_schema.statistics

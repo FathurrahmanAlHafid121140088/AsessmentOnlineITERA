@@ -97,7 +97,10 @@ class KarirController extends Controller
             'jumlahTesSelesai' => $jumlahTesSelesai,
             'kategoriTerakhir' => $kategoriTerakhir,
             'riwayatTes' => $riwayatTes,
-            'radarData' => $radarData,
+            'radarData' => [
+                'labels' => $radarLabels,
+                'values' => $radarData
+            ],
             'radarLabels' => $radarLabels
         ]);
     }
@@ -125,12 +128,13 @@ public function storeDataDiri(Request $request)
     {
         // 1. Validasi semua input form
         $validatedData = $request->validate([
+            'nim'                    => 'nullable|string|size:9', // Validasi NIM jika dikirim
             'nama'                   => 'required|string|max:255',
             'program_studi'          => 'required|string|max:255',
-            'jenis_kelamin'          => 'required|string',
+            'jenis_kelamin'          => 'required|in:L,P', // Harus L atau P
             'provinsi'               => 'required|string|max:255',
             'alamat'                 => 'required|string',
-            'usia'                   => 'required|integer|min:1',
+            'usia'                   => 'required|integer|min:1|regex:/^[0-9]+$/', // Hanya angka, tidak boleh e, koma, dll
             'fakultas'               => 'required|string|max:255',
             'email'                  => 'required|email|max:255',
             'asal_sekolah'           => 'required|string|max:255',
@@ -184,6 +188,7 @@ public function showTesForm(KarirDataDiri $data_diri)
         'dataDiri'             => $data_diri,
         'gender'               => $gender,
         'pekerjaanPerKelompok' => $pekerjaanData, // Kirim data yang sudah dikelompokkan
+        'clusters'             => $pekerjaanData, // Alias untuk testing
         'semuaPekerjaan'       => $pekerjaanDb->pluck('nama_pekerjaan') // Kirim daftar flat
     ]);
 }
@@ -393,7 +398,8 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
             ];
         }
 
-        return view('karir-interpretasi', compact('hasil', 'hasilLengkap', 'top3', 'pekerjaanTop3'));
+        return view('karir-interpretasi', compact('hasil', 'hasilLengkap', 'top3', 'pekerjaanTop3'))
+            ->with('hasilLengkap', array_merge(['interpretasi' => $hasil->interpretasi], $hasilLengkap));
     }
 
     // ========================
@@ -415,7 +421,8 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
 
         // Query hasil tes dengan Eager Loading (Optimized - Fix N+1 Problem)
         $query = RmibHasilTes::with([
-            'karirDataDiri:id,nim,nama,program_studi,fakultas,jenis_kelamin,email,usia,provinsi,alamat,asal_sekolah,status_tinggal,prodi_sesuai_keinginan'
+            'karirDataDiri:id,nim,nama,program_studi,fakultas,jenis_kelamin,email,usia,provinsi,alamat,asal_sekolah,status_tinggal,prodi_sesuai_keinginan',
+            'karirDataDiri.hasilTes'
         ])
         ->whereIn('id', $latestIds);
 
@@ -445,6 +452,22 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
             });
         }
 
+        // Filter by program studi
+        if (request('prodi')) {
+            $prodi = request('prodi');
+            $query->whereHas('karirDataDiri', function($q) use ($prodi) {
+                $q->where('program_studi', $prodi);
+            });
+        }
+
+        // Filter by provinsi
+        if (request('provinsi')) {
+            $provinsi = request('provinsi');
+            $query->whereHas('karirDataDiri', function($q) use ($provinsi) {
+                $q->where('provinsi', $provinsi);
+            });
+        }
+
         $hasilTes = $query->orderBy('tanggal_pengerjaan', 'desc')
             ->paginate(request('limit', 10))
             ->appends(request()->query());
@@ -464,6 +487,15 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
 
         $totalPerempuan = Cache::remember('karir_stats_total_perempuan', 3600, function () {
             return KarirDataDiri::where('jenis_kelamin', 'P')->count();
+        });
+
+        // Additional statistics for tests
+        $totalPeserta = $totalUsers; // Alias for totalUsers
+        $totalProdi = Cache::remember('karir_stats_total_prodi', 3600, function () {
+            return KarirDataDiri::distinct('program_studi')->count('program_studi');
+        });
+        $totalProvinsi = Cache::remember('karir_stats_total_provinsi', 3600, function () {
+            return KarirDataDiri::distinct('provinsi')->count('provinsi');
         });
 
         // Hitung jumlah per kategori RMIB (top 1)
@@ -542,6 +574,9 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
             'totalTes',
             'totalLaki',
             'totalPerempuan',
+            'totalPeserta',
+            'totalProdi',
+            'totalProvinsi',
             'kategoriCounts',
             'kategoriRMIB',
             'fakultasCount',
@@ -621,7 +656,11 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
             'top2Kategori',
             'top3Pekerjaan',
             'top3Kategori'
-        ));
+        ))->with([
+            'matrix' => $matrixData['matrix'],
+            'sum' => $matrixData['sum'],
+            'rank' => $matrixData['rank']
+        ]);
     }
 
     /**
@@ -730,7 +769,7 @@ public function storeJawaban(StoreRmibJawabanRequest $request, KarirDataDiri $da
             ->orderBy('tanggal_pengerjaan', 'desc')
             ->get();
 
-        $filename = 'Data_Hasil_Tes_RMIB_' . date('YmdHis') . '.xlsx';
+        $filename = 'Data_Hasil_Tes_RMIB_' . \Carbon\Carbon::now()->format('YmdHis') . '.xlsx';
 
         return \Maatwebsite\Excel\Facades\Excel::download(
             new \App\Exports\KarirExport($hasilTes),
