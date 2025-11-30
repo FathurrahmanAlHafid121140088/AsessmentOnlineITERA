@@ -98,9 +98,13 @@
                         </thead>
                         <tbody>
                             @php
-                                $maxSkor = max(array_column($hasilLengkap, 'skor'));
+                                $kategoriItems = array_filter($hasilLengkap, function($item) {
+                                    return is_array($item) && isset($item['kategori']);
+                                });
+                                $maxSkor = count($kategoriItems) > 0 ? max(array_column($kategoriItems, 'skor')) : 1;
                             @endphp
                             @foreach ($hasilLengkap as $item)
+                                @if(is_array($item) && isset($item['kategori']))
                                 <tr class="animated-item fade-in">
                                     <td><span
                                             style="font-weight: 700; font-size: 1.1rem;">{{ $item['peringkat'] == floor($item['peringkat']) ? number_format($item['peringkat'], 0) : number_format($item['peringkat'], 1) }}</span>
@@ -129,6 +133,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

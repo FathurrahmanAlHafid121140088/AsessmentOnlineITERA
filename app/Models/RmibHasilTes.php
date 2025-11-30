@@ -44,4 +44,12 @@ class RmibHasilTes extends Model
     {
         return $this->belongsTo(KarirDataDiri::class, 'karir_data_diri_id', 'id');
     }
+
+    /**
+     * Relasi "hasMany": Setiap hasil tes memiliki banyak jawaban peserta.
+     */
+    public function jawaban()
+    {
+        return $this->hasMany(RmibJawabanPeserta::class, 'hasil_id', 'id');
+    }
 }
