@@ -16,7 +16,33 @@ use App\Http\Controllers\DashboardController; // <-- Jangan lupa tambahkan ini d
 use App\Http\Controllers\AuthController;
 
 
+use Illuminate\Support\Facades\Artisan;
 
+// --- HAPUS ROUTE INI SETELAH SELESAI ---
+Route::get('/jalur-rahasia-db', function () {
+    // 1. Jalankan Migrasi
+    Artisan::call('migrate', ['--force' => true]);
+    $hasilMigrasi = Artisan::output();
+
+    // 2. Jalankan Seeder Admin
+    Artisan::call('db:seed', [
+        '--class' => 'AdminSeeder',
+        '--force' => true
+    ]);
+    $hasilSeedAdmin = Artisan::output();
+
+    // 3. Jalankan Seeder Pekerjaan
+    Artisan::call('db:seed', [
+        '--class' => 'RmibPekerjaanSeeder',
+        '--force' => true
+    ]);
+    $hasilSeedPekerjaan = Artisan::output();
+
+    return "<h1>DATABASE SUKSES!</h1><br>" .
+        "<strong>Migrasi:</strong><br><pre>$hasilMigrasi</pre><br>" .
+        "<strong>Seed Admin:</strong><br><pre>$hasilSeedAdmin</pre><br>" .
+        "<strong>Seed Pekerjaan:</strong><br><pre>$hasilSeedPekerjaan</pre>";
+});
 // Beranda/Home
 Route::get('/', function () {
     return view('home', ['title' => 'Home']);
@@ -84,7 +110,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Rute untuk menampilkan dan mengirim kuesioner
-    Route::get('/mental-health/kuesioner', function () {       
+    Route::get('/mental-health/kuesioner', function () {
         // Data 'nim' tidak perlu lagi dikirim dari sini, karena bisa diakses
         // langsung di view atau controller menggunakan Auth::user()->nim
         return view('kuesioner', [
