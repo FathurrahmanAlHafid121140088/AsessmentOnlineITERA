@@ -471,8 +471,9 @@ class KarirController extends Controller
             ->appends(request()->query());
 
         // Statistik dengan Caching (1 hour cache)
+        // PERUBAHAN: Hanya hitung pengguna yang SUDAH menyelesaikan tes (ada hasil tes)
         $totalUsers = Cache::remember('karir_stats_total_users', 3600, function () {
-            return KarirDataDiri::count();
+            return KarirDataDiri::whereHas('hasilTes')->count();
         });
 
         $totalTes = Cache::remember('karir_stats_total_tes', 3600, function () {
@@ -480,11 +481,15 @@ class KarirController extends Controller
         });
 
         $totalLaki = Cache::remember('karir_stats_total_laki', 3600, function () {
-            return KarirDataDiri::where('jenis_kelamin', 'L')->count();
+            return KarirDataDiri::whereHas('hasilTes')
+                ->where('jenis_kelamin', 'L')
+                ->count();
         });
 
         $totalPerempuan = Cache::remember('karir_stats_total_perempuan', 3600, function () {
-            return KarirDataDiri::where('jenis_kelamin', 'P')->count();
+            return KarirDataDiri::whereHas('hasilTes')
+                ->where('jenis_kelamin', 'P')
+                ->count();
         });
 
         // Additional statistics for tests
@@ -522,7 +527,9 @@ class KarirController extends Controller
 
         // Distribusi Fakultas dengan Caching
         $fakultasCount = Cache::remember('karir_stats_fakultas_count', 3600, function () {
-            return KarirDataDiri::select('fakultas', DB::raw('count(*) as total'))
+            // ✅ TAMBAHKAN: Hanya hitung pengguna yang SUDAH menyelesaikan tes
+            return KarirDataDiri::whereHas('hasilTes')
+                ->select('fakultas', DB::raw('count(*) as total'))
                 ->groupBy('fakultas')
                 ->pluck('total', 'fakultas')
                 ->toArray();
@@ -543,25 +550,39 @@ class KarirController extends Controller
         // Data untuk chart Status Tinggal dengan Caching
         $statusTinggalCounts = Cache::remember('karir_stats_status_tinggal', 3600, function () {
             return [
-                'Kost' => KarirDataDiri::where('status_tinggal', 'Kost')->count(),
-                'Bersama Orang Tua' => KarirDataDiri::where('status_tinggal', 'Bersama Orang Tua')->count(),
+                'Kost' => KarirDataDiri::whereHas('hasilTes')
+                    ->where('status_tinggal', 'Kost')
+                    ->count(),
+                'Bersama Orang Tua' => KarirDataDiri::whereHas('hasilTes')
+                    ->where('status_tinggal', 'Bersama Orang Tua')
+                    ->count(),
             ];
         });
 
         // Data untuk chart Prodi Sesuai Keinginan dengan Caching
         $prodiSesuaiCounts = Cache::remember('karir_stats_prodi_sesuai', 3600, function () {
             return [
-                'Ya' => KarirDataDiri::where('prodi_sesuai_keinginan', 'Ya')->count(),
-                'Tidak' => KarirDataDiri::where('prodi_sesuai_keinginan', 'Tidak')->count(),
+                'Ya' => KarirDataDiri::whereHas('hasilTes')
+                    ->where('prodi_sesuai_keinginan', 'Ya')
+                    ->count(),
+                'Tidak' => KarirDataDiri::whereHas('hasilTes')
+                    ->where('prodi_sesuai_keinginan', 'Tidak')
+                    ->count(),
             ];
         });
 
         // Data untuk chart Asal Sekolah dengan Caching
         $asalSekolahCounts = Cache::remember('karir_stats_asal_sekolah', 3600, function () {
             return [
-                'SMA' => KarirDataDiri::where('asal_sekolah', 'SMA')->count(),
-                'SMK' => KarirDataDiri::where('asal_sekolah', 'SMK')->count(),
-                'Boarding School' => KarirDataDiri::where('asal_sekolah', 'Boarding School')->count(),
+                'SMA' => KarirDataDiri::whereHas('hasilTes')
+                    ->where('asal_sekolah', 'SMA')
+                    ->count(),
+                'SMK' => KarirDataDiri::whereHas('hasilTes')
+                    ->where('asal_sekolah', 'SMK')
+                    ->count(),
+                'Boarding School' => KarirDataDiri::whereHas('hasilTes')
+                    ->where('asal_sekolah', 'Boarding School')
+                    ->count(),
             ];
         });
 
@@ -735,23 +756,63 @@ class KarirController extends Controller
         ));
     }
 
-    // 3. Hapus hasil tes
-    public function destroy($hasil_tes)
-    {
-        try {
-            $hasil = RmibHasilTes::findOrFail($hasil_tes);
+// 3. Hapus hasil tes
+public function destroy($hasil_tes)
+{
+    try {
+        $hasil = RmibHasilTes::findOrFail($hasil_tes);
 
-            // Hapus jawaban terkait
-            RmibJawabanPeserta::where('hasil_id', $hasil_tes)->delete();
+        // Log SEBELUM penghapusan
+        Log::info('RMIB test result deletion started', [
+            'admin_id' => auth()->id(),
+            'hasil_tes_id' => $hasil_tes,
+            'karir_data_diri_id' => $hasil->karir_data_diri_id,
+        ]);
 
-            // Hapus hasil tes
-            $hasil->delete();
+        // Hapus jawaban terkait
+        $jawabanDeleted = RmibJawabanPeserta::where('hasil_id', $hasil_tes)->delete();
+        Log::info('RMIB jawaban deleted', ['count' => $jawabanDeleted]);
 
-            return redirect()->route('admin.karir.index')->with('success', 'Data berhasil dihapus!');
-        } catch (\Exception $e) {
-            return redirect()->route('admin.karir.index')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
-        }
+        // Hapus hasil tes
+        $hasil->delete();
+        Log::info('RMIB hasil tes deleted', ['hasil_tes_id' => $hasil_tes]);
+
+        // ✅ FLUSH CACHE - LEBIH AGGRESSIVE
+        // 1. Flush semua RMIB keys secara individual
+        Cache::forget('karir_stats_total_users');
+        Cache::forget('karir_stats_total_tes');
+        Cache::forget('karir_stats_total_laki');
+        Cache::forget('karir_stats_total_perempuan');
+        Cache::forget('karir_stats_kategori_counts');
+        Cache::forget('karir_stats_fakultas_count');
+        Cache::forget('karir_stats_status_tinggal');
+        Cache::forget('karir_stats_prodi_sesuai');
+        Cache::forget('karir_stats_asal_sekolah');
+        Cache::forget('karir_stats_total_prodi');
+        Cache::forget('karir_stats_total_provinsi');
+
+        // 2. Flush SEMUA cache sebagai backup
+        Cache::flush();
+        
+        Log::info('ALL cache flushed - aggressive cleanup', [
+            'cleared_at' => now()->toDateTimeString(),
+        ]);
+
+        return redirect()->route('admin.karir.index')
+            ->with('success', 'Data berhasil dihapus! Cache telah di-refresh sepenuhnya.');
+
+    } catch (\Exception $e) {
+        Log::error('Error deleting RMIB test result', [
+            'admin_id' => auth()->id(),
+            'hasil_tes_id' => $hasil_tes,
+            'error_message' => $e->getMessage(),
+            'error_trace' => $e->getTraceAsString(),
+        ]);
+
+        return redirect()->route('admin.karir.index')
+            ->with('error', 'Gagal menghapus data: ' . $e->getMessage());
     }
+}
 
     // 4. Export ke Excel
     public function exportExcel()
@@ -821,10 +882,11 @@ class KarirController extends Controller
         ];
 
         // Hitung jumlah peserta per provinsi dengan single query (Optimized)
-        // Menggunakan GROUP BY lebih efisien daripada loop + count()
-        $totalUsers = KarirDataDiri::count();
+        // PERUBAHAN: Hanya hitung pengguna yang SUDAH menyelesaikan tes
+        $totalUsers = KarirDataDiri::whereHas('hasilTes')->count();
 
-        $provinsiCounts = KarirDataDiri::select('provinsi', DB::raw('count(*) as jumlah'))
+        $provinsiCounts = KarirDataDiri::whereHas('hasilTes')
+            ->select('provinsi', DB::raw('count(*) as jumlah'))
             ->groupBy('provinsi')
             ->pluck('jumlah', 'provinsi')
             ->toArray();
@@ -905,10 +967,11 @@ class KarirController extends Controller
         ];
 
         // Hitung jumlah peserta per program studi dengan single query (Optimized)
-        // Menggunakan GROUP BY lebih efisien daripada nested loop + count()
-        $totalUsers = KarirDataDiri::count();
+        // PERUBAHAN: Hanya hitung pengguna yang SUDAH menyelesaikan tes
+        $totalUsers = KarirDataDiri::whereHas('hasilTes')->count();
 
-        $prodiCounts = KarirDataDiri::select('program_studi', DB::raw('count(*) as jumlah'))
+        $prodiCounts = KarirDataDiri::whereHas('hasilTes')
+            ->select('program_studi', DB::raw('count(*) as jumlah'))
             ->groupBy('program_studi')
             ->pluck('jumlah', 'program_studi')
             ->toArray();
@@ -934,7 +997,9 @@ class KarirController extends Controller
         });
 
         // Hitung statistik per fakultas dengan single query (Optimized)
-        $fakultasCounts = KarirDataDiri::select('fakultas', DB::raw('count(*) as jumlah'))
+        // PERUBAHAN: Hanya hitung pengguna yang SUDAH menyelesaikan tes
+        $fakultasCounts = KarirDataDiri::whereHas('hasilTes')
+            ->select('fakultas', DB::raw('count(*) as jumlah'))
             ->groupBy('fakultas')
             ->pluck('jumlah', 'fakultas')
             ->toArray();
@@ -973,6 +1038,33 @@ class KarirController extends Controller
 
         Log::info('RMIB statistics cache cleared', [
             'cleared_at' => now()->toDateTimeString(),
+        ]);
+    }
+
+    /**
+     * Force flush ALL RMIB-related cache
+     * Use this when cache is out of sync with database
+     */
+    private function flushAllKarirCache(): void
+    {
+        // Option 1: Flush individual keys (recommended)
+        Cache::forget('karir_stats_total_users');
+        Cache::forget('karir_stats_total_tes');
+        Cache::forget('karir_stats_total_laki');
+        Cache::forget('karir_stats_total_perempuan');
+        Cache::forget('karir_stats_kategori_counts');
+        Cache::forget('karir_stats_fakultas_count');
+        Cache::forget('karir_stats_status_tinggal');
+        Cache::forget('karir_stats_prodi_sesuai');
+        Cache::forget('karir_stats_asal_sekolah');
+        Cache::forget('karir_stats_total_prodi');
+        Cache::forget('karir_stats_total_provinsi');
+
+        // Option 2: Alternative - flush dengan pattern (jika driver support)
+        // Cache::tags(['karir'])->flush();
+
+        Log::info('All RMIB cache flushed completely', [
+            'flushed_at' => now()->toDateTimeString(),
         ]);
     }
 }
