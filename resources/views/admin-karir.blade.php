@@ -581,7 +581,9 @@
                                 style="display: {{ $loop->first ? 'block' : 'none' }}; min-height: {{ $chartHeight }}px">
                                 @foreach ($prodis as $prodi)
                                     @php
-                                        $jumlah = KarirDataDiri::where('program_studi', $prodi)->count();
+                                        $jumlah = KarirDataDiri::whereHas('hasilTes')
+                                            ->where('program_studi', $prodi)
+                                            ->count();
                                         $iconMap = [
                                             'Fisika' => 'fa-solid fa-atom',
                                             'Matematika' => 'fa-solid fa-square-root-variable',
@@ -702,7 +704,9 @@
                             style="min-height: {{ count($daftarProvinsi) * 38 + 60 }}px">
                             @foreach ($daftarProvinsi as $provinsi)
                                 @php
-                                    $jumlah = KarirDataDiri::where('provinsi', $provinsi)->count();
+                                    $jumlah = KarirDataDiri::whereHas('hasilTes')
+                                        ->where('provinsi', $provinsi)
+                                        ->count();
                                 @endphp
                                 <div class="bar-line">
                                     <span class="bar-text">
