@@ -308,7 +308,7 @@
             </div>
         </main>
     </div>
-    <a id="wa-contact" href="https://wa.me/6285150876464" target="_blank" rel="noopener noreferrer"
+    <a id="wa-contact" href="" target="_blank" rel="noopener noreferrer"
         aria-label="Hubungi kami via WhatsApp">
         <span class="wa-icon" aria-hidden="true">
             <i class="fab fa-whatsapp"></i>

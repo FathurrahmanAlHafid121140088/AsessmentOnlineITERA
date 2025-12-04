@@ -613,7 +613,7 @@
         </div>
         <div class="tombol">
             <div data-aos="fade-down" data-aos-delay="200" class="action-buttons">
-                <a href="https://wa.me/6285150876464" class="btn-back whatsapp-btn">
+                <a href="" class="btn-back whatsapp-btn">
                     <i class="fa-brands fa-whatsapp"></i>
                     Konsultasi Lebih Lanjut
                 </a>

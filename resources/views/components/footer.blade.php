@@ -71,7 +71,7 @@
                     </li>
                     <li class="flex" style="align-items: center;">
                         <i class="fas fa-phone-alt" style="margin-right: 8px; color: #4cc9f0;"></i>
-                        <span>0851-5087-6464</span>
+                        <span>0812-3456-7890</span>
                     </li>
                     <li class="flex" style="align-items: center;">
                         <i class="fas fa-envelope" style="margin-right: 8px; color: #4cc9f0;"></i>
