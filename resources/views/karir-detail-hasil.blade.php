@@ -12,11 +12,15 @@
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet" type="text/css" />
     <!-- AOS Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link href="{{ asset('css/karir-admin.css') }}" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,121 +35,127 @@
         <div class="content-area">
             <div class="tabs">
                 <div class="tab active">Detail Hasil</div>
-                <a href="{{ route('admin.karir.list-pekerjaan', $hasil->id) }}" class="tab" style="text-decoration: none; color: inherit;">
+                <a href="{{ route('admin.karir.list-pekerjaan', $hasil->id) }}" class="tab"
+                    style="text-decoration: none; color: inherit;">
                     List Pekerjaan
+                </a>
+                <a href="{{ route('admin.karir.list-pekerjaan-kategori', $hasil->id) }}" class="tab"
+                    style="text-decoration: none; color: inherit;">
+                    List per Kategori
                 </a>
             </div>
 
+
             <div class="peserta-info">
-                    <h3>Informasi Peserta</h3>
-                    <div class="peserta-info-grid">
-                        <div class="info-item">
-                            <span class="info-label">Nama </span>
-                            <span class="info-value">{{ $hasil->karirDataDiri->nama ?? 'Tidak Ada Data' }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Email</span>
-                            <span class="info-value">{{ $hasil->karirDataDiri->email ?? '-' }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Tanggal Tes</span>
-                            <span
-                                class="info-value">{{ $hasil->tanggal_pengerjaan ? \Carbon\Carbon::parse($hasil->tanggal_pengerjaan)->locale('id')->translatedFormat('d F Y') : '-' }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Usia</span>
-                            <span class="info-value">{{ $hasil->karirDataDiri->usia ?? '-' }} Tahun</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Program Studi</span>
-                            <span
-                                class="info-value">{{ $hasil->karirDataDiri->program_studi ?? 'Tidak Ada Data' }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Jenis Kelamin</span>
-                            <span class="info-value">
-                                @if($hasil->karirDataDiri->jenis_kelamin == 'L')
-                                    Laki-laki
-                                @elseif($hasil->karirDataDiri->jenis_kelamin == 'P')
-                                    Perempuan
-                                @else
-                                    -
-                                @endif
-                            </span>
-                        </div>
+                <h3>Informasi Peserta</h3>
+                <div class="peserta-info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Nama </span>
+                        <span class="info-value">{{ $hasil->karirDataDiri->nama ?? 'Tidak Ada Data' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">{{ $hasil->karirDataDiri->email ?? '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tanggal Tes</span>
+                        <span
+                            class="info-value">{{ $hasil->tanggal_pengerjaan ? \Carbon\Carbon::parse($hasil->tanggal_pengerjaan)->locale('id')->translatedFormat('d F Y') : '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Usia</span>
+                        <span class="info-value">{{ $hasil->karirDataDiri->usia ?? '-' }} Tahun</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Program Studi</span>
+                        <span class="info-value">{{ $hasil->karirDataDiri->program_studi ?? 'Tidak Ada Data' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Jenis Kelamin</span>
+                        <span class="info-value">
+                            @if ($hasil->karirDataDiri->jenis_kelamin == 'L')
+                                Laki-laki
+                            @elseif($hasil->karirDataDiri->jenis_kelamin == 'P')
+                                Perempuan
+                            @else
+                                -
+                            @endif
+                        </span>
                     </div>
                 </div>
+            </div>
 
-                <div class="peserta-info" style="margin-top: 20px;">
-                    <h3><i class="fas fa-star" style="margin-right: 10px; color: #ffc107;"></i> Top 3 Pekerjaan Pilihan
-                        Peserta</h3>
+            <div class="peserta-info" style="margin-top: 20px;">
+                <h3><i class="fas fa-star" style="margin-right: 10px; color: #ffc107;"></i> Top 3 Pekerjaan Pilihan
+                    Peserta</h3>
 
-                    <div class="peserta-info-grid">
-                        <div class="info-item">
-                            <span class="info-label">Pilihan 1</span>
-                            <span class="info-value">
-                                @if ($top1Pekerjaan)
-                                    {{ $top1Pekerjaan }}
-                                    @if ($top1Kategori)
-                                        <span style="color: #000; font-weight: bold;"> | {{ $top1Kategori }}</span>
-                                    @endif
-                                @else
-                                    <span style="color: #999;">Belum diisi</span>
+                <div class="peserta-info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Pilihan 1</span>
+                        <span class="info-value">
+                            @if ($top1Pekerjaan)
+                                {{ $top1Pekerjaan }}
+                                @if ($top1Kategori)
+                                    <span style="color: #000; font-weight: bold;"> | {{ $top1Kategori }}</span>
                                 @endif
-                            </span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Pilihan 2</span>
-                            <span class="info-value">
-                                @if ($top2Pekerjaan)
-                                    {{ $top2Pekerjaan }}
-                                    @if ($top2Kategori)
-                                        <span style="color: #000; font-weight: bold;"> | {{ $top2Kategori }}</span>
-                                    @endif
-                                @else
-                                    <span style="color: #999;">Belum diisi</span>
-                                @endif
-                            </span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Pilihan 3</span>
-                            <span class="info-value">
-                                @if ($top3Pekerjaan)
-                                    {{ $top3Pekerjaan }}
-                                    @if ($top3Kategori)
-                                        <span style="color: #000; font-weight: bold;"> | {{ $top3Kategori }}</span>
-                                    @endif
-                                @else
-                                    <span style="color: #999;">Belum diisi</span>
-                                @endif
-                            </span>
-                        </div>
-                        @if ($hasil->pekerjaan_lain)
-                            <div class="info-item">
-                                <span class="info-label">Pekerjaan Lain yang Diminati</span>
-                                <span class="info-value">{{ $hasil->pekerjaan_lain }}</span>
-                            </div>
-                        @endif
+                            @else
+                                <span style="color: #999;">Belum diisi</span>
+                            @endif
+                        </span>
                     </div>
-
+                    <div class="info-item">
+                        <span class="info-label">Pilihan 2</span>
+                        <span class="info-value">
+                            @if ($top2Pekerjaan)
+                                {{ $top2Pekerjaan }}
+                                @if ($top2Kategori)
+                                    <span style="color: #000; font-weight: bold;"> | {{ $top2Kategori }}</span>
+                                @endif
+                            @else
+                                <span style="color: #999;">Belum diisi</span>
+                            @endif
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Pilihan 3</span>
+                        <span class="info-value">
+                            @if ($top3Pekerjaan)
+                                {{ $top3Pekerjaan }}
+                                @if ($top3Kategori)
+                                    <span style="color: #000; font-weight: bold;"> | {{ $top3Kategori }}</span>
+                                @endif
+                            @else
+                                <span style="color: #999;">Belum diisi</span>
+                            @endif
+                        </span>
+                    </div>
+                    @if ($hasil->pekerjaan_lain)
+                        <div class="info-item">
+                            <span class="info-label">Pekerjaan Lain yang Diminati</span>
+                            <span class="info-value">{{ $hasil->pekerjaan_lain }}</span>
+                        </div>
+                    @endif
                 </div>
 
-                <div class="result-section">
-                    <h2><i class="fas fa-calculator" style="margin-right: 10px"></i> Perhitungan Hasil Tes RMIB</h2>
+            </div>
 
-                    <div class="result-info">
-                        Berikut adalah hasil tes minat karir berdasarkan metode Rothwell-Miller Interest Blank (RMIB)
-                        untuk
-                        <strong>{{ $hasil->karirDataDiri->nama ?? 'Peserta' }}</strong>. Kategori dengan ranking
-                        terendah menunjukkan bidang minat
-                        yang paling dominan (semakin rendah ranking, semakin tinggi minat).
-                    </div>
+            <div class="result-section">
+                <h2><i class="fas fa-calculator" style="margin-right: 10px"></i> Perhitungan Hasil Tes RMIB</h2>
 
-                    <div class="chart-container" id="chartContainer"></div>
+                <div class="result-info">
+                    Berikut adalah hasil tes minat karir berdasarkan metode Rothwell-Miller Interest Blank (RMIB)
+                    untuk
+                    <strong>{{ $hasil->karirDataDiri->nama ?? 'Peserta' }}</strong>. Kategori dengan ranking
+                    terendah menunjukkan bidang minat
+                    yang paling dominan (semakin rendah ranking, semakin tinggi minat).
+                </div>
 
-                    <div class="rmib-table-wrapper">
-                        <h2 class="print-table-header">Tabel Perhitungan RMIB - {{ $hasil->karirDataDiri->nama ?? 'Peserta' }}</h2>
-                        <table class="rmib-table">
+                <div class="chart-container" id="chartContainer"></div>
+
+                <div class="rmib-table-wrapper">
+                    <h2 class="print-table-header">Tabel Perhitungan RMIB -
+                        {{ $hasil->karirDataDiri->nama ?? 'Peserta' }}</h2>
+                    <table class="rmib-table">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -187,7 +197,7 @@
                                     @foreach ($matrixData['kluster_urutan'] as $klusterIndex => $kluster)
                                         @php
                                             // Cek apakah cell ini adalah posisi diagonal (home position)
-                                            $isDiagonal = ($klusterIndex == $diagonalKlusterIndex);
+                                            $isDiagonal = $klusterIndex == $diagonalKlusterIndex;
                                             $cellClass = $isDiagonal ? 'cell-diagonal' : '';
                                         @endphp
                                         <td class="{{ $cellClass }}">{{ $item['matrix_row'][$kluster] }}</td>
@@ -197,19 +207,19 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                        </table>
-                    </div>
+                    </table>
+                </div>
 
-                    <div class="action-buttons">
-                        <a href="{{ route('admin.karir.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
-                        </a>
-                        <button class="btn btn-primary" onclick="cetakHasil()">
-                            <i class="fas fa-print"></i> Cetak Hasil
-                        </button>
-                    </div>
+                <div class="action-buttons">
+                    <a href="{{ route('admin.karir.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+                    </a>
+                    <button class="btn btn-primary" onclick="cetakHasil()">
+                        <i class="fas fa-print"></i> Cetak Hasil
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
         <script>

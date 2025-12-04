@@ -210,4 +210,5 @@ Route::middleware([AdminAuth::class])->group(function () {
 
     // Export Excel -> GET /admin/karir/export
     Route::get('/admin/karir/export', [KarirController::class, 'exportExcel'])->name('admin.karir.export.excel');
+    Route::get('/admin/karir/hasil/{hasil_tes}/list-pekerjaan-kategori', [KarirController::class, 'adminListPekerjaanKategori'])->name('admin.karir.list-pekerjaan-kategori');
 });

@@ -28,29 +28,39 @@
 
         <div class="content-area">
             <div class="tabs">
-                <a href="{{ route('admin.karir.detail', $hasil->id) }}" class="tab" style="text-decoration: none; color: inherit;">
+                <a href="{{ route('admin.karir.detail', $hasil->id) }}" class="tab"
+                    style="text-decoration: none; color: inherit;">
                     Detail Hasil
                 </a>
-                <div class="tab active">List Pekerjaan</div>
+                <div class="tab active">List Per Kelompok</div>
+                <a href="{{ route('admin.karir.list-pekerjaan-kategori', $hasil->id) }}" class="tab"
+                    style="text-decoration: none; color: inherit;">
+                    List per Kategori
+                </a>
             </div>
 
             <div class="peserta-info">
-                <h3><i class="fas fa-briefcase" style="margin-right: 10px; color: #4361ee;"></i> Daftar Pekerjaan & Kategori RMIB</h3>
+                <h3><i class="fas fa-briefcase" style="margin-right: 10px; color: #4361ee;"></i> Daftar Pekerjaan &
+                    Kategori RMIB</h3>
                 <p style="color: #666; margin-bottom: 20px;">
                     Berikut adalah daftar lengkap pekerjaan yang tersedia dalam tes RMIB untuk
                     <strong>{{ $gender == 'L' ? 'Laki-laki' : 'Perempuan' }}</strong>,
                     dikelompokkan berdasarkan kelompok (A-I) dan kategori minat.
                 </p>
 
-                @if(isset($daftarPekerjaan) && count($daftarPekerjaan) > 0)
-                    @foreach($daftarPekerjaan as $kelompok => $pekerjaans)
+                @if (isset($daftarPekerjaan) && count($daftarPekerjaan) > 0)
+                    @foreach ($daftarPekerjaan as $kelompok => $pekerjaans)
                         <div style="margin-bottom: 30px;">
-                            <h4 style="background: #4361ee; color: white; padding: 10px 15px; border-radius: 5px; margin-bottom: 15px;">
-                                <i class="fas fa-folder-open" style="margin-right: 10px;"></i>Kelompok {{ $kelompok }}
+                            <h4
+                                style="background: #4361ee; color: white; padding: 10px 15px; border-radius: 5px; margin-bottom: 15px;">
+                                <i class="fas fa-folder-open" style="margin-right: 10px;"></i>Kelompok
+                                {{ $kelompok }}
                             </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">
-                                @foreach($pekerjaans as $pekerjaan)
-                                    <div style="background: #f8f9fa; border-left: 4px solid #4361ee; padding: 12px 15px; border-radius: 4px;">
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">
+                                @foreach ($pekerjaans as $pekerjaan)
+                                    <div
+                                        style="background: #f8f9fa; border-left: 4px solid #4361ee; padding: 12px 15px; border-radius: 4px;">
                                         <div style="font-weight: 500; color: #333; margin-bottom: 5px;">
                                             {{ $pekerjaan->nama_pekerjaan }}
                                         </div>
