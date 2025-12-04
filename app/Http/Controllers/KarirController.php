@@ -42,7 +42,7 @@ class KarirController extends Controller
                 'jumlahTesSelesai' => 0,
                 'kategoriTerakhir' => 'Belum Ada Data',
                 'riwayatTes' => collect(),
-                'radarData' => [],
+                'radarData' => ['labels' => [], 'values' => []],
                 'radarLabels' => []
             ]);
         }
@@ -59,8 +59,8 @@ class KarirController extends Controller
         // Ambil hasil tes terakhir untuk kategori dan radar chart
         $hasilTerakhir = $hasilTesList->first();
         $kategoriTerakhir = 'Belum Ada Data';
-        $radarData = [];
         $radarLabels = [];
+        $radarValues = [];
 
         if ($hasilTerakhir) {
             $kategoriTerakhir = $hasilTerakhir->top_1_pekerjaan ?? 'Belum Ada Data';
@@ -73,7 +73,7 @@ class KarirController extends Controller
             $deskripsiKategori = $scoringService->getDeskripsiKategori();
             foreach ($hasilPerhitungan['skor_kategori'] as $kategori => $skor) {
                 $radarLabels[] = $deskripsiKategori[$kategori]['singkatan'];
-                $radarData[] = $skor;
+                $radarValues[] = $skor;
             }
         }
 
@@ -97,7 +97,7 @@ class KarirController extends Controller
             'jumlahTesSelesai' => $jumlahTesSelesai,
             'kategoriTerakhir' => $kategoriTerakhir,
             'riwayatTes' => $riwayatTes,
-            'radarData' => $radarData,
+            'radarData' => ['labels' => $radarLabels, 'values' => $radarValues],
             'radarLabels' => $radarLabels
         ]);
     }
@@ -756,7 +756,41 @@ class KarirController extends Controller
         ));
     }
 
-// 3. Hapus hasil tes
+    /**
+     * Tampilkan halaman list pekerjaan RMIB per kategori
+     *
+     * @param int $hasil_tes ID hasil tes
+     * @return \Illuminate\View\View
+     */
+    public function adminListPekerjaanKategori($hasil_tes)
+    {
+        // Ambil hasil tes berdasarkan id_hasil dengan relasi ke data diri
+        $hasil = RmibHasilTes::with('karirDataDiri')->findOrFail($hasil_tes);
+
+        // Ambil gender peserta
+        $gender = $hasil->karirDataDiri->jenis_kelamin;
+
+        // Ambil daftar semua pekerjaan dikelompokkan berdasarkan kategori
+        $daftarPekerjaanKategori = RmibPekerjaan::where('gender', $gender)
+            ->orderBy('kategori')
+            ->orderBy('nama_pekerjaan')
+            ->get()
+            ->groupBy('kategori');
+
+        // Get deskripsi kategori
+        $scoringService = new \App\Services\RmibScoringService();
+        $deskripsiKategori = $scoringService->getDeskripsiKategori();
+
+        // Kirim ke view karir-list-pekerjaan-kategori.blade.php
+        return view('karir-list-pekerjaan-kategori', compact(
+            'hasil',
+            'gender',
+            'daftarPekerjaanKategori',
+            'deskripsiKategori'
+        ));
+    }
+
+    // 3. Hapus hasil tes
 public function destroy($hasil_tes)
 {
     try {
