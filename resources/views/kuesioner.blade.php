@@ -52,7 +52,7 @@
                             <i class="fas fa-graduation-cap me-2 text-secondary"></i>Dari
                             <strong>{{ session('program_studi') }}</strong>
                         </p>
-                        <i class="fas fa-brain me-2"></i>Quiz Mental Health MHI-38
+                        <i class="fas fa-brain me-2"></i>Penilaian Mental Health MHI-38
                     </h2>
                     <form id="quizForm" action="{{ route('mental-health.kuesioner.submit') }}" method="POST">
                         @csrf
