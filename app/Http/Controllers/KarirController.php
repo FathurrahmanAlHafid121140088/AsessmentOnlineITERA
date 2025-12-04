@@ -42,7 +42,7 @@ class KarirController extends Controller
                 'jumlahTesSelesai' => 0,
                 'kategoriTerakhir' => 'Belum Ada Data',
                 'riwayatTes' => collect(),
-                'radarData' => ['labels' => [], 'values' => []],
+                'radarData' => [],
                 'radarLabels' => []
             ]);
         }
@@ -60,7 +60,7 @@ class KarirController extends Controller
         $hasilTerakhir = $hasilTesList->first();
         $kategoriTerakhir = 'Belum Ada Data';
         $radarLabels = [];
-        $radarValues = [];
+        $radarData = [];
 
         if ($hasilTerakhir) {
             $kategoriTerakhir = $hasilTerakhir->top_1_pekerjaan ?? 'Belum Ada Data';
@@ -73,7 +73,7 @@ class KarirController extends Controller
             $deskripsiKategori = $scoringService->getDeskripsiKategori();
             foreach ($hasilPerhitungan['skor_kategori'] as $kategori => $skor) {
                 $radarLabels[] = $deskripsiKategori[$kategori]['singkatan'];
-                $radarValues[] = $skor;
+                $radarData[] = $skor;
             }
         }
 
@@ -97,7 +97,7 @@ class KarirController extends Controller
             'jumlahTesSelesai' => $jumlahTesSelesai,
             'kategoriTerakhir' => $kategoriTerakhir,
             'riwayatTes' => $riwayatTes,
-            'radarData' => ['labels' => $radarLabels, 'values' => $radarValues],
+            'radarData' => $radarData,
             'radarLabels' => $radarLabels
         ]);
     }

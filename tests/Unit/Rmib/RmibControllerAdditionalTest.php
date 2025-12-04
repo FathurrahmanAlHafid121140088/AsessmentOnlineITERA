@@ -192,7 +192,7 @@ class RmibControllerAdditionalTest extends TestCase
     {
         $this->actingAs($this->admin, 'admin');
 
-        KarirDataDiri::create([
+        $dataDiri1 = KarirDataDiri::create([
             'nim' => '123456789',
             'nama' => 'User Lampung',
             'program_studi' => 'Teknik Informatika',
@@ -207,7 +207,16 @@ class RmibControllerAdditionalTest extends TestCase
             'prodi_sesuai_keinginan' => 'Ya',
         ]);
 
-        KarirDataDiri::create([
+        // ✅ CREATE HASIL TES
+        RmibHasilTes::create([
+            'karir_data_diri_id' => $dataDiri1->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => 'Engineer',
+            'top_2_pekerjaan' => 'Programmer',
+            'top_3_pekerjaan' => 'Analyst',
+        ]);
+
+        $dataDiri2 = KarirDataDiri::create([
             'nim' => '987654321',
             'nama' => 'User Jakarta',
             'program_studi' => 'Teknik Sipil',
@@ -220,6 +229,15 @@ class RmibControllerAdditionalTest extends TestCase
             'asal_sekolah' => 'SMA',
             'status_tinggal' => 'Kost',
             'prodi_sesuai_keinginan' => 'Tidak',
+        ]);
+
+        // ✅ CREATE HASIL TES
+        RmibHasilTes::create([
+            'karir_data_diri_id' => $dataDiri2->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => 'Architect',
+            'top_2_pekerjaan' => 'Designer',
+            'top_3_pekerjaan' => 'Manager',
         ]);
 
         $response = $this->get(route('admin.karir.provinsi'));
@@ -247,7 +265,7 @@ class RmibControllerAdditionalTest extends TestCase
 
         // Create 3 users from Lampung, 1 from Jakarta
         for ($i = 0; $i < 3; $i++) {
-            KarirDataDiri::create([
+            $dataDiri = KarirDataDiri::create([
                 'nim' => '12345678' . $i,
                 'nama' => 'User Lampung ' . $i,
                 'program_studi' => 'Teknik Informatika',
@@ -261,9 +279,18 @@ class RmibControllerAdditionalTest extends TestCase
                 'status_tinggal' => 'Kost',
                 'prodi_sesuai_keinginan' => 'Ya',
             ]);
+
+            // ✅ CREATE HASIL TES for each user
+            RmibHasilTes::create([
+                'karir_data_diri_id' => $dataDiri->id,
+                'tanggal_pengerjaan' => Carbon::now(),
+                'top_1_pekerjaan' => 'Engineer',
+                'top_2_pekerjaan' => 'Programmer',
+                'top_3_pekerjaan' => 'Analyst',
+            ]);
         }
 
-        KarirDataDiri::create([
+        $dataDiri4 = KarirDataDiri::create([
             'nim' => '987654321',
             'nama' => 'User Jakarta',
             'program_studi' => 'Teknik Sipil',
@@ -276,6 +303,15 @@ class RmibControllerAdditionalTest extends TestCase
             'asal_sekolah' => 'SMA',
             'status_tinggal' => 'Kost',
             'prodi_sesuai_keinginan' => 'Ya',
+        ]);
+
+        // ✅ CREATE HASIL TES
+        RmibHasilTes::create([
+            'karir_data_diri_id' => $dataDiri4->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => 'Architect',
+            'top_2_pekerjaan' => 'Designer',
+            'top_3_pekerjaan' => 'Manager',
         ]);
 
         $response = $this->get(route('admin.karir.provinsi'));
@@ -296,7 +332,7 @@ class RmibControllerAdditionalTest extends TestCase
     {
         $this->actingAs($this->admin, 'admin');
 
-        KarirDataDiri::create([
+        $dataDiri1 = KarirDataDiri::create([
             'nim' => '123456789',
             'nama' => 'User TI',
             'program_studi' => 'Teknik Informatika',
@@ -311,7 +347,16 @@ class RmibControllerAdditionalTest extends TestCase
             'prodi_sesuai_keinginan' => 'Ya',
         ]);
 
-        KarirDataDiri::create([
+        // ✅ CREATE HASIL TES
+        RmibHasilTes::create([
+            'karir_data_diri_id' => $dataDiri1->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => 'Engineer',
+            'top_2_pekerjaan' => 'Programmer',
+            'top_3_pekerjaan' => 'Analyst',
+        ]);
+
+        $dataDiri2 = KarirDataDiri::create([
             'nim' => '987654321',
             'nama' => 'User Sipil',
             'program_studi' => 'Teknik Sipil',
@@ -324,6 +369,15 @@ class RmibControllerAdditionalTest extends TestCase
             'asal_sekolah' => 'SMA',
             'status_tinggal' => 'Kost',
             'prodi_sesuai_keinginan' => 'Ya',
+        ]);
+
+        // ✅ CREATE HASIL TES
+        RmibHasilTes::create([
+            'karir_data_diri_id' => $dataDiri2->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => 'Architect',
+            'top_2_pekerjaan' => 'Designer',
+            'top_3_pekerjaan' => 'Manager',
         ]);
 
         $response = $this->get(route('admin.karir.program-studi'));
@@ -348,7 +402,7 @@ class RmibControllerAdditionalTest extends TestCase
         $this->actingAs($this->admin, 'admin');
 
         // Create 2 FTI students
-        KarirDataDiri::create([
+        $dataDiri1 = KarirDataDiri::create([
             'nim' => '123456789',
             'nama' => 'User TI',
             'program_studi' => 'Teknik Informatika',
@@ -363,7 +417,16 @@ class RmibControllerAdditionalTest extends TestCase
             'prodi_sesuai_keinginan' => 'Ya',
         ]);
 
-        KarirDataDiri::create([
+        // ✅ CREATE HASIL TES
+        RmibHasilTes::create([
+            'karir_data_diri_id' => $dataDiri1->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => 'Engineer',
+            'top_2_pekerjaan' => 'Programmer',
+            'top_3_pekerjaan' => 'Analyst',
+        ]);
+
+        $dataDiri2 = KarirDataDiri::create([
             'nim' => '987654321',
             'nama' => 'User TE',
             'program_studi' => 'Teknik Elektro',
@@ -376,6 +439,15 @@ class RmibControllerAdditionalTest extends TestCase
             'asal_sekolah' => 'SMA',
             'status_tinggal' => 'Kost',
             'prodi_sesuai_keinginan' => 'Ya',
+        ]);
+
+        // ✅ CREATE HASIL TES
+        RmibHasilTes::create([
+            'karir_data_diri_id' => $dataDiri2->id,
+            'tanggal_pengerjaan' => Carbon::now(),
+            'top_1_pekerjaan' => 'Engineer',
+            'top_2_pekerjaan' => 'Developer',
+            'top_3_pekerjaan' => 'Scientist',
         ]);
 
         $response = $this->get(route('admin.karir.program-studi'));
