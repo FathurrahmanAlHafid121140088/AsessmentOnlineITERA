@@ -141,9 +141,6 @@
                 <a href="{{ route('admin.karir.detail', $hasil->id) }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Kembali ke Detail Hasil
                 </a>
-                <a href="{{ route('admin.karir.list-pekerjaan', $hasil->id) }}" class="btn btn-secondary">
-                    <i class="fas fa-list"></i> Lihat per Kelompok
-                </a>
                 <a href="{{ route('admin.karir.index') }}" class="btn btn-secondary">
                     <i class="fas fa-home"></i> Ke Dashboard
                 </a>

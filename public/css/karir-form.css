@@ -9,7 +9,7 @@ body {
 }
 
 body::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
@@ -203,7 +203,6 @@ body::before {
     position: absolute;
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, #4361ee, #3f37c9);
     bottom: 0;
     left: 0;
     border-radius: 2px;
@@ -277,7 +276,7 @@ textarea.form-control {
 }
 
 .mb-4::before {
-    content: '';
+    content: "";
     position: absolute;
     left: -1rem;
     top: 0;
@@ -298,7 +297,6 @@ textarea.form-control {
     position: relative;
     display: inline-block;
 }
-
 
 /* Styling khusus untuk section Pekerjaan Lain */
 .top-choice-section:last-of-type {

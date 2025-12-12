@@ -82,7 +82,7 @@
                                             id="rank_{{ $kelompokHuruf }}_{{ $loop->parent->index }}_{{ $loop->index }}"
                                             name="jawaban[{{ $kelompokHuruf }}][{{ $pekerjaan }}]"
                                             data-kelompok="{{ $kelompokHuruf }}" required>
-                                            <option value="">--</option>
+                                            <option value="">x</option>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <option value="{{ $i }}">{{ $i }}</option>
                                             @endfor
@@ -154,7 +154,7 @@
 
                     {{-- Pekerjaan Lain di Luar List --}}
                     <div class="top-choice-section mt-4">
-                        <h4 class="mb-3">Pekerjaan Lain yang Anda Minati</h4>
+                        <h4 class="mb-3">(Opsional) Pekerjaan Lain yang Anda Minati</h4>
                         <p class="text-muted small">Jika ada pekerjaan lain yang Anda minati namun tidak terdapat dalam
                             daftar di atas, silakan tuliskan di bawah ini.</p>
 

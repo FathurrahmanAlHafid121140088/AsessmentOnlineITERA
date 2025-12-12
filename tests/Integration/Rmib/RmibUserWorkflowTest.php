@@ -283,12 +283,29 @@ class RmibUserWorkflowTest extends TestCase
         $response->assertViewHas('radarData');
         $response->assertViewHas('radarLabels');
 
-        // Verify radarData has correct structure
+        // ✅ PERBAIKAN: Verify struktur data sesuai implementasi controller
+        // Controller mengirim radarData dan radarLabels sebagai array terpisah
         $radarData = $response->viewData('radarData');
-        $this->assertArrayHasKey('labels', $radarData);
-        $this->assertArrayHasKey('values', $radarData);
-        $this->assertCount(12, $radarData['labels']);
-        $this->assertCount(12, $radarData['values']);
+        $radarLabels = $response->viewData('radarLabels');
+        
+        // Verify radarLabels adalah array dengan 12 elemen
+        $this->assertIsArray($radarLabels);
+        $this->assertCount(12, $radarLabels);
+        
+        // Verify radarData adalah array dengan 12 elemen (skor)
+        $this->assertIsArray($radarData);
+        $this->assertCount(12, $radarData);
+        
+        // Verify setiap elemen di radarData adalah numeric
+        foreach ($radarData as $skor) {
+            $this->assertIsNumeric($skor);
+        }
+        
+        // Verify labels tidak kosong
+        foreach ($radarLabels as $label) {
+            $this->assertNotEmpty($label);
+            $this->assertIsString($label);
+        }
     }
 
     #[Test]
