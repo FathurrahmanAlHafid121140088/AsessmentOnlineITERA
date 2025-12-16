@@ -41,7 +41,7 @@
 
             <div class="peserta-info">
                 <h3><i class="fas fa-briefcase" style="margin-right: 10px; color: #4361ee;"></i> Daftar Pekerjaan &
-                    Kategori RMIB</h3>
+                    Kategori RMIB Per Kelompok</h3>
                 <p style="color: #666; margin-bottom: 20px;">
                     Berikut adalah daftar lengkap pekerjaan yang tersedia dalam tes RMIB untuk
                     <strong>{{ $gender == 'L' ? 'Laki-laki' : 'Perempuan' }}</strong>,

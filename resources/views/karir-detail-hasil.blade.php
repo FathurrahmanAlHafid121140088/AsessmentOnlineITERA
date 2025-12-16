@@ -37,7 +37,7 @@
                 <div class="tab active">Detail Hasil</div>
                 <a href="{{ route('admin.karir.list-pekerjaan', $hasil->id) }}" class="tab"
                     style="text-decoration: none; color: inherit;">
-                    List Pekerjaan
+                    List Per Kelompok
                 </a>
                 <a href="{{ route('admin.karir.list-pekerjaan-kategori', $hasil->id) }}" class="tab"
                     style="text-decoration: none; color: inherit;">

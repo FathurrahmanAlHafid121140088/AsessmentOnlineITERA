@@ -189,62 +189,62 @@ class RmibScoringService
             'Outdoor' => [
                 'singkatan' => 'OUT',
                 'nama' => 'Minat Outdoor',
-                'deskripsi' => 'Anda memiliki minat yang tinggi pada aktivitas di luar ruangan dan pekerjaan yang berhubungan dengan alam. Anda cenderung menikmati pekerjaan yang memungkinkan Anda bekerja di lingkungan terbuka seperti pertanian, kehutanan, atau pekerjaan lapangan lainnya.'
+                'deskripsi' => 'Peserta memiliki minat yang tinggi pada aktivitas di luar ruangan dan pekerjaan yang berhubungan dengan alam. Peserta cenderung menikmati pekerjaan yang memungkinkan Peserta bekerja di lingkungan terbuka seperti pertanian, kehutanan, atau pekerjaan lapangan lainnya.'
             ],
             'Mechanical' => [
                 'singkatan' => 'MECH',
                 'nama' => 'Minat Mekanikal',
-                'deskripsi' => 'Anda tertarik pada mesin, alat-alat, dan teknologi mekanik. Anda senang bekerja dengan tangan untuk memperbaiki, merakit, atau mengoperasikan peralatan teknis. Karir di bidang teknik mesin, otomotif, atau manufaktur bisa menjadi pilihan yang cocok.'
+                'deskripsi' => 'Peserta tertarik pada mesin, alat-alat, dan teknologi mekanik. Peserta senang bekerja dengan tangan untuk memperbaiki, merakit, atau mengoperasikan peralatan teknis. Karir di bidang teknik mesin, otomotif, atau manufaktur bisa menjadi pilihan yang cocok.'
             ],
             'Computational' => [
                 'singkatan' => 'COMP',
                 'nama' => 'Minat Komputasional',
-                'deskripsi' => 'Anda memiliki keterampilan dalam bekerja dengan angka, perhitungan, dan analisis data. Anda senang memecahkan masalah matematika dan bekerja dengan detail numerik. Karir di bidang akuntansi, keuangan, atau analisis data mungkin sesuai dengan minat Anda.'
+                'deskripsi' => 'Peserta memiliki keterampilan dalam bekerja dengan angka, perhitungan, dan analisis data. Peserta senang memecahkan masalah matematika dan bekerja dengan detail numerik. Karir di bidang akuntansi, keuangan, atau analisis data mungkin sesuai dengan minat Peserta.'
             ],
             'Scientific' => [
                 'singkatan' => 'SCI',
                 'nama' => 'Minat Ilmiah',
-                'deskripsi' => 'Anda memiliki keingintahuan yang tinggi tentang bagaimana dunia bekerja dan tertarik pada penelitian dan eksperimen ilmiah. Anda senang mengamati, menganalisis, dan memecahkan masalah secara sistematis. Karir di bidang sains, penelitian, atau laboratorium bisa menjadi pilihan yang tepat.'
+                'deskripsi' => 'Peserta memiliki keingintahuan yang tinggi tentang bagaimana dunia bekerja dan tertarik pada penelitian dan eksperimen ilmiah. Peserta senang mengamati, menganalisis, dan memecahkan masalah secara sistematis. Karir di bidang sains, penelitian, atau laboratorium bisa menjadi pilihan yang tepat.'
             ],
             'Personal Contact' => [
                 'singkatan' => 'PERS',
                 'nama' => 'Minat Hubungan Personal',
-                'deskripsi' => 'Anda menikmati berinteraksi dengan orang lain dan membangun hubungan interpersonal. Anda memiliki kemampuan komunikasi yang baik dan senang bekerja dalam tim atau melayani orang lain. Karir di bidang penjualan, customer service, atau hubungan masyarakat mungkin cocok untuk Anda.'
+                'deskripsi' => 'Peserta menikmati berinteraksi dengan orang lain dan membangun hubungan interpersonal. Peserta memiliki kemampuan komunikasi yang baik dan senang bekerja dalam tim atau melayani orang lain. Karir di bidang penjualan, customer service, atau hubungan masyarakat mungkin cocok untuk Peserta.'
             ],
             'Aesthetic' => [
                 'singkatan' => 'AETH',
                 'nama' => 'Minat Artistik-Estetik',
-                'deskripsi' => 'Anda memiliki minat yang tinggi pada bidang seni dan estetika. Anda cenderung menikmati aktivitas yang melibatkan kreativitas, keindahan, dan ekspresi diri. Orang dengan minat AETH tinggi biasanya memiliki kepekaan terhadap nilai-nilai estetika, desain, dan seni rupa. Anda mungkin cocok dengan karir yang memungkinkan anda untuk mengekspresikan diri melalui seni visual, desain, atau kreativitas.'
+                'deskripsi' => 'Peserta memiliki minat yang tinggi pada bidang seni dan estetika. Peserta cenderung menikmati aktivitas yang melibatkan kreativitas, keindahan, dan ekspresi diri. Orang dengan minat AETH tinggi biasanya memiliki kepekaan terhadap nilai-nilai estetika, desain, dan seni rupa. Peserta mungkin cocok dengan karir yang memungkinkan Peserta untuk mengekspresikan diri melalui seni visual, desain, atau kreativitas.'
             ],
             'Literary' => [
                 'singkatan' => 'LIT',
                 'nama' => 'Minat Literasi',
-                'deskripsi' => 'Anda memiliki minat yang kuat dalam membaca, menulis, dan bekerja dengan kata-kata. Anda senang mengekspresikan ide melalui tulisan dan memiliki apresiasi terhadap literatur. Karir di bidang jurnalisme, penulisan, penerbitan, atau pengajaran bahasa mungkin sesuai dengan minat Anda.'
+                'deskripsi' => 'Peserta memiliki minat yang kuat dalam membaca, menulis, dan bekerja dengan kata-kata. Peserta senang mengekspresikan ide melalui tulisan dan memiliki apresiasi terhadap literatur. Karir di bidang jurnalisme, penulisan, penerbitan, atau pengajaran bahasa mungkin sesuai dengan minat Peserta.'
             ],
             'Musical' => [
                 'singkatan' => 'MUS',
                 'nama' => 'Minat Musikal',
-                'deskripsi' => 'Anda memiliki ketertarikan yang kuat terhadap musik dan ekspresi musikal. Minat MUS yang tinggi mencerminkan apresiasi terhadap harmoni, ritme, dan berbagai bentuk ekspresi musikal. Anda mungkin senang terlibat dalam kegiatan mendengarkan, menciptakan, atau memainkan musik. Karir di bidang musik, produksi audio, atau pendidikan musik mungkin sesuai dengan minat anda.'
+                'deskripsi' => 'Peserta memiliki ketertarikan yang kuat terhadap musik dan ekspresi musikal. Minat MUS yang tinggi mencerminkan apresiasi terhadap harmoni, ritme, dan berbagai bentuk ekspresi musikal. Peserta mungkin senang terlibat dalam kegiatan mendengarkan, menciptakan, atau memainkan musik. Karir di bidang musik, produksi audio, atau pendidikan musik mungkin sesuai dengan minat Peserta.'
             ],
             'Social Service' => [
                 'singkatan' => 'S.S',
                 'nama' => 'Minat Pelayanan Sosial',
-                'deskripsi' => 'Anda memiliki keinginan yang kuat untuk membantu orang lain dan berkontribusi pada kesejahteraan masyarakat. Anda peduli dengan isu-isu sosial dan ingin membuat perbedaan positif dalam kehidupan orang lain. Karir di bidang pekerjaan sosial, konseling, atau organisasi nirlaba mungkin cocok untuk Anda.'
+                'deskripsi' => 'Peserta memiliki keinginan yang kuat untuk membantu orang lain dan berkontribusi pada kesejahteraan masyarakat. Peserta peduli dengan isu-isu sosial dan ingin membuat perbedaan positif dalam kehidupan orang lain. Karir di bidang pekerjaan sosial, konseling, atau organisasi nirlaba mungkin cocok untuk Peserta.'
             ],
             'Clerical' => [
                 'singkatan' => 'CLER',
                 'nama' => 'Minat Administratif',
-                'deskripsi' => 'Anda menikmati pekerjaan yang terstruktur dan terorganisir dengan baik. Anda senang menangani tugas-tugas administratif, dokumentasi, dan manajemen informasi. Anda memiliki perhatian pada detail dan kemampuan untuk mengelola sistem dengan efisien. Karir di bidang administrasi, sekretariat, atau manajemen kantor mungkin sesuai.'
+                'deskripsi' => 'Peserta menikmati pekerjaan yang terstruktur dan terorganisir dengan baik. Peserta senang menangani tugas-tugas administratif, dokumentasi, dan manajemen informasi. Peserta memiliki perhatian pada detail dan kemampuan untuk mengelola sistem dengan efisien. Karir di bidang administrasi, sekretariat, atau manajemen kantor mungkin sesuai.'
             ],
             'Practical' => [
                 'singkatan' => 'PRAC',
                 'nama' => 'Minat Praktis',
-                'deskripsi' => 'Anda senang bekerja dengan tangan dan menghasilkan sesuatu yang nyata dan bermanfaat. Anda menikmati pekerjaan yang praktis dan aplikatif, yang memberikan hasil konkret. Karir di bidang kerajinan, konstruksi, atau pekerjaan teknis hands-on mungkin cocok untuk Anda.'
+                'deskripsi' => 'Peserta senang bekerja dengan tangan dan menghasilkan sesuatu yang nyata dan bermanfaat. Peserta menikmati pekerjaan yang praktis dan aplikatif, yang memberikan hasil konkret. Karir di bidang kerajinan, konstruksi, atau pekerjaan teknis hands-on mungkin cocok untuk Peserta.'
             ],
             'Medical' => [
                 'singkatan' => 'MED',
                 'nama' => 'Minat Medis',
-                'deskripsi' => 'Anda menunjukkan ketertarikan yang signifikan pada bidang kesehatan dan pengobatan. Minat MED yang tinggi menggambarkan keinginan untuk membantu orang lain melalui layanan kesehatan, pemahaman tentang tubuh manusia, dan proses penyembuhan. Anda mungkin memiliki empati yang kuat dan keinginan untuk berkontribusi pada kesejahteraan orang lain. Karir di bidang medis, keperawatan, atau layanan kesehatan bisa menjadi pilihan yang cocok.'
+                'deskripsi' => 'Peserta menunjukkan ketertarikan yang signifikan pada bidang kesehatan dan pengobatan. Minat MED yang tinggi menggambarkan keinginan untuk membantu orang lain melalui layanan kesehatan, pemahaman tentang tubuh manusia, dan proses penyembuhan. Peserta mungkin memiliki empati yang kuat dan keinginan untuk berkontribusi pada kesejahteraan orang lain. Karir di bidang medis, keperawatan, atau layanan kesehatan bisa menjadi pilihan yang cocok.'
             ],
         ];
     }
