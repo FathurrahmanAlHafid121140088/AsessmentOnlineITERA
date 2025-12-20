@@ -450,9 +450,10 @@ input[type="radio"].form-check-input:checked::before {
 
     /* Konten container quiz di tengah dengan ruang untuk sidebar */
     body > .container {
-        width: calc(100% - 280px); /* lebar dikurangi sidebar */
-        margin-left: 160px; /* offset untuk sidebar di kiri */
-        margin-right: 0;
+        width: calc(85% - 130px);
+        max-width: calc(70% - 120px);
+        margin-left: auto;
+        margin-right: auto;
         padding-left: 2rem;
         padding-right: 2rem;
         transition: width 0.3s ease, margin-left 0.3s ease;
@@ -472,15 +473,74 @@ input[type="radio"].form-check-input:checked::before {
 
     /* Perbesar lebar kolom quiz agar tidak terlalu sempit */
     .col-md-8.col-lg-7.quiz {
-        max-width: 65% !important; /* dari 58.33% (col-lg-7) menjadi 70% */
-        flex: 0 0 85%;
+        max-width: 100% !important;
+        flex: 0 0 100%;
+        width: 100%;
+    }
+}
+
+/* ========================
+   📱 TABLET MODE (768px - 1024px)
+   ======================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Sidebar lebih kecil di tablet */
+    #question-status-container {
+        width: 200px !important;
+    }
+
+    /* Konten quiz di tengah layar penuh, abaikan sidebar */
+    body > .container {
+        width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Quiz container benar-benar di tengah layar */
+    .col-md-8.col-lg-7.quiz,
+    .col-md-8 {
+        max-width: 600px !important;
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Pastikan row juga center */
+    .row.justify-content-center {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        justify-content: center !important;
+    }
+
+    /* Sidebar title lebih kecil */
+    .sidebar-title {
+        font-size: 18px;
+        padding: 14px 16px;
+    }
+
+    /* Grid soal tetap 2 kolom */
+    #question-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .question-btn {
+        font-size: 12px;
+        padding: 6px;
     }
 }
 
 /* ========================
    📱 RESPONSIVE SIDEBAR MOBILE
    ======================== */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .status-container {
         padding: 8px; /* padding lebih kecil */
     }
@@ -488,6 +548,24 @@ input[type="radio"].form-check-input:checked::before {
         width: 150px !important; /* lebih kecil dari 180px */
         height: calc(100vh - 100px);
     }
+
+    /* Reset container untuk mobile */
+    body > .container {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Quiz column full width di mobile */
+    .col-md-8.col-lg-7.quiz,
+    .col-md-8 {
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        width: 100% !important;
+    }
+
     .form-check-label {
         font-size: 0.68rem;
     }
