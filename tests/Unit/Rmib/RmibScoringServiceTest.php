@@ -11,6 +11,7 @@ use App\Services\RmibScoringService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * UNIT TEST: RMIB Scoring Service
@@ -29,6 +30,7 @@ use PHPUnit\Framework\Attributes\Test;
  * - percentage (tidak ditampilkan di view)
  * - peringkat_per_kategori (internal only)
  */
+#[Group('rmib')]
 class RmibScoringServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -97,9 +99,18 @@ class RmibScoringServiceTest extends TestCase
         $result = $this->scoringService->hitungSemuaSkor($this->hasilTes->id, 'L');
 
         $expectedCategories = [
-            'Outdoor', 'Mechanical', 'Computational', 'Scientific',
-            'Personal Contact', 'Aesthetic', 'Literary', 'Musical',
-            'Social Service', 'Clerical', 'Practical', 'Medical'
+            'Outdoor',
+            'Mechanical',
+            'Computational',
+            'Scientific',
+            'Personal Contact',
+            'Aesthetic',
+            'Literary',
+            'Musical',
+            'Social Service',
+            'Clerical',
+            'Practical',
+            'Medical'
         ];
 
         foreach ($expectedCategories as $category) {
@@ -291,9 +302,18 @@ class RmibScoringServiceTest extends TestCase
         $this->assertCount(12, $deskripsi);
 
         $expectedCategories = [
-            'Outdoor', 'Mechanical', 'Computational', 'Scientific',
-            'Personal Contact', 'Aesthetic', 'Literary', 'Musical',
-            'Social Service', 'Clerical', 'Practical', 'Medical'
+            'Outdoor',
+            'Mechanical',
+            'Computational',
+            'Scientific',
+            'Personal Contact',
+            'Aesthetic',
+            'Literary',
+            'Musical',
+            'Social Service',
+            'Clerical',
+            'Practical',
+            'Medical'
         ];
 
         foreach ($expectedCategories as $category) {

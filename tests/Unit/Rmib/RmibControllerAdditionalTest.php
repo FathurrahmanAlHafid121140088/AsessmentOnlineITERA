@@ -11,6 +11,7 @@ use App\Models\RmibPekerjaan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Group;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KarirExport;
 
@@ -24,6 +25,7 @@ use App\Exports\KarirExport;
  * - adminProgramStudi() - Statistik program studi
  * - form() - Deprecated method
  */
+#[Group('rmib')]
 class RmibControllerAdditionalTest extends TestCase
 {
     use RefreshDatabase;
@@ -150,7 +152,7 @@ class RmibControllerAdditionalTest extends TestCase
         // Expected filename with frozen timestamp
         $expectedFilename = 'Data_Hasil_Tes_RMIB_20251129143045.xlsx';
 
-        Excel::assertDownloaded($expectedFilename, function(KarirExport $export) {
+        Excel::assertDownloaded($expectedFilename, function (KarirExport $export) {
             return true;
         });
 
@@ -175,7 +177,7 @@ class RmibControllerAdditionalTest extends TestCase
         // Expected filename with frozen timestamp
         $expectedFilename = 'Data_Hasil_Tes_RMIB_20251129150000.xlsx';
 
-        Excel::assertDownloaded($expectedFilename, function(KarirExport $export) {
+        Excel::assertDownloaded($expectedFilename, function (KarirExport $export) {
             return $export instanceof KarirExport;
         });
 
