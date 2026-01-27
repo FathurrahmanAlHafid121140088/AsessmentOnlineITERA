@@ -50,11 +50,12 @@
             </div>
             <ul class="timeline">
                 <li data-aos="fade-right" data-aos-delay="100">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/1.jpg"
-                            alt="..." /></div>
+                    <div class="timeline-image">
+                        <h2 class="timeline-number">1</h2>
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="subheading">1️⃣ Registrasi & Login</h4>
+                            <h4 class="subheading">Registrasi & Login</h4>
                         </div>
                         <div class="timeline-body">
                             <p class="text-muted">Masuk ke sistem dengan menggunakan akun Email ITERA.
@@ -63,27 +64,33 @@
                         </div>
                     </div>
                 </li>
+
                 <li data-aos="fade-left" data-aos-delay="100" class="timeline-inverted">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg"
-                            alt="..." /></div>
+                    <div class="timeline-image">
+                        <h2 class="timeline-number">2</h2>
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="subheading">2️⃣ Pilih Jenis Tes</h4>
+                            <h4 class="subheading">Pilih Jenis Tes</h4>
                         </div>
                         <div class="timeline-body">
-                            <p class="text-muted">- Tes Mental Health → Cek tingkat stres, kecemasan, dan kesejahteraan
-                                emosional.
-                                <br> - Tes Peminatan Karir → Identifikasi minat dan potensi karir yang sesuai.
+                            <p class="text-muted">
+                                - <strong>Tes Mental Health:</strong> Cek tingkat stres, kecemasan, dan kesejahteraan
+                                emosional.<br>
+                                - <strong>Tes Peminatan Karir:</strong> Identifikasi minat dan potensi karir yang
+                                sesuai.
                             </p>
                         </div>
                     </div>
                 </li>
+
                 <li data-aos="fade-right" data-aos-delay="100">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg"
-                            alt="..." /></div>
+                    <div class="timeline-image">
+                        <h2 class="timeline-number">3</h2>
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="subheading">3️⃣ Isi Kuesioner</h4>
+                            <h4 class="subheading">Isi Kuesioner</h4>
                         </div>
                         <div class="timeline-body">
                             <p class="text-muted">Jawab pertanyaan dengan jujur sesuai kondisi Anda.
@@ -92,12 +99,14 @@
                         </div>
                     </div>
                 </li>
+
                 <li data-aos="fade-left" data-aos-delay="100" class="timeline-inverted">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/4.jpg"
-                            alt="..." /></div>
+                    <div class="timeline-image">
+                        <h2 class="timeline-number">4</h2>
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="subheading">4️⃣ Dapatkan Hasil Cepat dan Mudah Dipahami</h4>
+                            <h4 class="subheading">Dapatkan Hasil Cepat</h4>
                         </div>
                         <div class="timeline-body">
                             <p class="text-muted">Hasil otomatis ditampilkan setelah tes selesai.
@@ -106,12 +115,14 @@
                         </div>
                     </div>
                 </li>
+
                 <li data-aos="fade-right" data-aos-delay="100">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg"
-                            alt="..." /></div>
+                    <div class="timeline-image">
+                        <h2 class="timeline-number">5</h2>
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4 class="subheading">5️⃣ Konsultasi dengan Psikolog (Opsional)</h4>
+                            <h4 class="subheading">Konsultasi (Opsional)</h4>
                         </div>
                         <div class="timeline-body">
                             <p class="text-muted">Jika membutuhkan saran lebih lanjut, Anda dapat menjadwalkan
@@ -119,8 +130,9 @@
                         </div>
                     </div>
                 </li>
+
                 <li class="timeline-inverted">
-                    <div data-aos="zoom-in" data-aos-delay="00" class="timeline-image">
+                    <div data-aos="zoom-in" data-aos-delay="00" class="timeline-image timeline-last-text">
                         <h4>
                             Ayo
                             <br />

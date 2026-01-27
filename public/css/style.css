@@ -1092,7 +1092,12 @@ p {
 }
 
 #mainNav {
-    background-color: #212529;
+    background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0) 50%
+        ),
+        #19198c !important; /* !important memaksa warna ini dipakai */
 }
 #mainNav .navbar-toggler {
     padding: 0.75rem;
@@ -1157,13 +1162,16 @@ p {
 
 @media (min-width: 992px) {
     #mainNav {
-        background-color: #212529;
+        /* Tambahkan gradasi halus hanya untuk desktop agar lebih elegan */
+        background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            #19198c !important;
         border: none;
-        transition: padding-top 0.3s ease-in-out,
-            padding-bottom 0.3s ease-in-out, background-color 0.3s ease-in-out;
     }
 
-    /* Tambahkan kelas untuk navbar yang sudah discroll */
     #mainNav .navbar-nav .nav-item {
         margin-right: 1rem;
     }
@@ -1171,14 +1179,32 @@ p {
         margin-right: 0;
     }
 }
+
+/* 3. Aturan khusus layar kecil (Mobile) */
+@media (max-width: 991.98px) {
+    #mainNav {
+        background-color: #19198c !important; /* Pastikan tetap biru saat menu dibuka di HP */
+    }
+}
 header.masthead {
     padding-top: 8.5rem;
     padding-bottom: 6rem;
     text-align: center;
     color: #fff;
-    background-image: url("../assets/img/header-bg.jpg");
+
+    /* MODIFIKASI DI SINI */
+    /* Syntax: linear-gradient(arah, warna1, warna2), url(gambar) */
+    background-image: linear-gradient(
+            to bottom,
+            rgba(25, 25, 140, 0.3) 0%,
+            /* Warna Navbar (#19198c) dengan transparansi 90% di atas */
+                rgba(25, 25, 140, 0.2) 100%
+                /* Warna Navbar dengan transparansi 60% di bawah */
+        ),
+        url("../assets/img/jumbotron4.jpg");
+
     background-repeat: no-repeat;
-    background-attachment: scroll;
+    background-attachment: scroll; /* Opsional: ubah ke 'fixed' untuk efek parallax */
     background-position: center center;
     background-size: cover;
 }
@@ -1413,7 +1439,6 @@ header.masthead .masthead-heading {
     align-items: center;
     gap: 2rem;
     padding: 1rem 1.5rem;
-    background: #212529;
     border-radius: 1rem;
 }
 
@@ -1748,7 +1773,8 @@ header.masthead .masthead-heading {
     /* ============================= */
 
     /* Pastikan html dan body tidak overflow horizontal */
-    html, body {
+    html,
+    body {
         max-width: 100vw;
         overflow-x: hidden !important;
     }
@@ -1815,7 +1841,16 @@ header.masthead .masthead-heading {
     }
 
     /* Fix text wrapping untuk mencegah overflow */
-    p, h1, h2, h3, h4, h5, h6, span, div, blockquote {
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    span,
+    div,
+    blockquote {
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         max-width: 100%;
@@ -1833,5 +1868,59 @@ header.masthead .masthead-heading {
         max-width: 100% !important;
         padding-left: 0.75rem !important;
         padding-right: 0.75rem !important;
+    }
+}
+/* Style Khusus untuk Timeline Angka */
+.timeline-image {
+    background-color: #19198c !important; /* Warna Biru Utama */
+    border: 7px solid #e9ecef !important; /* Border abu-abu muda */
+    border-radius: 50%; /* Membuat lingkaran */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100px; /* Ukuran default */
+    height: 100px;
+    transition: transform 0.3s ease;
+    z-index: 100;
+}
+
+/* Efek Hover */
+.timeline-image:hover {
+    transform: scale(1.1);
+    background-color: #4a4aff !important; /* Warna lebih terang saat hover */
+    border-color: #19198c !important;
+}
+
+/* Style Angka di dalam lingkaran */
+.timeline-number {
+    color: white;
+    font-size: 40px;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Style untuk lingkaran terakhir (Teks 'Ayo Cek') */
+.timeline-last-text h4 {
+    font-size: 14px;
+    line-height: 1.2;
+    margin-top: 15px; /* Penyesuaian agar pas di tengah */
+    color: white;
+    font-weight: 700;
+}
+
+/* Responsif untuk layar kecil (HP) */
+@media (max-width: 768px) {
+    .timeline-image {
+        width: 80px;
+        height: 80px;
+    }
+    .timeline-number {
+        font-size: 30px;
+    }
+    .timeline-last-text h4 {
+        font-size: 10px;
+        margin-top: 10px;
     }
 }

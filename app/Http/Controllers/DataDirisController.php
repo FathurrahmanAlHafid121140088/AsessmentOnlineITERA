@@ -1,24 +1,43 @@
-<?php //controller for data diri
+<?php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
+use Illuminate\Support\Facades\Cache;
 use App\Models\DataDiris;
 use App\Models\RiwayatKeluhans;
+use App\Models\HasilKuesioner; // ✅ Tambahkan Model HasilKuesioner
 use App\Http\Requests\StoreDataDiriRequest;
 
 class DataDirisController extends Controller
 {
     /**
      * Menampilkan halaman form untuk mengisi data diri mahasiswa.
+     * Cek dulu apakah ada tes on_progress.
      */
     public function create()
     {
-        // Mencari data diri berdasarkan NIM user yang sedang login
-        $dataDiri = DataDiris::where('nim', Auth::user()->nim)->first();
+        $user = Auth::user();
+
+        // 1. CEK APAKAH ADA KUESIONER 'ON_PROGRESS'
+        // Kita cek tabel hasil_kuesioners berdasarkan NIM user
+        $existingTest = HasilKuesioner::where('nim', $user->nim)
+            ->where('status', 'on_progress')
+            ->first();
+
+        // 2. JIKA ADA, LEMPAR LANGSUNG KE HALAMAN SOAL (RESUME)
+        if ($existingTest) {
+            $nextStep = $existingTest->posisi_soal_terakhir + 1;
+
+            // Redirect ke route soal dengan membawa pesan alert
+            return redirect()->route('quiz.show', $nextStep)
+                ->with('resume_alert', 'Anda memiliki tes yang belum diselesaikan. Harap selesaikan terlebih dahulu sebelum mengisi data baru.');
+        }
+
+        // 3. JIKA TIDAK ADA, LANJUT TAMPILKAN FORM DATA DIRI (Logika Asli)
+        $dataDiri = DataDiris::where('nim', $user->nim)->first();
 
         return view('isi-data-diri', [
             'title' => 'Form Data Diri',
@@ -39,9 +58,7 @@ class DataDirisController extends Controller
         DB::beginTransaction();
 
         try {
-            // SOLUSI: Ganti firstOrCreate dengan updateOrCreate
-            // Ini akan mencari data diri berdasarkan NIM. Jika ada, akan di-update.
-            // Jika tidak ada, akan dibuat baru.
+            // Update atau Create Data Diri
             $dataDiri = DataDiris::updateOrCreate(
                 ['nim' => $user->nim],
                 [
@@ -58,7 +75,7 @@ class DataDirisController extends Controller
                 ]
             );
 
-            // Selalu buat entri riwayat keluhan baru setiap kali form ini disubmit
+            // Selalu buat entri riwayat keluhan baru
             RiwayatKeluhans::create([
                 'nim' => $user->nim,
                 'keluhan' => $validated['keluhan'],
@@ -69,12 +86,11 @@ class DataDirisController extends Controller
 
             DB::commit();
 
-            // ⚡ CACHING: Invalidate caches after updating data diri
-            // Only invalidate admin caches (user-stats, fakultas-stats)
-            // because data diri affects demographics but not test results
+            // ⚡ CACHING: Bersihkan cache admin
             Cache::forget('mh.admin.user_stats');
             Cache::forget('mh.admin.fakultas_stats');
 
+            // Simpan info ke session untuk digunakan di quiz nanti
             session([
                 'nim' => $user->nim,
                 'nama' => $dataDiri->nama,
@@ -84,6 +100,7 @@ class DataDirisController extends Controller
             return redirect()
                 ->route('mental-health.kuesioner')
                 ->with('success', 'Data berhasil disimpan.');
+
         } catch (\Exception $e) {
             DB::rollBack();
 

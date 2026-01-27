@@ -65,7 +65,12 @@
 
         <div class="alert-box">
             <i class="fas fa-exclamation-triangle alert-icon"></i>
-            <span class="alert-text">Hasil tes dibawah ini hanya berlaku selama 2 bulan</span>
+            <span class="alert-text">
+                Hasil tes dibawah ini berlaku hingga
+                <strong>
+                    {{ \Carbon\Carbon::parse($test->updated_at ?? now())->addMonths(2)->locale('id')->isoFormat('D MMMM Y') }}
+                </strong>
+            </span>
         </div>
 
         <div class="result-section">

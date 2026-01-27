@@ -48,7 +48,7 @@
     font-weight: 600;
     font-size: 28px;
     line-height: 34px;
-    color: #212529; /* Deep Blue */
+    color: #19198c; /* Deep Blue */
     font-family: "Poppins", sans-serif;
 }
 .formbold-form-title p {
@@ -73,12 +73,12 @@
     border: 1px solid #6c757d; /* Soft Gray */
     background: #ffffff;
     font-weight: 500;
-    color: #212529; /* Dark Gray */
+    color: #19198c; /* Dark Gray */
     outline: none;
     resize: none;
 }
 .formbold-form-input:focus {
-    border-color: #212529; /* Deep Blue */
+    border-color: #19198c; /* Deep Blue */
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 .formbold-form-label {
@@ -108,7 +108,7 @@
 .formbold-checkbox-label a,
 .formbold-radio-label a {
     margin-left: 5px;
-    color: #212529; /* Deep Blue */
+    color: #19198c; /* Deep Blue */
 }
 .formbold-input-checkbox,
 .formbold-input-radio {

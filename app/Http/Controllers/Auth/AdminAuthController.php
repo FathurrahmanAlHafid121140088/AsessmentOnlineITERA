@@ -16,22 +16,27 @@ class AdminAuthController extends Controller
 
     public function login(Request $request)
     {
-        // validasi input
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
-        // cek login dengan guard admin
+        // HAPUS ATAU KOMENTARI TRY-CATCH UNTUK MELIHAT ERROR ASLI
+        // try { 
+
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.home')); // arahkan ke halaman admin home
+            return redirect()->intended(route('admin.home'));
         }
 
-        // kalau gagal login
         return redirect()->back()
-            ->withInput($request->only('email')) // biar email tetap keisi
-            ->withErrors(['email' => 'Email atau password salah!']);
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => 'Login Gagal! Email atau Password salah.']);
+
+        // } catch (\Exception $e) {
+        //     // KITA MATIKAN REDIRECT SWEETALERT, GANTI JADI INI:
+        //     dd("ERROR ASLI: " . $e->getMessage()); 
+        // }
     }
 
     public function logout(Request $request)

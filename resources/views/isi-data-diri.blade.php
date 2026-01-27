@@ -249,16 +249,8 @@
                             <label for="lama_keluhan" class="formbold-form-label">
                                 <i class="fas fa-hourglass-half fa-sm"></i> Lama Keluhan
                             </label>
-                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
-                                        value="1" class="formbold-input-radio" required> 1 Bulan</label></div>
-                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
-                                        value="2" class="formbold-input-radio"> 2 Bulan</label></div>
-                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
-                                        value="3" class="formbold-input-radio"> 3 Bulan</label></div>
-                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
-                                        value="4" class="formbold-input-radio"> 4 Bulan</label></div>
-                            <div><label class="formbold-radio-label"><input type="radio" name="lama_keluhan"
-                                        value="5" class="formbold-input-radio"> 5 Bulan</label></div>
+                            <input type="text" name="lama_keluhan" id="lama_keluhan"
+                                placeholder="Contoh: 2 Bulan" class="formbold-form-input" required>
                         </div>
                     </div>
 

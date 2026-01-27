@@ -12,78 +12,78 @@ use App\Http\Requests\StoreHasilKuesionerRequest;
 class HasilKuesionerController extends Controller
 {
 
-    public function store(StoreHasilKuesionerRequest $request)
-    {
-        // Data sudah tervalidasi otomatis oleh FormRequest (nim + 38 questions)
-        $validated = $request->validated();
+    //public function store(StoreHasilKuesionerRequest $request)
+    //{
+    // Data sudah tervalidasi otomatis oleh FormRequest (nim + 38 questions)
+    //  $validated = $request->validated();
 
-        // Collect answers
-        $jawaban = [];
-        $totalSkor = 0;
+    // Collect answers
+    //$jawaban = [];
+//        $totalSkor = 0;
 
-        for ($i = 1; $i <= 38; $i++) {
-            $answer = (int) $request->input("question{$i}");
-            $jawaban[] = $answer;
-            $totalSkor += $answer;
-        }
+    //      for ($i = 1; $i <= 38; $i++) {
+    //        $answer = (int) $request->input("question{$i}");
+    //      $jawaban[] = $answer;
+    //    $totalSkor += $answer;
+    //}
 
-        // kategori berdasarkan total skor
-        $kategori = match (true) {
-            $totalSkor >= 190 && $totalSkor <= 226 => 'Sangat Sehat',
-            $totalSkor >= 152 && $totalSkor <= 189 => 'Sehat',
-            $totalSkor >= 114 && $totalSkor <= 151 => 'Cukup Sehat',
-            $totalSkor >= 76 && $totalSkor <= 113 => 'Perlu Dukungan',
-            $totalSkor >= 38 && $totalSkor <= 75 => 'Perlu Dukungan Intensif',
-            default => 'Tidak Terdefinisi',
-        };
+    // kategori berdasarkan total skor
+    //$kategori = match (true) {
+    //   $totalSkor >= 190 && $totalSkor <= 226 => 'Sangat Sehat',
+    //  $totalSkor >= 152 && $totalSkor <= 189 => 'Sehat',
+    // $totalSkor >= 114 && $totalSkor <= 151 => 'Cukup Sehat',
+    // $totalSkor >= 76 && $totalSkor <= 113 => 'Perlu Dukungan',
+    // $totalSkor >= 38 && $totalSkor <= 75 => 'Perlu Dukungan Intensif',
+    // default => 'Tidak Terdefinisi',
+    // };
 
-        try {
-            DB::beginTransaction();
+    // try {
+    //   DB::beginTransaction();
 
-            // Save hasil kuesioner
-            $hasil = HasilKuesioner::create([
-                'nim' => $validated['nim'],
-                'total_skor' => $totalSkor,
-                'kategori' => $kategori,
-            ]);
+    // Save hasil kuesioner
+    // $hasil = HasilKuesioner::create([
+    //   'nim' => $validated['nim'],
+    // 'total_skor' => $totalSkor,
+    //   'kategori' => $kategori,
+    // ]);
 
-            // Save detailed answers
-            $jawabanDetails = [];
-            for ($i = 1; $i <= 38; $i++) {
-                $jawabanDetails[] = [
-                    'hasil_kuesioner_id' => $hasil->id,
-                    'nomor_soal' => $i,
-                    'skor' => $jawaban[$i - 1],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-            }
-            MentalHealthJawabanDetail::insert($jawabanDetails);
+    // Save detailed answers
+    // $jawabanDetails = [];
+    // for ($i = 1; $i <= 38; $i++) {
+    //    $jawabanDetails[] = [
+    //      'hasil_kuesioner_id' => $hasil->id,
+    //    'nomor_soal' => $i,
+    //  'skor' => $jawaban[$i - 1],
+    //  'created_at' => now(),
+    //  'updated_at' => now(),
+    // ];
+    // }
+    // MentalHealthJawabanDetail::insert($jawabanDetails);
 
-            DB::commit();
+    // DB::commit();
 
-            // ⚡ CACHING: Invalidate all related caches after creating new test
-            // 1. Invalidate admin dashboard caches
-            Cache::forget('mh.admin.user_stats');
-            Cache::forget('mh.admin.kategori_counts');
-            Cache::forget('mh.admin.total_tes');
-            Cache::forget('mh.admin.fakultas_stats');
+    // ⚡ CACHING: Invalidate all related caches after creating new test
+    // 1. Invalidate admin dashboard caches
+    // Cache::forget('mh.admin.user_stats');
+    // Cache::forget('mh.admin.kategori_counts');
+    // Cache::forget('mh.admin.total_tes');
+    // Cache::forget('mh.admin.fakultas_stats');
 
-            // 2. Invalidate user-specific cache
-            Cache::forget("mh.user.{$validated['nim']}.test_history");
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors([
-                'error' => 'Gagal menyimpan hasil kuesioner: ' . $e->getMessage()
-            ]);
-        }
+    // 2. Invalidate user-specific cache
+    // Cache::forget("mh.user.{$validated['nim']}.test_history");
+    // } catch (\Exception $e) {
+    //   DB::rollBack();
+    //    return back()->withErrors([
+    // 'error' => 'Gagal menyimpan hasil kuesioner: ' . $e->getMessage()
+    // ]);
+    //  }
 
-        // pastikan nim tetap di session
-        session(['nim' => $validated['nim']]);
-        return redirect()
-            ->route('mental-health.hasil')
-            ->with('success', 'Hasil kuesioner berhasil disimpan.');
-    }
+    // pastikan nim tetap di session
+    //  session(['nim' => $validated['nim']]);
+    //  return redirect()
+    //    ->route('mental-health.hasil')
+    //   ->with('success', 'Hasil kuesioner berhasil disimpan.');
+    // }
 
     public function showLatest()
     {

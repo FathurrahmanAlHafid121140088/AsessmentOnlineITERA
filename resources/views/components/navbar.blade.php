@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-transparent" id="mainNav">
     <div class="container px-3">
         <div class="logo-header">
-            <img src="{{ asset('assets/img/Logo_ITERA.png') }}" alt="Logo">
+            <img src="{{ asset('assets/img/Logo_ITERA.webp') }}" alt="Logo">
             <div class="logo-text">
                 <h2>ANALOGY</h2>
                 <h4>PPSDM ITERA</h4>

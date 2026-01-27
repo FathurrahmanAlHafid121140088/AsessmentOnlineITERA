@@ -207,7 +207,10 @@
                 <div class="alert-box-blue">
                     <i class="fas fa-info-circle alert-icon-blue"></i>
                     <span class="alert-text">
-                        “Tes berkala disarankan setiap 2 bulan.”
+                        Tes berkala selanjutnya disarankan pada tanggal
+                        <strong>
+                            {{ now()->addMonths(2)->locale('id')->isoFormat('D MMMM Y') }}
+                        </strong>.
                     </span>
                 </div>
 

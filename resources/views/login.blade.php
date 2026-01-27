@@ -82,25 +82,43 @@
     </div>
 </body>
 <script src="{{ asset('js/script-login.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @if (session('error'))
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         Swal.fire({
             icon: 'error',
-            title: 'Login Gagal',
-            text: '{{ session('error') }}',
-            confirmButtonColor: '#344cbb'
+            title: 'Terjadi Kesalahan',
+            text: "{{ session('error') }}",
+            /* Gunakan petik dua agar aman */
+            confirmButtonColor: '#d33'
         });
     </script>
 @endif
 
 @if (session('success'))
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         Swal.fire({
             icon: 'success',
             title: 'Berhasil',
-            text: '{{ session('success') }}',
+            text: "{{ session('success') }}",
+            confirmButtonColor: '#344cbb'
+        });
+    </script>
+@endif
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Login Gagal',
+            html: `
+                <ul style="text-align: left;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            `,
             confirmButtonColor: '#344cbb'
         });
     </script>

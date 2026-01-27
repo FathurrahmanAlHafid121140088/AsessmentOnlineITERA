@@ -428,38 +428,64 @@
 
                     <div class="chart">
                         <div class="donut-header">
-                            <h4>Status Tinggal</h4>
+                            <h4>Distribusi Angkatan</h4>
                         </div>
 
+                        {{-- 1. GRAFIK DONUT --}}
                         <div class="donut-wrap">
                             <svg class="donut" viewBox="0 0 160 160" width="100%" height="100%">
-                                <!-- Ring background -->
-                                <circle class="donut-bg" cx="80" cy="80" r="{{ $r }}">
+                                <circle class="donut-bg" cx="80" cy="80" r="{{ $radius }}">
                                 </circle>
 
-                                @foreach ($segments as $seg)
-                                    <circle class="donut-seg" cx="80" cy="80" r="{{ $r }}"
+                                @foreach ($angkatanSegments as $seg)
+                                    <circle class="donut-seg" cx="80" cy="80" r="{{ $radius }}"
                                         style="
-                stroke: var({{ $colorMap[$seg['label']] ?? '--c-kost' }});
-                stroke-dasharray: {{ $seg['dash'] }} {{ $circ - $seg['dash'] }};
-                stroke-dashoffset: -{{ $seg['offset'] }};
-            ">
+                        stroke: {{ $seg['color'] }}; 
+                        stroke-dasharray: {{ $seg['dash'] }} {{ $circumference - $seg['dash'] }};
+                        stroke-dashoffset: -{{ $seg['offset'] }};
+                    "
+                                        data-toggle="tooltip"
+                                        title="{{ $seg['label'] }}: {{ $seg['value'] }} Mahasiswa">
                                     </circle>
                                 @endforeach
                             </svg>
 
                             <div class="donut-center">
-                                <div class="donut-total">{{ $totalUsers }}</div>
+                                <div class="donut-total">{{ $totalAngkatan }}</div>
                                 <div class="donut-sub">mahasiswa</div>
                             </div>
                         </div>
 
-                        <ul class="donut-legend">
-                            @foreach ($statusCounts as $label => $count)
-                                <li>
-                                    <span class="dot" style="background: var({{ $colorMap[$label] }})"></span>
-                                    <span class="label">{{ $label }}</span>
-                                    <span class="count">{{ $count }} Mahasiswa ({{ $pct($count) }}%)</span>
+                        <ul class="donut-legend"
+                            style="
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); /* Tetap 3 Kolom */
+            gap: 10px 5px; 
+            margin-top: 20px;
+        ">
+
+                            @foreach ($angkatanSegments as $seg)
+                                @php
+                                    // Format Label: "2021"
+                                    $yearLabel = str_replace('Angkatan ', '', $seg['label']);
+                                @endphp
+                                {{-- Tambahkan display: flex agar dot, label, dan count sejajar --}}
+                                <li style="display: flex; align-items: center; white-space: nowrap; overflow: hidden;">
+
+                                    {{-- Dot Warna --}}
+                                    <span class="dot"
+                                        style="background: {{ $seg['color'] }}; margin-right: 5px;"></span>
+
+                                    {{-- KEMBALIKAN CLASS .label DAN .count SESUAI REFERENSI --}}
+
+                                    {{-- Bagian Label (Tahun) --}}
+                                    <span class="label">{{ $yearLabel }}</span>
+
+                                    {{-- Bagian Count (Jumlah) --}}
+                                    {{-- Saya gunakan 'Mhs' agar muat di grid kecil, spasi diatur lewat margin --}}
+                                    <span class="count" style="margin-left: 4px;">
+                                        ({{ $seg['value'] }} Mhs)
+                                    </span>
                                 </li>
                             @endforeach
                         </ul>
@@ -702,7 +728,7 @@
 
                                 <div class="limit-actions">
                                     <select name="limit" id="limit" onchange="this.form.submit()">
-                                        @foreach ([10, 25, 50] as $l)
+                                        @foreach ([10, 25, 50, 100] as $l)
                                             <option value="{{ $l }}"
                                                 {{ request('limit') == $l ? 'selected' : '' }}>
                                                 {{ $l }}
@@ -872,10 +898,10 @@
                                             <a href="{{ route('admin.mental-health.detail', $hasil->id) }}"
                                                 class="detail-button tooltip-action"
                                                 style="background-color: #8b5cf6; color:white"
-                                                dusk="detail-button-{{ $hasil->id }}"
-                                                title="Detail Jawaban">
-                                                <svg class="svgIcon" viewBox="0 0 576 512" height="1em" width="1em"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                                dusk="detail-button-{{ $hasil->id }}" title="Detail Jawaban">
+                                                <svg class="svgIcon" viewBox="0 0 576 512" height="1em"
+                                                    width="1em" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="currentColor">
                                                     <path
                                                         d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
                                                 </svg>

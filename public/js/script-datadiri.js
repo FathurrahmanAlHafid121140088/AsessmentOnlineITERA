@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 { id: "program_studi", label: "Program Studi" },
                 { id: "email", label: "Email" },
                 { id: "keluhan", label: "Keluhan" },
+                { id: "lama_keluhan", label: "Lama Keluhan" },
                 // NIM tidak perlu divalidasi di sini karena diisi otomatis dan disabled
             ];
 
@@ -32,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 { name: "jenis_kelamin", label: "Jenis Kelamin" },
                 { name: "fakultas", label: "Fakultas" },
                 { name: "status_tinggal", label: "Status Tinggal" },
-                { name: "lama_keluhan", label: "Lama Keluhan" },
                 { name: "pernah_tes", label: "Pernah Tes Psikologi" },
                 { name: "pernah_konsul", label: "Pernah Konsultasi" },
             ];

@@ -196,7 +196,7 @@ input[type="radio"].form-check-input:checked::before {
     border: none;
     padding: 12px 20px;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     border-radius: 10px;
     letter-spacing: 1px;
     transition: all 0.3s ease;
@@ -224,6 +224,120 @@ input[type="radio"].form-check-input:checked::before {
     border-radius: 5px;
 }
 
+/* --- 1. FEATURE ITEM (Ikon & Teks Lurus) --- */
+.mh-feature-item {
+    display: flex;
+    align-items: center; /* Kunci vertikal tengah */
+    margin-bottom: 1.5rem;
+    text-align: left;
+    height: 100%;
+}
+
+.mh-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background-color: #e7f1ff; /* Biru Muda */
+    color: #0d6efd;
+    border-radius: 50%;
+
+    /* Flexbox untuk menengahkan ikon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.25rem;
+    margin-right: 15px; /* Jarak ke teks */
+    flex-shrink: 0; /* Mencegah ikon gepeng */
+    line-height: 1;
+}
+
+/* Wrapper Teks (PENTING: Ini kunci agar teks lurus dengan ikon) */
+.mh-text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertikal tengah relatif terhadap ikon */
+    flex: 1; /* Mengisi ruang tersisa */
+}
+
+.mh-text-content h6 {
+    margin-top: 0;
+    margin-bottom: 3px; /* Jarak tipis ke deskripsi */
+    line-height: 1.2;
+    font-size: 1rem;
+}
+
+.mh-text-content small {
+    line-height: 1.2;
+    display: block;
+}
+
+/* --- 2. DISCLAIMER / CAUTION CARD (Desain Baru) --- */
+
+/* Reset style lama jika masih ada */
+.mh-disclaimer-box {
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* Box Peringatan Utama */
+.mh-caution-content {
+    background-color: rgba(255, 193, 7, 0.08); /* Latar kuning transparan */
+    padding: 15px 20px;
+    border-radius: 6px;
+    border-left: 5px solid #ffc107; /* Garis kuning tebal di kiri */
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Judul Peringatan */
+.mh-caution-title {
+    color: #664d03; /* Warna cokelat tua (Dark Amber) */
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* Teks Paragraf */
+.mh-caution-text {
+    color: #856404; /* Cokelat kekuningan */
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.mh-caution-text strong {
+    color: #664d03;
+    text-decoration: underline dotted;
+}
+
+/* --- 3. RESPONSIVE (Penyesuaian Mobile) --- */
+@media (max-width: 768px) {
+    /* Feature Item di HP */
+    .mh-feature-item {
+        margin-bottom: 1rem;
+    }
+    .mh-icon-wrapper {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        margin-right: 12px;
+    }
+
+    /* Caution Card di HP */
+    .mh-caution-content {
+        border-left-width: 4px;
+    }
+    .mh-caution-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem !important;
+    }
+    .mh-caution-text {
+        font-size: 0.85rem;
+    }
+}
+
 .status-container {
     position: fixed;
     top: 130px;
@@ -240,7 +354,9 @@ input[type="radio"].form-check-input:checked::before {
     max-height: 80vh;
     overflow: auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
 }
 
 /* Tombol Show Sidebar */
@@ -456,7 +572,9 @@ input[type="radio"].form-check-input:checked::before {
         margin-right: auto;
         padding-left: 2rem;
         padding-right: 2rem;
-        transition: width 0.3s ease, margin-left 0.3s ease;
+        transition:
+            width 0.3s ease,
+            margin-left 0.3s ease;
     }
 
     /* Center konten di dalam area yang tersedia */
@@ -686,7 +804,9 @@ input[type="radio"].form-check-input:checked::before {
     display: none;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.3s ease-in-out, transform 0.2s;
+    transition:
+        opacity 0.3s ease-in-out,
+        transform 0.2s;
     z-index: 999;
 }
 
@@ -713,7 +833,6 @@ input[type="radio"].form-check-input:checked::before {
 
 body {
     background-color: #ffffff;
-    background-image: url("../assets/bg.svg"); /* Sesuaikan path dengan lokasi file */
 }
 #scroll-arrows {
     position: fixed;
@@ -818,7 +937,9 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
     z-index: 200;
 }
 

@@ -2,69 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\HasilKuesionerExport; // 1. Tambahkan use statement untuk class Export
+use App\Exports\HasilKuesionerExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache; // ⚡ CACHING: Import Cache facade
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Builder;
+
+// MODELS
 use App\Models\HasilKuesioner;
 use App\Models\DataDiris;
-use App\Models\Users; // <-- Pastikan ini ada
-use App\Models\MentalHealthJawabanDetail;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Users;
+use App\Models\RiwayatKeluhans;
 
 class HasilKuesionerCombinedController extends Controller
 {
     /**
-     * Fungsi utama untuk menampilkan dashboard admin (VERSI OPTIMAL)
-     * - Semua logika dikembalikan ke dalam satu fungsi index tanpa mengubah nama fungsi.
-     * - Tetap mempertahankan performa tinggi dengan jumlah query minimal.
+     * DASHBOARD UTAMA ADMIN
      */
     public function index(Request $request)
     {
-        // 1. Ambil parameter dari request
-        $limit = $request->input('limit', 10);
-        $search = $request->input('search');
-        $sort = $request->input('sort', 'created_at');
-        $order = $request->input('order', 'desc');
-        $kategori = $request->input('kategori');
+        try {
+            // 1. Ambil parameter filter
+            $limit = $request->input('limit', 10);
+            $search = $request->input('search');
+            $sort = $request->input('sort', 'created_at');
+            $order = $request->input('order', 'desc');
+            $kategori = $request->input('kategori');
 
-        // 2. Subquery untuk mendapatkan ID hasil kuesioner terakhir per mahasiswa (Dibuat sekali, dipakai ulang)
-        $latestIds = DB::table('hasil_kuesioners')
-            ->select(DB::raw('MAX(id) as id'))
-            ->groupBy('nim');
+            // 2. Subquery ID terakhir (HANYA YANG SELESAI)
+            $latestIds = DB::table('hasil_kuesioners')
+                ->select(DB::raw('MAX(id) as id'))
+                ->where('status', 'selesai')
+                ->groupBy('nim');
 
-        // 3. Query Utama (Digabung dengan data_diris untuk sorting & search)
-        // ⚡ OPTIMASI: Ganti correlated subquery dengan LEFT JOIN + COUNT untuk avoid N+1
-        $query = HasilKuesioner::query()
-            ->joinSub($latestIds, 'latest', 'hasil_kuesioners.id', '=', 'latest.id')
-            ->join('data_diris', 'hasil_kuesioners.nim', '=', 'data_diris.nim')
-            // ⚡ LEFT JOIN untuk count jumlah tes per mahasiswa (menggantikan subquery)
-            ->leftJoin('hasil_kuesioners as hk_count', 'data_diris.nim', '=', 'hk_count.nim')
-            ->select('hasil_kuesioners.*', 'data_diris.nama as nama_mahasiswa')
-            // ⚡ COUNT dengan GROUP BY (1 query, bukan N queries!)
-            ->selectRaw('COUNT(hk_count.id) as jumlah_tes')
-            ->groupBy(
-                'hasil_kuesioners.id',
-                'hasil_kuesioners.nim',
-                'hasil_kuesioners.total_skor',
-                'hasil_kuesioners.kategori',
-                'hasil_kuesioners.tanggal_pengerjaan',
-                'hasil_kuesioners.created_at',
-                'hasil_kuesioners.updated_at',
-                'data_diris.nama'
-            );
+            // 3. Query Builder Utama
+            $query = HasilKuesioner::query()
+                ->joinSub($latestIds, 'latest', 'hasil_kuesioners.id', '=', 'latest.id')
+                ->join('data_diris', 'hasil_kuesioners.nim', '=', 'data_diris.nim')
+                ->where('hasil_kuesioners.status', 'selesai')
+                ->select(
+                    'hasil_kuesioners.*',
+                    'data_diris.nama as nama_mahasiswa',
+                    'data_diris.fakultas',
+                    'data_diris.program_studi'
+                )
+                ->addSelect([
+                    'jumlah_tes' => HasilKuesioner::selectRaw('count(*)')
+                        ->whereColumn('nim', 'hasil_kuesioners.nim')
+                        ->where('status', 'selesai')
+                ]);
 
-        // 4. Terapkan Filter & Pencarian secara langsung
-        $query
-            ->when($kategori, function ($q) use ($kategori) {
+            // 4. Filter Kategori
+            $query->when($kategori, function ($q) use ($kategori) {
                 $q->where('hasil_kuesioners.kategori', $kategori);
-            })
-            // ✅ BLOK PENCARIAN YANG DIOPTIMALKAN
-            ->when($search, function ($q) use ($search) {
-                $terms = array_filter(preg_split('/\s+/', trim($search)));
+            });
 
-                // Definisikan kolom-kolom untuk pencarian umum menggunakan 'like'
+            // 5. Fitur Pencarian
+            $query->when($search, function ($q) use ($search) {
+                $terms = array_filter(preg_split('/\s+/', trim($search)));
                 $likeColumns = [
                     'hasil_kuesioners.nim',
                     'data_diris.nama',
@@ -74,286 +70,267 @@ class HasilKuesionerCombinedController extends Controller
                     'data_diris.status_tinggal',
                 ];
 
-                // Definisikan aturan pencarian khusus untuk pencocokan eksak
-                $specialRules = [
-                    'fakultas' => [
-                        'values' => ['fs', 'fti', 'ftik'],
-                        'transform' => 'strtoupper', // contoh: fti -> FTI
-                    ],
-                    'provinsi' => [
-                        'values' => ['papua', 'riau'],
-                        'transform' => 'ucfirst', // contoh: papua -> Papua
-                    ],
-                    'program_studi' => [
-                        'values' => ['fisika', 'arsitektur', 'kimia'],
-                        'transform' => null, // tidak ada transformasi
-                    ],
-                    'jenis_kelamin' => [
-                        'values' => ['l', 'p'],
-                        'transform' => 'strtoupper', // contoh: l -> L
-                    ],
-                ];
-
-                $q->where(function (Builder $query) use ($terms, $likeColumns, $specialRules) {
+                $q->where(function (Builder $query) use ($terms, $likeColumns) {
                     foreach ($terms as $term) {
-                        $query->where(function (Builder $subQuery) use ($term, $likeColumns, $specialRules) {
-                            // 1. Terapkan pencarian 'like' pada kolom-kolom umum
+                        $query->where(function (Builder $subQuery) use ($term, $likeColumns) {
                             foreach ($likeColumns as $column) {
                                 $subQuery->orWhere($column, 'like', "%$term%");
                             }
-
-                            // 2. Terapkan pencarian berdasarkan aturan khusus
-                            foreach ($specialRules as $columnName => $rule) {
-                                $dbColumn = 'data_diris.' . $columnName;
-                                $lowerTerm = strtolower($term);
-
-                                if (in_array($lowerTerm, $rule['values'])) {
-                                    // Jika cocok aturan, gunakan pencocokan eksak dengan transformasi
-                                    $transformedTerm = $rule['transform'] ? $rule['transform']($term) : $term;
-                                    $subQuery->orWhere($dbColumn, $transformedTerm);
-                                } else {
-                                    // Jika tidak, tetap cari dengan 'like' di kolom ini
-                                    $subQuery->orWhere($dbColumn, 'like', "%$term%");
-                                }
-                            }
+                            $subQuery->orWhere('data_diris.fakultas', 'like', "%$term%");
+                            $subQuery->orWhere('data_diris.program_studi', 'like', "%$term%");
                         });
                     }
                 });
             });
 
+            // 6. Sorting
+            $sortColumn = match ($sort) {
+                'nama' => 'data_diris.nama',
+                default => 'hasil_kuesioners.' . $sort,
+            };
+            $query->orderBy($sortColumn, $order);
 
-        // 5. Terapkan Sorting (semua di level DB)
-        $sortColumn = match ($sort) {
-            'nama' => 'data_diris.nama',
-            default => 'hasil_kuesioners.' . $sort,
-        };
-        $query->orderBy($sortColumn, $order);
+            // 7. Eksekusi Pagination
+            $hasilKuesioners = $query->paginate($limit)->withQueryString();
 
-        // 6. Ambil data dengan Pagination (Hanya 1 query utama untuk data tabel)
-        $hasilKuesioners = $query->paginate($limit)->withQueryString();
-
-        // ⚡ EAGER LOADING: Load relasi untuk menghindari lazy loading di view/test
-        $hasilKuesioners->load([
-            'dataDiri.hasilKuesioners',
-            'dataDiri.riwayatKeluhans',
-            'riwayatKeluhans'
-        ]);
-
-        // ✅ PERUBAHAN: Tambahkan status pesan pencarian (hanya untuk request awal, bukan paginasi)
-        $searchMessage = null;
-        // Pesan hanya akan muncul jika ada parameter 'search' DAN BUKAN dari klik paginasi (selain halaman 1)
-        if ($search && !$request->has('page')) {
-            if ($hasilKuesioners->total() > 0) {
-                $searchMessage = 'Data berhasil ditemukan!';
-            } else {
-                $searchMessage = 'Data tidak ditemukan!';
+            $searchMessage = null;
+            if ($search && !$request->has('page')) {
+                $searchMessage = $hasilKuesioners->total() > 0 ? 'Data berhasil ditemukan!' : 'Data tidak ditemukan!';
             }
+
+            // 8. Statistik Global (Cache 1 Menit)
+            $userStats = Cache::remember('mh.admin.user_stats', 60, function () {
+                $res = DB::table('data_diris')
+                    ->whereExists(function ($query) {
+                        $query->select(DB::raw(1))
+                            ->from('hasil_kuesioners')
+                            ->whereColumn('hasil_kuesioners.nim', 'data_diris.nim')
+                            ->where('hasil_kuesioners.status', 'selesai');
+                    })
+                    ->selectRaw("
+                        COUNT(DISTINCT data_diris.nim) as total_users,
+                        COUNT(DISTINCT CASE WHEN jenis_kelamin = 'L' THEN data_diris.nim END) as total_laki,
+                        COUNT(DISTINCT CASE WHEN jenis_kelamin = 'P' THEN data_diris.nim END) as total_perempuan,
+                        COUNT(DISTINCT CASE WHEN asal_sekolah = 'SMA' THEN data_diris.nim END) as total_sma,
+                        COUNT(DISTINCT CASE WHEN asal_sekolah = 'SMK' THEN data_diris.nim END) as total_smk,
+                        COUNT(DISTINCT CASE WHEN asal_sekolah = 'Boarding School' THEN data_diris.nim END) as total_boarding
+                    ")
+                    ->first();
+
+                return $res ?: (object) [
+                    'total_users' => 0,
+                    'total_laki' => 0,
+                    'total_perempuan' => 0,
+                    'total_sma' => 0,
+                    'total_smk' => 0,
+                    'total_boarding' => 0
+                ];
+            });
+
+            $totalUsers = $userStats->total_users ?? 0;
+            $totalTes = Cache::remember('mh.admin.total_tes', 60, fn() => HasilKuesioner::where('status', 'selesai')->count());
+            $totalLaki = $userStats->total_laki ?? 0;
+            $totalPerempuan = $userStats->total_perempuan ?? 0;
+
+            // Kategori Counts
+            $kategoriCounts = Cache::remember('mh.admin.kategori_counts', 60, function () use ($latestIds) {
+                return HasilKuesioner::whereIn('id', $latestIds)
+                    ->selectRaw('kategori, COUNT(*) as jumlah')
+                    ->groupBy('kategori')
+                    ->pluck('jumlah', 'kategori')
+                    ->all();
+            });
+
+            // ---------------------------------------------------------
+            // [BARU] PIE CHART ANGKATAN (Menggantikan Status Tinggal)
+            // ---------------------------------------------------------
+            $angkatanStats = Cache::remember('mh.admin.angkatan_stats', 60, function () {
+                // Logic: Ambil digit ke-2 dan 3 dari NIM (1[21]...) lalu concat dengan '20'
+                // Filter: Hanya mahasiswa yang SUDAH SELESAI tes
+                return DB::table('hasil_kuesioners')
+                    ->where('status', 'selesai')
+                    ->selectRaw("CONCAT('20', SUBSTRING(nim, 2, 2)) as tahun")
+                    ->selectRaw("COUNT(DISTINCT nim) as total")
+                    ->groupBy('tahun')
+                    ->orderBy('tahun', 'asc')
+                    ->get();
+            });
+
+            // Hitung Kalkulasi Lingkaran (Donut/Pie)
+            $totalAngkatan = $angkatanStats->sum('total');
+            $r = 60; // Radius SVG
+            $circ = 2 * M_PI * $r;
+            $angkatanSegments = [];
+            $offset = 0;
+
+            // Palet Warna Dinamis (Akan diloop jika angkatan bertambah)
+            $palette = [
+                '#4e79a7',
+                '#f28e2c',
+                '#e15759',
+                '#76b7b2',
+                '#59a14f',
+                '#edc948',
+                '#b07aa1',
+                '#ff9da7',
+                '#9c755f',
+                '#bab0ac'
+            ];
+
+            foreach ($angkatanStats as $index => $row) {
+                $val = $row->total;
+                // Hitung Persentase
+                $pct = $totalAngkatan > 0 ? round(($val / $totalAngkatan) * 100, 1) : 0;
+                // Hitung panjang dash array untuk SVG
+                $dash = $circ * ($totalAngkatan > 0 ? $val / $totalAngkatan : 0);
+
+                // Ambil warna secara urut, balik ke awal jika habis
+                $color = $palette[$index % count($palette)];
+
+                $angkatanSegments[] = [
+                    'label' => 'Angkatan ' . $row->tahun,
+                    'value' => $val,
+                    'percent' => $pct,
+                    'dash' => $dash,
+                    'offset' => $offset,
+                    'color' => $color
+                ];
+
+                // Geser offset untuk segmen berikutnya
+                $offset += $dash; // Ingat: SVG stroke-dashoffset berjalan counter-clockwise
+            }
+            // ---------------------------------------------------------
+
+            // Data Grafik Donut (Asal Sekolah) - Tetap Ada
+            $asalCounts = [
+                'SMA' => $userStats->total_sma ?? 0,
+                'SMK' => $userStats->total_smk ?? 0,
+                'Boarding School' => $userStats->total_boarding ?? 0,
+            ];
+            $totalAsal = array_sum($asalCounts);
+            $segments = [];
+            $offsetAsal = 0;
+            $pctAsal = fn($n) => $totalAsal > 0 ? round(($n / $totalAsal) * 100, 1) : 0;
+
+            foreach ($asalCounts as $label => $val) {
+                $p = $totalAsal > 0 ? $val / $totalAsal : 0;
+                $dash = $circ * $p;
+                $segments[] = ['label' => $label, 'value' => $val, 'percent' => $pctAsal($val), 'dash' => $dash, 'offset' => $offsetAsal];
+                $offsetAsal += $dash;
+            }
+
+            // 10. Ambil Statistik Fakultas
+            $fakultasData = $this->getStatistikFakultas();
+
+            return view('admin-home', [
+                'title' => 'Dashboard Mental Health',
+                'hasilKuesioners' => $hasilKuesioners,
+                'limit' => $limit,
+                'kategoriCounts' => $kategoriCounts,
+                'totalUsers' => $totalUsers,
+                'totalTes' => $totalTes,
+                'totalLaki' => $totalLaki,
+                'totalPerempuan' => $totalPerempuan,
+
+                // Data Chart Asal Sekolah
+                'asalCounts' => $asalCounts,
+                'totalAsal' => $totalAsal,
+                'segments' => $segments,
+
+                // [BARU] Data Chart Angkatan
+                'angkatanSegments' => $angkatanSegments,
+                'totalAngkatan' => $totalAngkatan,
+
+                'radius' => $r,
+                'circumference' => $circ,
+                'searchMessage' => $searchMessage,
+            ] + $fakultasData);
+
+        } catch (\Exception $e) {
+            dd("ERROR CONTROLLER DASHBOARD: " . $e->getMessage());
         }
-        // 7. Ambil semua statistik global dengan query seminimal mungkin
-        // ⚡ CACHING: Cache global statistics for 1 minute (frequent updates)
-        $userStats = Cache::remember('mh.admin.user_stats', 60, function () {
-            return DB::table('data_diris')
-                ->whereExists(function ($query) {
-                    $query->select(DB::raw(1))
-                        ->from('hasil_kuesioners')
-                        ->whereColumn('hasil_kuesioners.nim', 'data_diris.nim');
-                })
-                ->selectRaw("
-                    COUNT(DISTINCT data_diris.nim) as total_users,
-                    COUNT(DISTINCT CASE WHEN jenis_kelamin = 'L' THEN data_diris.nim END) as total_laki,
-                    COUNT(DISTINCT CASE WHEN jenis_kelamin = 'P' THEN data_diris.nim END) as total_perempuan,
-                    COUNT(DISTINCT CASE WHEN asal_sekolah = 'SMA' THEN data_diris.nim END) as total_sma,
-                    COUNT(DISTINCT CASE WHEN asal_sekolah = 'SMK' THEN data_diris.nim END) as total_smk,
-                    COUNT(DISTINCT CASE WHEN asal_sekolah = 'Boarding School' THEN data_diris.nim END) as total_boarding
-                ")
-                ->first();
-        });
-
-        // Use the total_users from query instead of separate count
-        $totalUsers = $userStats->total_users ?? 0;
-
-        // ⚡ CACHING: Cache kategori counts for 1 minute
-        $kategoriCounts = Cache::remember('mh.admin.kategori_counts', 60, function () use ($latestIds) {
-            return HasilKuesioner::whereIn('id', $latestIds)
-                ->selectRaw('kategori, COUNT(*) as jumlah')
-                ->groupBy('kategori')
-                ->pluck('jumlah', 'kategori')
-                ->all();
-        });
-
-        // ⚡ CACHING: Cache total tests count for 1 minute
-        $totalTes = Cache::remember('mh.admin.total_tes', 60, function () {
-            return HasilKuesioner::count();
-        });
-        $totalLaki = $userStats->total_laki ?? 0;
-        $totalPerempuan = $userStats->total_perempuan ?? 0;
-        $asalCounts = [
-            'SMA' => $userStats->total_sma ?? 0,
-            'SMK' => $userStats->total_smk ?? 0,
-            'Boarding School' => $userStats->total_boarding ?? 0,
-        ];
-
-        // 8. Siapkan data untuk Donut Chart
-        $totalAsal = array_sum($asalCounts);
-        $r = 60;
-        $circ = 2 * M_PI * $r;
-        $segments = [];
-        $offset = 0;
-        $pct = fn($n) => $totalAsal > 0 ? round(($n / $totalAsal) * 100, 1) : 0;
-
-        foreach ($asalCounts as $label => $val) {
-            $p = $totalAsal > 0 ? $val / $totalAsal : 0;
-            $dash = $circ * $p;
-            $segments[] = ['label' => $label, 'value' => $val, 'percent' => $pct($val), 'dash' => $dash, 'offset' => $offset];
-            $offset += $dash;
-        }
-
-        // 9. Kirim data ke view
-        return view('admin-home', [
-            'title' => 'Dashboard Mental Health',
-            'hasilKuesioners' => $hasilKuesioners,
-            'limit' => $limit,
-            'kategoriCounts' => $kategoriCounts,
-            'totalUsers' => $totalUsers,
-            'totalTes' => $totalTes,
-            'totalLaki' => $totalLaki,
-            'totalPerempuan' => $totalPerempuan,
-            'asalCounts' => $asalCounts,
-            'totalAsal' => $totalAsal,
-            'segments' => $segments,
-            'radius' => $r,
-            'circumference' => $circ,
-            'searchMessage' => $searchMessage, // ✅ kirim ke blade
-        ] + $this->getStatistikFakultas());
     }
 
     /**
-     * Ambil statistik mahasiswa per fakultas
-     * ⚡ CACHING: Cached for 1 minute (frequent updates)
+     * Helper: Statistik Fakultas
      */
     private function getStatistikFakultas()
     {
-        return Cache::remember('mh.admin.fakultas_stats', 60, function () {
-            $fakultasCount = DataDiris::select('data_diris.fakultas', DB::raw('COUNT(DISTINCT data_diris.nim) as total'))
-                ->join('hasil_kuesioners', 'data_diris.nim', '=', 'hasil_kuesioners.nim')
-                ->whereNotNull('data_diris.fakultas')
-                ->groupBy('data_diris.fakultas')
-                ->pluck('total', 'data_diris.fakultas');
+        $fakultasCount = DataDiris::select('data_diris.fakultas', DB::raw('COUNT(DISTINCT data_diris.nim) as total'))
+            ->join('hasil_kuesioners', 'data_diris.nim', '=', 'hasil_kuesioners.nim')
+            ->where('hasil_kuesioners.status', 'selesai')
+            ->whereNotNull('data_diris.fakultas')
+            ->groupBy('data_diris.fakultas')
+            ->pluck('total', 'data_diris.fakultas');
 
-            $totalFakultas = $fakultasCount->sum();
-            $fakultasPersen = $fakultasCount->map(fn($count) => $totalFakultas > 0 ? round(($count / $totalFakultas) * 100, 1) : 0);
+        $totalFakultas = $fakultasCount->sum();
+        $fakultasPersen = $fakultasCount->map(fn($count) => $totalFakultas > 0 ? round(($count / $totalFakultas) * 100, 1) : 0);
 
-            return [
-                'fakultasCount' => $fakultasCount->all(), // FIX: Convert Collection to Array
-                'fakultasPersen' => $fakultasPersen->all(), // FIX: Convert Collection to Array
-                'warnaFakultas' => ['FS' => '#4e79a7', 'FTI' => '#f28e2c', 'FTIK' => '#e15759'],
-            ];
-        });
+        return [
+            'fakultasCount' => $fakultasCount->all(),
+            'fakultasPersen' => $fakultasPersen->all(),
+            'warnaFakultas' => ['FS' => '#4e79a7', 'FTI' => '#f28e2c', 'FTIK' => '#e15759'],
+        ];
     }
 
-    /**
-     * Hapus data hasil kuesioner berdasarkan ID (Sudah efisien)
-     */
+    // ... method destroy, exportExcel, showDetail tetap sama seperti sebelumnya ...
+    // (Hanya perlu menyalin ulang jika Anda belum menyimpannya)
+
     public function destroy($id)
     {
-        // 1. Temukan hasil kuesioner berdasarkan ID yang dikirim dari tombol hapus.
         $hasil = HasilKuesioner::find($id);
-
-        if (!$hasil) {
+        if (!$hasil)
             return redirect()->route('admin.home')->with('error', 'Data tidak ditemukan.');
-        }
 
-        // 2. Dapatkan NIM dari hasil kuesioner tersebut.
         $nim = $hasil->nim;
-
-        // --- PERBAIKAN DI SINI ---
-        DB::beginTransaction(); // Gunakan transaksi untuk keamanan
+        DB::beginTransaction();
         try {
-            // 3. Temukan data diri mahasiswa berdasarkan NIM (gunakan where).
             $dataDiri = DataDiris::where('nim', $nim)->first();
-
-            // 4. Temukan data user mahasiswa berdasarkan NIM (gunakan where).
             $user = Users::where('nim', $nim)->first();
-
-            // 5. Hapus semua data terkait (Hasil, Riwayat otomatis jika ada cascade, DataDiri, User)
-            // Hapus Hasil Kuesioner (jika tidak ada cascade)
             HasilKuesioner::where('nim', $nim)->delete();
-            // Hapus Riwayat Keluhan (jika tidak ada cascade)
-            \App\Models\RiwayatKeluhans::where('nim', $nim)->delete(); // Pastikan namespace benar
-
-            // Hapus Data Diri jika ada
-            if ($dataDiri) {
+            RiwayatKeluhans::where('nim', $nim)->delete();
+            if ($dataDiri)
                 $dataDiri->delete();
-            }
-
-            // Hapus User jika ada
-            if ($user) {
+            if ($user)
                 $user->delete();
-            }
+            DB::commit();
 
-            DB::commit(); // Konfirmasi semua penghapusan
-
-            // ⚡ CACHING: Invalidate all cached statistics after deletion
             Cache::forget('mh.admin.user_stats');
             Cache::forget('mh.admin.kategori_counts');
             Cache::forget('mh.admin.total_tes');
             Cache::forget('mh.admin.fakultas_stats');
-            // ⚡ CACHING: Invalidate user dashboard cache
+            Cache::forget('mh.admin.angkatan_stats'); // Clear cache angkatan
             Cache::forget("mh.user.{$nim}.test_history");
 
-            return redirect()->route('admin.home')->with('success', 'Seluruh data mahasiswa dengan NIM ' . $nim . ' berhasil dihapus.');
-
+            return redirect()->route('admin.home')->with('success', 'Data mahasiswa NIM ' . $nim . ' berhasil dihapus.');
         } catch (\Exception $e) {
-            DB::rollBack(); // Batalkan jika ada error
-            return redirect()->route('admin.home')->with('error', 'Gagal menghapus data mahasiswa: ' . $e->getMessage());
+            DB::rollBack();
+            return redirect()->route('admin.home')->with('error', 'Gagal menghapus: ' . $e->getMessage());
         }
-    } // <-- Kurung kurawal penutup untuk destroy()
-
-    /**
-     * OPTIMASI: Tampilkan persentase mahasiswa yang tinggal di kost (2 query menjadi 1)
-     */
-    public function showGauge()
-    {
-        $stats = DataDiris::selectRaw("
-            COUNT(*) as total,
-            COUNT(CASE WHEN status_tinggal = 'Kost' THEN 1 END) as kost_count
-        ")->first();
-
-        $kostPercent = $stats->total ? round(($stats->kost_count / $stats->total) * 100, 2) : 0;
-        return view('admin-home', compact('kostPercent'));
     }
 
-    /**
-     * Ekspor data ke file Excel.
-     */
     public function exportExcel(Request $request)
     {
-        // Ambil semua parameter filter dan sort dari request saat ini
         $search = $request->input('search');
         $kategori = $request->input('kategori');
         $sort = $request->input('sort', 'created_at');
         $order = $request->input('order', 'desc');
-
-        // --- PERBAIKAN: Gunakan setTimezone('Asia/Jakarta') ---
         $fileName = 'hasil-kuesioner-' . now()->setTimezone('Asia/Jakarta')->format('Y-m-d_H-i') . '.xlsx';
-        // --- AKHIR PERBAIKAN ---
-
-        // Panggil class export dengan parameter yang relevan dan trigger unduhan
         return Excel::download(new HasilKuesionerExport($search, $kategori, $sort, $order), $fileName);
     }
 
-    /**
-     * Tampilkan detail jawaban per pertanyaan untuk satu hasil kuesioner
-     */
     public function showDetail($id)
     {
-        $hasil = HasilKuesioner::with(['dataDiri', 'jawabanDetails' => function($query) {
-            $query->orderBy('nomor_soal');
-        }, 'riwayatKeluhans' => function($query) {
-            $query->latest()->limit(1);
-        }])->findOrFail($id);
+        $hasil = HasilKuesioner::with([
+            'dataDiri',
+            'jawabanDetails' => function ($query) {
+                $query->orderBy('nomor_soal');
+            },
+            'riwayatKeluhans' => function ($query) {
+                $query->latest()->limit(1);
+            }
+        ])->where('status', 'selesai')->findOrFail($id);
 
-        // Daftar pertanyaan lengkap (38 pertanyaan) - Sama persis dengan kuesioner
         $questions = [
             1 => 'Seberapa bahagia, puas, atau senangkah Anda dengan kehidupan pribadi Anda selama sebulan terakhir?',
             2 => 'Seberapa sering Anda merasa kesepian selama sebulan terakhir?',
@@ -394,21 +371,14 @@ class HasilKuesionerCombinedController extends Controller
             37 => 'Seberapa sering, selama sebulan terakhir, Anda bangun tidur dengan perasaan segar dan beristirahat?',
             38 => 'Selama sebulan terakhir, apakah Anda pernah mengalami atau merasa berada di bawah tekanan, stres, atau tekanan?'
         ];
-
-        // Pertanyaan berdasarkan MHI-38 asli
-        // Psychological Distress (24 items) - Negatif
         $negativeQuestions = [2, 3, 8, 9, 11, 13, 14, 15, 16, 18, 19, 20, 21, 24, 25, 27, 28, 29, 30, 32, 33, 35, 36, 38];
 
-        // Psychological Well-being (14 items) - Positif
-        // Items: 1, 4, 5, 6, 7, 10, 12, 17, 22, 23, 26, 31, 34, 37
-
         return view('admin-mental-health-detail', [
-            'title' => 'Detail Jawaban Kuesioner - ' . $hasil->dataDiri->nama,
+            'title' => 'Detail Jawaban - ' . ($hasil->dataDiri->nama ?? $hasil->nim),
             'hasil' => $hasil,
-            'jawabanDetails' => $hasil->jawabanDetails, // Tambahkan ini
+            'jawabanDetails' => $hasil->jawabanDetails,
             'questions' => $questions,
             'negativeQuestions' => $negativeQuestions
         ]);
     }
 }
-

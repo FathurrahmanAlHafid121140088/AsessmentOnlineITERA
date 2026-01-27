@@ -27,14 +27,9 @@ body {
 
 /* Header icon styles */
 header {
-    background-image: linear-gradient(
-        to bottom,
-        #5a73ff 0%,
-        /* biru terang */ #4361ee 60%,
-        /* biru utama */ #354ad6 100% /* biru gelap */
-    );
+    background: #f8faff;
 
-    color: white;
+    color: #19198c;
     padding-top: 7rem;
     padding-bottom: 1rem;
     text-align: center;
