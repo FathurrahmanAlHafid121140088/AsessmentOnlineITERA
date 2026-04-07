@@ -309,7 +309,7 @@ class StoreRmibJawabanRequest extends FormRequest
     }
 
     /**
-     * Validate that Top 1/2/3 choices exist in database
+     * Validate that Top 1/2/3 choices exist in database (WARNING only, allows custom input)
      */
     protected function validateTopChoicesExist(Validator $validator, string $gender): void
     {
@@ -329,20 +329,16 @@ class StoreRmibJawabanRequest extends FormRequest
                 continue;
             }
 
+            // Log jika input custom (tidak ada di database) - tapi TIDAK menambahkan error
+            // Ini memungkinkan user untuk input pekerjaan diluar daftar
             if (!in_array($choice, $validPekerjaan, true)) {
-                $validator->errors()->add(
-                    $field,
-                    "Pilihan pekerjaan '{$choice}' tidak valid atau tidak ditemukan dalam database."
-                );
-
-                // Log CRITICAL security issue
-                Log::critical('Invalid top choice submitted - Possible attack attempt', [
+                // Hanya log sebagai info, bukan error/critical
+                Log::info('Custom top choice submitted (not in database)', [
                     'user_id' => auth()->id(),
-                    'user_email' => auth()->user()->email,
+                    'user_email' => auth()->user()->email ?? 'N/A',
                     'field' => $field,
-                    'invalid_choice' => $choice,
+                    'custom_choice' => $choice,
                     'ip_address' => $this->ip(),
-                    'user_agent' => $this->userAgent(),
                     'timestamp' => now()->toDateTimeString(),
                 ]);
             }

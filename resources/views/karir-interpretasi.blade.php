@@ -98,41 +98,41 @@
                         </thead>
                         <tbody>
                             @php
-                                $kategoriItems = array_filter($hasilLengkap, function($item) {
+                                $kategoriItems = array_filter($hasilLengkap, function ($item) {
                                     return is_array($item) && isset($item['kategori']);
                                 });
                                 $maxSkor = count($kategoriItems) > 0 ? max(array_column($kategoriItems, 'skor')) : 1;
                             @endphp
                             @foreach ($hasilLengkap as $item)
-                                @if(is_array($item) && isset($item['kategori']))
-                                <tr class="animated-item fade-in">
-                                    <td><span
-                                            style="font-weight: 700; font-size: 1.1rem;">{{ $item['peringkat'] == floor($item['peringkat']) ? number_format($item['peringkat'], 0) : number_format($item['peringkat'], 1) }}</span>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $item['kategori'] }}</strong>
-                                        <strong class="text-muted">({{ $item['singkatan'] }})</strong>
-                                    </td>
-                                    <td>
-                                        @php
-                                            $persentase = $maxSkor > 0 ? ($item['skor'] / $maxSkor) * 100 : 0;
-                                            // Warna berdasarkan peringkat
-                                            if ($item['peringkat'] <= 3) {
-                                                $color = '#419D78'; // hijau untuk top 3
-                                            } elseif ($item['peringkat'] <= 9) {
-                                                $color = '#3CAEA3'; // biru untuk middle
-                                            } else {
-                                                $color = '#dc3545'; // merah untuk bottom
-                                            }
-                                        @endphp
-                                        <div class="progress" style="height: 20px;">
-                                            <div class="progress-bar" role="progressbar"
-                                                style="width: {{ $persentase }}%; background-color: {{ $color }};"
-                                                aria-valuenow="{{ $item['skor'] }}" aria-valuemin="0"
-                                                aria-valuemax="{{ $maxSkor }}">{{ $item['skor'] }}</div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @if (is_array($item) && isset($item['kategori']))
+                                    <tr class="animated-item fade-in">
+                                        <td><span
+                                                style="font-weight: 700; font-size: 1.1rem;">{{ $item['peringkat'] == floor($item['peringkat']) ? number_format($item['peringkat'], 0) : number_format($item['peringkat'], 1) }}</span>
+                                        </td>
+                                        <td>
+                                            <strong>{{ $item['kategori'] }}</strong>
+                                            <strong class="text-muted">({{ $item['singkatan'] }})</strong>
+                                        </td>
+                                        <td>
+                                            @php
+                                                $persentase = $maxSkor > 0 ? ($item['skor'] / $maxSkor) * 100 : 0;
+                                                // Warna berdasarkan peringkat
+                                                if ($item['peringkat'] <= 3) {
+                                                    $color = '#419D78'; // hijau untuk top 3
+                                                } elseif ($item['peringkat'] <= 9) {
+                                                    $color = '#3CAEA3'; // biru untuk middle
+                                                } else {
+                                                    $color = '#dc3545'; // merah untuk bottom
+                                                }
+                                            @endphp
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="progress-bar" role="progressbar"
+                                                    style="width: {{ $persentase }}%; background-color: {{ $color }};"
+                                                    aria-valuenow="{{ $item['skor'] }}" aria-valuemin="0"
+                                                    aria-valuemax="{{ $maxSkor }}">{{ $item['skor'] }}</div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 @endif
                             @endforeach
                         </tbody>
@@ -180,16 +180,32 @@
                         <div class="bar-chart d-flex justify-content-center align-items-end">
                             @foreach ($top3 as $index => $item)
                                 @php
-                                    $heights = [140, 160, 170];
-                                    $colors = ['#419D78', '#3CAEA3', '#67C8FF'];
+                                    // Reverse logic: skor kecil = bar tinggi, skor besar = bar pendek
+                                    // Gunakan max skor dari top3 untuk menghitung inverse
                                     $maxTop3 = max(array_column($top3, 'skor'));
-                                    $persen = $maxTop3 > 0 ? round(($item['skor'] / $maxTop3) * 100, 1) : 0;
+                                    $minTop3 = min(array_column($top3, 'skor'));
+
+                                    // Hitung height berdasarkan inverse: semakin kecil skor, semakin tinggi bar
+                                    $minHeight = 100;
+                                    $maxHeight = 180;
+
+                                    if ($maxTop3 == $minTop3) {
+                                        // Semua skor sama, semua bar sama tinggi
+                                        $height = $maxHeight;
+                                    } else {
+                                        // Inverse: skor kecil = tinggi besar
+                                        // Normalisasi inverse: (max - skor) / (max - min)
+                                        $inverseRatio = ($maxTop3 - $item['skor']) / ($maxTop3 - $minTop3);
+                                        $height = $minHeight + $inverseRatio * ($maxHeight - $minHeight);
+                                    }
+
+                                    $colors = ['#419D78', '#3CAEA3', '#67C8FF'];
                                 @endphp
                                 <div class="mx-3 text-center animated-item fade-in">
                                     <div class="d-flex flex-column align-items-center">
                                         <div class="score-value mb-2 fw-bold">{{ $item['skor'] }}</div>
                                         <div class="bar"
-                                            style="height: {{ $heights[$index] }}px; background-color: {{ $colors[$index] }};">
+                                            style="height: {{ $height }}px; background-color: {{ $colors[$index] }};">
                                         </div>
                                         <div class="bar-label" style="width: 80px;">{{ $item['singkatan'] }}</div>
                                     </div>
@@ -205,18 +221,23 @@
                         @php
                             // Mapping deskripsi kategori
                             $kategoriDeskripsi = [
-                                'Outdoor' => 'Aktivitas pekerjaan dilakukan di luar, di udara terbuka, tidak berhubungan dengan hal-hal yang sifatnya rutin.',
+                                'Outdoor' =>
+                                    'Aktivitas pekerjaan dilakukan di luar, di udara terbuka, tidak berhubungan dengan hal-hal yang sifatnya rutin.',
                                 'Mechanical' => 'Pekerjaan yang berhubungan dengan mesin, alat mekanik, dll.',
                                 'Computational' => 'Pekerjaan yang berhubungan dengan angka-angka.',
-                                'Scientific' => 'Pekerjaan yang menyangkut aktivitas analisa, penyelidikan, penelitian, eksperimen kimia, dan ilmu pengetahuan lainnya.',
-                                'Personal Contact' => 'Pekerjaan yang berhubungan dengan manusia, diskusi, membujuk, bergaul, dan kontak dengan orang lain.',
+                                'Scientific' =>
+                                    'Pekerjaan yang menyangkut aktivitas analisa, penyelidikan, penelitian, eksperimen kimia, dan ilmu pengetahuan lainnya.',
+                                'Personal Contact' =>
+                                    'Pekerjaan yang berhubungan dengan manusia, diskusi, membujuk, bergaul, dan kontak dengan orang lain.',
                                 'Aesthetic' => 'Pekerjaan yang berhubungan dengan hal seni dan menciptakan sesuatu.',
                                 'Literary' => 'Pekerjaan yang berhubungan dengan buku, membaca, dan mengarang.',
                                 'Musical' => 'Memainkan musik, apresiasi, dan sebagainya yang berkaitan dengan musik.',
-                                'Social Service' => 'Pekerjaan yang berkaitan dengan pelayanan terhadap kepentingan masyarakat, kesejahteraan umum, membimbing, menasehati, memahami, melayani, dan sebagainya.',
+                                'Social Service' =>
+                                    'Pekerjaan yang berkaitan dengan pelayanan terhadap kepentingan masyarakat, kesejahteraan umum, membimbing, menasehati, memahami, melayani, dan sebagainya.',
                                 'Clerical' => 'Pekerjaan yang menuntut ketepatan, ketelitian, dan kerapihan.',
                                 'Practical' => 'Pekerjaan yang memerlukan ketrampilan, praktek, dan karya pertukangan.',
-                                'Medical' => 'Pekerjaan yang berhubungan dengan pengobatan, perawatan penyakit, penyembuhan dalam hal yang berkaitan dengan medis dan biologis.',
+                                'Medical' =>
+                                    'Pekerjaan yang berhubungan dengan pengobatan, perawatan penyakit, penyembuhan dalam hal yang berkaitan dengan medis dan biologis.',
                             ];
 
                             $deskripsiKategori = $kategoriDeskripsi[$item['kategori']] ?? '';
@@ -226,7 +247,7 @@
                                 <span class="interpretation-label">{{ $item['singkatan'] }}</span>
                                 <h5 class="mb-0">{{ $item['nama'] }}</h5>
                             </div>
-                            @if($deskripsiKategori)
+                            @if ($deskripsiKategori)
                                 <p class="mb-2"><strong>{{ $deskripsiKategori }}</strong></p>
                             @endif
                             <p class="mb-0">{{ $item['deskripsi'] }}</p>

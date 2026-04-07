@@ -171,10 +171,21 @@ Route::prefix('karir')->name('karir.')->middleware(['auth'])->group(function () 
     // Dashboard user peminatan karir -> GET /karir/dashboard
     Route::get('/dashboard', [KarirController::class, 'userDashboard'])->name('dashboard');
 
+    // Halaman informed consent -> GET /karir/consent
+    Route::get('/consent', function () {
+        return view('karir-consent');
+    })->middleware('check.karir.home')->name('consent');
+
+    // Menyimpan consent -> POST /karir/consent
+    Route::post('/consent', function () {
+        session()->put('rmib_consent_accepted', true);
+        return redirect()->route('karir.datadiri.form');
+    })->name('consent.store');
+
     // Menampilkan form data diri -> GET /karir/data-diri
-    // Middleware 'check.karir.home' memastikan user sudah mengunjungi karir.home terlebih dahulu
+    // Middleware 'check.rmib.consent' memastikan user sudah menyetujui informed consent
     Route::get('/data-diri', [KarirController::class, 'showDataDiri'])
-        ->middleware('check.karir.home')
+        ->middleware(['check.karir.home', 'check.rmib.consent'])
         ->name('datadiri.form');
 
     // Menyimpan data diri dari form -> POST /karir/data-diri

@@ -1,0 +1,277 @@
+/* ============================================
+   KARIR CONSENT PAGE STYLES
+   ============================================ */
+
+.consent-page {
+    min-height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.consent-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-width: 600px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.consent-card-header {
+    background: rgb(39, 39, 141);
+    padding: 2rem;
+    text-align: center;
+}
+
+.consent-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.consent-icon-wrapper i {
+    font-size: 3.5rem;
+    color: #fff;
+}
+
+.consent-card-header h1 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.consent-card-header p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.consent-card-body {
+    padding: 1.5rem;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.consent-card-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.consent-card-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.consent-card-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.consent-box {
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.consent-box-header {
+    padding: 0.65rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.consent-box-header i {
+    font-size: 1rem;
+}
+
+.consent-box-content {
+    padding: 0.75rem 1rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.consent-box-content p {
+    margin-bottom: 0.5rem;
+}
+
+.consent-box-content ul {
+    margin-bottom: 0;
+    padding-left: 1.5rem;
+}
+
+.consent-box-content li {
+    margin-bottom: 0.35rem;
+}
+
+/* Box Colors */
+.consent-box-info {
+    background: #e0f2fe;
+}
+
+.consent-box-info .consent-box-header {
+    background: #0284c7;
+    color: #fff;
+}
+
+.consent-box-warning {
+    background: #fef3c7;
+}
+
+.consent-box-warning .consent-box-header {
+    background: #d97706;
+    color: #fff;
+}
+
+.consent-box-privacy {
+    background: #dbeafe;
+}
+
+.consent-box-privacy .consent-box-header {
+    background: #2563eb;
+    color: #fff;
+}
+
+.consent-box-success {
+    background: #dcfce7;
+}
+
+.consent-box-success .consent-box-header {
+    background: #16a34a;
+    color: #fff;
+}
+
+.consent-box-checkbox {
+    background: #fef9c3;
+    border: 2px solid #facc15;
+}
+
+.consent-box-checkbox .consent-box-header {
+    background: #eab308;
+    color: #fff;
+}
+
+.consent-box-checkbox .form-check {
+    margin-bottom: 0.65rem;
+}
+
+.consent-box-checkbox .form-check:last-child {
+    margin-bottom: 0;
+}
+
+.consent-box-checkbox .form-check-input {
+    cursor: pointer;
+    margin-top: 0.25rem;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.consent-box-checkbox .form-check-label {
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.consent-box-checkbox .form-check-input:checked {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+.consent-card-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-consent-back {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 2px solid #d1d5db;
+    background: #fff;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-consent-back:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+    color: #374151;
+}
+
+.btn-consent-agree {
+    flex: 1.5;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: none;
+    background: rgb(39, 39, 141);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.btn-consent-agree:hover:not(:disabled) {
+    background: rgb(39, 39, 141);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(39, 39, 141, 0.4);
+}
+
+.btn-consent-agree:disabled {
+    opacity: 0.5;
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .consent-page {
+        padding: 1rem 0.5rem;
+    }
+
+    .consent-card-header {
+        padding: 1.5rem;
+    }
+
+    .consent-icon-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .consent-icon-wrapper i {
+        font-size: 1.5rem;
+    }
+
+    .consent-card-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .consent-card-body {
+        padding: 1rem;
+    }
+
+    .consent-card-footer {
+        flex-direction: column;
+    }
+
+    .btn-consent-back,
+    .btn-consent-agree {
+        flex: none;
+    }
+}

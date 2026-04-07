@@ -29,8 +29,6 @@
 </head>
 <x-navbar></x-navbar>
 
-
-
 <body>
     <main>
         <div class="formbold-main-wrapper">
@@ -62,7 +60,8 @@
                                 <i class="fas fa-user fa-sm"></i> Nama
                             </label>
                             <input type="text" name="nama" id="nama" class="formbold-form-input"
-                                placeholder="Masukkan nama lengkap" value="{{ old('nama', Auth::user()->name) }}" required />
+                                placeholder="Masukkan nama lengkap" value="{{ old('nama', Auth::user()->name) }}"
+                                required />
                         </div>
                         <div>
                             <label for="nim" class="formbold-form-label">
@@ -82,7 +81,8 @@
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="jenis_kelamin" value="L"
-                                        class="formbold-input-radio" required oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
+                                        class="formbold-input-radio" required
+                                        oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
                                         oninput="this.setCustomValidity('')"> Laki-laki
                                 </label>
                             </div>
@@ -215,13 +215,15 @@
 
                     <div class="formbold-mb-3">
                         <label class="formbold-form-label">
-                            <i class="fas fa-question-circle fa-sm"></i> Apakah program studi saat ini yang anda pilih sesuai dengan apa yang anda inginkan?
+                            <i class="fas fa-question-circle fa-sm"></i> Apakah program studi saat ini yang anda pilih
+                            sesuai dengan apa yang anda inginkan?
                             <span style="color: red;">*</span>
                         </label>
                         <div>
                             <label class="formbold-radio-label">
                                 <input type="radio" name="prodi_sesuai_keinginan" value="Ya"
-                                    class="formbold-input-radio" required oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
+                                    class="formbold-input-radio" required
+                                    oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
                                     oninput="this.setCustomValidity('')"> Ya
                             </label>
                         </div>
@@ -240,7 +242,8 @@
                                     <i class="fas fa-envelope fa-sm"></i> Email
                                 </label>
                                 <input type="email" name="email" id="email" class="formbold-form-input"
-                                    placeholder="Masukkan email" value="{{ old('email', Auth::user()->email) }}" required />
+                                    placeholder="Masukkan email" value="{{ old('email', Auth::user()->email) }}"
+                                    required />
                             </div>
                         </div>
                         <div class="formbold-mb-3">
@@ -251,7 +254,8 @@
                             <div>
                                 <label class="formbold-radio-label">
                                     <input type="radio" name="status_tinggal" value="Bersama Orang Tua"
-                                        class="formbold-input-radio" required oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
+                                        class="formbold-input-radio" required
+                                        oninvalid="this.setCustomValidity('Silakan pilih salah satu opsi')"
                                         oninput="this.setCustomValidity('')"> Bersama orang tua
                                 </label>
                             </div>

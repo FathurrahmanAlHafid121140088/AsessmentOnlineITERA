@@ -1,0 +1,460 @@
+/**
+ * RMIB Karir Form - Drag & Drop Styles
+ * Stylesheet untuk halaman tes minat RMIB dengan fitur drag and drop
+ */
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+.main-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* ============================================
+   PAGINATION STYLES
+   ============================================ */
+.group-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+}
+
+.group-pagination .page-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #4361ee;
+    background: white;
+    color: #4361ee;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.group-pagination .page-btn:hover:not(.locked):not(.active) {
+    background: #4361ee;
+    color: white;
+    transform: scale(1.1);
+}
+
+.group-pagination .page-btn.active {
+    background: #4361ee;
+    color: white;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+}
+
+.group-pagination .page-btn.completed {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: white;
+}
+
+.group-pagination .page-btn.locked {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+    color: #94a3b8;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+.progress-container {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar-custom {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4361ee, #22c55e);
+    transition: width 0.5s ease;
+    border-radius: 5px;
+}
+
+.progress-text {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: #4361ee;
+}
+
+/* ============================================
+   GROUP PAGE ANIMATION
+   ============================================ */
+.group-page {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.group-page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   GROUP HEADER
+   ============================================ */
+.group-header {
+    background: linear-gradient(135deg, #4361ee 0%, #3730a3 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.group-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.group-header p {
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+}
+
+/* ============================================
+   DRAG AND DROP RANKING STYLES
+   ============================================ */
+.ranking-container {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.ranking-instructions {
+    flex: 0 0 200px;
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.rank-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rank-label {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    color: white;
+}
+
+.rank-label.top-rank {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.rank-label.mid-rank {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+}
+
+.rank-label.low-rank {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+}
+
+/* ============================================
+   SORTABLE LIST
+   ============================================ */
+.sortable-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 100%;
+}
+
+.sortable-item {
+    background: #f8fafc;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: grab;
+    transition: all 0.2s ease;
+    user-select: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sortable-item:hover {
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    border-color: #4361ee;
+    box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+    transform: translateX(8px) scale(1.01);
+}
+
+.sortable-item:active {
+    cursor: grabbing;
+    background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
+}
+
+.sortable-item.sortable-ghost {
+    opacity: 0.85;
+    background: #e0e7ff;
+    border: 2px dashed #4361ee;
+}
+
+.sortable-item.sortable-chosen {
+    box-shadow: 0 10px 40px rgba(67, 97, 238, 0.4);
+    transform: scale(1.02);
+    border-color: #4361ee;
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+}
+
+.sortable-item.sortable-drag {
+    opacity: 1;
+}
+
+.drag-handle {
+    color: #94a3b8;
+    font-size: 1.2rem;
+    cursor: grab;
+}
+
+/* ============================================
+   ITEM RANK BADGE
+   ============================================ */
+.item-rank {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: white;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.item-rank.rank-1 {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.item-rank.rank-2 {
+    background: linear-gradient(135deg, #a3a3a3 0%, #737373 100%);
+}
+
+.item-rank.rank-3 {
+    background: linear-gradient(135deg, #cd7f32 0%, #b8860b 100%);
+}
+
+.item-rank.rank-mid {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+}
+
+.item-rank.rank-low {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+}
+
+.item-name {
+    flex: 1;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #1e293b;
+}
+
+.item-medal {
+    font-size: 1.5rem;
+}
+
+/* ============================================
+   ONE-SHOT WARNING
+   ============================================ */
+.one-shot-warning {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border: 2px solid #ef4444;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.one-shot-warning i {
+    font-size: 2rem;
+    color: #ef4444;
+}
+
+.one-shot-warning .warning-text {
+    flex: 1;
+}
+
+.one-shot-warning .warning-text strong {
+    color: #dc2626;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.one-shot-warning .warning-text p {
+    margin: 0;
+    color: #7f1d1d;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   DRAG INSTRUCTION
+   ============================================ */
+.drag-instruction {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border: 2px solid #22c55e;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.drag-instruction i {
+    font-size: 2rem;
+    color: #22c55e;
+}
+
+.drag-instruction .instruction-text {
+    flex: 1;
+}
+
+.drag-instruction .instruction-text strong {
+    color: #166534;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.drag-instruction .instruction-text p {
+    margin: 0;
+    color: #166534;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   NAVIGATION BUTTONS
+   ============================================ */
+.nav-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.nav-buttons .btn {
+    min-width: 180px;
+    padding: 12px 24px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-buttons .btn-next {
+    background: #4361ee;
+    color: white;
+    border: none;
+}
+
+.nav-buttons .btn-next:hover {
+    background: #3730a3;
+    transform: translateX(5px);
+}
+
+/* ============================================
+   TOP CHOICE SECTION
+   ============================================ */
+.top-choice-section-final {
+    background: linear-gradient(135deg, #eef5fc 0%, #dceaf8 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border: 2px solid #5596e0;
+}
+
+.top-choice-input {
+    border-right: 0;
+}
+
+.job-dropdown .dropdown-item {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.job-dropdown .dropdown-item:hover {
+    background-color: #4361ee;
+    color: white;
+}
+
+.job-dropdown .dropdown-header {
+    color: #4361ee;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .ranking-container {
+        flex-direction: column;
+    }
+
+    .ranking-instructions {
+        display: none;
+    }
+
+    .sortable-item {
+        padding: 0.5rem 0.75rem;
+        height: 50px;
+    }
+
+    .item-name {
+        font-size: 0.85rem;
+    }
+}
+
+/* ============================================
+   LOCKED STATE
+   ============================================ */
+.group-page.locked .sortable-list {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.group-page.locked .sortable-item {
+    cursor: not-allowed;
+}

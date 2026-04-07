@@ -42,7 +42,7 @@ class KarirController extends Controller
                 'jumlahTesSelesai' => 0,
                 'kategoriTerakhir' => 'Belum Ada Data',
                 'riwayatTes' => collect(),
-                'radarData' => ['labels' => [], 'values' => []],
+                'radarData' => [],
                 'radarLabels' => []
             ]);
         }
@@ -60,7 +60,7 @@ class KarirController extends Controller
         $hasilTerakhir = $hasilTesList->first();
         $kategoriTerakhir = 'Belum Ada Data';
         $radarLabels = [];
-        $radarValues = [];
+        $radarData = [];
 
         if ($hasilTerakhir) {
             $kategoriTerakhir = $hasilTerakhir->top_1_pekerjaan ?? 'Belum Ada Data';
@@ -73,7 +73,7 @@ class KarirController extends Controller
             $deskripsiKategori = $scoringService->getDeskripsiKategori();
             foreach ($hasilPerhitungan['skor_kategori'] as $kategori => $skor) {
                 $radarLabels[] = $deskripsiKategori[$kategori]['singkatan'];
-                $radarValues[] = $skor;
+                $radarData[] = $skor;
             }
         }
 
@@ -97,7 +97,7 @@ class KarirController extends Controller
             'jumlahTesSelesai' => $jumlahTesSelesai,
             'kategoriTerakhir' => $kategoriTerakhir,
             'riwayatTes' => $riwayatTes,
-            'radarData' => ['labels' => $radarLabels, 'values' => $radarValues],
+            'radarData' => $radarData,
             'radarLabels' => $radarLabels
         ]);
     }
@@ -155,6 +155,9 @@ class KarirController extends Controller
             $validatedData
         );
 
+        // Set session flag bahwa ini adalah tes baru (untuk clear localStorage di client)
+        session()->put('rmib_new_test_' . $dataDiri->id, true);
+
         // 4. Arahkan ke halaman tes
         return redirect()->route('karir.tes.form', $dataDiri->id);
     }
@@ -169,6 +172,14 @@ class KarirController extends Controller
         // dd($data_diri); // Pastikan tidak ada dd() di sini lagi
         $gender = $data_diri->jenis_kelamin;
 
+        // Cek apakah ini adalah tes baru (dari storeDataDiri)
+        // Session flag hanya ada saat user baru saja submit data diri
+        $isNewTest = session()->pull('rmib_new_test_' . $data_diri->id, false);
+
+        // isRetake = true hanya jika ada tes sebelumnya DAN ini adalah tes baru (bukan refresh)
+        $hasExistingTest = RmibHasilTes::where('karir_data_diri_id', $data_diri->id)->exists();
+        $shouldClearProgress = $isNewTest && $hasExistingTest;
+
         $pekerjaanDb = RmibPekerjaan::where('gender', $gender)
             ->orderBy('kelompok')
             ->orderBy('id') // PENTING! Urutan sesuai circular shift di seeder
@@ -181,12 +192,13 @@ class KarirController extends Controller
             ->values()
             ->toArray();
 
-        return view('karir-form', [
+        return view('karir-form-dragdrop', [
             'dataDiri' => $data_diri,
             'gender' => $gender,
             'pekerjaanPerKelompok' => $pekerjaanData, // Kirim data yang sudah dikelompokkan
             'clusters' => $pekerjaanData, // Alias untuk testing
-            'semuaPekerjaan' => $pekerjaanDb->pluck('nama_pekerjaan') // Kirim daftar flat
+            'semuaPekerjaan' => $pekerjaanDb->pluck('nama_pekerjaan'), // Kirim daftar flat
+            'isRetake' => $shouldClearProgress // Flag untuk clear localStorage (hanya saat mulai tes baru)
         ]);
     }
 
@@ -204,7 +216,7 @@ class KarirController extends Controller
 
         $pekerjaan = json_decode(file_get_contents($jsonPath), true);
 
-        return view('karir-form', [
+        return view('karir-form-dragdrop', [
             'dataDiri' => $dataDiri,
             'gender' => $gender,
             'pekerjaan' => $pekerjaan

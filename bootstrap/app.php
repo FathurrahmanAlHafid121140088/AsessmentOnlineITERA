@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'check.karir.home' => \App\Http\Middleware\CheckKarirHomeAccess::class,
+            'check.rmib.consent' => \App\Http\Middleware\CheckRmibConsent::class,
         ]);
 
         // ... middleware lain yang mungkin sudah ada

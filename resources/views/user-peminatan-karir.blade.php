@@ -293,7 +293,7 @@
 
                         <!-- Button Mulai Tes -->
                         <div class="button-container">
-                            <a href="{{ route('karir.datadiri.form') }}" class="start-test-btn">
+                            <a href="{{ route('karir.consent') }}" class="start-test-btn">
                                 <i class="fas fa-play-circle"></i> Mulai Tes
                             </a>
                         </div>
