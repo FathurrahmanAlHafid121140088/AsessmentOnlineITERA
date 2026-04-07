@@ -19,6 +19,38 @@
             background-size: cover;
             min-height: 100vh;
         }
+
+        /* Anti-Screenshot CSS */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Allow selection only for input fields */
+        input,
+        textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* Prevent printing */
+        @media print {
+            body {
+                display: none !important;
+            }
+        }
+
+        /* Screen capture protection metadata */
+        body::before {
+            content: "{{ $dataDiri->nama }} - Tes RMIB - {{ now()->format('d/m/Y H:i:s') }}";
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+        }
     </style>
 </head>
 
@@ -767,6 +799,168 @@
                     showConfirmButton: false
                 });
             });
+
+            // ========================================
+            // ANTI-SCREENSHOT PROTECTION
+            // ========================================
+
+            // 1. Disable right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showWarning('Right-click dinonaktifkan selama tes berlangsung');
+            });
+
+            // 2. Disable keyboard shortcuts for screenshot
+            document.addEventListener('keydown', function(e) {
+                // PrintScreen
+                if (e.key === 'PrintScreen') {
+                    e.preventDefault();
+                    showWarning('Screenshot tidak diperbolehkan!');
+                    navigator.clipboard.writeText(''); // Clear clipboard
+                }
+
+                // Ctrl+Shift+S, Ctrl+Shift+P (Firefox screenshot)
+                if ((e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 's')) ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'P' || e.key === 'p'))) {
+                    e.preventDefault();
+                    showWarning('Screenshot tidak diperbolehkan!');
+                }
+
+                // Ctrl+P (Print)
+                if (e.ctrlKey && (e.key === 'P' || e.key === 'p')) {
+                    e.preventDefault();
+                    showWarning('Print tidak diperbolehkan!');
+                }
+
+                // Ctrl+S (Save)
+                if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+                    e.preventDefault();
+                    showWarning('Save halaman tidak diperbolehkan!');
+                }
+
+                // F12, Ctrl+Shift+I, Ctrl+Shift+J (DevTools)
+                if (e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j'))) {
+                    e.preventDefault();
+                    showWarning('Developer Tools tidak diperbolehkan!');
+                }
+
+                // Ctrl+U (View Source)
+                if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+                    e.preventDefault();
+                    showWarning('View source tidak diperbolehkan!');
+                }
+            });
+
+            // 3. Detect PrintScreen key press
+            document.addEventListener('keyup', function(e) {
+                if (e.key === 'PrintScreen') {
+                    navigator.clipboard.writeText('');
+                    showWarning('Screenshot terdeteksi dan telah diblokir!');
+                }
+            });
+
+            // 4. Blur screen when tab is not active (mencegah screenshot dari luar browser)
+            let blurOverlay = null;
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    // Create blur overlay
+                    if (!blurOverlay) {
+                        blurOverlay = document.createElement('div');
+                        blurOverlay.style.cssText = `
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(0, 0, 0, 0.9);
+                            z-index: 99999;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            font-size: 24px;
+                            font-weight: bold;
+                            text-align: center;
+                            padding: 20px;
+                        `;
+                        blurOverlay.innerHTML = `
+                            <div>
+                                <i class="fas fa-eye-slash fa-3x mb-3"></i>
+                                <div>Tab Tidak Aktif</div>
+                                <div style="font-size: 16px; margin-top: 10px;">
+                                    Kembali ke tab untuk melanjutkan tes
+                                </div>
+                            </div>
+                        `;
+                    }
+                    document.body.appendChild(blurOverlay);
+                } else {
+                    // Remove blur overlay
+                    if (blurOverlay && blurOverlay.parentNode) {
+                        blurOverlay.parentNode.removeChild(blurOverlay);
+                    }
+                }
+            });
+
+            // 5. Add watermark with user info
+            // function addWatermark() {
+            //     const watermark = document.createElement('div');
+            //     watermark.style.cssText = `
+        //         position: fixed;
+        //         top: 50%;
+        //         left: 50%;
+        //         transform: translate(-50%, -50%) rotate(-45deg);
+        //         font-size: 48px;
+        //         color: rgba(0, 0, 0, 0.05);
+        //         pointer-events: none;
+        //         z-index: 1;
+        //         white-space: nowrap;
+        //         user-select: none;
+        //         font-weight: bold;
+        //     `;
+            //     watermark.textContent = '{{ $dataDiri->nama }} - {{ now()->format('d/m/Y H:i') }}';
+            //     document.body.appendChild(watermark);
+            // }
+            // addWatermark();
+
+            // // 6. Warning function
+            // function showWarning(message) {
+            //     Swal.fire({
+            //         icon: 'warning',
+            //         title: 'Peringatan Keamanan',
+            //         text: message,
+            //         confirmButtonColor: '#ef4444',
+            //         timer: 3000,
+            //         timerProgressBar: true
+            //     });
+            // }
+
+            // 7. Disable text selection
+            document.body.style.userSelect = 'none';
+            document.body.style.webkitUserSelect = 'none';
+            document.body.style.msUserSelect = 'none';
+
+            // 8. Monitor for DevTools
+            let devtoolsOpen = false;
+            const threshold = 160;
+            setInterval(function() {
+                if (window.outerWidth - window.innerWidth > threshold ||
+                    window.outerHeight - window.innerHeight > threshold) {
+                    if (!devtoolsOpen) {
+                        devtoolsOpen = true;
+                        showWarning('Developer Tools terdeteksi! Mohon tutup untuk melanjutkan tes.');
+                    }
+                } else {
+                    devtoolsOpen = false;
+                }
+            }, 1000);
+
+            console.log('%c⚠️ PERINGATAN KEAMANAN', 'color: red; font-size: 40px; font-weight: bold;');
+            console.log('%cJangan menggunakan console atau developer tools selama tes!',
+                'color: red; font-size: 20px;');
+            console.log('%cSetiap aktivitas mencurigakan akan dicatat.', 'color: red; font-size: 20px;');
         });
     </script>
 </body>
