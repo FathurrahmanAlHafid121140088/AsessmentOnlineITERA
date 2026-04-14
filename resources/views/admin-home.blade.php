@@ -55,6 +55,24 @@
             transform: translateY(0) !important;
             box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3) !important;
         }
+
+        .custom-legend-grid {
+            display: grid;
+            /* Default untuk Mobile: Paksa 2 Kolom */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 8px;
+            margin-top: 20px;
+            padding: 0;
+            list-style: none;
+            /* Menghilangkan bullet bawaan <ul> */
+        }
+
+        /* Jika layar di atas 768px (Tablet/PC): Paksa 3 Kolom */
+        @media (min-width: 768px) {
+            .custom-legend-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 
 </head>
@@ -456,15 +474,7 @@
                             </div>
                         </div>
 
-                        <ul class="donut-legend"
-                            style="
-        display: grid; 
-        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* KUNCI PERBAIKAN DI SINI */
-        gap: 12px 8px; 
-        margin-top: 20px;
-        padding: 0;
-        color: #333;
-    ">
+                        <ul class="donut-legend">
 
                             @foreach ($angkatanSegments as $seg)
                                 @php
