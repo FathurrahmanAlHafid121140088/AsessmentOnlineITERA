@@ -60,8 +60,7 @@
                                 <i class="fas fa-user fa-sm"></i> Nama
                             </label>
                             <input type="text" name="nama" id="nama" class="formbold-form-input"
-                                placeholder="Masukkan nama lengkap" value="{{ old('nama', Auth::user()->name) }}"
-                                required />
+                                placeholder="Masukkan nama lengkap" autocomplete="off" required />
                         </div>
                         <div>
                             <label for="nim" class="formbold-form-label">
@@ -289,7 +288,25 @@
 <script src="js/script.js"></script>
 <script src="{{ asset('js/karir-script-datadiri.js') }}"></script>
 
-
+<!-- Clear autofill nama on page load -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Clear nama field to prevent autofill
+        const namaField = document.getElementById('nama');
+        if (namaField) {
+            namaField.value = '';
+            namaField.setAttribute('autocomplete', 'off');
+        }
+    });
+    
+    // Also handle beforeunload to ensure field is always cleared
+    window.addEventListener('pageshow', function(event) {
+        const namaField = document.getElementById('nama');
+        if (namaField) {
+            namaField.value = '';
+        }
+    });
+</script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
