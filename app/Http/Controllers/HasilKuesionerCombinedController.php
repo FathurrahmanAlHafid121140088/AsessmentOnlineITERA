@@ -48,9 +48,10 @@ class HasilKuesionerCombinedController extends Controller
                     'data_diris.program_studi'
                 )
                 ->addSelect([
-                    'jumlah_tes' => HasilKuesioner::selectRaw('count(*)')
-                        ->whereColumn('nim', 'hasil_kuesioners.nim')
-                        ->where('status', 'selesai')
+                    'jumlah_tes' => DB::table('hasil_kuesioners as hk_sub')
+                        ->selectRaw('count(*)')
+                        ->whereColumn('hk_sub.nim', 'hasil_kuesioners.nim')
+                        ->where('hk_sub.status', 'selesai')
                 ]);
 
             // 4. Filter Kategori

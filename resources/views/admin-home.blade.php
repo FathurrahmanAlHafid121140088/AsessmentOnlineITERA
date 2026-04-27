@@ -55,6 +55,24 @@
             transform: translateY(0) !important;
             box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3) !important;
         }
+
+        .custom-legend-grid {
+            display: grid;
+            /* Default untuk Mobile: Paksa 2 Kolom */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 8px;
+            margin-top: 20px;
+            padding: 0;
+            list-style: none;
+            /* Menghilangkan bullet bawaan <ul> */
+        }
+
+        /* Jika layar di atas 768px (Tablet/PC): Paksa 3 Kolom */
+        @media (min-width: 768px) {
+            .custom-legend-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 
 </head>
@@ -456,34 +474,26 @@
                             </div>
                         </div>
 
-                        <ul class="donut-legend"
-                            style="
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); /* Tetap 3 Kolom */
-            gap: 10px 5px; 
-            margin-top: 20px;
-        ">
+                        <ul class="donut-legend">
 
                             @foreach ($angkatanSegments as $seg)
                                 @php
                                     // Format Label: "2021"
                                     $yearLabel = str_replace('Angkatan ', '', $seg['label']);
                                 @endphp
-                                {{-- Tambahkan display: flex agar dot, label, dan count sejajar --}}
-                                <li style="display: flex; align-items: center; white-space: nowrap; overflow: hidden;">
+
+                                {{-- Hapus white-space: nowrap agar teks bisa menyesuaikan jika layar sangat kecil --}}
+                                <li style="display: flex; align-items: center; overflow: hidden; font-size: 0.9rem;">
 
                                     {{-- Dot Warna --}}
                                     <span class="dot"
-                                        style="background: {{ $seg['color'] }}; margin-right: 5px;"></span>
-
-                                    {{-- KEMBALIKAN CLASS .label DAN .count SESUAI REFERENSI --}}
+                                        style="background: {{ $seg['color'] }}; width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex-shrink: 0; margin-right: 6px;"></span>
 
                                     {{-- Bagian Label (Tahun) --}}
-                                    <span class="label">{{ $yearLabel }}</span>
+                                    <span class="label" style="font-weight: 500;">{{ $yearLabel }}</span>
 
                                     {{-- Bagian Count (Jumlah) --}}
-                                    {{-- Saya gunakan 'Mhs' agar muat di grid kecil, spasi diatur lewat margin --}}
-                                    <span class="count" style="margin-left: 4px;">
+                                    <span class="count" style="margin-left: 4px; color: #666; white-space: nowrap;">
                                         ({{ $seg['value'] }} Mhs)
                                     </span>
                                 </li>
@@ -869,8 +879,8 @@
                                     <td class="email">{{ $hasil->dataDiri->email ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->asal_sekolah ?? '-' }}</td>
                                     <td>{{ $hasil->dataDiri->status_tinggal ?? '-' }}</td>
-                                    <td>{{ $hasil->jumlah_tes }} Kali</td> {{-- ✅ KOLOM BARU --}}
-                                    <td>
+                                    <td>{{ $hasil->jumlah_tes }} Kali</td>
+                                    </td> {{-- ✅ KOLOM BARU --}} <td>
                                         <span
                                             class="
         range-badge
