@@ -204,15 +204,25 @@
                     </div>
                 </section>
 
-                <div class="alert-box-blue">
-                    <i class="fas fa-info-circle alert-icon-blue"></i>
-                    <span class="alert-text">
-                        Tes berkala selanjutnya disarankan pada tanggal
-                        <strong>
-                            {{ now()->addMonths(2)->locale('id')->isoFormat('D MMMM Y') }}
-                        </strong>.
-                    </span>
-                </div>
+                <!-- Alert Box: Ditampilkan hanya jika user sudah pernah tes -->
+                @if ($riwayatTes->isNotEmpty())
+                    <div class="alert-box-blue">
+                        <i class="fas fa-info-circle alert-icon-blue"></i>
+                        <span class="alert-text">
+                            Tes berkala selanjutnya disarankan pada tanggal
+                            <strong>
+                                {{ \Carbon\Carbon::parse($riwayatTes->first()->created_at)->timezone('Asia/Jakarta')->addMonths(2)->locale('id')->isoFormat('D MMMM Y') }}
+                            </strong>.
+                        </span>
+                    </div>
+                @else
+                    <div class="alert-box-blue">
+                        <i class="fas fa-info-circle alert-icon-blue"></i>
+                        <span class="alert-text">
+                            Anda belum melakukan tes. Silakan mulai tes pertama Anda untuk mengetahui kondisi terkini.
+                        </span>
+                    </div>
+                @endif
 
                 <!-- Table -->
                 <div class="table-container">
